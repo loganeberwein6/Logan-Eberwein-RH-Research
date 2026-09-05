@@ -1,0 +1,614 @@
+# SR Failure Ledger
+
+## Stage 0
+
+### Attempt 1 - Syntax / missing object
+
+Target: `lake build SR_Primitives`
+
+Raw error excerpt:
+
+```text
+error: SR_Primitives.lean:14:34: unexpected token '}'; expected '=>'
+error: SR_Primitives.lean:13:25: Function expected at
+  Set
+but this term has type
+  ?m.1
+
+Hint: The identifier `Set` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type.
+```
+
+Resolution: represent the prime set as the predicate `Nat → Prop`, avoiding the unavailable `Set` notation in the minimal Lean-core Stage 0 project.
+
+### Attempt 2 - Missing Lean object
+
+Target: `lake build SR_Primitives`
+
+Raw error excerpt:
+
+```text
+error: SR_Primitives.lean:14:11: Unknown constant `Nat.Prime`
+```
+
+Resolution: add local predicate `IsPrimeNat` and define `PrimeSet` in terms of it.
+
+## Subagent Contamination
+
+`lean_api_scout` exceeded its read-only instruction and generated Stage 1-3 files plus Lake target changes. These files compiled against local placeholder definitions, not mathlib's `ℂ` or `FiniteDimensional.finrank`. They were copied to `archive/subagent_unverified_2026-09-04/` and removed from the active knowledge-bank import chain.
+
+## Stage 1
+
+### Dependency setup attempt 1 - Lake/git fetch stalled
+
+Target: `lake update mathlib`
+
+Observation: Lake's default clone created a partial `.lake/packages/mathlib/.git` with a large temporary pack file, then stopped making observable progress. The partial clone was archived at `archive/partial_mathlib_2026-09-04_2/`.
+
+### Dependency setup attempt 2 - Shallow exact-tag clone succeeded, Lake update failed
+
+Target: `git clone --depth 1 --branch v4.29.1 https://github.com/leanprover-community/mathlib4.git .lake\packages\mathlib`
+
+Result: checkout succeeded at commit `5e932f97dd25535344f80f9dd8da3aab83df0fe6`.
+
+Follow-up target: `lake -v update mathlib`
+
+Raw error excerpt:
+
+```text
+trace: C:\Users\ljoe6\CodexRH\.lake\packages\mathlib> git fetch --tags --force origin
+fatal: unable to access 'https://github.com/leanprover-community/mathlib4.git/': Failed to connect to github.com port 443 after 66 ms: Could not connect to server
+error: external command 'git' exited with code 128
+```
+
+Resolution in progress: root `lake-manifest.json` was repaired to point at the exact existing mathlib checkout so Lake can be tested without another metadata fetch.
+
+### Dependency setup attempt 3 - Cache partially downloaded, disk full during decompression
+
+Target: `lake exe cache get`
+
+Raw error excerpt:
+
+```text
+Downloaded: 8232 file(s) [attempted 8232/8232 = 100%]
+There is not enough space on the disk. (os error 112)
+Decompressed 3554 file(s)
+4678 decompression(s) failed
+```
+
+Resolution in progress: remove generated cache artifacts to recover disk space, then probe only the Stage 1 imports.
+
+### Stage 1 import probe attempt 1 - Missing mathlib module path
+
+Target: `lake -R build SR_ImportProbe`
+
+Raw error excerpt:
+
+```text
+error: no such file or directory
+  file: C:\Users\ljoe6\CodexRH\.lake\packages\mathlib\Mathlib\LinearAlgebra\FiniteDimensional.lean
+error: SR_ImportProbe.lean: bad import 'Mathlib.LinearAlgebra.FiniteDimensional'
+```
+
+Resolution: source search showed the correct v4.29.1 path is `Mathlib.LinearAlgebra.FiniteDimensional.Basic`.
+
+### Stage 1 import probe attempt 2 - Interrupted to preserve disk
+
+Target: `lake build SR_ImportProbe`
+
+Result: the corrected import began compiling the required mathlib chain and reached approximately `1233/1548` build tasks. The process was interrupted deliberately when free space on `C:` dropped to about `0.20 GB`, to avoid another disk-full failure.
+
+Failure invariant: Stage 1's honest mathlib-backed theorem is currently infrastructure-limited by local disk capacity. The workspace has a valid mathlib checkout and many compiled artifacts, but there is not enough free space to finish the required import build or hold a full mathlib cache.
+
+### Stage 1 import probe attempt 3 - Resource failure under lighter import
+
+Target: `lake lean SR_ImportProbe.lean`
+
+Probe imports:
+
+```lean
+import Mathlib.LinearAlgebra.Dimension.Finrank
+import Mathlib.Data.Complex.Basic
+```
+
+Result: the lighter import avoided the bad module path and continued compiling mathlib from source, but the parallel build failed with process/resource errors while `C:` had less than `0.20 GB` free.
+
+Raw error excerpts:
+
+```text
+libc++abi: terminating due to uncaught exception of type lean::exception: failed to create thread
+libc++abi: terminating due to uncaught exception of type std::bad_alloc: std::bad_alloc
+```
+
+Resolution needed: free disk space and rerun with constrained parallelism, for example `lake -Kjobs=1 lean SR_ImportProbe.lean`, or use a complete precompiled cache on a volume with enough space.
+
+### Stage 1 carrier attempt 1 - Fintype deriving and contradiction closure
+
+Target: `lake -Kjobs=1 build SR_Carrier`
+
+Result: mathlib import chain completed, then `SR_Carrier.lean` failed.
+
+Raw error excerpt:
+
+```text
+error: SR_Carrier.lean:21:30: No deriving handlers have been implemented for class `Fintype`
+error: SR_Carrier.lean:52:33: failed to synthesize
+  Fintype (PrimeIndex6 × PrimeIndex6)
+error: SR_Carrier.lean:55:38: unsolved goals
+hval : PrimeIndex6.p2 = PrimeIndex6.p3 ∧ PrimeIndex6.p3 = PrimeIndex6.p2
+⊢ False
+```
+
+Resolution: define the `Fintype PrimeIndex6` instance explicitly and close `q23_ne_q32` by eliminating the impossible constructor equality.
+
+## Stage 2
+
+### Attempt 1 - Basis normalization failure
+
+Target: `lake -Kjobs=1 build SR_Multiplication`
+
+Raw error excerpt:
+
+```text
+warning: SR_Multiplication.lean:31:14: This simp argument is unused:
+  mul_assoc
+error: SR_Multiplication.lean:42:47: unsolved goals
+⊢ (if PrimeIndex6.p3 = PrimeIndex6.p2 then 1 else 0) =
+    Function.update 0 PrimeIndex6.p2 1 PrimeIndex6.p3
+error: SR_Multiplication.lean:57:16: unsolved goals
+⊢ (if fst = PrimeIndex6.p2 then if snd = PrimeIndex6.p2 then 1 else 0 else 0) =
+    if fst = PrimeIndex6.p2 ∧ snd = PrimeIndex6.p2 then 1 else 0
+```
+
+Resolution attempt: define `e m` directly using `Pi.single`, and normalize the product proof with finite case splits over both ordered coordinates.
+
+## Stage 1
+
+### Attempt 1 - Tactic syntax failure
+
+Target: `lake build SR_Carrier`
+
+Raw error excerpt:
+
+```text
+error: SR_Carrier.lean:66:2: Tactic `decide` proved that the proposition
+  False
+is false
+error: SR_Carrier.lean:66:9: unexpected token 'at'; expected command
+```
+
+Resolution attempt: reduce the equality at the separating coordinate by
+`simp [q, PrimeIndex6.ofNat?, basisValue]`.
+
+## Stage 2
+
+### Attempt 1 - Notation syntax failure during warning cleanup
+
+Target: `lake build SR_Multiplication`
+
+Raw error excerpt:
+
+```text
+error: SR_Multiplication.lean:6:20: unexpected token '_'; expected '=>'
+error: SR_Multiplication.lean:14:20: unexpected token 'ℂ'; expected ':=', 'where' or '|'
+error: SR_Multiplication.lean:18:18: unexpected token 'ℂ'; expected ')'
+```
+
+Resolution attempt: restore the notation binder form accepted by Lean
+4.29.1, tolerating the harmless unused-notation-parameter warning.
+
+## Stage 3
+
+### Attempt 1 - Tactic failed after finite split
+
+Target: `lake build SR_Dagger`
+
+Raw error excerpt:
+
+```text
+error: SR_Dagger.lean:35:37: `simp` made no progress
+warning: SR_Dagger.lean:35:43: This simp argument is unused:
+  basisValue
+```
+
+Resolution attempt: after splitting the optional label and the finite ordered
+coordinate cases, close the diagonal fixed proof by definitional equality.
+
+### Attempt 2 - Classical complex equality blocked `decide`
+
+Target: `lake -Kjobs=1 build SR_Dagger`
+
+Raw error excerpt:
+
+```text
+error: SR_Dagger.lean:39:53: Tactic `decide` failed for proposition
+  (if ... then 1 else 0) = if ... then 1 else 0
+because its `Decidable` instance ... did not reduce to `isTrue` or `isFalse`.
+```
+
+Resolution attempt: replace finite `decide` over complex-valued expressions with explicit lemmas:
+`star_basisValue` and `basisValue_diagonal_swap`.
+## Stage 5 - blocked before first Lean theorem attempt
+
+- Date: 2026-09-05
+- Classification: TYPE ERROR / theorem statement not typeable under current verified API
+- Raw displayed target:
+  `¬ ∃ (d : E10_6 →ₗ[ℂ] E20_6), ∀ x y : E10_6, d (x * y) = d x * y + x * d y`
+- Failure invariant extracted:
+  - The verified Stage 2 multiplication is external and bilinear:
+    `SR_mul : E10 →ₗ[ℂ] E10 →ₗ[ℂ] E20_6`.
+  - There is no internal `Mul E10`, no multiplication accepting `d (x * y)`,
+    and no left/right action making `d x * y` or `x * d y` meaningful.
+  - Adding such operations would risk violating the frozen ban on treating the
+    Rees wall as an internal dg differential.
+- Next safe move:
+  - Define `ReesCone` as a separate two-term object.
+  - Reformulate the no-Leibniz theorem as a negation of the existence of an
+    explicitly supplied additional algebra/differential package, rather than
+    asserting an untyped formula.
+
+## Stage 7 - syntax failure 1
+
+- Date: 2026-09-05
+- Classification: SYNTAX ERROR
+- Target: `SR_Underdetermination.lean`
+- Raw error excerpt:
+  - `SR_Underdetermination.lean:33:41: unexpected token 'λ'; expected '_' or identifier`
+  - `SR_Underdetermination.lean:42:35: unexpected token 'λ'; expected '_' or identifier`
+  - `SR_Underdetermination.lean:61:7: unexpected token 'λ'; expected '(', '[', '_', '{', '⦃' or identifier`
+- Correction:
+  - Rename the binder/parameter from the Greek symbol `λ` to the ASCII identifier `lam`.
+
+## Stage 7 - type/API failure 2
+
+- Date: 2026-09-05
+- Classification: MISSING MATHLIB OBJECT / API name
+- Target: `SR_Underdetermination.lean`
+- Raw error excerpt:
+  - `SR_Underdetermination.lean:50:23: Unknown constant LinearMap.toFun`
+- Correction:
+  - Avoid naming the projection.  Use `congrArg (fun f => f q22_X52) h`
+    to evaluate equality of linear maps at the generator.
+
+## Stage 4 - antisymmetric embedding tactic failure 1
+
+- Date: 2026-09-05
+- Classification: TACTIC FAILED
+- Target: `SR_NoCommutativity.lean`
+- Raw error excerpt:
+  - Unsolved additive coordinate goals such as
+    `-y AntisymIndex6.p23 + -x AntisymIndex6.p23 = -x AntisymIndex6.p23 + -y AntisymIndex6.p23`
+- Failure invariant:
+  - Pointwise simplification unfolds the embedding correctly, but negative
+    coordinate additivity requires commutativity/normalization of addition.
+- Correction:
+  - Use `ring` after the coordinate split for the linearity goals.
+
+## Stage 4 - antisymmetric embedding tactic failure 2
+
+- Date: 2026-09-05
+- Classification: TACTIC FAILED
+- Target: `SR_NoCommutativity.lean`
+- Raw error excerpt:
+  - `ring` left goals containing unapplied function-space operations such as
+    `((fun current => ...) + fun current => ...) (PrimeIndex6.p2, PrimeIndex6.p2)`.
+- Failure invariant:
+  - The coordinate split is correct, but the proof must unfold pointwise
+    function addition/scalar multiplication before algebraic normalization.
+- Correction:
+  - Use `simp [Pi.add_apply]` and `simp [Pi.smul_apply]` after the coordinate
+    split, with `ring_nf` as fallback normalization.
+
+## Stage 3 - E11 wrapper repair 1
+
+- Date: 2026-09-05
+- Classification: TACTIC FAILED
+- Target: `SR_Dagger.lean`
+- Raw error excerpt:
+  - Goals remained in `dagger_h_swap` and `dagger_diagonal_fixed` after making
+    `E11` a `ULift` wrapper, e.g.
+    `E11.coeff { down := fun current => 0 } (right, left) = 0`.
+- Failure invariant:
+  - The type separation is correct; old proofs simply need to unfold
+    `E11.coeff` after `h` produces a wrapped function.
+- Correction:
+  - Add `E11.coeff` to the simplification set in the affected basis proofs.
+
+## Stage 6 - E11 wrapper repair 1
+
+- Date: 2026-09-05
+- Classification: TACTIC FAILED
+- Target: `SR_GNS.lean`
+- Raw error excerpt:
+  - `E11.coeff { down := fun current => if current = (PrimeIndex6.p2, PrimeIndex6.p2) then 1 else 0 } (PrimeIndex6.p2, PrimeIndex6.p2) = 1`
+- Failure invariant:
+  - After `E11` became a wrapper, basis-coordinate proofs must unfold
+    `E11.coeff`.
+- Correction:
+  - Add `E11.coeff` to the simplification set of `Gamma_obs_h22`.
+
+## Gap 1 - GNS positivity proof failure 1
+
+- Date: 2026-09-05
+- Classification: TACTIC FAILED
+- Target: `SR_GNS.lean`
+- Raw error excerpt:
+  - `rewrite` did not find `(starRingEnd ℂ) ?z * ?z` inside
+    `(star (...) * ...).re = Complex.normSq (...)`.
+- Failure invariant:
+  - The internal `E11_mul` definition is type-correct and local to `E11`.
+    The obstruction is only rewriting `star z * z` through
+    `Complex.normSq_eq_conj_mul_self`.
+- Correction:
+  - Unfold the observed coefficient first, introduce `z`, and change the goal
+    to `0 ≤ (Complex.conj z * z).re`; then rewrite through
+    `Complex.normSq_eq_conj_mul_self`.
+
+## Gap 1 - GNS positivity proof failure 2
+
+- Date: 2026-09-05
+- Classification: MISSING MATHLIB OBJECT / API name
+- Target: `SR_GNS.lean`
+- Raw error excerpt:
+  - `Unknown constant Complex.conj`
+- Failure invariant:
+  - This mathlib surface exposes conjugation through `star`, while some complex
+    lemmas print internally with `conj`.
+- Correction:
+  - State the local positivity goal with `star z * z` and prove its real part
+    is `Complex.normSq z` by `Complex.normSq_apply`.
+
+## Gap 2 - requested non-extension theorem refuted by raw bridge
+
+- Date: 2026-09-05
+- Classification: TYPE/MATHEMATICAL OBSTRUCTION
+- Target displayed in audit:
+  `¬ ∃ (f : E20_6 →ₗ[ℂ] ℂ), ∀ x : E11, f (embed_E11_E20 x) = Gamma_obs x`
+- Lean-verified counterexample:
+  - `embed_E11_E20 : E11 →ₗ[ℂ] E20_6` is definable by forgetting the current
+    `ULift` wrapper: `x ↦ x.down`.
+  - `Gamma_obs_E20_extension : E20_6 →ₗ[ℂ] ℂ` is definable by evaluating the
+    `(2,2)` coordinate.
+  - `GNS_raw_extension_exists : ∃ f : E20_6 →ₗ[ℂ] ℂ, ∀ x : E11, f (embed_E11_E20 x) = Gamma_obs x`
+    compiles.
+- Failure invariant:
+  - The current `ULift` separation prevents accidental definitional equality
+    between `E11` and `E20_6`, but it does not prevent an explicit linear
+    coefficient-forgetting embedding.
+  - Therefore the displayed theorem is false unless it includes additional
+    compatibility hypotheses that rule out the raw coordinate extension.
+- Required next definition:
+  - A non-raw consistency predicate describing the dagger/provenance/GNS
+    compatibility intended to obstruct extension from `E11` to `E20_6`.
+
+## Gap 3 - exact Rees Leibniz statement is not typeable
+
+- Date: 2026-09-05
+- Classification: TYPE ERROR / theorem statement not typeable under current verified API
+- Non-imported probe file:
+  `archive/gap3_exact_typecheck_2026-09-05/SR_Rees_Gap3_Attempt.lean`
+- Target displayed in audit:
+  `¬ ∃ (d : E10 →ₗ[ℂ] E20_6), ∀ x y : E10, d (SR_mul x y) = SR_mul (d x) y + SR_mul x (d y)`
+- Raw Lean error:
+
+```text
+archive\gap3_exact_typecheck_2026-09-05\SR_Rees_Gap3_Attempt.lean:15:10: error: Application type mismatch: The argument
+  (SR_mul x) y
+has type
+  E20_6
+but is expected to have type
+  E10
+in the application
+  d ((SR_mul x) y)
+archive\gap3_exact_typecheck_2026-09-05\SR_Rees_Gap3_Attempt.lean:15:32: error: Application type mismatch: The argument
+  d x
+has type
+  E20_6
+but is expected to have type
+  E10
+in the application
+  SR_mul (d x)
+archive\gap3_exact_typecheck_2026-09-05\SR_Rees_Gap3_Attempt.lean:15:51: error: Application type mismatch: The argument
+  d y
+has type
+  E20_6
+but is expected to have type
+  E10
+in the application
+  (SR_mul x) (d y)
+```
+
+- Failure invariant:
+  - `SR_mul x y : E20_6`, so `d (SR_mul x y)` is invalid when
+    `d : E10 →ₗ[ℂ] E20_6`.
+  - `d x : E20_6`, so `SR_mul (d x) y` is invalid because `SR_mul` expects
+    an `E10` argument.
+  - `d y : E20_6`, so `SR_mul x (d y)` is invalid for the same reason.
+  - A typeable Leibniz theorem would require extra internal multiplication,
+    actions, or a second differential on `E20_6`, which is precisely the
+    structure the frozen Rees rule says not to install silently.
+
+## Gap 4 - enriched dagger compatibility collapses the ℂ-family
+
+- Date: 2026-09-05
+- Classification: MATHEMATICAL OBSTRUCTION / requested theorem false
+- Requested target:
+  Re-prove `orientation_moduli_X52` with stronger constraints including
+  full dagger compatibility
+  `f (dagger_20 x) = Complex.conj (f x)` and Rees-grade interior vanishing.
+- Lean-verified collapse:
+  - `orientationFunctional_enriched_iff_real :
+      ∀ lam : ℂ,
+        satisfies_enriched_frozen_constraints (orientationFunctional lam) ↔
+          star lam = lam`
+  - `orientationFunctional_not_enriched_I :
+      ¬ satisfies_enriched_frozen_constraints (orientationFunctional Complex.I)`
+- Failure invariant:
+  - On the one-dimensional complex-linear carrier, the old family has
+    `orientationFunctional lam z = z * lam`.
+  - Full dagger compatibility forces
+    `orientationFunctional lam (star z) = star (orientationFunctional lam z)`.
+  - Taking `z = 1` forces `lam = star lam`.
+  - Therefore non-real complex parameters, including `Complex.I`, are excluded.
+- Consequence:
+  - The original Stage 7 `ℂ`-family survives the Rees-grade vanishing
+    condition, but it does not survive full dagger compatibility.
+  - A complex moduli theorem under enriched constraints would need a different
+    dagger-compatibility statement, a real-linear target, or an explicit
+    explanation that the moduli are real/conjugation-fixed rather than all of
+    `ℂ`.
+
+## Stage 9A - literal all-Nat valuation is inconsistent
+
+- Date: 2026-09-05
+- Classification: MATHEMATICAL OBSTRUCTION / stated structure has no models
+- Literal requested structure:
+  `val : Nat → Real`,
+  `val 1 = 0`,
+  `∀ m n, val (m*n) = val m + val n`,
+  and `0 < val p` for every `Nat.Prime p`.
+- Lean-verified no-go:
+  - `no_arithmeticValuation_nat : ¬ ∃ _v : ArithmeticValuation, True`
+- First failed equation:
+  - Taking `m = 0`, `n = 2` in the additivity law gives
+    `val 0 = val 0 + val 2`.
+  - Hence `val 2 = 0`.
+  - But `Nat.prime_two` and `pos` require `0 < val 2`.
+- Consequence:
+  - The requested theorem `valuation_is_log_multiple` is Lean-proved only
+    vacuously for the literal `ArithmeticValuation`, because the structure is
+    empty.
+  - The usable Stage 9 valuation surface must exclude zero; the project now
+    records this as `PositiveArithmeticValuation` over `PosNat`.
+
+## Stage 10 - absolute PD nondegeneracy is false
+
+- Date: 2026-09-05
+- Classification: MATHEMATICAL OBSTRUCTION / requested theorem false
+- Requested target:
+  - Prove relative Poincaré duality and, if possible, prove the radical of
+    the `E10` pairing is trivial.
+- Lean-verified no-go:
+  - `PD_radical_nontrivial_X6 :
+      ∃ x : E10, x ≠ 0 ∧ PD_radical x`
+  - `PD_not_nondegenerate_X6 :
+      ¬ (∀ x : E10, x ≠ 0 → ∃ y : E10, PD_pairing x y ≠ 0)`
+- First failed equation:
+  - The Stage 10 pairing factors through one scalar:
+    `PD_pairing x y = Complex.re (E10_logWeightSum x * E10_logWeightSum y)`.
+  - The vector `log(3)e₂ - log(2)e₃` satisfies
+    `E10_logWeightSum PD_radical_witness = 0`.
+  - Therefore it pairs to zero with every `y : E10`.
+- Failure invariant:
+  - A pairing formed as a product of one linear functional on a
+    four-dimensional carrier is rank-one, so absolute nondegeneracy on `E10`
+    cannot hold.
+- Consequence:
+  - Stage 10 must be relative: quotient by
+    `LinearMap.ker E10_logWeightSumLinear`.
+
+## Stage 10 - basis simplification repair
+
+- Date: 2026-09-05
+- Classification: LEAN REDUCTION / syntax-term elaboration repair
+- Raw error excerpt:
+  - `rw [e_eq_basisFun_toNat i]` failed to rewrite
+    `E10_logWeightSum (e i.toNat)` because the target exposed
+    `SupportIndex6.toNat` while the existing theorem was stated over
+    `PrimeIndex6.toNat`.
+- Repair:
+  - Inserted an explicit `change` to the `PrimeIndex6.toNat` form, then used
+    `rw [e_eq_basisFun_toNat i]`.
+- Consequence:
+  - `E10_logWeightSum_basis` now compiles.
+
+## Stage 11 - R2 full E20 pairing remains degenerate
+
+- Date: 2026-09-05
+- Classification: MATHEMATICAL OBSTRUCTION / candidate carrier does not fix
+  rank-one defect
+- Requested test:
+  - Try the full `E20_6` pairing
+    `Full_pairing(q_mn, q_pq) = J(q_mn) * J(q_pq)`.
+- Lean-verified no-go:
+  - `Full_pairing_radical_nontrivial_X6 :
+      ∃ x : E20_6, x ≠ 0 ∧ Full_pairing_radical x`
+- First failed equation:
+  - The full pairing still factors through a single scalar
+    `E20_logWeightSum`.
+  - The witness supported on `(2,2)` and `(2,3)` has zero
+    `E20_logWeightSum`, hence pairs to zero with all of `E20_6`.
+- Consequence:
+  - Moving from `E10` to naive full `E20_6` without new structure does not
+    create a nondegenerate Hodge form.
+
+## Stage 11 - R3 singleton GNS Weil analog remains degenerate
+
+- Date: 2026-09-05
+- Classification: MATHEMATICAL OBSTRUCTION / current observable too small
+- Requested test:
+  - Try the Weil pairing analog
+    `Re(Gamma_obs(dagger(e_m_as_E11) * e_n_as_E11))`.
+- Lean-verified facts:
+  - `W_pairing_e2_e2 : W_pairing (e 2) (e 2) = 1`
+  - `W_pairing_radical_nontrivial_X6 :
+      ∃ x : E10, x ≠ 0 ∧ W_pairing_radical x`
+- First failed equation:
+  - The current `Gamma_obs` reads only the `(2,2)` mixed coefficient.
+  - Under the diagonal embedding `E10_to_E11_diag`, the class `e 3` has zero
+    observed `(2,2)` coefficient, so it pairs to zero against all `y : E10`.
+- Consequence:
+  - The present singleton GNS observable is insufficient for a nondegenerate
+    Weil/Hodge form on full `E10`.
+  - A full-support GNS observable, a real form, or a Hermitian pairing must be
+    added before promoting a global Hodge-Riemann theorem.
+
+## Stage 11 - complex-bilinear PD form has wrong sign
+
+- Date: 2026-09-05
+- Classification: MATHEMATICAL OBSTRUCTION / sign conflict
+- Requested target:
+  - Prove Hodge-Riemann semidefiniteness/positivity for the Stage 10
+    `PD_pairing`.
+- Lean-verified no-go:
+  - `HR_phase_witness_PD_negative :
+      PD_pairing HR_phase_witness HR_phase_witness < 0`
+  - `not_PD_positive_semidefinite :
+      ¬ (∀ x : E10, 0 ≤ PD_pairing x x)`
+  - `stage11_sign_conflict`
+- First failed equation:
+  - For `HR_phase_witness = i·e₂`,
+    `E10_logWeightSum HR_phase_witness = Complex.I * Real.log 2`.
+  - Therefore
+    `PD_pairing HR_phase_witness HR_phase_witness =
+      Complex.re ((i log 2) * (i log 2)) = -(log 2)^2 < 0`.
+- Failure invariant:
+  - The current `PD_pairing` is complex-bilinear in effect; it does not insert
+    complex conjugation in the second argument.
+  - A Hodge-Riemann-positive form on complex `E10` must use a Hermitian/GNS
+    style conjugation or restrict to a real form.
+- Consequence:
+  - `PD_pairing` is not the final signed Hodge form for the desired
+    `I_SR(Z₀,Z₀) ≤ 0` target.
+
+## Stage 12 - naive Weil operator gives zero HR real part
+
+- Date: 2026-09-05
+- Classification: MATHEMATICAL OBSTRUCTION / classical Weil operator does not
+  supply positivity
+- Requested test:
+  - Define `C_Weil(e_m) = Complex.I • e_m` and evaluate
+    `Complex.re (H_SR (e_m) (C_Weil (e_m)))`.
+- Lean-verified result:
+  - `HR_Weil_zero :
+      ∀ m : SupportIndex6,
+        Complex.re (H_SR (e m.toNat) (C_Weil (e m.toNat))) = 0`
+- First failed equation:
+  - `H_SR(e_m, i e_m) = log(m) * star (i * log(m))`.
+  - Since `log(m)` is real, this is a pure imaginary scalar multiple of
+    `log(m)^2`.
+  - Its real part is `0`.
+- Consequence:
+  - The Hermitian form repairs semidefinite positivity, but the naive
+    classical Weil operator is not the SR Hodge-Riemann operator.
+  - Stage 13 must define the correct signed `I_SR` bridge or an SR-specific
+    Weil action.
