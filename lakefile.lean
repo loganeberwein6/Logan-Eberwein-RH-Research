@@ -57,3 +57,6 @@ lean_lib SR_HermitianForm where
 
 lean_lib SR_ISR where
   roots := #[`SR_ISR]
+
+lean_lib SR_ISR_Full where
+  roots := #[`SR_ISR_Full]

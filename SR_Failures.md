@@ -640,3 +640,78 @@ in the application
   - The desired physical sign `I_SR(Z₀,Z₀) ≤ 0` requires an additional
     signed intersection datum, a different physical primitive sector, or a
     different/full-support SR observable.
+
+## Stage 14 - Rees witness sign proved, general sign still open
+
+- Date: 2026-09-05
+- Classification: PARTIAL SUCCESS / full primitive-sector theorem not yet
+  proved
+- Lean-verified witness result:
+  - `I_SR_Rees_radical_negative :
+      I_SR_Rees PD_radical_witness PD_radical_witness < 0`
+  - `radical_witness_is_primitive :
+      PD_radical_witness ∈ P_SR_phys`
+- Lean-verified GNS fork:
+  - `E11_mul_h22_h33_observed_zero :
+      hIdxDProductCoeff_p2p2_p3p3_at_p2p2 = 0`
+  - The literal combined `Gamma_obs (E11_mul (h 2 2) (h 3 3)) = 0`
+    statement was not promoted; see the elaboration obstruction below.
+- Remaining failed/unpromoted target:
+  - `partial_sign_theorem :
+      ∀ x ∈ P_SR_phys, I_SR_Rees x x ≤ 0`
+- Reason not promoted:
+  - The current stage verifies one primitive witness, not the full quadratic
+    inequality on the entire kernel.
+  - The sign assignment `Interior ↦ -1`, `Exit ↦ +1` is verified compatible
+    with the Rees grade but remains externally motivated, not forced by
+    previous SR axioms.
+- Consequence:
+  - Stage 14 gives first witness-level sign content.
+  - A full Hodge-Riemann theorem requires either the general kernel
+    inequality or a sharper physical primitive sector.
+
+## Stage 14A repair failure - SR_GNS theorem constant used as type
+
+Date: 2026-09-06
+
+Command:
+`lake -Kjobs=1 build SR_GNS`
+
+Raw error:
+```text
+error: SR_GNS.lean:33:4: type expected, got
+  (E11_mul_hIdxD_p2p2_p3p3_coeff_p2p2_zero : hIdxDProductCoeff_p2p2_p3p3_at_p2p2 = 0)
+error: SR_GNS.lean:120:7: Unknown identifier `E11_mul_hIdx_p2p2_p3p3_coeff_p2p2_zero`
+```
+
+Correction:
+Restated `E11_mul_hIdx_p2p2_p3p3_coeff_p2p2_zero` with proposition
+`hIdxDProductCoeff_p2p2_p3p3_at_p2p2 = 0` and proved it by exact from the
+lower-level `SR_Dagger` theorem.
+
+## Stage 14A elaboration obstruction - combined Gamma_obs/E11_mul statement
+
+Date: 2026-09-06
+
+Observed during repeated commands:
+`lake -Kjobs=1 build SR_ISR_Full`, `lake -Kjobs=1 build SR_GNS`, and `lake -Kjobs=1 build SR_Dagger`.
+
+Problematic target shape:
+```lean
+theorem E11_mul_h22_h33_observed_zero :
+    Gamma_obs (E11_mul (h6 PrimeIndex6.p2 PrimeIndex6.p2)
+      (h6 PrimeIndex6.p3 PrimeIndex6.p3)) = 0 := by
+  rfl
+```
+
+Evidence:
+- Definitions-only `SR_ISR_Full.lean` with a temporary `#exit` after `I_SR_full` built successfully.
+- The build stalled once the combined off-diagonal `Gamma_obs (E11_mul ...)` proposition was introduced.
+- Replacing the proof body with `rfl` did not remove the stall, so the obstruction was statement elaboration/reduction rather than tactic search.
+- A lower-level named coefficient-value witness was introduced and verified instead:
+  `hIdxDProductCoeff_p2p2_p3p3_at_p2p2 = 0`.
+
+Resolution used:
+- `SR_Dagger.lean` defines `hIdxDProductCoeff_p2p2_p3p3_at_p2p2` as the relevant basis-coefficient product and proves it is zero.
+- `SR_GNS.lean` and `SR_ISR_Full.lean` cite this compiled coefficient witness.
+- The literal combined `Gamma_obs (E11_mul ...) = 0` theorem remains unpromoted until a lighter E11/Gamma API is available.

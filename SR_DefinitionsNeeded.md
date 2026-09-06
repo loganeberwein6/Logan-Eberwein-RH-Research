@@ -182,3 +182,44 @@
     only sees the `e₂` coordinate.
   - Current theorem `I_SR_radical_witness_pos` proves the known radical
     witness has positive `I_SR` square.
+
+## Stage 14 remaining sign data
+
+- Stage 14 proves witness-level Rees sign content:
+  - `radical_witness_is_primitive`
+  - `I_SR_Rees_radical_negative`
+  - `radical_witness_rees_signed_negative`
+- Still needed before a full Hodge-Riemann sign theorem:
+  - a proof that `I_SR_Rees x x ≤ 0` for every
+    `x ∈ P_SR_phys = LinearMap.ker E10_logWeightSumLinear`; or
+  - a corrected definition of `P_SR^phys` if the physical primitive sector is
+    smaller than the full logarithmic kernel; and
+  - an internal SR principle forcing the sign assignment
+    `Interior ↦ -1`, `Exit ↦ +1`, rather than importing it as Hodge-index
+    motivated external structure.
+- Current exact wall:
+  - `Rees_sign6_agrees_grade` verifies the signs match the arithmetic grade.
+  - `SR14_SIGN_EXTERNAL_MOTIVATION` records that the negative/positive choice
+    itself is not yet forced by the prior SR axioms.
+
+## Stage 14D no-go follow-up
+
+Date: 2026-09-06
+
+Lean verified that the current universal partial sign theorem is false:
+
+```lean
+not_partial_sign_theorem : ¬ ∀ x ∈ P_SR_phys, I_SR_Rees x x ≤ 0
+```
+
+Counterexample:
+
+```lean
+partialSignCounterexample := log(5)·e₃ - log(3)·e₅
+```
+
+It lies in `P_SR_phys = LinearMap.ker E10_logWeightSumLinear`, but has
+strictly positive `I_SR_Rees` square.  Therefore a future full Hodge-Riemann
+sign theorem needs additional data, such as a sharper primitive sector than the
+whole logarithmic kernel, or a richer signed form than the current compact
+X=6 Rees sign table.

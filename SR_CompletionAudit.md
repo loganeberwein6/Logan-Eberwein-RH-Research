@@ -323,3 +323,50 @@ Stage 13 has been formalized as an SR Weil/operator and `I_SR` sign audit.
   - Stage 14 should construct the missing signed intersection datum or define
     `P_SR^phys` sharply enough that the current positive radical witness is
     outside the physical primitive sector.
+
+## Stage 14 status
+
+Stage 14 has been formalized as the X=6 full-support and Rees-sign audit.
+
+- Stage 14A:
+  - `I_SR_full_matrix` and `I_SR_full` are implemented for all X=6 support
+    labels.
+  - `E11_mul_h22_h33_observed_zero` verifies the compiled named observed
+    coefficient value `hIdxDProductCoeff_p2p2_p3p3_at_p2p2 = 0`.  The more
+    literal combined statement with `Gamma_obs (E11_mul ...)` caused
+    elaboration blowup and is recorded in `SR_Failures.md`.
+  - Conclusion: the current GNS data alone do not create the desired signed
+    full-support intersection form.
+- Stage 14B:
+  - `Rees_sign6` implements the X=6 sign table.
+  - `Rees_sign6_agrees_grade` ties the table back to the arithmetic
+    interior/exit grade.
+  - `I_SR_Rees` implements the compact equivalent Rees-signed real form.
+  - `I_SR_Rees_radical_witness_value` computes the exact witness value.
+  - `I_SR_Rees_radical_negative` proves that value is negative.
+- Stage 14C:
+  - `P_SR_phys` is defined as `LinearMap.ker E10_logWeightSumLinear`.
+  - `radical_witness_is_primitive` verifies the Stage 10 radical witness lies
+    in this candidate physical primitive sector.
+  - `radical_witness_rees_signed_negative` packages primitive membership and
+    negativity.
+- Stage 14D:
+  - The proposed universal theorem
+    `∀ x ∈ P_SR_phys, I_SR_Rees x x ≤ 0` is false for the current data.
+  - `partialSignCounterexample := log(5)e₃ - log(3)e₅` is verified primitive.
+  - `I_SR_Rees_partialSignCounterexample_positive` proves its Rees-signed
+    square is strictly positive.
+  - `not_partial_sign_theorem` records the no-go theorem.
+- Fidelity/circularity audit:
+  - The Rees grade is independently defined from the arithmetic wall.
+  - The sign convention `Interior ↦ -1`, `Exit ↦ +1` is not forced by earlier
+    SR axioms; it is an externally motivated Hodge-index sign input.
+  - This is recorded as `SR14_SIGN_EXTERNAL_MOTIVATION`, not as a fully
+    internal noncircular sign theorem.
+- Interpretation:
+  - Outcome 3 applies on circularity/fidelity grounds.
+  - There is now verified sign content for a primitive witness under the
+    Rees-signed form.
+  - A general theorem `∀ x ∈ P_SR_phys, I_SR_Rees x x ≤ 0` is Lean-refuted
+    for the present candidate primitive sector/form pair and should not be
+    claimed.

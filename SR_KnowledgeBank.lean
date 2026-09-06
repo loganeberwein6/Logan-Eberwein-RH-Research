@@ -14,8 +14,11 @@ import SR_LefschetzDiagnosis
 import SR_Lefschetz
 import SR_HermitianForm
 import SR_ISR
+import SR_ISR_Full
 
 namespace SR
+
+set_option maxHeartbeats 200000
 
 /-
 Verified foundation results for the Selberg-Rees arithmetic Hodge program.
@@ -492,5 +495,65 @@ Nothing enters this file unless the corresponding Lean target compiles.
 
 /- SR.13.OUTCOME: SR Weil positivity plus current I_SR sign conflict. -/
 #check stage13_outcome
+
+/- SR.14A.1: Full-support GNS/E11 matrix coefficient at X=6. -/
+#check I_SR_full_matrix
+
+/- SR.14A.2: Full-support GNS/E11 form over all X=6 support labels. -/
+#check I_SR_full
+
+/- SR.14A.FORK: Current E11/Gamma observable kills the h22*h33 off-diagonal term. -/
+#check E11_mul_h22_h33_observed_zero
+
+/- SR.14A.3: Matrix coefficient reduces to observed product at (2,2). -/
+#check I_SR_full_matrix_eq_observed_product
+
+/- SR.14B.1: Rees sign table at X=6. -/
+#check Rees_sign6
+
+/- SR.14B.2: Rees sign table agrees with the grade definition. -/
+#check Rees_sign6_agrees_grade
+
+/- SR.14B.3: Real support sum used in the compact Rees-signed form. -/
+#check E10_realSupportSum
+
+/- SR.14B.4: Rees-signed real form at X=6. -/
+#check I_SR_Rees
+
+/- SR.14.SIGN_WITNESS_VALUE: Exact Rees-signed value on the radical witness. -/
+#check I_SR_Rees_radical_witness_value
+
+/- SR.14.SIGN_WITNESS_NEG: Rees-signed radical witness is negative. -/
+#check I_SR_Rees_radical_negative
+
+/- SR.14C.1: Candidate physical primitive sector at X=6. -/
+#check P_SR_phys
+
+/- SR.14C.2: Physical primitive sector is the logarithmic kernel. -/
+#check P_SR_phys_definition
+
+/- SR.14C.3: Stage 10 radical witness is primitive. -/
+#check radical_witness_is_primitive
+
+/- SR.14D.1: Counterexample vector to the universal primitive-sector nonpositive claim. -/
+#check partialSignCounterexample
+
+/- SR.14D.2: The counterexample vector lies in the candidate physical primitive sector. -/
+#check partialSignCounterexample_is_primitive
+
+/- SR.14D.3: Rees-signed value on the counterexample is explicit. -/
+#check I_SR_Rees_partialSignCounterexample_value
+
+/- SR.14D.4: The counterexample has positive Rees-signed square. -/
+#check I_SR_Rees_partialSignCounterexample_positive
+
+/- SR.14D.NOGO: Universal nonpositive sign theorem fails for current P_SR_phys. -/
+#check not_partial_sign_theorem
+
+/- SR.14.SIGN_EXTERNAL_MOTIVATION: Rees sign convention is external Hodge-index motivation. -/
+#check SR14_SIGN_EXTERNAL_MOTIVATION
+
+/- SR.14.OUTCOME: Off-diagonal GNS collapse plus Rees-signed negative witness. -/
+#check stage14_outcome
 
 end SR

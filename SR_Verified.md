@@ -32,6 +32,71 @@
   - `Module.finrank_fintype_fun_eq_card`
 - Date: 2026-09-05
 
+## Stage 14 - Full-Support I_SR and Rees-Signed Intersection Form
+
+- Stable IDs: SR.14A.1 through SR.14C.3, with outcome IDs
+  `SR.14A.FORK`, `SR.14.SIGN_WITNESS_NEG`,
+  `SR.14.SIGN_EXTERNAL_MOTIVATION`, and `SR.14.OUTCOME`.
+- Outcome:
+  - The current full-support GNS/E11 matrix still collapses at the observed
+    `(2,2)` coefficient: the compiled named value
+    `hIdxDProductCoeff_p2p2_p3p3_at_p2p2` is zero.
+  - The Rees-signed X=6 form gives a genuine negative value on the Stage 10
+    radical witness.
+  - The witness is verified primitive for the candidate physical sector
+    `P_SR_phys = LinearMap.ker E10_logWeightSumLinear`.
+  - The proposed universal nonpositive partial sign theorem on all of
+    `P_SR_phys` is false for the current Rees form: a second primitive vector
+    has strictly positive Rees-signed square.
+  - The sign convention is recorded as externally Hodge-index motivated, not
+    forced by prior SR axioms.
+- Theorem/object statements:
+  - `I_SR_full_matrix : SupportIndex6 → SupportIndex6 → ℂ`
+  - `I_SR_full : E10 → E10 → ℂ`
+  - `E11_mul_h22_h33_observed_zero : hIdxDProductCoeff_p2p2_p3p3_at_p2p2 = 0`
+  - `I_SR_full_matrix_eq_observed_product`
+  - `Rees_sign6 : SupportIndex6 → SupportIndex6 → ℝ`
+  - `Rees_sign6_agrees_grade`
+  - `E10_realSupportSum : E10 → ℝ`
+  - `I_SR_Rees : E10 → E10 → ℝ`
+  - `I_SR_Rees_radical_witness_value : I_SR_Rees PD_radical_witness PD_radical_witness = (Real.log 3 - Real.log 2) * (Real.log 3 - Real.log 2) - 2 * Real.log 3 * Real.log 3`
+  - `I_SR_Rees_radical_negative : I_SR_Rees PD_radical_witness PD_radical_witness < 0`
+  - `P_SR_phys : Submodule ℂ E10`
+  - `P_SR_phys_definition : P_SR_phys = LinearMap.ker E10_logWeightSumLinear`
+  - `radical_witness_is_primitive : PD_radical_witness ∈ P_SR_phys`
+  - `radical_witness_rees_signed_negative`
+  - `partialSignCounterexample : E10`
+  - `partialSignCounterexample_is_primitive : partialSignCounterexample ∈ P_SR_phys`
+  - `I_SR_Rees_partialSignCounterexample_value : I_SR_Rees partialSignCounterexample partialSignCounterexample = (Real.log 5 - Real.log 3) * (Real.log 5 - Real.log 3)`
+  - `I_SR_Rees_partialSignCounterexample_positive : 0 < I_SR_Rees partialSignCounterexample partialSignCounterexample`
+  - `not_partial_sign_theorem : ¬ ∀ x ∈ P_SR_phys, I_SR_Rees x x ≤ 0`
+  - `SR14_SIGN_EXTERNAL_MOTIVATION : True`
+  - `stage14_outcome`
+- Proof strategy used:
+  - Define the full-support GNS matrix by diagonal E10 basis interactions in
+    E11 and evaluate the off-diagonal observed coefficient through a compiled
+    lower-level named coefficient value.
+  - Define the X=6 Rees sign table with `(2,2)` negative and all other frozen
+    support pairs positive, then prove it agrees with `grade`.
+  - Use the equivalent compact form
+    `I_SR_Rees x y = realSupportSum x * realSupportSum y - 2*x₂*y₂`.
+  - Evaluate the Stage 10 witness
+    `PD_radical_witness = log(3)e₂ - log(2)e₃` and prove the resulting real
+    expression is negative by `Real.log_pos`, `Real.log_lt_log`, and
+    `nlinarith`.
+  - Test the requested universal partial sign theorem by the primitive vector
+    `log(5)e₃ - log(3)e₅`; prove its Rees square is positive, giving a
+    Lean-verified no-go theorem for the current candidate sector/form pair.
+- Mathlib lemmas/objects used:
+  - `Real.log_pos`
+  - `Real.log_lt_log`
+  - `nlinarith`
+  - `ring`
+  - `norm_num`
+  - `LinearMap.ker`
+  - finite support case splitting over `PrimeIndex6`
+- Date: 2026-09-05
+
 ## Stage 13 - I_SR Formalization and SR Weil Operator
 
 - Stable IDs: SR.13A.1 through SR.13D.1, with outcome IDs
