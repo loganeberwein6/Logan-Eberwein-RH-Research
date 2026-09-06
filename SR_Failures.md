@@ -715,3 +715,227 @@ Resolution used:
 - `SR_Dagger.lean` defines `hIdxDProductCoeff_p2p2_p3p3_at_p2p2` as the relevant basis-coefficient product and proves it is zero.
 - `SR_GNS.lean` and `SR_ISR_Full.lean` cite this compiled coefficient witness.
 - The literal combined `Gamma_obs (E11_mul ...) = 0` theorem remains unpromoted until a lighter E11/Gamma API is available.
+
+## Stage 15 failure log
+
+Date: 2026-09-06
+
+### Failure 15.1 — missing Lake target
+
+Command:
+
+```text
+lake -Kjobs=1 build SR_Signature
+```
+
+Raw error:
+
+```text
+error: unknown target `SR_Signature`
+```
+
+Resolution:
+
+- Added `lean_lib SR_Signature where roots := #[`SR_Signature]` to
+  `lakefile.lean`.
+
+### Failure 15.2 — existential chooser selected the wrong witness
+
+Problematic proof:
+
+```lean
+theorem radical_witness_in_true_phys :
+    P_SR_phys_true PD_radical_witness := by
+  exact (P_SR_phys_true_nonempty.choose_spec).1
+```
+
+Raw error:
+
+```text
+Type mismatch
+  (Exists.choose_spec P_SR_phys_true_nonempty).left
+has type
+  P_SR_phys_true P_SR_phys_true_nonempty.choose
+but is expected to have type
+  P_SR_phys_true PD_radical_witness
+```
+
+Resolution:
+
+- Proved the claim directly using `radical_witness_is_primitive` and
+  `le_of_lt I_SR_Rees_radical_negative`.
+
+### Stage 15 unpromoted target — exact rank/inertia
+
+The objective requests the full signature of `M_Rees`.  The paper calculation
+gives expected inertia `(1,1,2)`.  The current Lean promotion stops at:
+
+```lean
+I_SR_Rees_formula
+M_Rees_signature_witnesses
+```
+
+That is enough to verify the clean quadratic formula and mixed-sign behavior,
+but it is not yet a formal `Matrix.rank`/inertia theorem.  This remains a
+finite matrix-rank API/formalization task.
+## Stage 15 — repaired finite-sum/mulVec expansion failure
+
+Date: 2026-09-06
+
+Command:
+
+```text
+lake -Kjobs=1 build SR_Signature
+```
+
+Failure class: tactic / definitional expansion failure.
+
+Raw obstruction:
+
+```text
+error: SR_Signature.lean:52:2: 'change' tactic failed
+```
+
+The failed attempt tried to rewrite `(M_Rees.mulVec x) i` directly into an explicit four-term coordinate expression using `change`. Lean did not treat the matrix-vector finite sum as definitionally equal to that handwritten expansion.
+
+Follow-up repair:
+
+Defined `sum_univ_support6_real` to expand the finite `SupportIndex6` sum explicitly, then proved the `M_Rees.mulVec` coordinate lemmas by:
+
+```lean
+rw [Matrix.mulVec, dotProduct, sum_univ_support6_real]
+simp [M_Rees, Rees_sign6, E10R_sum]
+```
+
+with `ring` where associativity/normalization was needed. The repaired target `SR_Signature` compiled, and the real matrix kernel criterion was promoted to `SR_KnowledgeBank.lean`.
+
+## Stage 15 — kernel equivalence and rank repair attempts
+
+Date: 2026-09-06
+
+Command:
+
+```text
+lake -Kjobs=1 build SR_Signature
+```
+
+Failure class: tactic/term-shape failures while proving the real kernel
+linear equivalence.
+
+First raw obstruction:
+
+```text
+error: SR_Signature.lean:218:8: No goals to be solved
+```
+
+Cause:
+
+- In the `invFun` membership proof for `M_Rees_realKernelEquiv`,
+  `simp [E10R_sum]` already closed the target.  The following `ring` tactic
+  had no remaining goal.
+- The same attempt also tried `ext i` on a product target in `right_inv`,
+  which was the wrong extensionality shape.
+
+Second raw obstruction:
+
+```text
+error: SR_Signature.lean:224:12: type mismatch
+```
+
+Cause:
+
+- The kernel hypothesis supplied `hx.2 : x PrimeIndex6.p2 = 0`, while the
+  `p2` coordinate goal after extensionality was oriented as
+  `0 = x PrimeIndex6.p2`.
+
+Resolution:
+
+- Removed the redundant `ring` after `simp [E10R_sum]`.
+- Proved product right inverse with `ext <;> rfl`.
+- Used `hx.2.symm` for the oriented `p2` coordinate.
+
+Outcome:
+
+```lean
+M_Rees_realKernelEquiv :
+  (LinearMap.ker M_Rees.mulVecLin) ≃ₗ[ℝ] (ℝ × ℝ)
+
+M_Rees_real_kernel_finrank :
+  Module.finrank ℝ (LinearMap.ker M_Rees.mulVecLin) = 2
+
+E10R_finrank :
+  Module.finrank ℝ E10R = 4
+
+M_Rees_rank :
+  Matrix.rank M_Rees = 2
+```
+
+These now compile in `SR_Signature.lean` and are promoted to
+`SR_KnowledgeBank.lean`.
+
+## Stage 15 — signature-coordinate repair attempts
+
+Date: 2026-09-06
+
+Command:
+
+```text
+lake -Kjobs=1 build SR_Signature
+```
+
+Failure class: coordinate-order and tactic-normalization failures while
+upgrading rank/nullity to an explicit `(1,1,2)` signature certificate.
+
+First raw obstruction:
+
+```text
+error: SR_Signature.lean:274:6: Tactic `rfl` failed
+error: SR_Signature.lean:277:4: unsolved goals
+error: SR_Signature.lean:295:2: Tactic `rfl` failed
+```
+
+Cause:
+
+- The first `M_Rees_signatureCoord` attempt encoded the forward map as
+  `(sum,p2,p3,p4)` while the inverse treated the first coordinate as `p2`
+  and the fourth coordinate as `sum`.
+- The inverse quadratic theorem used `rfl` for an expression requiring
+  simplification of `E10R_sum`.
+
+Second raw obstruction after over-cleaning linter warnings:
+
+```text
+error: SR_Signature.lean:280:18: unsolved goals
+error: SR_Signature.lean:282:19: unsolved goals
+error: SR_Signature.lean:277:4: unsolved goals
+warning: SR_Signature.lean:294:32: declaration uses `sorry`
+```
+
+Cause:
+
+- Removing all `ring` normalization left additive associativity/commutativity
+  goals open in the linear equivalence fields.  Lean reported the affected
+  declarations as using placeholders because the structure fields were not
+  completed.
+
+Resolution:
+
+- Changed the coordinate order to `(p2,p3,p4,total sum)`.
+- Proved the inverse quadratic theorem by
+  `simp [M_Rees_quadR, E10R_sum, M_Rees_signatureCoord]`.
+- Used explicit branch proofs plus `ring_nf` only on the additive
+  normalization branches that require it.
+
+Outcome:
+
+```lean
+M_Rees_quadR
+M_Rees_signatureCoord
+M_Rees_signatureCoord_quad
+M_Rees_signatureCoord_inv_quad
+M_Rees_signature
+```
+
+The final theorem `M_Rees_signature` compiles and certifies
+`pos=1`, `neg=1`, `zero=2` together with `Matrix.rank M_Rees = 2` and
+kernel finrank `2`.

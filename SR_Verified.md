@@ -32,6 +32,116 @@
   - `Module.finrank_fintype_fun_eq_card`
 - Date: 2026-09-05
 
+## Stage 15 - Signature Analysis and True `P_SR^phys`
+
+- File: `SR_Signature.lean`
+- Stable IDs:
+  - `SR.15A.1` — `M_Rees`
+  - `SR.15A.2` — `M_Rees_apply`
+  - `SR.15A.3` — `I_SR_Rees_bilinear_formula`
+  - `SR.15A.RADICAL_DEF` — `M_Rees_form_radical`
+  - `SR.15A.RADICAL_DIRECTIONS` — `M_Rees_has_two_named_radical_directions`
+  - `SR.15A.RADICAL_NONCOLLINEAR` — `M_Rees_radical_directions_not_collinear`
+  - `SR.15A.RADICAL_IFF` — `M_Rees_form_radical_iff`
+  - `SR.15A.REAL_KERNEL_CERT` — `M_Rees_real_kernel_two_direction_certificate`
+  - `SR.15A.KERNEL_EQUIV` — `M_Rees_realKernelEquiv`
+  - `SR.15A.NULLITY` — `M_Rees_real_kernel_finrank`
+  - `SR.15A.RANK` — `M_Rees_rank`
+  - `SR.15A.DIAGONAL_COORD` — `M_Rees_signatureCoord`
+  - `SR.15A.DIAGONAL_FORM` — `M_Rees_signatureCoord_quad`
+  - `SR.15A.SIGNATURE` — `M_Rees_signature`
+  - `SR.15B.1` — `I_SR_Rees_formula`
+  - `SR.15B.2` — `M_Rees_quad_formula`
+  - `SR.15B.3` — `P_SR_phys_true`
+  - `SR.15B.4` — `P_SR_phys_true_arithmetic_char`
+  - `SR.15B.5` — `P_SR_phys_true_nonempty`
+  - `SR.15C.1` — `P_SR_phys_true_sign`
+  - `SR.15D.1` — `radical_witness_in_true_phys`
+  - `SR.15D.2` — `counterexample_not_in_true_phys`
+  - `SR.15A.PARTIAL_SIGNATURE` — `M_Rees_signature_witnesses`
+  - `SR.15E.REDUCTION_AUDIT` — `SR15_REDUCTION_AUDIT`
+  - `SR.15F.SIGN_ARITHMETIC_OPEN` — `SR15_SIGN_ARITHMETIC_OPEN`
+  - `SR.15.OUTCOME` — `stage15_outcome`
+- Theorem statements:
+  - `I_SR_Rees_formula`:
+    `∀ x, I_SR_Rees x x = E10_realSupportSum x ^ 2 -
+    2 * (x PrimeIndex6.p2).re ^ 2`.
+  - `P_SR_phys_true_arithmetic_char`:
+    `P_SR_phys_true x ↔ x ∈ LinearMap.ker E10_logWeightSumLinear ∧
+    E10_realSupportSum x ^ 2 ≤ 2 * (x PrimeIndex6.p2).re ^ 2`.
+  - `P_SR_phys_true_sign`:
+    `P_SR_phys_true x → I_SR_Rees x x ≤ 0`.
+  - `counterexample_not_in_true_phys`:
+    `¬ P_SR_phys_true partialSignCounterexample`.
+  - `M_Rees_signature_witnesses`:
+    the Rees-signed form has at least one positive direction, one negative
+    direction, and one nonzero radical direction.
+  - `M_Rees_form_radical_iff`:
+    `M_Rees_form_radical x ↔ E10_realSupportSum x = 0 ∧
+    (x PrimeIndex6.p2).re = 0`.
+  - `M_Rees_has_two_named_radical_directions`:
+    verifies `e₃-e₄` and `e₄-e₅` are nonzero radical directions.
+  - `M_Rees_radical_directions_not_collinear`:
+    verifies the two named radical directions are not scalar multiples.
+  - `M_Rees_real_kernel_two_direction_certificate`:
+    verifies the real matrix kernel contains `e₃-e₄` and `e₄-e₅`, every
+    real kernel vector is a real linear combination of those two directions,
+    and the two displayed directions have independent coefficients over `ℝ`.
+  - `M_Rees_realKernelEquiv`:
+    identifies the real matrix kernel with `ℝ × ℝ` by the `p3` and `p4`
+    coordinates.
+  - `M_Rees_real_kernel_finrank`:
+    `Module.finrank ℝ (LinearMap.ker M_Rees.mulVecLin) = 2`.
+  - `M_Rees_rank`:
+    `Matrix.rank M_Rees = 2`.
+  - `M_Rees_signatureCoord`:
+    linear equivalence `E10R ≃ₗ[ℝ] (ℝ × ℝ × ℝ × ℝ)` with coordinates
+    `(p2, p3, p4, total sum)`.
+  - `M_Rees_signatureCoord_quad`:
+    `M_Rees_quadR x = (M_Rees_signatureCoord x).2.2.2 ^ 2 -
+    2 * (M_Rees_signatureCoord x).1 ^ 2`.
+  - `M_Rees_signature`:
+    `Matrix.rank M_Rees = 2 ∧ ∃ pos neg zdim, pos = 1 ∧ neg = 1 ∧
+    zdim = 2 ∧ pos + neg = Matrix.rank M_Rees ∧
+    zdim = Module.finrank ℝ (LinearMap.ker M_Rees.mulVecLin)`.
+  - `SR15_SIGN_ARITHMETIC_OPEN`:
+    named Stage 15F checkpoint recording that the Selberg/Weil derivation of
+    `Interior ↦ -1`, `Exit ↦ +1` is not formalized in the current Lean base.
+- Proof strategy used:
+  - Expanded the compact Stage 14 definition of `I_SR_Rees`.
+  - Used `ring`/`linarith` for the square formula and inequality transport.
+  - Used the Stage 14 negative radical witness and positive counterexample
+    to classify the narrowed sector.
+  - Proved the exact radical criterion by testing against `e 3` and `e 2`,
+    then expanding the bilinear formula.
+  - Expanded `M_Rees.mulVec` through the finite `SupportIndex6` sum to prove
+    the real matrix kernel criterion and two-generator certificate.
+  - Built a linear equivalence from the real kernel to `ℝ × ℝ`, then used
+    rank-nullity for `M_Rees.mulVecLin` to prove `Matrix.rank M_Rees = 2`.
+  - Built explicit signature coordinates `(p2,p3,p4,sum)` on `E10R` and
+    verified the diagonal real quadratic form `sum² - 2*p2²`, giving one
+    positive square, one negative square, and two zero/radical coordinates.
+- Mathlib lemmas/objects used:
+  - `Matrix`
+  - `Matrix.rank`
+  - `LinearEquiv.finrank_eq`
+  - `LinearMap.finrank_range_add_finrank_ker`
+  - `Module.finrank_fintype_fun_eq_card`
+  - `rw`
+  - `ring`
+  - `linarith`
+  - `norm_num`
+  - `le_of_lt`
+  - `omega`
+- Fidelity note:
+  - `Matrix.rank M_Rees = 2`, nullity `2`, and the finite signature
+    certificate `(pos=1, neg=1, zero=2)` are now formalized in Lean through an
+    explicit diagonal coordinate equivalence. This is not a mathlib
+    eigenvalue/inertia API theorem; it is a direct finite-coordinate
+    certificate. The remaining fidelity wall is the Selberg/Weil derivation
+    of the sign convention `Interior ↦ -1`, `Exit ↦ +1`.
+- Date: 2026-09-06
+
 ## Stage 14 - Full-Support I_SR and Rees-Signed Intersection Form
 
 - Stable IDs: SR.14A.1 through SR.14C.3, with outcome IDs

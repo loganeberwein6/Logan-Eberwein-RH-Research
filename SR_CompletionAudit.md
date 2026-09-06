@@ -370,3 +370,72 @@ Stage 14 has been formalized as the X=6 full-support and Rees-sign audit.
   - A general theorem `∀ x ∈ P_SR_phys, I_SR_Rees x x ≤ 0` is Lean-refuted
     for the present candidate primitive sector/form pair and should not be
     claimed.
+
+## Stage 15 status
+
+Stage 15 has been partially formalized as a compiled signature/sector audit.
+
+- Stage 15A:
+  - `M_Rees : Matrix SupportIndex6 SupportIndex6 ℝ` records the X=6 Rees
+    sign matrix.
+  - `M_Rees_apply` and the entry checks verify that the matrix entries are
+    exactly the Stage 14 sign table.
+  - `I_SR_Rees_bilinear_formula` proves the general bilinear expression.
+  - `M_Rees_signature_witnesses` proves the form has a positive direction, a
+    negative direction, and a nonzero radical direction.
+  - `M_Rees_has_two_named_radical_directions` verifies the explicit radical
+    directions `e₃-e₄` and `e₄-e₅`.
+  - `M_Rees_form_radical_iff` proves the exact radical criterion:
+    `M_Rees_form_radical x ↔ E10_realSupportSum x = 0 ∧
+    (x PrimeIndex6.p2).re = 0`.
+  - `M_Rees_real_kernel_two_direction_certificate` proves the real matrix
+    kernel contains the two displayed directions `e₃-e₄` and `e₄-e₅`, every
+    real kernel vector is a real linear combination of them, and the two
+    directions have independent coefficients.
+  - `M_Rees_realKernelEquiv` identifies the real matrix kernel with `ℝ × ℝ`.
+  - `M_Rees_real_kernel_finrank` proves the real matrix kernel has finrank
+    `2`.
+  - `M_Rees_rank` proves the requested matrix-rank statement:
+    `Matrix.rank M_Rees = 2`.
+  - `M_Rees_signatureCoord` gives explicit real signature coordinates
+    `(p2,p3,p4,total sum)`.
+  - `M_Rees_signatureCoord_quad` proves the diagonal form:
+    `M_Rees_quadR x = sum^2 - 2*p2^2` in those coordinates.
+  - `M_Rees_signature` packages the full finite signature certificate:
+    `pos=1`, `neg=1`, `zero=2`, with `pos+neg = Matrix.rank M_Rees` and
+    `zero = Module.finrank ℝ (LinearMap.ker M_Rees.mulVecLin)`.
+  - This is a direct coordinate certificate, not a mathlib eigenvalue/inertia
+    API theorem.
+- Stage 15B:
+  - `I_SR_Rees_formula` proves the clean square formula:
+    `I_SR_Rees x x = E10_realSupportSum x ^ 2 -
+    2 * (x PrimeIndex6.p2).re ^ 2`.
+  - This confirms the unique negative contribution comes from the single
+    interior product `(2,2)` at X=6.
+- Stage 15C:
+  - `P_SR_phys_true` is defined as the logarithmic kernel intersected with
+    the nonpositive Rees cone.
+  - `P_SR_phys_true_sign` proves the sign theorem on this narrowed sector.
+  - Audit caveat: this sign theorem is tautological because the nonpositive
+    condition is part of the sector definition.
+- Stage 15D:
+  - `radical_witness_in_true_phys` proves the original radical witness is
+    retained.
+  - `counterexample_not_in_true_phys` proves the Stage 14 positive
+    counterexample is excluded.
+- Stage 15E:
+  - `P_SR_phys_true_arithmetic_char` gives the independent-looking finite
+    arithmetic characterization:
+    `x ∈ ker(L)` and
+    `E10_realSupportSum x ^ 2 ≤ 2 * (x PrimeIndex6.p2).re ^ 2`.
+  - The coefficient `2` is arithmetically tied to the unique interior product
+    at X=6, modulo the Stage 14 sign convention.
+- Stage 15F:
+  - No Selberg explicit-formula derivation of the sign convention has been
+    formalized.
+  - Current verdict: finite signature/sector analysis is verified, but
+    `SR.15.SIGN_ARITHMETIC` is not proved.
+  - Remaining wall: prove arithmetically that interior Rees products carry
+    negative sign, or record that sign as an explicit extra structure.
+
+RH remains open.

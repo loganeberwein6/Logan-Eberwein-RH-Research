@@ -223,3 +223,88 @@ strictly positive `I_SR_Rees` square.  Therefore a future full Hodge-Riemann
 sign theorem needs additional data, such as a sharper primitive sector than the
 whole logarithmic kernel, or a richer signed form than the current compact
 X=6 Rees sign table.
+
+## Stage 15 remaining signature/sign-convention data
+
+Date: 2026-09-06
+
+Lean verified the compact formula:
+
+```lean
+I_SR_Rees x x =
+  E10_realSupportSum x ^ 2 - 2 * (x PrimeIndex6.p2).re ^ 2
+```
+
+and the narrowed true-sector characterization:
+
+```lean
+P_SR_phys_true x ↔
+  x ∈ LinearMap.ker E10_logWeightSumLinear ∧
+  E10_realSupportSum x ^ 2 ≤ 2 * (x PrimeIndex6.p2).re ^ 2
+```
+
+Lean also verified the exact Rees-bilinear radical criterion:
+
+```lean
+M_Rees_form_radical x ↔
+  E10_realSupportSum x = 0 ∧ (x PrimeIndex6.p2).re = 0
+```
+
+with two named nonzero radical directions `e₃-e₄` and `e₄-e₅`.
+
+Lean further verified the real matrix-kernel certificate:
+
+```lean
+M_Rees_real_radical_direction_34 ∈ LinearMap.ker M_Rees.mulVecLin
+M_Rees_real_radical_direction_45 ∈ LinearMap.ker M_Rees.mulVecLin
+∀ x ∈ LinearMap.ker M_Rees.mulVecLin,
+  ∃ a b : ℝ,
+    x = a • M_Rees_real_radical_direction_34 +
+        b • M_Rees_real_radical_direction_45
+∀ a b : ℝ,
+  a • M_Rees_real_radical_direction_34 +
+      b • M_Rees_real_radical_direction_45 = 0 →
+    a = 0 ∧ b = 0
+```
+
+Lean then upgraded this certificate to formal rank/nullity statements:
+
+```lean
+M_Rees_realKernelEquiv :
+  (LinearMap.ker M_Rees.mulVecLin) ≃ₗ[ℝ] (ℝ × ℝ)
+
+M_Rees_real_kernel_finrank :
+  Module.finrank ℝ (LinearMap.ker M_Rees.mulVecLin) = 2
+
+M_Rees_rank :
+  Matrix.rank M_Rees = 2
+```
+
+Lean further packaged the finite signature by explicit coordinates:
+
+```lean
+M_Rees_signatureCoord :
+  E10R ≃ₗ[ℝ] (ℝ × ℝ × ℝ × ℝ)
+
+M_Rees_signatureCoord_quad :
+  M_Rees_quadR x =
+    (M_Rees_signatureCoord x).2.2.2 ^ 2 -
+      2 * (M_Rees_signatureCoord x).1 ^ 2
+
+M_Rees_signature :
+  Matrix.rank M_Rees = 2 ∧
+    ∃ pos neg zdim : ℕ,
+      pos = 1 ∧ neg = 1 ∧ zdim = 2 ∧
+        pos + neg = Matrix.rank M_Rees ∧
+        zdim = Module.finrank ℝ (LinearMap.ker M_Rees.mulVecLin)
+```
+
+Still needed:
+
+- optionally, if future work needs it, a translation of the direct coordinate
+  signature certificate into a mathlib eigenvalue/inertia API theorem;
+- a non-tautological, independently arithmetic definition of the physical
+  sector if `P_SR_phys_true` is to do more than encode the sign inequality;
+- a Selberg/Weil derivation of the sign convention
+  `Interior ↦ -1`, `Exit ↦ +1`, or an explicit declaration of that convention
+  as additional structure.
