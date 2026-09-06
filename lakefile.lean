@@ -54,3 +54,6 @@ lean_lib SR_Lefschetz where
 
 lean_lib SR_HermitianForm where
   roots := #[`SR_HermitianForm]
+
+lean_lib SR_ISR where
+  roots := #[`SR_ISR]

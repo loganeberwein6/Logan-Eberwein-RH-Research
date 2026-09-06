@@ -13,6 +13,7 @@ import SR_PoincareDuality
 import SR_LefschetzDiagnosis
 import SR_Lefschetz
 import SR_HermitianForm
+import SR_ISR
 
 namespace SR
 
@@ -449,5 +450,47 @@ Nothing enters this file unless the corresponding Lean target compiles.
 
 /- SR.12.RECONCILE: Hermitian positivity plus Weil-zero checkpoint. -/
 #check sign_reconciliation_stage12
+
+/- SR.13A.1: SR Weil operator induced by dagger on E10. -/
+#check C_SR
+
+/- SR.13A.2: The SR Weil operator is identity on degree one. -/
+#check C_SR_eq_id
+
+/- SR.13.WEIL_SR: H_SR is positive against C_SR. -/
+#check HR_C_SR_positive
+
+/- SR.13.WEIL_SR_QUOTIENT: H_SR is strictly positive against C_SR off the logarithmic kernel. -/
+#check HR_C_SR_positive_quotient
+
+/- SR.13B.1: Diagonal E10 to E11 embedding used by I_SR. -/
+#check embed_E10_E11
+
+/- SR.13B.2: Finite GNS/E11 Selberg-Rees pairing. -/
+#check I_SR
+
+/- SR.13B.3: Current I_SR observes only the e2 coordinate. -/
+#check I_SR_eq_observed_coordinate
+
+/- SR.13B.4: I_SR basis statement through the diagonal embedding. -/
+#check I_SR_basis
+
+/- SR.13B.5: I_SR(e2,e2)=1. -/
+#check I_SR_e2_e2
+
+/- SR.13C.1: Exact value on the Stage 10 radical witness. -/
+#check I_SR_radical_witness_value
+
+/- SR.13.SIGN_WRONG: The Stage 10 radical witness has positive I_SR value. -/
+#check I_SR_sign_wrong_on_radical_witness
+
+/- SR.13.SIGN_NG: I_SR is not nonpositive on the full PD radical. -/
+#check not_I_SR_nonpos_on_PD_radical
+
+/- SR.13D.1: RH-adjacent placeholder; analytic bridge not yet formalized. -/
+#check RH_adjacent_statement
+
+/- SR.13.OUTCOME: SR Weil positivity plus current I_SR sign conflict. -/
+#check stage13_outcome
 
 end SR

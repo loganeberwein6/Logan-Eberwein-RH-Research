@@ -32,6 +32,54 @@
   - `Module.finrank_fintype_fun_eq_card`
 - Date: 2026-09-05
 
+## Stage 13 - I_SR Formalization and SR Weil Operator
+
+- Stable IDs: SR.13A.1 through SR.13D.1, with outcome IDs
+  `SR.13.WEIL_SR`, `SR.13.SIGN_WRONG`, and `SR.13.OUTCOME`.
+- Outcome:
+  - The SR Weil operator induced by degree-one dagger is the identity on
+    `E10`.
+  - `H_SR(x, C_SR x)` is nonnegative for all `x` and strictly positive away
+    from `LinearMap.ker E10_logWeightSumLinear`.
+  - The current finite GNS/E11 definition of `I_SR` is not the desired signed
+    physical primitive form: it is positive on the known Stage 10 radical
+    witness.
+- Theorem/object statements:
+  - `C_SR : E10 →ₗ[ℂ] E10`
+  - `C_SR_eq_id : C_SR = LinearMap.id`
+  - `C_SR_basis : ∀ i : SupportIndex6, C_SR (e i.toNat) = e i.toNat`
+  - `HR_C_SR_positive : ∀ x : E10, 0 ≤ Complex.re (H_SR x (C_SR x))`
+  - `HR_C_SR_positive_quotient : ∀ x : E10, x ∉ LinearMap.ker E10_logWeightSumLinear → 0 < Complex.re (H_SR x (C_SR x))`
+  - `embed_E10_E11 : E10 →ₗ[ℂ] E11`
+  - `I_SR : E10 → E10 → ℂ`
+  - `I_SR_eq_observed_coordinate : ∀ x y : E10, I_SR x y = star (x PrimeIndex6.p2) * y PrimeIndex6.p2`
+  - `I_SR_e2_e2 : I_SR (e 2) (e 2) = 1`
+  - `I_SR_radical_witness_value : I_SR PD_radical_witness PD_radical_witness = (Real.log 3 : ℂ) * (Real.log 3 : ℂ)`
+  - `I_SR_radical_witness_pos : 0 < Complex.re (I_SR PD_radical_witness PD_radical_witness)`
+  - `not_I_SR_nonpos_on_PD_radical : ¬ ∀ x : E10, PD_radical x → Complex.re (I_SR x x) ≤ 0`
+  - `RH_adjacent_statement : True`
+  - `stage13_outcome`
+- Proof strategy used:
+  - Define `C_SR` using the existing degree-one dagger `dagger_10`.
+  - Reduce Weil positivity to the Stage 12 Hermitian positivity theorems.
+  - Reuse the verified Stage 11 diagonal embedding `E10_to_E11_diag` as
+    `embed_E10_E11`.
+  - Define `I_SR x y = Gamma_obs (dagger (embed_E10_E11 x) * embed_E10_E11 y)`.
+  - Compute the form exactly as `conj(x₂) * y₂`, because `Gamma_obs` reads
+    only the `(2,2)` coefficient.
+  - Evaluate the Stage 10 radical witness
+    `log(3)e₂ - log(2)e₃`; its observed coordinate is `log(3)`, so
+    `I_SR(w,w)` has real part `(log 3)^2 > 0`.
+- Mathlib lemmas/objects used:
+  - `LinearMap.id`
+  - `E11_mul_coeff`
+  - `Real.log_pos`
+  - `Complex.ofReal_re`
+  - `not_le_of_gt`
+  - `nlinarith`
+  - `simp`
+- Date: 2026-09-05
+
 ## Stage 12 - Hermitian Hodge Form
 
 - Stable IDs: SR.12A.1 through SR.12G.1.

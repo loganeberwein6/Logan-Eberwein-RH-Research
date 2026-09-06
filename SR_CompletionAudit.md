@@ -284,3 +284,42 @@ Stage 11 sign failure.
     operator is not the SR Hodge-Riemann operator.
   - `I_SR(Z₀,Z₀) ≤ 0` remains a Stage 13 bridge problem, not a consequence of
     the positive Hermitian norm alone.
+
+## Stage 13 status
+
+Stage 13 has been formalized as an SR Weil/operator and `I_SR` sign audit.
+
+- Stage 13A:
+  - `C_SR` is implemented from the degree-one dagger.
+  - `C_SR_eq_id` and `C_SR_basis` verify that this operator is identity on
+    `E10`.
+  - `HR_C_SR_positive` verifies `H_SR(x, C_SR x) ≥ 0`.
+  - `HR_C_SR_positive_quotient` verifies strict positivity away from
+    `LinearMap.ker E10_logWeightSumLinear`.
+- Stage 13B:
+  - `embed_E10_E11` reuses the previously verified diagonal embedding
+    `E10_to_E11_diag`.
+  - `I_SR` is implemented as
+    `Gamma_obs (dagger (embed_E10_E11 x) * embed_E10_E11 y)`.
+  - `I_SR_eq_observed_coordinate` verifies the exact current formula:
+    `I_SR x y = conj(x₂) * y₂`.
+  - `I_SR_e2_e2` verifies the observable is nonzero at `e₂`.
+- Stage 13C:
+  - `I_SR_radical_witness_value` computes the Stage 10 radical witness square
+    as `(log 3)^2`.
+  - `I_SR_radical_witness_pos` verifies this value is positive.
+  - `not_I_SR_nonpos_on_PD_radical` refutes nonpositivity on the full
+    `PD_radical`.
+- Stage 13D:
+  - `RH_adjacent_statement : True` records the analytic target only as an
+    explicit placeholder. No RH consequence is proved.
+- Interpretation:
+  - Outcome 3 applies for the current finite GNS/E11 `I_SR`.
+  - The SR Weil operator repaired the Stage 12 Weil-zero issue for the
+    positive Hermitian form.
+  - The GNS/E11 `I_SR` presently available is a singleton observed positive
+    form, not the signed physical intersection form required for
+    `I_SR(Z₀,Z₀) ≤ 0`.
+  - Stage 14 should construct the missing signed intersection datum or define
+    `P_SR^phys` sharply enough that the current positive radical witness is
+    outside the physical primitive sector.

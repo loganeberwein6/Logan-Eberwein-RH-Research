@@ -161,3 +161,24 @@
     use `H_SR(x, Cx)` directly;
   - or a proof that the physical primitive sector uses `I_SR`, not the
     positive Hermitian norm form.
+
+## Stage 13 signed intersection data still needed
+
+- Stage 13 verifies that `C_SR`, the degree-one dagger-induced Weil operator,
+  is the identity and gives positive Hermitian HR content through `H_SR`.
+- Stage 13 also verifies that the current finite GNS/E11 form
+  `I_SR x y = Gamma_obs (dagger (embed_E10_E11 x) * embed_E10_E11 y)` is
+  not the desired signed physical intersection form.
+- Missing structure:
+  - a signed SR intersection functional distinct from the singleton
+    `(2,2)` observable `Gamma_obs`; or
+  - a formal definition of the physical primitive sector `P_SR^phys` that
+    excludes the Stage 10 radical witness; or
+  - a sign-twisted comparison map between `H_SR` and the intended `I_SR`; or
+  - a full-support GNS/trace observable whose radical/sign behavior matches
+    the Selberg-Rees physical form.
+- Exact obstruction:
+  - Current theorem `I_SR_eq_observed_coordinate` proves the finite `I_SR`
+    only sees the `e₂` coordinate.
+  - Current theorem `I_SR_radical_witness_pos` proves the known radical
+    witness has positive `I_SR` square.

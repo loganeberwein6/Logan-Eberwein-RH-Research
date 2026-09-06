@@ -612,3 +612,31 @@ in the application
     classical Weil operator is not the SR Hodge-Riemann operator.
   - Stage 13 must define the correct signed `I_SR` bridge or an SR-specific
     Weil action.
+
+## Stage 13 - current GNS/E11 I_SR has wrong physical sign
+
+- Date: 2026-09-05
+- Classification: MATHEMATICAL OBSTRUCTION / singleton GNS observable gives
+  positive radical value
+- Requested test:
+  - Define `I_SR x y = Gamma_obs (dagger (embed_E10_E11 x) * embed_E10_E11 y)`.
+  - Test the Stage 10 radical witness
+    `PD_radical_witness = log(3)e₂ - log(2)e₃`.
+- Lean-verified result:
+  - `I_SR_eq_observed_coordinate :
+      ∀ x y : E10,
+        I_SR x y = star (x PrimeIndex6.p2) * y PrimeIndex6.p2`
+  - `I_SR_radical_witness_pos :
+      0 < Complex.re (I_SR PD_radical_witness PD_radical_witness)`
+  - `not_I_SR_nonpos_on_PD_radical :
+      ¬ ∀ x : E10, PD_radical x → Complex.re (I_SR x x) ≤ 0`
+- First failed equation:
+  - The current GNS observable sees only the `(2,2)` coordinate.
+  - The radical witness has `e₂` coordinate `log(3)`.
+  - Therefore the current `I_SR` evaluates the witness to
+    `conj(log 3) * log 3`, whose real part is `(log 3)^2 > 0`.
+- Consequence:
+  - Outcome 3 applies for the current finite `I_SR` construction.
+  - The desired physical sign `I_SR(Z₀,Z₀) ≤ 0` requires an additional
+    signed intersection datum, a different physical primitive sector, or a
+    different/full-support SR observable.
