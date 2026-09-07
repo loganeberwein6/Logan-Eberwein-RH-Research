@@ -60,3 +60,12 @@ lean_lib SR_ISR where
 
 lean_lib SR_ISR_Full where
   roots := #[`SR_ISR_Full]
+
+lean_lib SR_Signature where
+  roots := #[`SR_Signature]
+
+lean_lib SR_Flow where
+  roots := #[`SR_Flow]
+
+lean_lib SR_Balance where
+  roots := #[`SR_Balance]

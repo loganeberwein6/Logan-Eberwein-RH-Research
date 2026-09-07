@@ -439,3 +439,160 @@ Stage 15 has been partially formalized as a compiled signature/sector audit.
     negative sign, or record that sign as an explicit extra structure.
 
 RH remains open.
+
+## Stage 17 status
+
+Stage 17 has been formalized as a balance/no-go audit rather than as the
+unrestricted conservation theorem.
+
+- Stage 17A:
+  - `M_Rees_general` defines a general finite Rees sign matrix from a rational
+    cutoff and a finite support map.
+  - `M_Rees_general_entry_symm` proves the matrix entries are symmetric,
+    using commutativity of multiplication.
+- Stage 17B:
+  - `signature_table` repackages the Stage 16 computed signatures:
+    `X=5/2 : (1,0,0)`, `X=6 : (1,1,2)`, and `X=30 : (3,3,4)`.
+  - `balance_at_computed_X` proves the computed balance facts
+    `p(6)=q(6)` and `p(30)=q(30)`.
+- Stage 17C/D:
+  - The unrestricted target `p(X)=q(X)` for every `X ≥ 6` fails for the raw
+    Rees matrix.
+  - `BalanceSupport7` uses the finite support `{2,3,5}` at cutoff `X=7`.
+  - `M_Rees_X7_counterexample_entries` verifies the matrix
+    `!![-1,-1,1; -1,1,1; 1,1,1]`.
+  - `M_Rees_X7_neg_eigen`, `M_Rees_X7_pos_one_eigen`, and
+    `M_Rees_X7_pos_two_eigen` verify explicit eigenvector equations with
+    eigenvalues `-2`, `1`, and `2`.
+  - `M_Rees_signature_X7_counterexample` records the resulting signature
+    summary `(2,1,0)`.
+  - `balance_fails_at_X7_counterexample` proves `p ≠ q` for that summary.
+  - `SR17_NG_BALANCE` records the no-go theorem.
+  - `SR17_COMPUTATIONAL` records the final Stage 17 computational state:
+    balance holds at the computed `X=6` and `X=30` cutoffs, but not
+    universally for the unrestricted raw-matrix formulation.
+
+Interpretation:
+
+- The Stage 16 balance pattern is real for the computed cutoffs.
+- The raw structural symmetry `M(m,n)=M(n,m)` is not enough to force
+  signature balance.
+- Therefore Stage 17 does not close the tautological physical-sector problem,
+  does not derive the sign convention, and does not provide a general
+  W-entropy conservation law.
+- A future balance theorem needs an additional arithmetic support-growth
+  condition, a different invariant, or a narrower cutoff regime excluding the
+  `X=7`, `{2,3,5}` counterexample.
+
+RH remains open.
+
+## Stage 16 status
+
+Stage 16 has been formalized as a compiled finite arithmetic-flow certificate
+layer in `SR_Flow.lean`, exposed through the `SR_Flow` lake target.  The
+earlier uncompiled draft was archived as `SR_Flow_draft_20260906.lean`.
+
+- Stage 16A:
+  - `M_Rees_X` defines the cutoff-dependent Rees sign matrix over `ℝ` from the
+    primitive grade: `Interior ↦ -1`, `Exit ↦ +1`.
+  - Explicit support labels are present for `X = 5/2`, `X = 6`, and `X = 30`.
+  - The recorded signature table is:
+    - `X = 5/2`: `(1,0,0)`
+    - `X = 6`: `(1,1,2)`, matching the Stage 15 frozen result
+    - `X = 30`: `(3,3,4)` as a finite certificate target.
+  - `X30_four_radical_witnesses` verifies four explicit row-kernel witnesses
+    for the X=30 matrix, supporting the recorded `zero=4` sector.  The theorem
+    does not yet prove maximality of the kernel or the positive/negative split.
+  - `X30_reducedMatrixInt_det` verifies determinant `-2048` for the six-class
+    quotient model, giving a compiled nonsingularity certificate for the
+    radical quotient used by the recorded X=30 signature.
+  - `X30_reducedInertiaCertificate` records the reduced quotient inertia split
+    `pos=3, neg=3` from the congruence-pivot certificate
+    `[-1, 2, -2, 32]` plus final determinant block `-16`.
+  - `dot30_eq_classMass_formula` proves that the full X=30 row-dot action
+    factors through six class masses, supplying the current formal bridge from
+    the 10-coordinate matrix to the six-class quotient model.
+  - `X30_signature_reduction_certificate` packages the recorded X=30 signature
+    tuple with the current radical, quotient, determinant, and reduced-inertia
+    evidence.
+- Stage 16B:
+  - `interiorProductCount` now computes the ordered interior-product count by
+    explicit finite support-list enumeration:
+    `N_int(5/2)=0`, `N_int(6)=1`, and `N_int(30)=17`.
+  - `q_monotone_hypothesis` verifies negative-count monotonicity for the three
+    recorded cutoffs: `0 ≤ 1 ≤ 3`.
+  - `signatureIndexNumerator` and `signatureIndexDenominator` define the
+    finite signature-index bookkeeping.
+  - `logWeightedInteriorSum` is now the finite `Real.log` support-list sum.
+    `logWeightedInteriorSum_X52_recorded_value` verifies `S(5/2)=0`, and
+    `logWeightedInteriorSum_X6_value` verifies `S(6)=log(2)^2`.
+    `logWeightedInteriorSum_X30_value` expands `S(30)` to the 17 ordered
+    interior-product log terms.
+  - `XSquaredHalfBenchmark_X52`, `XSquaredHalfBenchmark_X6`, and
+    `XSquaredHalfBenchmark_X30` compute the comparison benchmarks
+    `X²/2 = 25/8, 18, 450` at the three cutoffs.  The
+    `logWeightedComparison_*_records` package each finite `S(X)` value with
+    its benchmark.  The asymptotic comparison remains future work.
+- Stage 16C:
+  - `SR_flow_entry_update` proves the pointwise crossing values `+1` and `-1`.
+  - `SR_flow_entry_update_minus_two` proves the exact pointwise `-2` update:
+    when an entry crosses `Exit → Interior`, its sign changes by `-2`.
+  - `FlowEntryUpdateRecord` and `q22_X52_to_X6_updateRecord` record the
+    concrete `q₂₂` crossing from `X=5/2` to `X=6` as first-order data:
+    old sign `+1`, new sign `-1`, delta `-2`.  The theorem
+    `q22_X52_to_X6_updateRecord_matches_kernel` verifies that the record
+    matches the actual `M_Rees_X` entries.
+  - 2026-09-07 audit note: two attempts to promote this to a whole-kernel
+    rank-one update theorem were archived in `SR_Failures.md` after repeated
+    capped build stalls.  The verified Stage 16C result is therefore the
+    scalar entry update, not yet the full matrix/rank-one theorem requested in
+    the ideal Stage 16 specification.
+- Stage 16D:
+  - `SR_dBN_conjecture_statement` records the de Bruijn-Newman correspondence
+    as stated/open.  No theorem connects SR signatures to Riemann-zero counts.
+  - `SRdBNBridgeScaffold` now names the four Lean-visible pieces of the
+    conjectural bridge: interior products as near terms, sign flip as heat
+    localization, signature tracking of zero counts, and the still-open limit
+    argument.  `SRdBN_conjectural_bridge_recorded` packages those recorded
+    claims without promoting them to a proof of the correspondence.
+- Stage 16E:
+  - `flow_produces_negative_eigenvalues` verifies that the finite flow goes from
+    `(1,0,0)` at `X = 5/2` to a tuple with `neg = 1` at `X = 6`.
+  - `SR16_SIGN_FROM_FLOW` is therefore a partial sign-origin result: negative
+    signature content appears along the arithmetic flow.  It does not yet prove
+    the sign convention from Selberg/Weil analysis.
+- Stage 16F:
+  - `SR_flow_fixed_point_proxy` defines the finite proxy.
+  - `X52_not_fixed_against_X6` and `X6_not_fixed_against_X30` show the two
+    computed transitions are not fixed under that proxy.
+  - `FlowTransitionRecord`, `transition_X52_X6`, and `transition_X6_X30`
+    encode the same two transitions as low-elaboration first-order records.
+    `computed_transition_records_not_fixed` proves both recorded transitions
+    fail the fixed-point proxy without dependent cutoff wrappers.
+  - `SR_flow_fixed_point` now states the requested fixed-point shape relative
+    to a signature oracle `Rat → SignatureSummary`.  `computedSignatureOracle`
+    supplies the three Stage 16 cutoff signatures, and
+    `computed_oracle_has_no_fixed_initial_cutoffs` proves the two initial
+    computed cutoffs are not fixed under that oracle.
+  - `SR16_FIXED_POINT_OPEN` records the universal finite fixed-point theorem as
+    future work.
+- Stage 16G:
+  - `stage16_synthesis` packages the compiled finite-flow facts and open
+    checkpoints.
+
+Open and precisely located after Stage 16:
+
+1. Full Selberg/Weil derivation of `Interior ↦ -1`, `Exit ↦ +1`.
+2. Direct X=30 matrix rank/inertia theorem packaging the existing class-mass
+   factorization, four radical witnesses, reduced determinant, and reduced
+   `3/3` split into Mathlib's `Matrix.rank`/kernel-finrank interface.
+3. Asymptotic comparison of the finite logarithmic sums to `X^2/2`.
+4. The `X → ∞` limit argument.
+5. The SR/de Bruijn-Newman correspondence connecting signature evolution to
+   actual zero counts.
+
+Distance from RH proof:
+
+The project now has a dynamic finite-flow scaffold, but RH would still require
+an analytic bridge from SR signature evolution to zeta-zero locations and a
+limit theorem.  No RH consequence has been proved.

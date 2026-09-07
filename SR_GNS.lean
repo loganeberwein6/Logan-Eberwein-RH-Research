@@ -21,6 +21,22 @@ theorem Gamma_obs_h22 :
     Gamma_obs (h 2 2) = 1 := by
   norm_num [Gamma_obs, h, E11.coeff, PrimeIndex6.ofNat?, basisValue]
 
+/-- Constructor-indexed `(1,1)` basis vector, avoiding natural-label lookup. -/
+def hIdx (i j : PrimeIndex6) : E11 :=
+  ULift.up fun current => basisValue (i, j) current
+
+/--
+The current observed GNS functional kills the off-diagonal product
+`h₂₂ * h₃₃` when basis labels are supplied constructor-directly.
+-/
+theorem E11_mul_hIdx_p2p2_p3p3_coeff_p2p2_zero :
+    hIdxDProductCoeff_p2p2_p3p3_at_p2p2 = 0 := by
+  exact E11_mul_hIdxD_p2p2_p3p3_coeff_p2p2_zero
+
+theorem Gamma_obs_apply (x : E11) :
+    Gamma_obs x = x.coeff (PrimeIndex6.p2, PrimeIndex6.p2) := by
+  rfl
+
 /--
 Positive observed mass for the mixed GNS functional.
 
@@ -100,6 +116,9 @@ theorem GNS_raw_extension_exists :
 
 #check Gamma_obs
 #check Gamma_obs_h22
+#check hIdx
+#check E11_mul_hIdx_p2p2_p3p3_coeff_p2p2_zero
+#check Gamma_obs_apply
 #check GNS_positive
 #check GNS_positive_correct
 #check Gamma_obs_domain_E11

@@ -939,3 +939,321 @@ M_Rees_signature
 The final theorem `M_Rees_signature` compiles and certifies
 `pos=1`, `neg=1`, `zero=2` together with `Matrix.rank M_Rees = 2` and
 kernel finrank `2`.
+
+## Stage 16 — arithmetic-flow repair attempts
+
+Date: 2026-09-06
+
+Command:
+
+```text
+lake -Kjobs=1 build SR_Flow
+```
+
+Failure class: performance and import/proof-shape failures while constructing
+the first Stage 16 module.
+
+Observed blockers:
+
+- Importing `SR_Signature` pulled the full Stage 15 dependency chain into the
+  new target.  This caused long replay segments before any Stage 16 line was
+  checked.
+- A generic `Matrix`-typed `M_Rees_X` plus finite `native_decide` counting
+  caused expensive elaboration without useful line-local feedback.
+- Importing `Mathlib.Analysis.SpecialFunctions.Log.Basic` for the planned
+  logarithmic sum was unnecessary for the first compiling flow certificate and
+  added heavy replay cost.
+- With only `SR_Primitives`, Lean did not know the `ℚ` notation/Rat numeric
+  instances/tactic stack needed by the draft:
+
+```text
+failed to synthesize instance of type class OfNat ℚ 5
+unknown tactic
+failed to synthesize Decidable ¬SR_flow_fixed_point_proxy ...
+```
+
+Resolution:
+
+- Preserved the initial `SR_Flow.lean` draft as historical work, later archived
+  as `SR_Flow_draft_20260906.lean`.
+- Added the compiling Stage 16 module and moved it into `SR_Flow.lean` once the
+  draft was archived.
+- Routed the `SR_Flow` lake target to `SR_Flow`.
+- Replaced the full matrix import with a lightweight binary `ReesSignKernel`.
+- Used `Mathlib.Data.Rat.Defs` for Rat support.
+- Replaced expensive `native_decide`/generic finite enumeration with explicit
+  finite certificate theorems and open checkpoints for the analytic bridge.
+
+Outcome:
+
+```text
+lake -Kjobs=1 build SR_Flow
+Build completed successfully
+```
+
+### Stage 17 finite eigenvector sum expansion — 2026-09-07
+
+- Initial proof attempt for the three `X=7` eigenvector equations used:
+
+```lean
+norm_num [Matrix.mulVec, dotProduct, M_Rees_X7_counterexample,
+  M_Rees_general, BalanceSupport7, vX7_neg]
+```
+
+- Lean left unsolved finite sums over `Fin 3`, e.g.
+
+```text
+⊢ (∑ x,
+      if 2 * ↑(match x with | ⟨0, _⟩ => 2 | ⟨1, _⟩ => 3 | ⟨2, _⟩ => 5) < 7
+      then -match x with | ⟨0, _⟩ => 2 | ⟨1, _⟩ => 1 | ⟨2, _⟩ => -1
+      else  match x with | ⟨0, _⟩ => 2 | ⟨1, _⟩ => 1 | ⟨2, _⟩ => -1) = -4
+```
+
+- Resolution: expose the finite sum with `Fin.sum_univ_three`, then
+  `norm_num` closes all three eigenvector equations.
+
+Outcome:
+
+```text
+lake -Kjobs=1 build SR_Balance
+Build completed successfully
+```
+
+### Stage 16 enriched synthesis type/term correction — 2026-09-07
+
+- Attempted to state the final synthesis package with theorem names in
+  proposition position:
+
+```lean
+SR_dBN_conjecture_statement ∧ SR16_FIXED_POINT_OPEN
+```
+
+- Lean rejected this because `SR_dBN_conjecture_statement` and
+  `SR16_FIXED_POINT_OPEN` are proof terms of type `True`, not proposition
+  types:
+
+```text
+Application type mismatch: The argument
+  SR_dBN_conjecture_statement
+has type
+  True
+of sort `Prop` but is expected to have type
+  Prop
+of sort `Type` in the application
+  And SR_dBN_conjecture_statement
+```
+
+- Resolution: the enriched synthesis theorem now states the final two
+  placeholders as `True ∧ True` and uses the theorem names as witnesses.
+
+Outcome:
+
+```text
+lake -Kjobs=1 build SR_Flow
+Build completed successfully
+```
+
+### Stage 16 finite package repair — 2026-09-07
+
+Command:
+
+```text
+lake -Kjobs=1 build SR_Flow
+```
+
+Failure:
+
+```text
+error: SR_Flow.lean:532:2: Application type mismatch: The argument
+  X30_signature_reduction_certificate
+has type
+  X30SignatureReductionEvidence
+of sort `Prop` but is expected to have type
+  Prop
+of sort `Type` in the application
+  And X30_signature_reduction_certificate
+
+error: SR_Flow.lean:533:2: Application type mismatch: The argument
+  SR_flow_entry_update_minus_two FlowX52 6 FlowSupport52 FlowSupport52.toNat FlowSupport52.p2 FlowSupport52.p2
+    grade_22_X52_exit grade_22_X6_interior
+has type
+  M_Rees_X 6 FlowSupport52 FlowSupport52.toNat FlowSupport52.p2 FlowSupport52.p2 =
+    M_Rees_X FlowX52 FlowSupport52 FlowSupport52.toNat FlowSupport52.p2 FlowSupport52.p2 - 2
+of sort `Prop` but is expected to have type
+  Prop
+of sort `Type` in the application
+  And ⋯
+```
+
+Resolution:
+
+- Added the named proposition `X30SignatureReductionEvidence`.
+- Rewrote the finite package to include proposition statements rather than
+  theorem proof terms.
+- Moved the required flow-update and fixed-point names into scope before the
+  package by adding verified earlier declarations and retaining the later text
+  as archived copies with renamed identifiers.
+- Verified with `lake -Kjobs=1 build SR_Flow` and `lake -Kjobs=1 build`.
+
+### Stage 16C whole-kernel rank-update performance stall — 2026-09-07
+
+Attempted declarations:
+
+```text
+SR_flow_rank1_kernel
+SR_flow_rank1_update
+SR_flow_rank1_update_22_X52_to_X6
+```
+
+Intended theorem shape:
+
+```text
+∀ i j : α,
+  M_Rees_X X' α toNat i j =
+    M_Rees_X X α toNat i j - 2 * SR_flow_rank1_kernel α m n i j
+```
+
+with hypotheses that `(m,n)` crosses from `Exit` to `Interior` and every
+other entry is stable.
+
+Observed behavior:
+
+- `lake -Kjobs=1 build SR_Flow` repeatedly exceeded capped 30 second
+  segments with no Lean diagnostics after replaying `SR_Primitives`.
+- Direct `lean.exe SR_Flow.lean` with the Lake `LEAN_PATH` also exceeded
+  capped segments without diagnostics.
+- Process inspection showed either a low-CPU Lake wrapper with no Lean child,
+  or a low-CPU Lean child with slowly growing memory.
+
+Non-weakening proof refactors tried:
+
+- Reused the already verified `SR_flow_entry_update_minus_two` theorem in the
+  crossing-entry branch.
+- Replaced conjunction equality `(i = m ∧ j = n)` by pair equality
+  `(i,j) = (m,n)` in the rank-one kernel.
+- Replaced generic `ring` cleanup by `norm_num`.
+
+Failure invariant:
+
+- The whole-kernel theorem shape over polymorphic `Matrix α α ℝ` / function
+  kernels appears to trigger unacceptable elaboration or process-level
+  stalling on this Windows/Lake setup before producing actionable diagnostics.
+- The last verified compiling state remains the scalar entry update plus the
+  finite package repair; the whole-kernel rank-update attempt is not yet
+  promoted.
+
+Follow-up concrete attempt:
+
+```text
+SR_flow_rank1_kernel_X52
+SR_flow_rank1_update_X52_whole_kernel
+```
+
+This specialized the rank-one update to the one-point support at `X=5/2`.
+It still caused `lake -Kjobs=1 build SR_Flow` to exceed repeated capped
+segments after replaying `SR_Primitives`.  The attempt was therefore not
+promoted.  Stage 16C remains represented by the verified scalar entry theorem
+`SR_flow_entry_update_minus_two`.
+
+### Stage 16F finite-chain fixed-point package performance stall — 2026-09-07
+
+Attempted declarations:
+
+```text
+FlowCutoff3
+FlowCutoff3.signature
+FlowCutoff3.adjacent
+computed_flow_adjacent_not_fixed
+```
+
+Intended theorem shape:
+
+```text
+∀ a b : FlowCutoff3,
+  FlowCutoff3.adjacent a b →
+    ¬ SR_flow_fixed_point_proxy a.signature b.signature
+```
+
+Observed behavior:
+
+- A first proof using `cases` plus broad `simp` caused `lake -Kjobs=1 build
+  SR_Flow` to exceed capped segments, with Lean memory rising sharply.
+- A second proof using explicit manual cases and no broad simplifier still
+  caused Lean memory to rise to roughly 1.3 GB before any diagnostic.
+
+Failure invariant:
+
+- Even small dependent wrappers around `SR_flow_fixed_point_proxy` can trigger
+  expensive elaboration in the current `SR_Flow.lean` environment.
+- The two verified finite non-fixed witnesses remain:
+  `X52_not_fixed_against_X6` and `X6_not_fixed_against_X30`.
+
+Log-weighted refinement:
+
+- Attempted to define the logarithmic sum directly using `Real.log`.
+- Lean correctly rejected the first version:
+
+```text
+failed to compile definition, consider marking it as 'noncomputable'
+because it depends on 'Real.log'
+Tactic `native_decide` failed ... Real.decidableEq is noncomputable
+```
+
+- Resolution: marked `logWeightedInteriorSum` as `noncomputable`, added the
+  explicit grade lemma `grade_22_X52_exit`, and proved the `X=5/2` log-sum
+  value by `simp` rather than native evaluation.
+
+Exact `-2` update refinement:
+
+- Added `SR_flow_entry_update_minus_two`, using the narrow
+  `Mathlib.Tactic.NormNum.Basic` import instead of the full `Mathlib.Tactic`
+  import.
+
+Outcome:
+
+```text
+lake -Kjobs=1 build SR_Flow
+Build completed successfully
+```
+
+Finite-count refinement:
+
+- Attempted to derive `Fintype` for the finite support inductives.
+- Lean reported:
+
+```text
+No deriving handlers have been implemented for class `Fintype`
+failed to synthesize instance of type class Fintype FlowSupport52
+```
+
+- Resolution: replaced the typeclass-based `Finset.univ` count with explicit
+  support lists and a list fold.  The finite count theorems now compute:
+  `N_int(5/2)=0`, `N_int(6)=1`, and `N_int(30)=17`.
+
+Outcome:
+
+```text
+lake -Kjobs=1 build SR_Flow
+Build completed successfully
+```
+
+Follow-up repair:
+
+- Upgraded `ReesSignKernel` from a raw binary function to `Matrix α α ℝ`.
+- The first proof attempt kept the `-2` update statement:
+
+```text
+⊢ -1 = 1 - 2
+```
+
+- Importing all of `Mathlib.Tactic` only to solve that arithmetic goal pulled a
+  very large dependency cone and produced long quiet build slices.
+- Resolution: avoid the broad tactic import and prove the crossing data
+  directly as `old = +1` and `new = -1`.
+
+Outcome:
+
+```text
+lake -Kjobs=1 build SR_Flow
+Build completed successfully
+```

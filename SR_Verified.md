@@ -142,6 +142,190 @@
     of the sign convention `Interior ↦ -1`, `Exit ↦ +1`.
 - Date: 2026-09-06
 
+### Stage 16 package repair — 2026-09-07
+
+- Stable IDs:
+  - `SR.16A.20.PROP`
+  - `SR.16.PACKAGE`
+- Theorem statements / declarations:
+  - `X30SignatureReductionEvidence : Prop`
+  - `X30_signature_reduction_certificate : X30SignatureReductionEvidence`
+  - `Stage16FinitePackageComplete : Prop`
+  - `stage16_finite_package_complete : Stage16FinitePackageComplete`
+- Proof strategy used:
+  - Factored the large X=30 certificate statement into the named proposition
+    `X30SignatureReductionEvidence`.
+  - Kept `X30_signature_reduction_certificate` as the compiled proof of that
+    proposition.
+  - Repaired `Stage16FinitePackageComplete` by spelling theorem-backed
+    obligations as propositions inside the package, while using the verified
+    theorem proofs in `stage16_finite_package_complete`.
+  - Preserved the flow-update and finite non-fixed-point obligations inside the
+    package.
+- Mathlib / Lean tools used:
+  - `simp`
+  - `norm_num`
+  - explicit conjunction packaging
+- Verification:
+  - `lake -Kjobs=1 build SR_Flow` completed successfully.
+  - `lake -Kjobs=1 build` completed successfully.
+  - Forbidden-token scan over `*.lean` found no `sorry`, `admit`, `axiom`, or
+    `unsafe`.
+- Date: 2026-09-07
+
+### Stage 16F first-order transition records — 2026-09-07
+
+- Stable IDs:
+  - `SR.16F.4`
+  - `SR.16F.5`
+- Theorem statements / declarations:
+  - `FlowTransitionRecord`
+  - `FlowTransitionRecord.fixedProxy`
+  - `transition_X52_X6`
+  - `transition_X6_X30`
+  - `transition_X52_X6_not_fixed`
+  - `transition_X6_X30_not_fixed`
+  - `computed_transition_records_not_fixed`
+- Proof strategy used:
+  - Replaced the expensive dependent cutoff wrapper attempt with a
+    first-order record containing source/target IDs and the already-computed
+    negative-count denominator data.
+  - Proved the two recorded transitions are non-fixed by direct normalization
+    of the Nat arithmetic in `fixedProxy`.
+  - Added the two first-order non-fixed facts to `Stage16FinitePackageComplete`.
+- Mathlib / Lean tools used:
+  - `simp`
+  - explicit conjunction packaging
+- Verification:
+  - `lake -Kjobs=1 build SR_Flow` completed successfully after the new records.
+- Date: 2026-09-07
+
+### Stage 16B finite X²/2 comparison records — 2026-09-07
+
+- Stable IDs:
+  - `SR.16B.13`
+  - `SR.16B.14`
+- Theorem statements / declarations:
+  - `XSquaredHalfBenchmark`
+  - `XSquaredHalfBenchmark_X52`
+  - `XSquaredHalfBenchmark_X6`
+  - `XSquaredHalfBenchmark_X30`
+  - `LogWeightedComparisonRecord`
+  - `logWeightedComparison_X52`
+  - `logWeightedComparison_X6`
+  - `logWeightedComparison_X30`
+  - `logWeightedComparison_X52_records`
+  - `logWeightedComparison_X6_records`
+  - `logWeightedComparison_X30_records`
+- Proof strategy used:
+  - Defined the finite benchmark `X²/2` as a real-valued function on rational
+    cutoffs.
+  - Proved the exact benchmark values at `X=5/2`, `X=6`, and `X=30`.
+  - Packaged the already-computed `S(X)` values next to those benchmarks in
+    finite comparison records.
+  - Added those record-correctness statements to `Stage16FinitePackageComplete`.
+- Mathlib / Lean tools used:
+  - `norm_num`
+  - `rw`
+  - explicit conjunction packaging
+- Fidelity note:
+  - These are finite comparison records only.  They do not prove the requested
+    asymptotic comparison of `S(X)` with `X²/2`.
+- Verification:
+  - `lake -Kjobs=1 build SR_Flow` completed successfully.
+  - `lake -Kjobs=1 build` completed successfully.
+  - Forbidden-token scan over `*.lean` found no `sorry`, `admit`, `axiom`, or
+    `unsafe`.
+- Date: 2026-09-07
+
+### Stage 16C first-order q₂₂ update record — 2026-09-07
+
+- Stable ID:
+  - `SR.16C.2A`
+- Theorem statements / declarations:
+  - `FlowEntryUpdateRecord`
+  - `FlowEntryUpdateRecord.valid`
+  - `q22_X52_to_X6_updateRecord`
+  - `q22_X52_to_X6_updateRecord_valid`
+  - `q22_X52_to_X6_updateRecord_matches_kernel`
+- Proof strategy used:
+  - Encoded the verified `q₂₂` crossing as a first-order record with source
+    label `52`, target label `6`, factors `(2,2)`, old sign `+1`, new sign
+    `-1`, and delta `-2`.
+  - Proved record validity by real arithmetic normalization.
+  - Proved the record matches the actual `M_Rees_X` entries using the already
+    verified grade lemmas `grade_22_X52_exit` and `grade_22_X6_interior`.
+  - Added the record validity and kernel-match statement to
+    `Stage16FinitePackageComplete`.
+- Mathlib / Lean tools used:
+  - `norm_num`
+  - `simp`
+  - explicit conjunction packaging
+- Verification:
+  - `lake -Kjobs=1 build SR_Flow` completed successfully.
+- Date: 2026-09-07
+
+### Stage 16D explicit dBN bridge scaffold — 2026-09-07
+
+- Stable ID:
+  - `SR.16.CONJ.DBN.SCAFFOLD`
+- Theorem statements / declarations:
+  - `SRdBNBridgeScaffold`
+  - `SRdBN_conjectural_bridge`
+  - `SRdBN_conjectural_bridge_records_near_terms`
+  - `SRdBN_conjectural_bridge_records_heat_localization`
+  - `SRdBN_conjectural_bridge_records_zero_tracking_claim`
+  - `SRdBN_conjectural_bridge_limit_open`
+  - `SRdBN_conjectural_bridge_recorded`
+- Proof strategy used:
+  - Replaced an otherwise bare `True` checkpoint with an explicit structure
+    naming the four intended bridge components:
+    interior products as near terms, sign flip as heat localization,
+    signature/zero-count tracking, and the still-open limit argument.
+  - Kept each field propositional and marked as recorded conjectural
+    scaffolding, not as a theorem about zeta zeros.
+- Mathlib / Lean tools used:
+  - `trivial`
+  - explicit conjunction packaging
+- Fidelity note:
+  - This does not prove the de Bruijn-Newman correspondence and does not prove
+    RH.  It only makes the conjectural bridge explicit in Lean-visible data.
+- Verification:
+  - `lake -Kjobs=1 build SR_Flow` completed successfully.
+- Date: 2026-09-07
+
+### Stage 16F oracle-relative fixed-point scaffold — 2026-09-07
+
+- Stable ID:
+  - `SR.16F.6`
+- Theorem statements / declarations:
+  - `SR_flow_fixed_point`
+  - `computedSignatureOracle`
+  - `computedSignatureOracle_X52`
+  - `computedSignatureOracle_X6`
+  - `computedSignatureOracle_X30`
+  - `computed_oracle_X52_not_fixed`
+  - `computed_oracle_X6_not_fixed`
+  - `computed_oracle_has_no_fixed_initial_cutoffs`
+- Proof strategy used:
+  - Defined `SR_flow_fixed_point` relative to a signature oracle
+    `Rat → SignatureSummary`, using the already compiled cross-multiplied
+    fixed-point proxy.
+  - Built `computedSignatureOracle` for the three Stage 16 cutoffs and proved
+    it returns the recorded signatures at `X=5/2`, `X=6`, and `X=30`.
+  - Proved that `X=5/2` is not fixed against `X=6`, and `X=6` is not fixed
+    against `X=30`, under this computed oracle.
+- Mathlib / Lean tools used:
+  - `simp`
+  - `norm_num`
+- Fidelity note:
+  - This is still not the universal theorem
+    `∀ X : ℚ, ¬ SR_flow_fixed_point ... X`; it isolates the missing global
+    signature oracle needed to state/prove such a theorem honestly.
+- Verification:
+  - `lake -Kjobs=1 build SR_Flow` completed successfully.
+- Date: 2026-09-07
+
 ## Stage 14 - Full-Support I_SR and Rees-Signed Intersection Form
 
 - Stable IDs: SR.14A.1 through SR.14C.3, with outcome IDs
@@ -846,3 +1030,180 @@
   - `nlinarith`
   - `ring`
 - Date: 2026-09-05
+
+## Stage 16 - Arithmetic Flow and Signature Evolution
+
+- Stable IDs: SR.16A.1 through SR.16G.1, with open checkpoints
+  `SR.16.CONJ.DBN` and `SR.16.FIXED_POINT_OPEN`.
+- Outcome:
+  - A lightweight arithmetic-flow certificate layer now compiles.
+  - The flow parameter is represented by rational cutoffs, with explicit
+    support labels for `X = 5/2`, `X = 6`, and `X = 30`.
+  - The finite signature table is recorded as:
+    - `X = 5/2`: `(pos, neg, zero) = (1, 0, 0)`
+    - `X = 6`: `(pos, neg, zero) = (1, 1, 2)`
+    - `X = 30`: `(pos, neg, zero) = (3, 3, 4)`
+  - The negative-count monotonicity test passes for these three cutoffs:
+    `0 ≤ 1 ≤ 3`.
+  - The interior-product counts are now computed from explicit finite support
+    lists:
+    `N_int(5/2)=0`, `N_int(6)=1`, and `N_int(30)=17`.
+  - The finite transition from `X = 5/2` to `X = 6` produces negative
+    signature content, partially addressing the Stage 15 sign-origin problem.
+  - The de Bruijn-Newman bridge and the universal no-finite-fixed-point theorem
+    are recorded as open checkpoints, not as proved RH content.
+- Theorem/object statements:
+  - `SignatureSummary : Type`
+  - `FlowX52 : ℚ`
+  - `FlowSupport52 : Type`
+  - `FlowSupport6 : Type`
+  - `SupportIndex30 : Type`
+  - `ReesSignKernel : Type → Type`
+  - `M_Rees_X : (X : ℚ) → (α : Type) → (α → Nat) → ReesSignKernel α`
+  - `M_Rees_X52 : ReesSignKernel FlowSupport52`
+  - `M_Rees_X6 : ReesSignKernel FlowSupport6`
+  - `M_Rees_X30 : ReesSignKernel SupportIndex30`
+  - `M_Rees_signature_X52_val : M_Rees_signature_X52 = ⟨1,0,0⟩`
+  - `M_Rees_signature_X6_val : M_Rees_signature_X6 = ⟨1,1,2⟩`
+  - `M_Rees_signature_X30_val : M_Rees_signature_X30 = ⟨3,3,4⟩`
+  - `q_monotone_hypothesis`
+  - `signatureIndex_X52`
+  - `signatureIndex_X6`
+  - `signatureIndex_X30`
+  - `logWeightedInteriorSum`
+  - `S_X_formula`
+  - `grade_22_X52_exit`
+  - `logWeightedInteriorSum_X52_recorded_value`
+  - `logWeightedInteriorSum_X6_value`
+  - `logWeightedInteriorSum_X30_explicit`
+  - `logWeightedInteriorSum_X30_value`
+  - `E30R`
+  - `dot30`
+  - `X30_radical_11_13_dot_zero`
+  - `X30_radical_17_19_dot_zero`
+  - `X30_radical_19_23_dot_zero`
+  - `X30_radical_23_29_dot_zero`
+  - `X30_four_radical_witnesses`
+  - `X30_reducedRep`
+  - `X30_reducedWeight`
+  - `X30_reducedMatrixInt`
+  - `X30_reducedMatrixInt_det`
+  - `X30_reducedCongruencePivots`
+  - `X30_reducedFinalBlock_det`
+  - `X30_reducedCongruenceProduct`
+  - `X30_reducedInertiaCertificate`
+  - `X30_classMass`
+  - `X30_dotFromMass`
+  - `dot30_eq_classMass_formula`
+  - `X30_signature_reduction_certificate`
+  - `SR_flow_entry_update`
+  - `SR_flow_entry_update_minus_two`
+  - `flow_produces_negative_eigenvalues`
+  - `SR16_SIGN_FROM_FLOW`
+  - `SR_flow_fixed_point_proxy`
+  - `X52_not_fixed_against_X6`
+  - `X6_not_fixed_against_X30`
+  - `SR16_FIXED_POINT_OPEN`
+  - `SR_dBN_conjecture_statement`
+  - `stage16_synthesis`
+- Proof strategy used:
+  - Keep the Stage 16 file independent of the heavy Stage 15 import chain while
+    still defining the Rees sign kernel as a genuine `Matrix α α ℝ`.
+  - Reuse the primitive arithmetic grade to define the sign kernel:
+    entries are `-1` for `Interior` and `+1` for `Exit`.
+  - Compute the interior-product counts by explicit support-list enumeration.
+  - Define the log-weighted interior sum as a finite support-list fold using
+    `Real.log`, prove the empty-interior `X=5/2` value, and prove
+    `S(6)=Real.log 2 * Real.log 2`.
+  - Expand `S(30)` to the 17 ordered interior-product log terms and normalize
+    the real additive expression with `ring_nf`.
+  - Exhibit four explicit X=30 radical witnesses coming from equal row classes
+    `{11,13}` and `{17,19,23,29}`.
+  - Define the reduced six-class X=30 integer matrix and verify determinant
+    `-2048`, certifying nonsingularity of the displayed quotient model.
+  - Record the congruence pivots `[-1, 2, -2, 32]` and final block determinant
+    `-16`, yielding a compiled reduced quotient inertia certificate with
+    `pos=3` and `neg=3`.
+  - Prove that the full X=30 row-dot action factors through six class masses,
+    giving a compiled bridge from the 10-coordinate matrix to the reduced
+    quotient model.
+  - Package the recorded X=30 signature tuple together with the radical,
+    factorization, determinant, and reduced inertia evidence in
+    `X30_signature_reduction_certificate`.
+  - Store signature tuples as explicit finite certificates rather than invoking
+    a general eigenvalue/inertia API.
+  - Prove the pointwise flow update as a certified sign flip:
+    `Exit → Interior` changes the old entry to `+1` and the new entry to `-1`.
+  - Prove the exact pointwise `-2` update separately with `norm_num`.
+  - Use the recorded finite signatures to prove the three-cutoff monotonicity
+    test for negative counts.
+  - Record the analytic dBN bridge and the universal fixed-point theorem as
+    named open checkpoints.
+- Fidelity note:
+  - The compiled Stage 16 layer is a finite arithmetic-flow certificate, not a
+    proof of RH and not a proof of the de Bruijn-Newman correspondence.
+  - The X=30 inertia tuple is currently certificate data; a future stage should
+    replace it with a direct matrix rank/inertia proof if needed.
+- Date: 2026-09-06
+
+## Stage 17 - Signature Balance Theorem
+
+- Stable IDs:
+  - `SR.17A.1`
+  - `SR.17B.1`
+  - `SR.17.NG.BALANCE`
+  - `SR.17.COMPUTATIONAL`
+- Outcome:
+  - The unrestricted conjecture `p(X) = q(X)` for every `X ≥ 6` is false for
+    the raw Rees sign matrix unless an additional arithmetic support condition
+    is imposed.
+  - Balance is Lean-recorded at the computed Stage 16 cutoffs `X = 6` and
+    `X = 30`.
+  - A finite `X = 7` support `{2,3,5}` counterexample is Lean-verified with
+    signature data `(2,1,0)`, hence `p ≠ q`.
+- Theorem/object statements:
+  - `M_Rees_general`
+  - `M_Rees_general_entry_symm`
+  - `M_Rees_sig_recorded`
+  - `signature_table`
+  - `balance_at_computed_X`
+  - `BalanceSupport7`
+  - `M_Rees_X7_counterexample`
+  - `M_Rees_X7_counterexample_entries`
+  - `M_Rees_X7_neg_eigen`
+  - `M_Rees_X7_pos_one_eigen`
+  - `M_Rees_X7_pos_two_eigen`
+  - `M_Rees_signature_X7_counterexample`
+  - `balance_fails_at_X7_counterexample`
+  - `SR17_NG_BALANCE`
+  - `SR17_COMPUTATIONAL`
+- Proof strategy used:
+  - Define a general finite Rees sign matrix from a rational cutoff and a
+    finite support map `Fin n → Nat`.
+  - Prove entry symmetry directly from commutativity of natural-number
+    multiplication.
+  - Repackage the Stage 16 recorded signatures at `X=5/2`, `X=6`, and `X=30`.
+  - Prove computed balance at the two balanced cutoffs:
+    `p(6)=q(6)` and `p(30)=q(30)`.
+  - Test the unrestricted conjecture at `X=7` on the three-label support
+    `{2,3,5}`.  The matrix is
+    `!![-1,-1,1; -1,1,1; 1,1,1]`.
+  - Verify explicit eigenvector equations for eigenvalues `-2`, `1`, and `2`,
+    recording the finite signature summary `(2,1,0)` and hence imbalance.
+- Mathlib / Lean tools used:
+  - `Matrix`
+  - `Matrix.mulVec`
+  - `Fin.sum_univ_three`
+  - `fin_cases`
+  - `norm_num`
+- Fidelity note:
+  - This is a no-go result for the unrestricted Stage 17 statement, not a
+    proof of balance conservation.
+  - The computed Stage 16 balance pattern remains true at `X=6` and `X=30`,
+    but it cannot be generalized to all cutoffs/supports from the current raw
+    Rees matrix alone.
+  - The next mathematical datum needed is a support-growth or cutoff condition
+    excluding the `X=7`, `{2,3,5}` imbalance, or a revised balance invariant.
+- Verification:
+  - `lake -Kjobs=1 build SR_Balance` completed successfully.
+- Date: 2026-09-07

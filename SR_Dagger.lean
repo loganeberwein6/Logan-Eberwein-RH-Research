@@ -2,6 +2,8 @@ import SR_Carrier
 
 namespace SR
 
+set_option maxHeartbeats 200000
+
 /-- Ordered bidegree `(1,1)` carrier at X = 6. -/
 abbrev E11 : Type :=
   ULift (PrimeIndex6 × PrimeIndex6 -> ℂ)
@@ -106,6 +108,22 @@ theorem E11_mul_h_coeff (m n p q : Nat) (current : PrimeIndex6 × PrimeIndex6) :
     (h m n * h p q).coeff current = (h m n).coeff current * (h p q).coeff current := by
   rfl
 
+/-- Constructor-indexed `(1,1)` basis vector, avoiding natural-label lookup. -/
+def hIdxD (i j : PrimeIndex6) : E11 :=
+  ULift.up fun current => basisValue (i, j) current
+
+/-- Named value for the observed coefficient of the constructor-level `h₂₂ * h₃₃` product. -/
+def hIdxDProductCoeff_p2p2_p3p3_at_p2p2 : ℂ :=
+  basisValue (PrimeIndex6.p2, PrimeIndex6.p2)
+      (PrimeIndex6.p2, PrimeIndex6.p2) *
+    basisValue (PrimeIndex6.p3, PrimeIndex6.p3)
+      (PrimeIndex6.p2, PrimeIndex6.p2)
+
+/-- The observed `(2,2)` coefficient of the constructor-level `h₂₂ * h₃₃` product is zero. -/
+theorem E11_mul_hIdxD_p2p2_p3p3_coeff_p2p2_zero :
+    hIdxDProductCoeff_p2p2_p3p3_at_p2p2 = 0 := by
+  simp [hIdxDProductCoeff_p2p2_p3p3_at_p2p2, basisValue]
+
 #check E11
 #check h
 #check dagger
@@ -117,5 +135,8 @@ theorem E11_mul_h_coeff (m n p q : Nat) (current : PrimeIndex6 × PrimeIndex6) :
 #check E11_mul
 #check E11_mul_coeff
 #check E11_mul_h_coeff
+#check hIdxD
+#check hIdxDProductCoeff_p2p2_p3p3_at_p2p2
+#check E11_mul_hIdxD_p2p2_p3p3_coeff_p2p2_zero
 
 end SR

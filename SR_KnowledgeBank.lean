@@ -16,6 +16,8 @@ import SR_HermitianForm
 import SR_ISR
 import SR_ISR_Full
 import SR_Signature
+import SR_Flow
+import SR_Balance
 
 namespace SR
 
@@ -670,5 +672,226 @@ Nothing enters this file unless the corresponding Lean target compiles.
 
 /- SR.15.OUTCOME: Compiled Stage 15 package. -/
 #check stage15_outcome
+
+/- SR.16A.1: Finite signature summary carrier for arithmetic flow cutoffs. -/
+#check SignatureSummary
+
+/- SR.16A.2: Prime support below X = 30. -/
+#check SupportIndex30
+
+/- SR.16A.3: X = 30 support has ten labels. -/
+#check supportIndex30_card
+
+/- SR.16A.4: General finite Rees sign matrix over a chosen support. -/
+#check M_Rees_X
+
+/- SR.16A.5: X = 5/2 Rees sign matrix. -/
+#check M_Rees_X52
+
+/- SR.16A.6: X = 6 Rees sign matrix agrees with Stage 15. -/
+#check M_Rees_X6_agrees_stage15_checkpoint
+
+/- SR.16A.7: X = 30 Rees sign matrix. -/
+#check M_Rees_X30
+
+/- SR.16A.8: X = 5/2 signature tuple is (1,0,0). -/
+#check M_Rees_signature_X52_val
+
+/- SR.16A.9: X = 6 signature tuple is (1,1,2). -/
+#check M_Rees_signature_X6_val
+
+/- SR.16A.10: X = 30 recorded finite signature tuple is (3,3,4). -/
+#check M_Rees_signature_X30_val
+
+/- SR.16B.1: Ordered interior product count. -/
+#check interiorProductCount
+
+/- SR.16B.2: Interior product count at X = 5/2 is zero. -/
+#check interiorProductCount_X52
+
+/- SR.16B.3: Interior product count at X = 6 is one. -/
+#check interiorProductCount_X6
+
+/- SR.16B.4: Interior product count at X = 30 is seventeen. -/
+#check interiorProductCount_X30
+
+/- SR.16B.5: Negative-count monotonicity holds for the three computed cutoffs. -/
+#check q_monotone_hypothesis
+
+/- SR.16B.6: Log-weighted interior sum definition. -/
+#check logWeightedInteriorSum
+
+/- SR.16B.7: Log-weighted interior sum formula. -/
+#check S_X_formula
+
+/- SR.16B.8: The q₂₂ product exits at X = 5/2. -/
+#check grade_22_X52_exit
+
+/- SR.16B.9: Log-weighted interior sum at X = 5/2 is zero. -/
+#check logWeightedInteriorSum_X52_recorded_value
+
+/- SR.16B.10: Log-weighted interior sum at X = 6 is log(2)^2. -/
+#check logWeightedInteriorSum_X6_value
+
+/- SR.16B.11: Explicit ordered log-weighted interior sum expression at X = 30. -/
+#check logWeightedInteriorSum_X30_explicit
+
+/- SR.16B.12: Log-weighted interior sum at X = 30 expands to the 17 ordered terms. -/
+#check logWeightedInteriorSum_X30_value
+
+/- SR.16B.13: Finite X²/2 benchmark values for comparison with S(X). -/
+#check XSquaredHalfBenchmark
+#check XSquaredHalfBenchmark_X52
+#check XSquaredHalfBenchmark_X6
+#check XSquaredHalfBenchmark_X30
+
+/- SR.16B.14: Finite records comparing the computed S(X) values to X²/2. -/
+#check LogWeightedComparisonRecord
+#check logWeightedComparison_X52
+#check logWeightedComparison_X6
+#check logWeightedComparison_X30
+#check logWeightedComparison_X52_records
+#check logWeightedComparison_X6_records
+#check logWeightedComparison_X30_records
+
+/- SR.16A.11: X = 30 real coordinate carrier. -/
+#check E30R
+
+/- SR.16A.12: X = 30 list-dot action for the Rees matrix. -/
+#check dot30
+
+/- SR.16A.13: Four explicit X = 30 radical witnesses. -/
+#check X30_radical_11_13
+#check X30_radical_17_19
+#check X30_radical_19_23
+#check X30_radical_23_29
+
+/- SR.16A.14: The four X = 30 witnesses are killed by the displayed matrix rows. -/
+#check X30_radical_11_13_dot_zero
+#check X30_radical_17_19_dot_zero
+#check X30_radical_19_23_dot_zero
+#check X30_radical_23_29_dot_zero
+#check X30_four_radical_witnesses
+
+/- SR.16A.15: Reduced six-class X = 30 integer matrix. -/
+#check X30_reducedRep
+#check X30_reducedWeight
+#check X30_reducedMatrixInt
+
+/- SR.16A.16: Reduced six-class X = 30 determinant is nonzero: -2048. -/
+#check X30_reducedMatrixInt_det
+
+/- SR.16A.17: Reduced X = 30 congruence pivots and final two-block certificate. -/
+#check X30_reducedCongruencePivots
+#check X30_reducedFinalBlock
+#check X30_reducedFinalBlock_det
+#check X30_reducedCongruenceProduct
+
+/- SR.16A.18: Reduced X = 30 quotient inertia certificate has pos=3, neg=3. -/
+#check X30_reducedInertiaCertificate
+
+/- SR.16A.19: X = 30 row-dot action factors through six class masses. -/
+#check X30_classMass
+#check X30_dotFromMass
+#check dot30_eq_classMass_formula
+
+/- SR.16A.20: X = 30 signature tuple is packaged with its reduction evidence. -/
+#check X30SignatureReductionEvidence
+#check X30_signature_reduction_certificate
+
+/- SR.16.PACKAGE: Finite Stage 16 package, including signatures, monotone data,
+   X = 30 reduction evidence, flow update, and finite non-fixed-point witnesses. -/
+#check Stage16FinitePackageComplete
+#check stage16_finite_package_complete
+
+/- SR.16C.1: Pointwise Exit→Interior flow update records +1 and -1 entries. -/
+#check SR_flow_entry_update
+
+/- SR.16C.2: Pointwise Exit→Interior flow update changes an entry by -2. -/
+#check SR_flow_entry_update_minus_two
+
+/- SR.16C.2A: First-order q₂₂ flow-update record for the X=5/2→6 crossing. -/
+#check FlowEntryUpdateRecord
+#check FlowEntryUpdateRecord.valid
+#check q22_X52_to_X6_updateRecord
+#check q22_X52_to_X6_updateRecord_valid
+#check q22_X52_to_X6_updateRecord_matches_kernel
+
+/- SR.16C.3: The q₂₂ entry flips from +1 at X=5/2 to -1 at X=6. -/
+#check SR_flow_entry_update_22_X52_to_X6
+
+/- SR.16E.1: The finite flow produces negative directions by X=6. -/
+#check flow_produces_negative_eigenvalues
+
+/- SR.16E.2: Partial sign-source theorem from finite arithmetic flow. -/
+#check SR16_SIGN_FROM_FLOW
+
+/- SR.16F.1: Finite fixed-point proxy for signature summaries. -/
+#check SR_flow_fixed_point_proxy
+
+/- SR.16F.2: X=5/2 is not fixed against X=6. -/
+#check X52_not_fixed_against_X6
+
+/- SR.16F.3: X=6 is not fixed against X=30. -/
+#check X6_not_fixed_against_X30
+
+/- SR.16F.4: First-order transition records avoid dependent cutoff elaboration. -/
+#check FlowTransitionRecord
+#check FlowTransitionRecord.fixedProxy
+#check transition_X52_X6
+#check transition_X6_X30
+
+/- SR.16F.5: The two computed first-order transition records are not fixed. -/
+#check transition_X52_X6_not_fixed
+#check transition_X6_X30_not_fixed
+#check computed_transition_records_not_fixed
+
+/- SR.16F.6: Oracle-relative fixed-point predicate and computed non-fixed cutoffs. -/
+#check SR_flow_fixed_point
+#check computedSignatureOracle
+#check computedSignatureOracle_X52
+#check computedSignatureOracle_X6
+#check computedSignatureOracle_X30
+#check computed_oracle_X52_not_fixed
+#check computed_oracle_X6_not_fixed
+#check computed_oracle_has_no_fixed_initial_cutoffs
+
+/- SR.16F.OPEN: Universal finite fixed-point theorem remains open. -/
+#check SR16_FIXED_POINT_OPEN
+
+/- SR.16.CONJ.DBN: de Bruijn-Newman correspondence stated as conjectural bridge. -/
+#check SRdBNBridgeScaffold
+#check SRdBN_conjectural_bridge
+#check SRdBN_conjectural_bridge_records_near_terms
+#check SRdBN_conjectural_bridge_records_heat_localization
+#check SRdBN_conjectural_bridge_records_zero_tracking_claim
+#check SRdBN_conjectural_bridge_limit_open
+#check SRdBN_conjectural_bridge_recorded
+#check SR_dBN_conjecture_statement
+
+/- SR.16.OUTCOME: Compiled Stage 16 arithmetic-flow package. -/
+#check stage16_synthesis
+
+/- SR.16.OUTCOME.ENRICHED: Finite package plus dBN scaffold and fixed-point-open marker. -/
+#check stage16_synthesis_enriched
+
+/- SR.17A.1: General Rees sign matrix and entry symmetry. -/
+#check M_Rees_general
+#check M_Rees_general_entry_symm
+
+/- SR.17B.1: Recorded signature table and computed balance at X=6,30. -/
+#check signature_table
+#check balance_at_computed_X
+
+/- SR.17.NG.BALANCE: Unrestricted balance conjecture fails for X=7 support {2,3,5}. -/
+#check M_Rees_X7_counterexample_entries
+#check M_Rees_X7_neg_eigen
+#check M_Rees_X7_pos_one_eigen
+#check M_Rees_X7_pos_two_eigen
+#check balance_fails_at_X7_counterexample
+#check SR17_NG_BALANCE
+
+/- SR.17.COMPUTATIONAL: Balance holds at computed X=6,30 but not universally. -/
+#check SR17_COMPUTATIONAL
 
 end SR

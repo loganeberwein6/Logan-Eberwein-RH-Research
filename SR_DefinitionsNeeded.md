@@ -308,3 +308,62 @@ Still needed:
 - a Selberg/Weil derivation of the sign convention
   `Interior ↦ -1`, `Exit ↦ +1`, or an explicit declaration of that convention
   as additional structure.
+
+## Stage 16 future definitions
+
+Date: 2026-09-06
+
+The compiled Stage 16 core intentionally keeps several ambitious requested
+objects as future structure rather than encoding fake proofs:
+
+- A direct finite matrix/inertia certificate for `M_Rees_X30`, replacing the
+  current recorded tuple `(pos, neg, zero) = (3,3,4)`; the four displayed
+  radical witnesses and nonsingular six-class quotient determinant are now
+  verified, and the reduced quotient `pos=3, neg=3` split is recorded by a
+  congruence-pivot certificate.  The row-dot action is also proven to factor
+  through six class masses.  What remains is packaging these ingredients into
+  Mathlib's `Matrix.rank`/kernel-finrank interface.
+- The requested asymptotic comparison of the finite `logWeightedInteriorSum`
+  values to `X^2/2`.
+- A formal fixed-point predicate over a growing family of finite supports and a
+  theorem proving or refuting finite fixed points.
+- A low-elaboration representation of finite flow transitions.  Attempts to
+  package either a whole-kernel rank-one update or a three-cutoff adjacent
+  non-fixed theorem directly around dependent matrix/signature functions caused
+  repeated capped Lean/Lake stalls on 2026-09-07.  A future repair should try a
+  first-order certificate table, e.g. explicit transition records containing
+  only Nat-coded source/target IDs and already-proved theorem names, before
+  lifting back to dependent cutoff objects.
+- A formal de Bruijn-Newman bridge relating SR signature evolution to
+  heat-flow motion of Riemann zeros.
+
+## Stage 17 balance theorem repair data
+
+Date: 2026-09-07
+
+The unrestricted Stage 17 target
+
+```lean
+∀ X : Rat, X ≥ 6 → pos_count (M_Rees_X X) = neg_count (M_Rees_X X)
+```
+
+is false for the raw general Rees sign matrix without further hypotheses.
+
+Compiled counterexample:
+
+- cutoff `X = 7`;
+- support `{2,3,5}`;
+- matrix `!![-1,-1,1; -1,1,1; 1,1,1]`;
+- explicit eigenvalues witnessed in Lean by eigenvector equations:
+  `-2`, `1`, and `2`;
+- recorded signature summary `(2,1,0)`, so `p ≠ q`.
+
+Definitions or hypotheses needed for a future balance theorem:
+
+- a canonical support-growth law explaining why `{2,3,5}` at `X=7` is not an
+  admissible Stage-17 support if the intended theorem is still global;
+- or a corrected balance invariant replacing `p-q`;
+- or an arithmetic condition on cutoffs/supports that includes the verified
+  `X=6` and `X=30` cases but excludes the `X=7` imbalance;
+- or a full inertia API formalization that proves exactly when the Rees sign
+  matrix has balanced positive and negative counts.
