@@ -18,6 +18,7 @@ import SR_ISR_Full
 import SR_Signature
 import SR_Flow
 import SR_Balance
+import SR_Balance_Comparison
 
 namespace SR
 
@@ -893,5 +894,26 @@ Nothing enters this file unless the corresponding Lean target compiles.
 
 /- SR.17.COMPUTATIONAL: Balance holds at computed X=6,30 but not universally. -/
 #check SR17_COMPUTATIONAL
+
+/- SR.18A.1: Complete integer support at X=7 and its explicit matrix. -/
+#check CompleteSupport7
+#check M_Rees_X7_complete
+#check X7_complete_matrix_explicit
+
+/- SR.18.NG.COMPLETE: Complete integer support does not restore balance at X=7. -/
+#check M_Rees_signature_X7_complete
+#check complete_support_X7_balance_fails
+#check X7_complete_radical_45
+#check X7_complete_radical_56
+#check X7_complete_negative_witness
+#check X7_complete_positive_witness_a
+#check X7_complete_positive_witness_b
+#check SR18_NG_COMPLETE
+#check SR18_COMPLETE_SUPPORT_HYPOTHESIS_FALSE
+
+/- SR.18.CONJ.ZETA / SR.18.SURGERY: refined conjectural direction remains open. -/
+#check SR18_CONJ_ZETA_SPECTRUM
+#check SR18_SURGERY_REQUIRES_MORE_THAN_COMPLETE_SUPPORT
+#check SR18_COMPUTATIONAL_COMPLETE
 
 end SR

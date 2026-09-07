@@ -1207,3 +1207,62 @@
 - Verification:
   - `lake -Kjobs=1 build SR_Balance` completed successfully.
 - Date: 2026-09-07
+
+## Stage 18 - Refined Balance and Support Conditions
+
+- Stable IDs:
+  - `SR.18A.1`
+  - `SR.18.NG.COMPLETE`
+  - `SR.18.CONJ.ZETA`
+  - `SR.18.SURGERY.REPAIR`
+  - `SR.18.COMPUTATIONAL_COMPLETE`
+- Outcome:
+  - OUTCOME 2 — complete integer support balance fails too.
+  - The proposed repair condition "use complete integer support
+    `{2,...,X-1}`" does not restore `p=q` in general.
+  - At `X=7`, the complete integer support `{2,3,4,5,6}` has recorded
+    signature summary `(2,1,2)`, hence `p≠q`.
+- Theorem/object statements:
+  - `CompleteSupport7`
+  - `M_Rees_X7_complete`
+  - `X7_complete_matrix_explicit`
+  - `M_Rees_signature_X7_complete`
+  - `complete_support_X7_balance_fails`
+  - `X7_complete_radical_45`
+  - `X7_complete_radical_56`
+  - `quad5`
+  - `X7_complete_negative_witness`
+  - `X7_complete_positive_witness_a`
+  - `X7_complete_positive_witness_b`
+  - `SR18_NG_COMPLETE`
+  - `SR18_COMPLETE_SUPPORT_HYPOTHESIS_FALSE`
+  - `SR18_CONJ_ZETA_SPECTRUM`
+  - `SR18_SURGERY_REQUIRES_MORE_THAN_COMPLETE_SUPPORT`
+  - `SR18_COMPUTATIONAL_COMPLETE`
+- Proof strategy used:
+  - Define the complete `X=7` integer support as the finite map
+    `Fin 5 → Nat` with values `2,3,4,5,6`.
+  - Evaluate the Rees sign matrix exactly:
+    `!![-1,-1,1,1,1; -1,1,1,1,1; 1,1,1,1,1; 1,1,1,1,1; 1,1,1,1,1]`.
+  - Record the finite signature summary `(2,1,2)` and prove immediately that
+    its positive and negative counts are unequal.
+  - Verify two explicit radical vectors by `mulVec`.
+  - Verify concrete positive and negative quadratic witnesses for the
+    complete-support matrix.
+  - Record that the zeta-spectrum and Perelman-surgery analog need stronger
+    future hypotheses than mere complete integer support.
+- Mathlib / Lean tools used:
+  - `Matrix`
+  - `Matrix.mulVec`
+  - `Fin.sum_univ_five`
+  - `fin_cases`
+  - `norm_num`
+- Fidelity note:
+  - The theorem does not claim a full Mathlib inertia proof for the 5×5
+    matrix.  It records the finite signature summary and backs the structure
+    with exact matrix, radical, and sign-witness computations.
+  - The important mathematical result is negative: complete support alone is
+    not the missing admissibility condition.
+- Verification:
+  - `lake -Kjobs=1 build SR_Balance_Comparison` completed successfully.
+- Date: 2026-09-07

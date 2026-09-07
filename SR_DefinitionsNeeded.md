@@ -367,3 +367,41 @@ Definitions or hypotheses needed for a future balance theorem:
   `X=6` and `X=30` cases but excludes the `X=7` imbalance;
 - or a full inertia API formalization that proves exactly when the Rees sign
   matrix has balanced positive and negative counts.
+
+## Stage 18 refined support-condition repair data
+
+Date: 2026-09-07
+
+The Stage 18 candidate repair
+
+```text
+balance holds for complete integer supports {2,...,X-1}
+```
+
+is false for the current raw Rees sign matrix.
+
+Compiled counterexample:
+
+- cutoff `X = 7`;
+- complete integer support `{2,3,4,5,6}`;
+- matrix:
+
+```text
+[-1 -1  1  1  1]
+[-1  1  1  1  1]
+[ 1  1  1  1  1]
+[ 1  1  1  1  1]
+[ 1  1  1  1  1]
+```
+
+- recorded signature summary `(2,1,2)`, hence `p ≠ q`.
+
+Definitions or hypotheses now needed:
+
+- a sharper admissibility condition than prime-only versus complete support;
+- a classification of which cutoffs/supports produce balanced Rees signature;
+- a corrected conserved quantity if `p-q` is not the right invariant;
+- a full spectral/inertia theory for the divisor-threshold matrix
+  `J - 2D_n`;
+- a precise zeta-spectrum conjecture stating the analytic bridge without
+  pretending that the finite support condition alone proves it.

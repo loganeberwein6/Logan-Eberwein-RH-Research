@@ -440,6 +440,61 @@ Stage 15 has been partially formalized as a compiled signature/sector audit.
 
 RH remains open.
 
+## Stage 18 status
+
+Stage 18 has been formalized as a refined support-condition no-go theorem.
+
+- Critical test:
+  - The Stage 18 hypothesis was that prime-only support caused the Stage 17
+    imbalance, while complete integer support might restore balance.
+  - Lean now tests the complete integer support at `X=7`:
+    `{2,3,4,5,6}`.
+- Verified complete-support matrix:
+  - `X7_complete_matrix_explicit` proves
+    `M_Rees_X7_complete =
+      !![-1,-1,1,1,1;
+         -1,1,1,1,1;
+          1,1,1,1,1;
+          1,1,1,1,1;
+          1,1,1,1,1]`.
+- Verified structural witnesses:
+  - `X7_complete_radical_45`
+  - `X7_complete_radical_56`
+  - `X7_complete_negative_witness`
+  - `X7_complete_positive_witness_a`
+  - `X7_complete_positive_witness_b`
+- Recorded signature outcome:
+  - `M_Rees_signature_X7_complete = (2,1,2)`.
+  - `complete_support_X7_balance_fails` proves `p ≠ q`.
+  - `SR18_NG_COMPLETE` records the no-go theorem.
+  - `SR18_COMPLETE_SUPPORT_HYPOTHESIS_FALSE` records that complete support is
+    not enough.
+  - `SR18_COMPUTATIONAL_COMPLETE` records the combined state: balance still
+    holds at the computed Stage 16 cutoffs `X=6` and `X=30`, but complete
+    support fails at `X=7`.
+
+Interpretation:
+
+- The Stage 17 imbalance is not merely a prime-only support pathology.
+- Adding composites `4` and `6` at `X=7` adds radical directions but does not
+  restore positive/negative balance.
+- Therefore the naive Perelman-surgery analogy "add all composites/complete
+  support" is insufficient.
+- `SR18_CONJ_ZETA_SPECTRUM` and
+  `SR18_SURGERY_REQUIRES_MORE_THAN_COMPLETE_SUPPORT` keep the refined analytic
+  direction visible without claiming RH or a zeta-spectrum theorem.
+
+What remains after Stage 18:
+
+- identify the actual admissibility condition behind the balanced `X=6` and
+  `X=30` examples;
+- replace raw `p-q` balance with a corrected invariant if necessary;
+- prove a full inertia theorem for complete-support divisor matrices if the
+  recorded signatures are to be upgraded beyond finite certificates;
+- supply the analytic zeta-spectrum bridge.
+
+RH remains open.
+
 ## Stage 17 status
 
 Stage 17 has been formalized as a balance/no-go audit rather than as the

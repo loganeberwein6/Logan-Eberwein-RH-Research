@@ -69,3 +69,6 @@ lean_lib SR_Flow where
 
 lean_lib SR_Balance where
   roots := #[`SR_Balance]
+
+lean_lib SR_Balance_Comparison where
+  roots := #[`SR_Balance_Comparison]
