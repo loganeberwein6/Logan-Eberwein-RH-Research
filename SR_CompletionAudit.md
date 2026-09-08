@@ -705,3 +705,29 @@ Stage 21 late probe: X=210 (next primorial after 30) supports the balance patter
 Stage 21 computational bound extension: the signature-bound certificate has been extended externally from X=500 to X=1000 and promoted as a finite Lean record. This is still not the all-X theorem, but it broadens the audited evidence substantially.
 
 Stage 22 upper-bound status: `SR22_UPPER_BOUND_CERT_X6_TO_500` is Lean-checked by `native_decide`. The all-X upper-bound theorem `pos ≤ neg + 1` is not proved; `SR22_UPPER_BOUND_OPEN` records this explicitly.
+
+## Stage 23 paper outline
+
+### Arithmetic Signature Bounds for Selberg-Rees Rees Matrices and Connections to the Riemann Hypothesis
+
+**Abstract.** We introduce the symmetric ±1 matrices `M_Rees_X` indexed by a cutoff `X`, prove the positive-bias inequality `pos(M_Rees_X) ≥ neg(M_Rees_X)` for every `X ≥ 6`, and record a Lean-verified finite certificate for the complementary bound through `X = 500`. The transition law `k_n = n² + 3n - 1` and boundary determinant `-2` are formalized. Density data are recorded as computational evidence, not as an asymptotic theorem.
+
+1. Introduction and motivation: RH and arithmetic Hodge structures.
+2. The SR Rees matrix family and ordered support.
+3. Decomposition `M = J - 2A`.
+4. Positive Bias Theorem.
+5. Signature-bound conjecture and finite certificate.
+6. Arithmetic flow and transition formula.
+7. Density certificates.
+8. Conjectural connection to ζ and Conrey-type mollifier bounds.
+9. Open problems.
+
+### Stage 23 density record
+
+For `X = 6,...,500`, the computed certificate records 128 balanced even cutoffs out of 248 (`128/248 ≈ 0.5161`) and 22 balanced cutoffs among 52 cutoffs of the form `2p` with `p` prime (`22/52 ≈ 0.4231`). These finite ratios do not establish an asymptotic density. The comparison with Conrey's classical `2/5 = 0.400` lower bound is therefore explicitly conjectural; a proof would require an asymptotic analysis of the Rees signature statistic and an independent theorem relating it to zero-density or mollifier estimates for ζ.
+
+### Stage 23 conjectures
+
+- The balanced `2p` density converges to `2/5` (or a nearby limit) as the cutoff grows.
+- The stranded eigenvalue along transition cutoffs converges to `1` from above.
+- These spectral-density statements have a precise, but currently unproved, relationship with the proportion of ζ zeros on the critical line.

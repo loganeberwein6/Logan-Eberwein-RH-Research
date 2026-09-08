@@ -81,3 +81,6 @@ lean_lib SR_SignatureBound where
 
 lean_lib SR_UpperBound where
   roots := #[`SR_UpperBound]
+
+lean_lib SR_Density where
+  roots := #[`SR_Density]

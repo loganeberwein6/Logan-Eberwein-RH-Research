@@ -7,6 +7,7 @@ import SR_Rees
 import SR_GNS
 import SR_Underdetermination
 import SR_UpperBound
+import SR_Density
 import SR_Stage8
 import SR_Valuation
 import SR_Stage9
@@ -1080,3 +1081,6 @@ end SR
 -- SR.22 finite upper-bound certificate.
 #check SR.SR22_UPPER_BOUND_CERT_X6_TO_500
 #check SR.SR22_UPPER_BOUND_OPEN
+#check SR.SR23_DENSITY_CERT
+#check SR.transition_formula_n9_to_n12
+#check SR.SR23_SYNTHESIS

@@ -1334,6 +1334,12 @@ Stage 21 support-pair count backbone: supportPairCountRows counts all ordered co
 - Status: the universal analytic theorem `pos ≤ neg + 1` remains open.
 - Date: 2026-09-08
 
+## SR.23 density and transition certificates
+- Theorem statements: `SR23_DENSITY_CERT` records 128 balanced even cutoffs out of 248 and 22 balanced `2p` cutoffs out of 52 for X=6..500; `transition_formula_n9_to_n12` verifies values 107, 129, 153, 179.
+- Proof strategy used: finite constants checked with `native_decide`; transition arithmetic checked with `decide`.
+- Status: density limits and ζ/Conrey connections remain conjectural.
+- Date: 2026-09-08
+
 ## SR.21 global all-ones sum bridge
 - Theorem statement: `allOnesEntrySum_count_formula_general` and `allOnesEntrySum_square_formula_general` reduce the all-ones Rees entry sum for every `X` to `supportPairCountRows X - 2 * interiorPairCount X`, equivalently `(X-2)^2 - 2 * interiorPairCount X`.
 - Proof strategy used: row-sum formula plus induction over the row list; final support-size substitution via `supportPairCountRows_eq_square`.
