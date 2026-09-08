@@ -1338,3 +1338,9 @@ Stage 21 support-pair count backbone: supportPairCountRows counts all ordered co
 - Proof strategy used: rewrite by `allOnesEntrySum_square_formula_general`, then discharge the integer/natural arithmetic by `omega`.
 - Mathlib/Lean tools used: `rw`, `omega`.
 - Date: 2026-09-08
+
+## SR.21 half-wall zero-row lemmas
+- Theorem statement: `rowInteriorCount_complete_zero_of_not_below_half` proves that if `¬ 2*m < X`, then the complete-support row indexed by `m` has zero interior entries.
+- Proof strategy used: list induction plus the support lower bound `2 ≤ n`; from `X ≤ 2*m ≤ n*m = m*n`, conclude `¬ m*n < X` for every column.
+- Mathlib/Lean tools used: `simp`, `Nat.le_of_not_gt`, `Nat.mul_le_mul_right`, `Nat.not_lt.mpr`.
+- Date: 2026-09-08

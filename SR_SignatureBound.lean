@@ -555,6 +555,35 @@ def allOnesEntrySum (X : Nat) : Int :=
   ((completeSupport X).map fun m =>
     ((completeSupport X).map fun n => reesEntryFromNat X m n).sum).sum
 
+/-- A row with first coordinate at or beyond the half-wall has no interior entries. -/
+lemma rowInteriorCountOn_zero_of_not_below_half (X m : Nat) (L : List Nat)
+    (hL : ∀ n ∈ L, 2 ≤ n) (hm : ¬ 2 * m < X) :
+    rowInteriorCountOn X m L = 0 := by
+  unfold rowInteriorCountOn
+  induction L with
+  | nil => simp
+  | cons a t ih =>
+      have ha2 : 2 ≤ a := hL a (by simp)
+      have ht2 : ∀ n ∈ t, 2 ≤ n := by
+        intro n hn
+        exact hL n (by simp [hn])
+      have ha_not : ¬ m * a < X := by
+        have hxle : X ≤ 2 * m := Nat.le_of_not_gt hm
+        have hle : 2 * m ≤ a * m := Nat.mul_le_mul_right m ha2
+        have hxle2 : X ≤ a * m := le_trans hxle hle
+        have hxle3 : X ≤ m * a := by simpa [Nat.mul_comm] using hxle2
+        exact Nat.not_lt.mpr hxle3
+      simp [ha_not, ih ht2]
+
+/-- Complete-support specialization: rows at or beyond the half-wall contribute zero interior pairs. -/
+theorem rowInteriorCount_complete_zero_of_not_below_half (X m : Nat)
+    (hm : ¬ 2 * m < X) :
+    rowInteriorCountOn X m (completeSupport X) = 0 := by
+  apply rowInteriorCountOn_zero_of_not_below_half
+  · intro n hn
+    exact (completeSupport_mem_bounds hn).1
+  · exact hm
+
 /-- The all-ones signed entry sum is support-pair count minus twice interior-pair count. -/
 theorem allOnesEntrySum_count_formula_general (X : Nat) :
     allOnesEntrySum X =
@@ -766,6 +795,8 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check allOnesEntrySum_count_formula_general
 #check allOnesEntrySum_square_formula_general
 #check allOnesEntrySum_positive_of_interior_bound
+#check rowInteriorCountOn_zero_of_not_below_half
+#check rowInteriorCount_complete_zero_of_not_below_half
 #check interiorPairCount
 #check interiorPairCount_le_supportPairCountRows
 #check allOnesEntrySum_X35_count_formula
@@ -781,6 +812,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
 
 
 

@@ -1042,3 +1042,7 @@ end SR
 
 -- SR.21 conditional positive-bias bridge.
 #check SR.allOnesEntrySum_positive_of_interior_bound
+
+-- SR.21 half-wall zero-row lemmas.
+#check SR.rowInteriorCountOn_zero_of_not_below_half
+#check SR.rowInteriorCount_complete_zero_of_not_below_half
