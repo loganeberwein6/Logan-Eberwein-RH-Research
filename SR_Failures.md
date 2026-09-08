@@ -1284,3 +1284,8 @@ Stage 21 syntax/name failure: support-pair count promotion accidentally inserted
 - First stdin attempt unfolded `completeSupport` directly and failed because `simp` produced a composed `List.map` term where the induction hypothesis was not syntactically visible. Raw obstruction: rewrite/simp left goals of the form `-1 + (List.map ((fun n => if m * n < X then -1 else 1) ∘ fun k => k + 2) t).sum = ...`.
 - Second stdin attempt introduced helper definitions but `simp` expanded them before `rw [ih]`, so the rewrite pattern `rowEntrySumOn X m t` no longer occurred. Resolution: simplify both the induction hypothesis and target with the same definitions, then close by `omega`.
 - Promotion script failure: exact insertion needle did not match the current file spacing; no Lean state changed. Retried with the actual file anchor.
+
+## Stage 21 global all-ones formula promotion ordering failure — 2026-09-08
+- Build failed because `allOnesEntrySum_count_formula_general` and `allOnesEntrySum_square_formula_general` were inserted before `allOnesEntrySum` was defined.
+- Exact obstruction: Lean reported `Function expected at allOnesEntrySum` and explained the identifier was unknown under `autoImplicit`; generated check output displayed malformed implicit parameters for `allOnesEntrySum`.
+- Fix: moved the global formula theorems below the `allOnesEntrySum` definition while leaving the rectangular helper lemmas above it.

@@ -1031,3 +1031,11 @@ end SR
 #check SR.rowInteriorCountOn
 #check SR.rowEntrySumOn_formula
 #check SR.completeSupport_row_entry_sum_formula
+
+-- SR.21 global all-ones sum bridge.
+#check SR.allEntrySumOn
+#check SR.supportPairCountOn
+#check SR.interiorPairCountOn
+#check SR.allEntrySumOn_formula
+#check SR.allOnesEntrySum_count_formula_general
+#check SR.allOnesEntrySum_square_formula_general

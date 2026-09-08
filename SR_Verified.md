@@ -1326,3 +1326,9 @@ Stage 21 support-pair count backbone: supportPairCountRows counts all ordered co
 - Proof strategy used: list induction on the row support, splitting on `m * a < X`; arithmetic discharged by `omega`.
 - Mathlib/Lean tools used: `simp`, `omega`, list induction.
 - Date: 2026-09-08
+
+## SR.21 global all-ones sum bridge
+- Theorem statement: `allOnesEntrySum_count_formula_general` and `allOnesEntrySum_square_formula_general` reduce the all-ones Rees entry sum for every `X` to `supportPairCountRows X - 2 * interiorPairCount X`, equivalently `(X-2)^2 - 2 * interiorPairCount X`.
+- Proof strategy used: row-sum formula plus induction over the row list; final support-size substitution via `supportPairCountRows_eq_square`.
+- Mathlib/Lean tools used: `simp`, `omega`, `rw`.
+- Date: 2026-09-08

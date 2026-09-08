@@ -508,6 +508,28 @@ theorem completeSupport_row_entry_sum_formula (X m : Nat) :
   simpa [rowEntrySumOn, rowInteriorCountOn] using
     rowEntrySumOn_formula X m (completeSupport X)
 
+/-- Rectangular signed Rees entry sum over chosen row and column supports. -/
+def allEntrySumOn (X : Nat) (rows cols : List Nat) : Int :=
+  (rows.map fun m => rowEntrySumOn X m cols).sum
+
+/-- Rectangular ordered-pair count over chosen row and column supports. -/
+def supportPairCountOn (rows cols : List Nat) : Nat :=
+  (rows.map fun _m => cols.length).sum
+
+/-- Rectangular interior-pair count over chosen row and column supports. -/
+def interiorPairCountOn (X : Nat) (rows cols : List Nat) : Nat :=
+  (rows.map fun m => rowInteriorCountOn X m cols).sum
+
+/-- The total signed Rees sum is pair-count minus twice interior-pair count. -/
+lemma allEntrySumOn_formula (X : Nat) (rows cols : List Nat) :
+    allEntrySumOn X rows cols =
+      (supportPairCountOn rows cols : Int) - 2 * (interiorPairCountOn X rows cols : Int) := by
+  induction rows with
+  | nil => simp [allEntrySumOn, supportPairCountOn, interiorPairCountOn]
+  | cons a t ih =>
+      simp [allEntrySumOn, supportPairCountOn, interiorPairCountOn, rowEntrySumOn_formula] at ih ⊢
+      omega
+
 /-- Executable count of complete-support interior ordered pairs. -/
 def interiorPairCount (X : Nat) : Nat :=
   ((completeSupport X).map fun m =>
@@ -532,6 +554,20 @@ theorem interiorPairCount_X210 : interiorPairCount 210 = 733 := by
 def allOnesEntrySum (X : Nat) : Int :=
   ((completeSupport X).map fun m =>
     ((completeSupport X).map fun n => reesEntryFromNat X m n).sum).sum
+
+/-- The all-ones signed entry sum is support-pair count minus twice interior-pair count. -/
+theorem allOnesEntrySum_count_formula_general (X : Nat) :
+    allOnesEntrySum X =
+      (supportPairCountRows X : Int) - 2 * (interiorPairCount X : Int) := by
+  simpa [allOnesEntrySum, interiorPairCount, supportPairCountRows, allEntrySumOn,
+    supportPairCountOn, interiorPairCountOn, rowEntrySumOn, rowInteriorCountOn]
+    using allEntrySumOn_formula X (completeSupport X) (completeSupport X)
+
+/-- The all-ones signed entry sum is support-size squared minus twice interior-pair count. -/
+theorem allOnesEntrySum_square_formula_general (X : Nat) :
+    allOnesEntrySum X =
+      (((X - 2) ^ 2 : Nat) : Int) - 2 * (interiorPairCount X : Int) := by
+  rw [allOnesEntrySum_count_formula_general, supportPairCountRows_eq_square]
 
 /-- The all-ones sum at X=6 is positive, matching the base positive-bias case. -/
 theorem allOnesEntrySum_X6 : allOnesEntrySum 6 = 14 := by
@@ -716,6 +752,12 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check rowInteriorCountOn
 #check rowEntrySumOn_formula
 #check completeSupport_row_entry_sum_formula
+#check allEntrySumOn
+#check supportPairCountOn
+#check interiorPairCountOn
+#check allEntrySumOn_formula
+#check allOnesEntrySum_count_formula_general
+#check allOnesEntrySum_square_formula_general
 #check interiorPairCount
 #check interiorPairCount_le_supportPairCountRows
 #check allOnesEntrySum_X35_count_formula
@@ -731,6 +773,8 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
+
 
 
 
