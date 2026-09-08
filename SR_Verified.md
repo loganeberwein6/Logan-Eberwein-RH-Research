@@ -1314,3 +1314,7 @@ Stage 21 count foothold: interior_pair_both_below_half combines the coordinate h
 Stage 21 all-ones/count bridge: allOnesEntrySum_X35_count_formula and allOnesEntrySum_X210_count_formula compile, verifying at both fresh probes that the all-ones quadratic sum equals support-size squared minus twice the interior ordered-pair count.
 
 Stage 21 certificate extension: SR21_BOUND_SEARCH_X6_TO_1000 records the complete-support eigensignature search from X=6 through X=1000: 995 cutoffs checked, zero violations of pos=neg or pos=neg+1; X=1000 signature is (31,30,937).
+
+Stage 21 support-shape lemmas: completeSupport_length proves the executable support has length X-2; completeSupport_mem_bounds proves every member lies in the intended interval 2 ≤ m < X. These are prerequisites for a general positive-bias count proof.
+
+Stage 21 proof scaffolding: reesEntry_neg_or_pos proves every executable Rees entry is exactly -1 or 1. support_interior_pair_below_half specializes the half-wall localization to members of completeSupport X. Both compile and prepare the general all-ones positivity proof.

@@ -919,8 +919,11 @@ Nothing enters this file unless the corresponding Lean target compiles.
 
 /- SR.20A.1: Complete support and Rees sign/entry primitives for the signature bound layer. -/
 #check completeSupport
+#check completeSupport_length
+#check completeSupport_mem_bounds
 #check reesSign
 #check reesEntryFromNat
+#check reesEntry_neg_or_pos
 #check ReesSig
 #check hasBoundedSignature
 
@@ -987,6 +990,7 @@ Nothing enters this file unless the corresponding Lean target compiles.
 #check interior_pair_left_below_half
 #check interior_pair_right_below_half
 #check interior_pair_both_below_half
+#check support_interior_pair_below_half
 #check interiorPairCount
 #check interiorPairCount_X35
 #check interiorPairCount_X210
@@ -1005,6 +1009,8 @@ Nothing enters this file unless the corresponding Lean target compiles.
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
+
 
 
 

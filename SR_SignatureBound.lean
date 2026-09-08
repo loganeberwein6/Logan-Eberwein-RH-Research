@@ -20,6 +20,21 @@ formula certificates, and the recorded X=6..200 bound.
 def completeSupport (X : Nat) : List Nat :=
   (List.range (X - 2)).map (fun k => k + 2)
 
+
+/-- The executable complete support `{2,...,X-1}` has length `X-2`. -/
+theorem completeSupport_length (X : Nat) :
+    (completeSupport X).length = X - 2 := by
+  simp [completeSupport]
+
+/-- Every member of the executable complete support lies in the intended interval. -/
+theorem completeSupport_mem_bounds {X m : Nat}
+    (hm : m ∈ completeSupport X) : 2 ≤ m ∧ m < X := by
+  unfold completeSupport at hm
+  rcases List.mem_map.mp hm with ⟨k, hk, rfl⟩
+  have hklt : k < X - 2 := by simpa using hk
+  constructor
+  · exact Nat.le_add_left 2 k
+  · omega
 def reesSign (m n X : Nat) : Int :=
   if m * n < X then -1 else 1
 
@@ -435,12 +450,27 @@ theorem interior_pair_right_below_half {X m n : Nat}
   exact Nat.lt_of_le_of_lt hle h
 
 
+
+/-- Every raw Rees entry is one of the two sign values. -/
+theorem reesEntry_neg_or_pos (X m n : Nat) :
+    reesEntryFromNat X m n = -1 ∨ reesEntryFromNat X m n = 1 := by
+  unfold reesEntryFromNat
+  by_cases h : m * n < X
+  · simp [h]
+  · simp [h]
 /-- Combined half-wall localization for interior complete-support products. -/
 theorem interior_pair_both_below_half {X m n : Nat}
     (hm : 2 ≤ m) (hn : 2 ≤ n) (h : m * n < X) :
     2 * m < X ∧ 2 * n < X := by
   exact ⟨interior_pair_left_below_half hn h, interior_pair_right_below_half hm h⟩
 
+
+/-- Support-aware half-wall localization for interior complete-support products. -/
+theorem support_interior_pair_below_half {X m n : Nat}
+    (hm : m ∈ completeSupport X) (hn : n ∈ completeSupport X)
+    (hint : m * n < X) : 2 * m < X ∧ 2 * n < X := by
+  exact interior_pair_both_below_half (completeSupport_mem_bounds hm).1
+    (completeSupport_mem_bounds hn).1 hint
 /-- Executable count of complete-support interior ordered pairs. -/
 def interiorPairCount (X : Nat) : Nat :=
   ((completeSupport X).map fun m =>
@@ -588,8 +618,11 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
     SR21_SIGNATURE_BOUND_OPEN⟩
 
 #check completeSupport
+#check completeSupport_length
+#check completeSupport_mem_bounds
 #check reesSign
 #check reesEntryFromNat
+#check reesEntry_neg_or_pos
 #check ReesSig
 #check knownSigs
 #check all_known_bounded
@@ -631,6 +664,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check interior_pair_left_below_half
 #check interior_pair_right_below_half
 #check interior_pair_both_below_half
+#check support_interior_pair_below_half
 #check interiorPairCount
 #check interiorPairCount_X35
 #check interiorPairCount_X210
@@ -647,6 +681,8 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
+
 
 
 
