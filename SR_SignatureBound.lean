@@ -447,6 +447,22 @@ theorem allOnesEntrySum_X6 : allOnesEntrySum 6 = 14 := by
 theorem allOnesEntrySum_X6_pos : 0 < allOnesEntrySum 6 := by
   native_decide
 
+
+/-- The all-ones sum at the non-primorial probe X=35 is positive. -/
+theorem allOnesEntrySum_X35 : allOnesEntrySum 35 = 969 := by
+  native_decide
+
+/-- The all-ones positive-bias witness at X=35. -/
+theorem allOnesEntrySum_X35_pos : 0 < allOnesEntrySum 35 := by
+  native_decide
+
+/-- The all-ones sum at the primorial probe X=210 is positive. -/
+theorem allOnesEntrySum_X210 : allOnesEntrySum 210 = 41798 := by
+  native_decide
+
+/-- The all-ones positive-bias witness at X=210. -/
+theorem allOnesEntrySum_X210_pos : 0 < allOnesEntrySum 210 := by
+  native_decide
 /-- External search record for the all-ones positive-bias count inequality. -/
 structure PositiveBiasSearchRecord where
   minX : Nat
@@ -568,8 +584,13 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check allOnesEntrySum
 #check allOnesEntrySum_X6
 #check allOnesEntrySum_X6_pos
+#check allOnesEntrySum_X35
+#check allOnesEntrySum_X35_pos
+#check allOnesEntrySum_X210
+#check allOnesEntrySum_X210_pos
 #check SR21_SIGNATURE_BOUND_OPEN
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
 

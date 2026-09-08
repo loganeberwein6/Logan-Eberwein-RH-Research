@@ -987,9 +987,14 @@ Nothing enters this file unless the corresponding Lean target compiles.
 #check allOnesEntrySum
 #check allOnesEntrySum_X6
 #check allOnesEntrySum_X6_pos
+#check allOnesEntrySum_X35
+#check allOnesEntrySum_X35_pos
+#check allOnesEntrySum_X210
+#check allOnesEntrySum_X210_pos
 
 /- SR.21.OPEN: The all-X signature bound remains open after parity failed. -/
 #check SR21_SIGNATURE_BOUND_OPEN
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+

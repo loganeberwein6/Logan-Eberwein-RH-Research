@@ -1306,3 +1306,5 @@ Stage 21 proof-seed extension: added interior_pair_left_below_half and interior_
 
 Stage 21 probe: SR21_NONPRIMORIAL_X35_IMBALANCED records complete-support X=35 signature (5,4,24), so p≠q. SR21_PRIMORIAL_X210_BALANCED records complete-support X=210 signature (13,13,182), so p=q. Computed externally by symmetric real eigensignature and promoted as finite Lean records with native_decide field checks.
 
+
+Stage 21 all-ones probe extension: allOnesEntrySum_X35 = 969 and allOnesEntrySum_X210 = 41798, with positive versions compiled by native_decide. These support the positive-bias route at the new non-primorial and primorial probes.
