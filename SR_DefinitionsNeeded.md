@@ -413,3 +413,11 @@ eg, and zero from M_Rees_X, rather than trusting externally recorded certificate
 - A full real matrix version of the boundary theorem using Matrix.det (M - lam • 1) and actual Real.sqrt 2 eigenvalues.
 - A proof of the general signature bound for all X≥6, likely via an interlacing/rank-update theorem for the divisor-threshold matrix.
 - Formal density statements for balanced even cutoffs and semiprime 2p cutoffs.
+
+## Stage 21 proof ingredients still needed (2026-09-08)
+
+- A proof route replacing the failed parity invariant. The next plausible targets are positive-bias plus an independent upper-bound invariant, or a structural classification of the Rees threshold matrices.
+- A proof of 2*N_int < n^2 or a corrected positivity statement if the simple all-ones bias is too weak.
+- A Lean-native inertia/eigensignature certificate format that avoids proof-carrying record equality problems.
+
+Stage 21 next proof target sharpened: prove the counting inequality 2*N_int < (X-2)^2 analytically, then connect the positive all-ones quadratic form to pos ≥ neg in the inertia formalism.

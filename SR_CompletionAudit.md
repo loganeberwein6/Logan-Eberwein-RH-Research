@@ -675,3 +675,25 @@ Too weak / still open:
 RH remains open.
 
 Stage 20 correction: oundary_matrix_det_sqrt2_proxy now proves the exact rational Matrix.det determinant statement for !![-1,b;b,1] with b=±1. Remaining weakness: not yet the full real shifted characteristic determinant Matrix.det (M - lam • 1).
+
+## Stage 21 completion audit (2026-09-08)
+
+Status: not complete as a proof of the all-X signature bound theorem.
+
+What was achieved:
+
+- The first requested proof route, parity, was tested and refuted. X=8 is a compiled counterexample to p-q ≡ X-2 mod 2.
+- The Stage 20 X=6..200 certificate was strengthened into separate lower/upper bound checks.
+- The hereditary computation was recorded as an external certificate for X=6..100, with the corrected total of 4,845 one-deletion principal submatrices.
+- The computational search was extended to X=6..500 with zero bound violations.
+
+What remains open:
+
+- A genuine proof of pos-neg ∈ {0,1} for all X≥6.
+- A formal Lean eigensignature computation from matrices rather than recorded certificates.
+- A proof of the positive-bias/N_int inequality strong enough to imply pos ≥ neg.
+- A proof of the upper bound pos ≤ neg+1 from interlacing, rank updates, or a structural matrix invariant.
+
+RH remains open.
+
+Stage 21 positive-bias audit: computational evidence supports the all-ones positive-bias inequality through X=1000, but this is not yet a general Lean proof of N_int_less_half or of the spectral lower bound.

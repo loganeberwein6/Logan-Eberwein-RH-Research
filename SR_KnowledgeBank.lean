@@ -955,4 +955,32 @@ Nothing enters this file unless the corresponding Lean target compiles.
 /- SR.20.OUTCOME: Compiled Stage 20 finite certificate/proof package. -/
 #check SR20_SYNTHESIS
 
+/- SR.21.NG.PARITY: The proposed parity route fails already at X=8. -/
+#check sigIndex
+#check supportParityIndex
+#check sigX8
+#check sigX8_parity_fails
+#check SR21_PARITY_CONJECTURE_FALSE_FOR_RECORDED_X8
+
+/- SR.21.CERT.DOMINANCE: Recorded complete-support signatures X=6..200 obey both halves of the bound. -/
+#check SR21_NONNEGATIVE_DOMINANCE_CERTIFIED_X6_TO_200
+#check SR21_UPPER_BOUND_CERTIFIED_X6_TO_200
+
+/- SR.21.CERT.HEREDITARY: External one-deletion principal submatrix search X=6..100 had zero violations. -/
+#check HereditaryCertificate
+#check hereditaryCertificateX6To100
+#check SR21_HEREDITARY_CERTIFIED
+
+/- SR.21.CERT.X500: External complete-support search X=6..500 had zero signature-bound violations. -/
+#check SignatureBoundSearchRecord
+#check signatureBoundSearchX6To500
+#check SR21_BOUND_SEARCH_X6_TO_500
+#check PositiveBiasSearchRecord
+#check positiveBiasSearchX6To1000
+#check SR21_POSITIVE_BIAS_SEARCH_X6_TO_1000
+
+/- SR.21.OPEN: The all-X signature bound remains open after parity failed. -/
+#check SR21_SIGNATURE_BOUND_OPEN
+#check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
+
 end SR

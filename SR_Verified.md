@@ -1286,3 +1286,18 @@ Mathlib/Lean ingredients used: existing SR_Primitives,
 ative_decide, simp, record projections, finite list membership simplification.
 
 Stage 20 correction: added oundaryMatrix and oundary_matrix_det_sqrt2_proxy, an exact rational Matrix.det proof for the 2x2 boundary block. The full real Matrix.det (M - lam • 1) eigenvalue theorem remains listed as future strengthening.
+
+## Stage 21 — Signature bound proof attempt (2026-09-08)
+
+Compiled Stage 21 additions to SR_SignatureBound.lean:
+
+- SR.21.NG.PARITY: SR21_PARITY_CONJECTURE_FALSE_FOR_RECORDED_X8 proves the proposed parity invariant fails on the recorded X=8 signature (2,1,3): p-q=1 but (X-2)%2=0.
+- SR.21.CERT.DOMINANCE: SR21_NONNEGATIVE_DOMINANCE_CERTIFIED_X6_TO_200 and SR21_UPPER_BOUND_CERTIFIED_X6_TO_200 separately verify the two inequalities over the Stage 20 certificate table.
+- SR.21.CERT.HEREDITARY: SR21_HEREDITARY_CERTIFIED records the external one-deletion principal-submatrix search for X=6..100 with 4,845 submatrices checked and zero violations.
+- SR.21.CERT.X500: SR21_BOUND_SEARCH_X6_TO_500 records the external complete-support search from X=6..500: 495 cutoffs checked, zero violations; X=500 signature (21,21,456).
+- SR.21.OPEN: SR21_SIGNATURE_BOUND_OPEN records that the general all-X theorem is still open.
+
+Proof strategy used: Lean 
+ative_decide over finite certificate records, plus explicit counterexample recording for the failed parity route. No general spectral theorem was promoted.
+
+Stage 21 extension: SR21_POSITIVE_BIAS_SEARCH_X6_TO_1000 records an external count search for complete-support X=6..1000 with zero violations of 2*N_int < (X-2)^2; at X=1000, support size 998, interior pairs 5056, twice interior pairs 10112, support square 996004.

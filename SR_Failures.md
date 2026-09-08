@@ -1266,3 +1266,9 @@ Build completed successfully
 - Attempted to use Finset.Icc and Real after removing heavy imports; Lean reported unknown Finset.Icc, lambda parse fallout, missing 
 orm_num, and undecidable transition proof. Resolved by using list support certificates, rational boundary algebra, simp, and explicit finite-list case splitting.
 - sub_eq_zero.mp was unavailable under the lightweight import. Resolved by defining the boundary characteristic condition directly as a proposition lam^2 = 2.
+
+## Stage 21 failure log (2026-09-08)
+
+- Parity conjecture failed under Lean evaluation: ∀ s ∈ knownSigs, sigIndex s % 2 = supportParityIndex s is false.
+- First extracted obstruction: X=8 has signature (2,1,3), so sigIndex = 1 while (X-2)%2 = 0.
+- A direct membership proof sigX8 ∈ knownSigs was not decidable because ReesSig contains the proof field hBound; replaced with a standalone compiled X=8 counterexample record.

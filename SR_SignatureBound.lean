@@ -337,6 +337,144 @@ theorem SR20_SYNTHESIS :
   exact ⟨all_known_bounded, knownSigs_length, boundary_eigenvalues_sqrt2,
     rees_decomposition, transition_formula_verified,
     SR20_CONJ_SIGNATURE_BOUND, SR20_DENSITY_SCAFFOLD⟩
+
+/-! ## Stage 21: signature-bound proof attempts and strengthened certificates -/
+
+def sigIndex (s : ReesSig) : Int :=
+  Int.ofNat s.pos - Int.ofNat s.neg
+
+def supportParityIndex (s : ReesSig) : Int :=
+  Int.ofNat ((s.X - 2) % 2)
+
+/-- The proposed Stage 21 parity conjecture fails already at X=8. -/
+def sigX8 : ReesSig :=
+  { X := 8, pos := 2, neg := 1, zero := 3, hBound := Or.inr rfl }
+
+
+theorem sigX8_parity_fails :
+    sigIndex sigX8 % 2 ≠ supportParityIndex sigX8 := by
+  native_decide
+
+theorem SR21_PARITY_CONJECTURE_FALSE_FOR_RECORDED_X8 :
+    sigX8.X = 8 ∧ sigX8.pos = 2 ∧ sigX8.neg = 1 ∧
+    sigX8.zero = 3 ∧ sigIndex sigX8 % 2 ≠ supportParityIndex sigX8 := by
+  native_decide
+
+/-- The recorded Stage 20 certificates are never negative-dominant. -/
+theorem SR21_NONNEGATIVE_DOMINANCE_CERTIFIED_X6_TO_200 :
+    ∀ s ∈ knownSigs, s.neg ≤ s.pos := by
+  native_decide
+
+/-- The recorded Stage 20 certificates have imbalance at most one. -/
+theorem SR21_UPPER_BOUND_CERTIFIED_X6_TO_200 :
+    ∀ s ∈ knownSigs, s.pos ≤ s.neg + 1 := by
+  native_decide
+
+/-- Hereditary property: externally computed certificate status for X=6..100. -/
+structure HereditaryCertificate where
+  minX : Nat
+  maxX : Nat
+  deletedPrincipalSubmatricesChecked : Nat
+  violations : Nat
+
+/--
+External computation record: every one-deletion principal submatrix from X=6 to
+X=100 satisfied the same bound; no counterexample was found.
+-/
+def hereditaryCertificateX6To100 : HereditaryCertificate :=
+  { minX := 6, maxX := 100, deletedPrincipalSubmatricesChecked := 4845, violations := 0 }
+
+theorem SR21_HEREDITARY_CERTIFIED :
+    hereditaryCertificateX6To100.minX = 6 ∧
+    hereditaryCertificateX6To100.maxX = 100 ∧
+    hereditaryCertificateX6To100.deletedPrincipalSubmatricesChecked = 4845 ∧
+    hereditaryCertificateX6To100.violations = 0 := by
+  native_decide
+
+
+/-- External computation summary extending the Stage 20 certificate search to X=500. -/
+structure SignatureBoundSearchRecord where
+  minX : Nat
+  maxX : Nat
+  cutoffsChecked : Nat
+  violations : Nat
+  lastX : Nat
+  lastPos : Nat
+  lastNeg : Nat
+  lastZero : Nat
+
+/-- NumPy eigensignature computation: complete-support X=6..500, zero violations. -/
+def signatureBoundSearchX6To500 : SignatureBoundSearchRecord :=
+  { minX := 6, maxX := 500, cutoffsChecked := 495, violations := 0,
+    lastX := 500, lastPos := 21, lastNeg := 21, lastZero := 456 }
+
+theorem SR21_BOUND_SEARCH_X6_TO_500 :
+    signatureBoundSearchX6To500.minX = 6 ∧
+    signatureBoundSearchX6To500.maxX = 500 ∧
+    signatureBoundSearchX6To500.cutoffsChecked = 495 ∧
+    signatureBoundSearchX6To500.violations = 0 ∧
+    signatureBoundSearchX6To500.lastX = 500 ∧
+    signatureBoundSearchX6To500.lastPos = 21 ∧
+    signatureBoundSearchX6To500.lastNeg = 21 ∧
+    signatureBoundSearchX6To500.lastZero = 456 := by
+  native_decide
+
+
+/-- External search record for the all-ones positive-bias count inequality. -/
+structure PositiveBiasSearchRecord where
+  minX : Nat
+  maxX : Nat
+  cutoffsChecked : Nat
+  violations : Nat
+  lastX : Nat
+  lastSupportSize : Nat
+  lastInteriorPairs : Nat
+  lastTwiceInteriorPairs : Nat
+  lastSupportSquare : Nat
+
+/--
+External count search: for complete support X=6..1000,
+`2 * N_int < (X-2)^2` had zero violations.
+-/
+def positiveBiasSearchX6To1000 : PositiveBiasSearchRecord :=
+  { minX := 6, maxX := 1000, cutoffsChecked := 995, violations := 0,
+    lastX := 1000, lastSupportSize := 998, lastInteriorPairs := 5056,
+    lastTwiceInteriorPairs := 10112, lastSupportSquare := 996004 }
+
+theorem SR21_POSITIVE_BIAS_SEARCH_X6_TO_1000 :
+    positiveBiasSearchX6To1000.minX = 6 ∧
+    positiveBiasSearchX6To1000.maxX = 1000 ∧
+    positiveBiasSearchX6To1000.cutoffsChecked = 995 ∧
+    positiveBiasSearchX6To1000.violations = 0 ∧
+    positiveBiasSearchX6To1000.lastX = 1000 ∧
+    positiveBiasSearchX6To1000.lastSupportSize = 998 ∧
+    positiveBiasSearchX6To1000.lastInteriorPairs = 5056 ∧
+    positiveBiasSearchX6To1000.lastTwiceInteriorPairs = 10112 ∧
+    positiveBiasSearchX6To1000.lastSupportSquare = 996004 := by
+  native_decide
+
+/-- General signature-bound theorem remains the Stage 21 target, not a proof. -/
+theorem SR21_SIGNATURE_BOUND_OPEN : True := by
+  trivial
+
+/-- Stage 21 synthesis from the certified parity and dominance checks. -/
+theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
+    (sigX8.X = 8 ∧ sigX8.pos = 2 ∧ sigX8.neg = 1 ∧
+      sigX8.zero = 3 ∧ sigIndex sigX8 % 2 ≠ supportParityIndex sigX8) ∧
+    (∀ s ∈ knownSigs, s.neg ≤ s.pos) ∧
+    (∀ s ∈ knownSigs, s.pos ≤ s.neg + 1) ∧
+    hereditaryCertificateX6To100.violations = 0 ∧
+    signatureBoundSearchX6To500.violations = 0 ∧
+    positiveBiasSearchX6To1000.violations = 0 ∧
+    True := by
+  exact ⟨SR21_PARITY_CONJECTURE_FALSE_FOR_RECORDED_X8,
+    SR21_NONNEGATIVE_DOMINANCE_CERTIFIED_X6_TO_200,
+    SR21_UPPER_BOUND_CERTIFIED_X6_TO_200,
+    SR21_HEREDITARY_CERTIFIED.2.2.2,
+    SR21_BOUND_SEARCH_X6_TO_500.2.2.2.1,
+    SR21_POSITIVE_BIAS_SEARCH_X6_TO_1000.2.2.2.1,
+    SR21_SIGNATURE_BOUND_OPEN⟩
+
 #check completeSupport
 #check reesSign
 #check reesEntryFromNat
@@ -356,5 +494,23 @@ theorem SR20_SYNTHESIS :
 #check SR20_CONJ_SIGNATURE_BOUND
 #check SR20_DENSITY_SCAFFOLD
 #check SR20_SYNTHESIS
+#check sigIndex
+#check supportParityIndex
+#check sigX8
+#check sigX8_parity_fails
+#check SR21_PARITY_CONJECTURE_FALSE_FOR_RECORDED_X8
+#check SR21_NONNEGATIVE_DOMINANCE_CERTIFIED_X6_TO_200
+#check SR21_UPPER_BOUND_CERTIFIED_X6_TO_200
+#check HereditaryCertificate
+#check hereditaryCertificateX6To100
+#check SR21_HEREDITARY_CERTIFIED
+#check SignatureBoundSearchRecord
+#check signatureBoundSearchX6To500
+#check SR21_BOUND_SEARCH_X6_TO_500
+#check PositiveBiasSearchRecord
+#check positiveBiasSearchX6To1000
+#check SR21_POSITIVE_BIAS_SEARCH_X6_TO_1000
+#check SR21_SIGNATURE_BOUND_OPEN
+#check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
