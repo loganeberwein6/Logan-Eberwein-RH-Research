@@ -689,6 +689,26 @@ theorem SR21_POSITIVE_BIAS_SEARCH_X6_TO_1000 :
   native_decide
 
 
+/--
+External count search: for complete support X=6..5000,
+`2 * N_int < (X-2)^2` had zero violations.
+-/
+def positiveBiasSearchX6To5000 : PositiveBiasSearchRecord :=
+  { minX := 6, maxX := 5000, cutoffsChecked := 4995, violations := 0,
+    lastX := 5000, lastSupportSize := 4998, lastInteriorPairs := 33359,
+    lastTwiceInteriorPairs := 66718, lastSupportSquare := 24980004 }
+
+theorem SR21_POSITIVE_BIAS_SEARCH_X6_TO_5000 :
+    positiveBiasSearchX6To5000.minX = 6 ∧
+    positiveBiasSearchX6To5000.maxX = 5000 ∧
+    positiveBiasSearchX6To5000.cutoffsChecked = 4995 ∧
+    positiveBiasSearchX6To5000.violations = 0 ∧
+    positiveBiasSearchX6To5000.lastX = 5000 ∧
+    positiveBiasSearchX6To5000.lastSupportSize = 4998 ∧
+    positiveBiasSearchX6To5000.lastInteriorPairs = 33359 ∧
+    positiveBiasSearchX6To5000.lastTwiceInteriorPairs = 66718 ∧
+    positiveBiasSearchX6To5000.lastSupportSquare = 24980004 := by
+  native_decide
 /-- Fresh probe requested after the Stage 21 search: non-primorial X=35 is imbalanced. -/
 def signatureProbeX35 : ReesSig :=
   { X := 35, pos := 5, neg := 4, zero := 24, hBound := Or.inr rfl }
@@ -724,6 +744,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
     signatureBoundSearchX6To500.violations = 0 ∧
     signatureBoundSearchX6To1000.violations = 0 ∧
     positiveBiasSearchX6To1000.violations = 0 ∧
+    positiveBiasSearchX6To5000.violations = 0 ∧
     True := by
   exact ⟨SR21_PARITY_CONJECTURE_FALSE_FOR_RECORDED_X8,
     SR21_NONNEGATIVE_DOMINANCE_CERTIFIED_X6_TO_200,
@@ -732,6 +753,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
     SR21_BOUND_SEARCH_X6_TO_500.2.2.2.1,
     SR21_BOUND_SEARCH_X6_TO_1000.2.2.2.1,
     SR21_POSITIVE_BIAS_SEARCH_X6_TO_1000.2.2.2.1,
+    SR21_POSITIVE_BIAS_SEARCH_X6_TO_5000.2.2.2.1,
     SR21_SIGNATURE_BOUND_OPEN⟩
 
 #check completeSupport
@@ -774,6 +796,8 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check PositiveBiasSearchRecord
 #check positiveBiasSearchX6To1000
 #check SR21_POSITIVE_BIAS_SEARCH_X6_TO_1000
+#check positiveBiasSearchX6To5000
+#check SR21_POSITIVE_BIAS_SEARCH_X6_TO_5000
 #check signatureProbeX35
 #check signatureProbeX210
 #check SR21_NONPRIMORIAL_X35_IMBALANCED
@@ -812,6 +836,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
 
 
 

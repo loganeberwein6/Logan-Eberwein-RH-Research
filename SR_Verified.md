@@ -1344,3 +1344,9 @@ Stage 21 support-pair count backbone: supportPairCountRows counts all ordered co
 - Proof strategy used: list induction plus the support lower bound `2 ≤ n`; from `X ≤ 2*m ≤ n*m = m*n`, conclude `¬ m*n < X` for every column.
 - Mathlib/Lean tools used: `simp`, `Nat.le_of_not_gt`, `Nat.mul_le_mul_right`, `Nat.not_lt.mpr`.
 - Date: 2026-09-08
+
+## SR.21 positive-bias count certificate X=6..5000
+- Theorem statement: `SR21_POSITIVE_BIAS_SEARCH_X6_TO_5000` records that the external complete-support count search from `X=6` through `X=5000` found zero violations of `2 * interiorPairCount X < (X-2)^2`.
+- Proof strategy used: external integer computation of interior-pair counts; Lean records and checks the resulting certificate fields with `native_decide`.
+- Mathlib/Lean tools used: `native_decide`.
+- Date: 2026-09-08

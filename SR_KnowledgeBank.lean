@@ -1046,3 +1046,7 @@ end SR
 -- SR.21 half-wall zero-row lemmas.
 #check SR.rowInteriorCountOn_zero_of_not_below_half
 #check SR.rowInteriorCount_complete_zero_of_not_below_half
+
+-- SR.21 positive-bias count certificate extended to X=5000.
+#check SR.positiveBiasSearchX6To5000
+#check SR.SR21_POSITIVE_BIAS_SEARCH_X6_TO_5000
