@@ -1332,3 +1332,9 @@ Stage 21 support-pair count backbone: supportPairCountRows counts all ordered co
 - Proof strategy used: row-sum formula plus induction over the row list; final support-size substitution via `supportPairCountRows_eq_square`.
 - Mathlib/Lean tools used: `simp`, `omega`, `rw`.
 - Date: 2026-09-08
+
+## SR.21 conditional positive-bias bridge
+- Theorem statement: `allOnesEntrySum_positive_of_interior_bound` proves that the all-ones Rees sum is positive whenever `2 * interiorPairCount X < (X - 2)^2`.
+- Proof strategy used: rewrite by `allOnesEntrySum_square_formula_general`, then discharge the integer/natural arithmetic by `omega`.
+- Mathlib/Lean tools used: `rw`, `omega`.
+- Date: 2026-09-08

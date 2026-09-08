@@ -569,6 +569,13 @@ theorem allOnesEntrySum_square_formula_general (X : Nat) :
       (((X - 2) ^ 2 : Nat) : Int) - 2 * (interiorPairCount X : Int) := by
   rw [allOnesEntrySum_count_formula_general, supportPairCountRows_eq_square]
 
+/-- If fewer than half of complete-support ordered pairs are interior, the all-ones Rees sum is positive. -/
+theorem allOnesEntrySum_positive_of_interior_bound (X : Nat)
+    (h : 2 * interiorPairCount X < (X - 2) ^ 2) :
+    0 < allOnesEntrySum X := by
+  rw [allOnesEntrySum_square_formula_general]
+  omega
+
 /-- The all-ones sum at X=6 is positive, matching the base positive-bias case. -/
 theorem allOnesEntrySum_X6 : allOnesEntrySum 6 = 14 := by
   native_decide
@@ -758,6 +765,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check allEntrySumOn_formula
 #check allOnesEntrySum_count_formula_general
 #check allOnesEntrySum_square_formula_general
+#check allOnesEntrySum_positive_of_interior_bound
 #check interiorPairCount
 #check interiorPairCount_le_supportPairCountRows
 #check allOnesEntrySum_X35_count_formula
@@ -773,6 +781,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
 
 
 

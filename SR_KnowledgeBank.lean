@@ -1039,3 +1039,6 @@ end SR
 #check SR.allEntrySumOn_formula
 #check SR.allOnesEntrySum_count_formula_general
 #check SR.allOnesEntrySum_square_formula_general
+
+-- SR.21 conditional positive-bias bridge.
+#check SR.allOnesEntrySum_positive_of_interior_bound
