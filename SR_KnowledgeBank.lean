@@ -1065,3 +1065,7 @@ end SR
 -- SR.21 row-count-to-positive-bias bridges.
 #check SR.interiorPairCount_half_bound_of_belowHalfSupportCount
 #check SR.allOnesEntrySum_positive_of_belowHalfSupportCount
+
+-- SR.21 closed below-half count formula bridges.
+#check SR.belowHalfSupportCount_formula_implies_positive
+#check SR.belowHalfSupportCount_formula_X6_to_X40

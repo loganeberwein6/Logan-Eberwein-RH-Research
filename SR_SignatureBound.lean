@@ -701,6 +701,20 @@ theorem allOnesEntrySum_positive_of_belowHalfSupportCount (X : Nat)
     0 < allOnesEntrySum X := by
   exact allOnesEntrySum_positive_of_interior_bound X
     (interiorPairCount_half_bound_of_belowHalfSupportCount X h)
+/-- The closed half-row count formula is enough to prove all-ones positivity. -/
+theorem belowHalfSupportCount_formula_implies_positive (X : Nat) (hX : 6 ≤ X)
+    (hcount : belowHalfSupportCount X = (X - 1) / 2 - 1) :
+    0 < allOnesEntrySum X := by
+  apply allOnesEntrySum_positive_of_belowHalfSupportCount
+  rw [hcount, completeSupport_length]
+  omega
+
+/-- Finite check of the closed below-half support count formula for X=6..40. -/
+theorem belowHalfSupportCount_formula_X6_to_X40 :
+    (List.range 35).all (fun k =>
+      let X := k + 6
+      belowHalfSupportCount X == (X - 1) / 2 - 1) = true := by
+  native_decide
 
 /-- Recorded positive-bias base case. -/
 theorem allOnesEntrySum_X6_pos : 0 < allOnesEntrySum 6 := by
@@ -923,6 +937,8 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check interiorPairCount_le_belowHalf_rows_mul_width
 #check interiorPairCount_half_bound_of_belowHalfSupportCount
 #check allOnesEntrySum_positive_of_belowHalfSupportCount
+#check belowHalfSupportCount_formula_implies_positive
+#check belowHalfSupportCount_formula_X6_to_X40
 #check interiorPairCount
 #check interiorPairCount_le_supportPairCountRows
 #check allOnesEntrySum_X35_count_formula
@@ -938,6 +954,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
 
 
 

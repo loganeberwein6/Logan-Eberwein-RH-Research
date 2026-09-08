@@ -1368,3 +1368,9 @@ Stage 21 support-pair count backbone: supportPairCountRows counts all ordered co
 - Proof strategy used: combine `interiorPairCount_le_belowHalf_rows_mul_width` with multiplication monotonicity by the positive support length, then rewrite `completeSupport_length`.
 - Mathlib/Lean tools used: `Nat.mul_lt_mul_of_pos_right`, `Nat.mul_le_mul_left`, `lt_of_le_of_lt`, `rw`, `simpa`.
 - Date: 2026-09-08
+
+## SR.21 closed below-half count formula bridge
+- Theorem statement: `belowHalfSupportCount_formula_implies_positive` proves all-ones positivity from the closed formula `belowHalfSupportCount X = (X-1)/2 - 1`; `belowHalfSupportCount_formula_X6_to_X40` verifies that formula computationally for `X=6..40`.
+- Proof strategy used: rewrite the row-count inequality using the closed count formula and `completeSupport_length`, then discharge arithmetic with `omega`; finite formula check by `native_decide`.
+- Mathlib/Lean tools used: `rw`, `omega`, `native_decide`.
+- Date: 2026-09-08
