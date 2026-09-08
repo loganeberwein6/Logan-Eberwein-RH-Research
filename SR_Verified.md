@@ -1327,6 +1327,13 @@ Stage 21 support-pair count backbone: supportPairCountRows counts all ordered co
 - Mathlib/Lean tools used: `simp`, `omega`, list induction.
 - Date: 2026-09-08
 
+## SR.22 upper-bound certificate X=6..500
+- Theorem statement: `SR22_UPPER_BOUND_CERT_X6_TO_500` verifies zero upper-bound violations across the 495 cutoffs X=6,...,500.
+- Proof strategy used: finite certificate with `native_decide`.
+- Mathlib/Lean tools used: `native_decide`.
+- Status: the universal analytic theorem `pos ≤ neg + 1` remains open.
+- Date: 2026-09-08
+
 ## SR.21 global all-ones sum bridge
 - Theorem statement: `allOnesEntrySum_count_formula_general` and `allOnesEntrySum_square_formula_general` reduce the all-ones Rees entry sum for every `X` to `supportPairCountRows X - 2 * interiorPairCount X`, equivalently `(X-2)^2 - 2 * interiorPairCount X`.
 - Proof strategy used: row-sum formula plus induction over the row list; final support-size substitution via `supportPairCountRows_eq_square`.

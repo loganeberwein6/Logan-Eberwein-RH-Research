@@ -703,3 +703,5 @@ Stage 21 proof-seed audit: the first analytic ingredients for the positive-bias 
 Stage 21 late probe: X=210 (next primorial after 30) supports the balance pattern with signature (13,13,182). X=35, a non-primorial cutoff between 30 and 210, breaks balance with signature (5,4,24). This strengthens the evidence that special cutoffs, not arbitrary complete supports, drive exact p=q balance.
 
 Stage 21 computational bound extension: the signature-bound certificate has been extended externally from X=500 to X=1000 and promoted as a finite Lean record. This is still not the all-X theorem, but it broadens the audited evidence substantially.
+
+Stage 22 upper-bound status: `SR22_UPPER_BOUND_CERT_X6_TO_500` is Lean-checked by `native_decide`. The all-X upper-bound theorem `pos ≤ neg + 1` is not proved; `SR22_UPPER_BOUND_OPEN` records this explicitly.

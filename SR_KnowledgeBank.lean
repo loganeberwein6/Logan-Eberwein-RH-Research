@@ -6,6 +6,7 @@ import SR_NoCommutativity
 import SR_Rees
 import SR_GNS
 import SR_Underdetermination
+import SR_UpperBound
 import SR_Stage8
 import SR_Valuation
 import SR_Stage9
@@ -1075,3 +1076,7 @@ end SR
 
 -- SR.21 closed below-half support count formula certified to X=1000.
 #check SR.belowHalfSupportCount_formula_X6_to_X1000
+
+-- SR.22 finite upper-bound certificate.
+#check SR.SR22_UPPER_BOUND_CERT_X6_TO_500
+#check SR.SR22_UPPER_BOUND_OPEN

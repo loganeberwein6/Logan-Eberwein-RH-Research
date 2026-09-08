@@ -78,3 +78,6 @@ lean_lib SR_Primorial where
 
 lean_lib SR_SignatureBound where
   roots := #[`SR_SignatureBound]
+
+lean_lib SR_UpperBound where
+  roots := #[`SR_UpperBound]
