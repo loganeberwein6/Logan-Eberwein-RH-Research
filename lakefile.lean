@@ -84,3 +84,6 @@ lean_lib SR_UpperBound where
 
 lean_lib SR_Density where
   roots := #[`SR_Density]
+
+lean_lib SR_SpectralBridge where
+  roots := #[`SR_SpectralBridge]

@@ -1340,6 +1340,12 @@ Stage 21 support-pair count backbone: supportPairCountRows counts all ordered co
 - Status: density limits and ζ/Conrey connections remain conjectural.
 - Date: 2026-09-08
 
+## SR.24 Rayleigh bridge lemma
+- Theorem statement: `quadraticForm_ones_not_nonpositive` proves that a positive all-ones quadratic form rules out negative semidefiniteness; `allOnesEntrySum_pos_implies_not_NSD` applies this to the Rees matrix under an explicit arithmetic-identification hypothesis.
+- Proof strategy used: instantiate the non-positive quadratic-form hypothesis at the all-ones vector and derive a contradiction by `linarith`.
+- Scope: the identification of the concrete matrix quadratic form with `allOnesEntrySum` is retained as an explicit hypothesis; it is not silently assumed.
+- Date: 2026-09-08
+
 ## SR.21 global all-ones sum bridge
 - Theorem statement: `allOnesEntrySum_count_formula_general` and `allOnesEntrySum_square_formula_general` reduce the all-ones Rees entry sum for every `X` to `supportPairCountRows X - 2 * interiorPairCount X`, equivalently `(X-2)^2 - 2 * interiorPairCount X`.
 - Proof strategy used: row-sum formula plus induction over the row list; final support-size substitution via `supportPairCountRows_eq_square`.

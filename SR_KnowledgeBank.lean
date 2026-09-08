@@ -8,6 +8,7 @@ import SR_GNS
 import SR_Underdetermination
 import SR_UpperBound
 import SR_Density
+import SR_SpectralBridge
 import SR_Stage8
 import SR_Valuation
 import SR_Stage9
@@ -1084,3 +1085,5 @@ end SR
 #check SR.SR23_DENSITY_CERT
 #check SR.transition_formula_n9_to_n12
 #check SR.SR23_SYNTHESIS
+#check SR.quadraticForm_ones_not_nonpositive
+#check SR.allOnesEntrySum_pos_implies_not_NSD

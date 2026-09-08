@@ -731,3 +731,7 @@ For `X = 6,...,500`, the computed certificate records 128 balanced even cutoffs 
 - The balanced `2p` density converges to `2/5` (or a nearby limit) as the cutoff grows.
 - The stranded eigenvalue along transition cutoffs converges to `1` from above.
 - These spectral-density statements have a precise, but currently unproved, relationship with the proportion of ζ zeros on the critical line.
+
+## Spectral bridge status
+
+The generic Rayleigh implication is now Lean-verified: a positive quadratic form on the all-ones vector implies that the matrix is not negative semidefinite. The remaining arithmetic bridge—proving that the concrete Rees matrix quadratic form is exactly the cast of `allOnesEntrySum X`—is kept as an explicit hypothesis in `SR_SpectralBridge.lean`. Therefore the formal spectral consequence is conditional, while the unconditional proved result remains the positive integer sum theorem.
