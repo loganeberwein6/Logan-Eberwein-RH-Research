@@ -434,6 +434,25 @@ theorem interior_pair_right_below_half {X m n : Nat}
   have hle : 2 * n ≤ m * n := Nat.mul_le_mul_right n hm
   exact Nat.lt_of_le_of_lt hle h
 
+
+/-- Combined half-wall localization for interior complete-support products. -/
+theorem interior_pair_both_below_half {X m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) (h : m * n < X) :
+    2 * m < X ∧ 2 * n < X := by
+  exact ⟨interior_pair_left_below_half hn h, interior_pair_right_below_half hm h⟩
+
+/-- Executable count of complete-support interior ordered pairs. -/
+def interiorPairCount (X : Nat) : Nat :=
+  ((completeSupport X).map fun m =>
+    ((completeSupport X).filter fun n => m * n < X).length).sum
+
+/-- Requested non-primorial probe has 60 interior ordered pairs. -/
+theorem interiorPairCount_X35 : interiorPairCount 35 = 60 := by
+  native_decide
+
+/-- Requested primorial probe has 733 interior ordered pairs. -/
+theorem interiorPairCount_X210 : interiorPairCount 210 = 733 := by
+  native_decide
 /-- Integer-valued entry sum for the all-ones quadratic form. -/
 def allOnesEntrySum (X : Nat) : Int :=
   ((completeSupport X).map fun m =>
@@ -462,6 +481,16 @@ theorem allOnesEntrySum_X210 : allOnesEntrySum 210 = 41798 := by
 
 /-- The all-ones positive-bias witness at X=210. -/
 theorem allOnesEntrySum_X210_pos : 0 < allOnesEntrySum 210 := by
+  native_decide
+
+/-- At X=35, the all-ones sum is exactly support-size squared minus twice the interior count. -/
+theorem allOnesEntrySum_X35_count_formula :
+    allOnesEntrySum 35 = (33 : Int) ^ 2 - 2 * (interiorPairCount 35 : Int) := by
+  native_decide
+
+/-- At X=210, the all-ones sum is exactly support-size squared minus twice the interior count. -/
+theorem allOnesEntrySum_X210_count_formula :
+    allOnesEntrySum 210 = (208 : Int) ^ 2 - 2 * (interiorPairCount 210 : Int) := by
   native_decide
 /-- External search record for the all-ones positive-bias count inequality. -/
 structure PositiveBiasSearchRecord where
@@ -581,6 +610,12 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check SR21_PRIMORIAL_X210_BALANCED
 #check interior_pair_left_below_half
 #check interior_pair_right_below_half
+#check interior_pair_both_below_half
+#check interiorPairCount
+#check interiorPairCount_X35
+#check interiorPairCount_X210
+#check allOnesEntrySum_X35_count_formula
+#check allOnesEntrySum_X210_count_formula
 #check allOnesEntrySum
 #check allOnesEntrySum_X6
 #check allOnesEntrySum_X6_pos
@@ -592,5 +627,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
+
 
 

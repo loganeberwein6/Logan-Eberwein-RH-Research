@@ -984,6 +984,12 @@ Nothing enters this file unless the corresponding Lean target compiles.
 #check SR21_PRIMORIAL_X210_BALANCED
 #check interior_pair_left_below_half
 #check interior_pair_right_below_half
+#check interior_pair_both_below_half
+#check interiorPairCount
+#check interiorPairCount_X35
+#check interiorPairCount_X210
+#check allOnesEntrySum_X35_count_formula
+#check allOnesEntrySum_X210_count_formula
 #check allOnesEntrySum
 #check allOnesEntrySum_X6
 #check allOnesEntrySum_X6_pos
@@ -997,4 +1003,6 @@ Nothing enters this file unless the corresponding Lean target compiles.
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
+
 

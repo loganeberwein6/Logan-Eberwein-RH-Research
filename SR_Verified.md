@@ -1308,3 +1308,7 @@ Stage 21 probe: SR21_NONPRIMORIAL_X35_IMBALANCED records complete-support X=35 s
 
 
 Stage 21 all-ones probe extension: allOnesEntrySum_X35 = 969 and allOnesEntrySum_X210 = 41798, with positive versions compiled by native_decide. These support the positive-bias route at the new non-primorial and primorial probes.
+
+Stage 21 count foothold: interior_pair_both_below_half combines the coordinate half-wall lemmas. interiorPairCount is now an executable Lean count of complete-support interior ordered pairs, with interiorPairCount_X35 = 60 and interiorPairCount_X210 = 733 compiled by native_decide.
+
+Stage 21 all-ones/count bridge: allOnesEntrySum_X35_count_formula and allOnesEntrySum_X210_count_formula compile, verifying at both fresh probes that the all-ones quadratic sum equals support-size squared minus twice the interior ordered-pair count.
