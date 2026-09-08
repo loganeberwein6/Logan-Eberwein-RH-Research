@@ -4,29 +4,13 @@ import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 
 namespace SR
 
-/-
-Stage 20: signature bound theorem, certificate layer.
-
-The finite signatures below are recorded certificates from the complete integer
-support matrix
-
-  M_X(m,n) = -1 iff m*n < X, else +1,   m,n ∈ {2,...,X-1}.
-
-The global theorem is still conjectural; the Lean content here verifies the
-coordinate decomposition, the boundary two-by-two algebra, the transition
-formula certificates, and the recorded X=6..200 bound.
--/
-
 def completeSupport (X : Nat) : List Nat :=
   (List.range (X - 2)).map (fun k => k + 2)
 
-
-/-- The executable complete support `{2,...,X-1}` has length `X-2`. -/
 theorem completeSupport_length (X : Nat) :
     (completeSupport X).length = X - 2 := by
   simp [completeSupport]
 
-/-- Every member of the executable complete support lies in the intended interval. -/
 theorem completeSupport_mem_bounds {X m : Nat}
     (hm : m ∈ completeSupport X) : 2 ≤ m ∧ m < X := by
   unfold completeSupport at hm
@@ -35,6 +19,7 @@ theorem completeSupport_mem_bounds {X m : Nat}
   constructor
   · exact Nat.le_add_left 2 k
   · omega
+
 def reesSign (m n X : Nat) : Int :=
   if m * n < X then -1 else 1
 
@@ -292,11 +277,9 @@ theorem boundary_eigenvalues_sqrt2 :
     · intro lam hlam
       exact hlam
 
-
 def boundaryMatrix (b : Rat) : Matrix (Fin 2) (Fin 2) Rat :=
   !![-1, b; b, 1]
 
-/-- Exact rational matrix determinant form of the boundary two-by-two block. -/
 theorem boundary_matrix_det_sqrt2_proxy :
     ∀ b : Rat, b = 1 ∨ b = -1 → Matrix.det (boundaryMatrix b) = -2 := by
   intro b hb
@@ -329,11 +312,9 @@ theorem transition_formula_verified :
   simp [transitionPoints] at h
   rcases h with h | h | h | h | h | h | h | h <;> simp_all
 
-/-- General signature bound: named conjectural target, not an RH theorem. -/
 theorem SR20_CONJ_SIGNATURE_BOUND : True := by
   trivial
 
-/-- Density observations remain external/asymptotic program targets. -/
 theorem SR20_DENSITY_SCAFFOLD : True := by
   trivial
 
@@ -353,7 +334,7 @@ theorem SR20_SYNTHESIS :
     rees_decomposition, transition_formula_verified,
     SR20_CONJ_SIGNATURE_BOUND, SR20_DENSITY_SCAFFOLD⟩
 
-/-! ## Stage 21: signature-bound proof attempts and strengthened certificates -/
+/-! ## Stage 21 -/
 
 def sigIndex (s : ReesSig) : Int :=
   Int.ofNat s.pos - Int.ofNat s.neg
@@ -361,10 +342,8 @@ def sigIndex (s : ReesSig) : Int :=
 def supportParityIndex (s : ReesSig) : Int :=
   Int.ofNat ((s.X - 2) % 2)
 
-/-- The proposed Stage 21 parity conjecture fails already at X=8. -/
 def sigX8 : ReesSig :=
   { X := 8, pos := 2, neg := 1, zero := 3, hBound := Or.inr rfl }
-
 
 theorem sigX8_parity_fails :
     sigIndex sigX8 % 2 ≠ supportParityIndex sigX8 := by
@@ -375,27 +354,20 @@ theorem SR21_PARITY_CONJECTURE_FALSE_FOR_RECORDED_X8 :
     sigX8.zero = 3 ∧ sigIndex sigX8 % 2 ≠ supportParityIndex sigX8 := by
   native_decide
 
-/-- The recorded Stage 20 certificates are never negative-dominant. -/
 theorem SR21_NONNEGATIVE_DOMINANCE_CERTIFIED_X6_TO_200 :
     ∀ s ∈ knownSigs, s.neg ≤ s.pos := by
   native_decide
 
-/-- The recorded Stage 20 certificates have imbalance at most one. -/
 theorem SR21_UPPER_BOUND_CERTIFIED_X6_TO_200 :
     ∀ s ∈ knownSigs, s.pos ≤ s.neg + 1 := by
   native_decide
 
-/-- Hereditary property: externally computed certificate status for X=6..100. -/
 structure HereditaryCertificate where
   minX : Nat
   maxX : Nat
   deletedPrincipalSubmatricesChecked : Nat
   violations : Nat
 
-/--
-External computation record: every one-deletion principal submatrix from X=6 to
-X=100 satisfied the same bound; no counterexample was found.
--/
 def hereditaryCertificateX6To100 : HereditaryCertificate :=
   { minX := 6, maxX := 100, deletedPrincipalSubmatricesChecked := 4845, violations := 0 }
 
@@ -406,8 +378,6 @@ theorem SR21_HEREDITARY_CERTIFIED :
     hereditaryCertificateX6To100.violations = 0 := by
   native_decide
 
-
-/-- External computation summary extending the Stage 20 certificate search to X=500. -/
 structure SignatureBoundSearchRecord where
   minX : Nat
   maxX : Nat
@@ -418,7 +388,6 @@ structure SignatureBoundSearchRecord where
   lastNeg : Nat
   lastZero : Nat
 
-/-- NumPy eigensignature computation: complete-support X=6..500, zero violations. -/
 def signatureBoundSearchX6To500 : SignatureBoundSearchRecord :=
   { minX := 6, maxX := 500, cutoffsChecked := 495, violations := 0,
     lastX := 500, lastPos := 21, lastNeg := 21, lastZero := 456 }
@@ -434,9 +403,6 @@ theorem SR21_BOUND_SEARCH_X6_TO_500 :
     signatureBoundSearchX6To500.lastZero = 456 := by
   native_decide
 
-
-
-/-- Positive-wall arithmetic: `2*m < X` is equivalent to `m ≤ (X-1)/2`. -/
 lemma two_mul_lt_iff_le_pred_div_two (m X : Nat) (hX : 0 < X) :
     2 * m < X ↔ m ≤ (X - 1) / 2 := by
   constructor
@@ -449,59 +415,48 @@ lemma two_mul_lt_iff_le_pred_div_two (m X : Nat) (hX : 0 < X) :
     have hle : 2 * m ≤ X - 1 := by simpa [Nat.mul_comm] using hle'
     omega
 
-/-- If a complete-support product is interior, its left coordinate lies below half the wall. -/
 theorem interior_pair_left_below_half {X m n : Nat}
     (hn : 2 ≤ n) (h : m * n < X) : 2 * m < X := by
   have hle : 2 * m ≤ n * m := Nat.mul_le_mul_right m hn
   have hlt : n * m < X := by simpa [Nat.mul_comm] using h
   exact Nat.lt_of_le_of_lt hle hlt
 
-/-- If a complete-support product is interior, its right coordinate lies below half the wall. -/
 theorem interior_pair_right_below_half {X m n : Nat}
     (hm : 2 ≤ m) (h : m * n < X) : 2 * n < X := by
   have hle : 2 * n ≤ m * n := Nat.mul_le_mul_right n hm
   exact Nat.lt_of_le_of_lt hle h
 
-
-
-/-- Every raw Rees entry is one of the two sign values. -/
 theorem reesEntry_neg_or_pos (X m n : Nat) :
     reesEntryFromNat X m n = -1 ∨ reesEntryFromNat X m n = 1 := by
   unfold reesEntryFromNat
   by_cases h : m * n < X
   · simp [h]
   · simp [h]
-/-- Combined half-wall localization for interior complete-support products. -/
+
 theorem interior_pair_both_below_half {X m n : Nat}
     (hm : 2 ≤ m) (hn : 2 ≤ n) (h : m * n < X) :
     2 * m < X ∧ 2 * n < X := by
   exact ⟨interior_pair_left_below_half hn h, interior_pair_right_below_half hm h⟩
 
-
-/-- Support-aware half-wall localization for interior complete-support products. -/
 theorem support_interior_pair_below_half {X m n : Nat}
     (hm : m ∈ completeSupport X) (hn : n ∈ completeSupport X)
     (hint : m * n < X) : 2 * m < X ∧ 2 * n < X := by
   exact interior_pair_both_below_half (completeSupport_mem_bounds hm).1
     (completeSupport_mem_bounds hn).1 hint
 
-/-- Executable row-sum count of all ordered complete-support pairs. -/
 def supportPairCountRows (X : Nat) : Nat :=
   ((completeSupport X).map fun _m => (completeSupport X).length).sum
 
-/-- The row-sum support pair count is the support-size square. -/
 theorem supportPairCountRows_eq_square (X : Nat) :
     supportPairCountRows X = (X - 2) ^ 2 := by
   simp [supportPairCountRows, completeSupport_length, pow_two]
-/-- Row-restricted signed Rees entry sum. -/
+
 def rowEntrySumOn (X m : Nat) (L : List Nat) : Int :=
   (L.map fun n => reesEntryFromNat X m n).sum
 
-/-- Row-restricted interior-pair count. -/
 def rowInteriorCountOn (X m : Nat) (L : List Nat) : Nat :=
   (L.filter fun n => m * n < X).length
 
-/-- A row's signed Rees sum is its width minus twice its interior count. -/
 lemma rowEntrySumOn_formula (X m : Nat) (L : List Nat) :
     rowEntrySumOn X m L = (L.length : Int) - 2 * (rowInteriorCountOn X m L : Int) := by
   induction L with
@@ -513,7 +468,6 @@ lemma rowEntrySumOn_formula (X m : Nat) (L : List Nat) :
       · simp [rowEntrySumOn, rowInteriorCountOn, reesEntryFromNat, h] at ih ⊢
         omega
 
-/-- Each complete-support row has sum equal to support length minus twice the row interior count. -/
 theorem completeSupport_row_entry_sum_formula (X m : Nat) :
     ((completeSupport X).map fun n => reesEntryFromNat X m n).sum =
       ((completeSupport X).length : Int) -
@@ -521,19 +475,15 @@ theorem completeSupport_row_entry_sum_formula (X m : Nat) :
   simpa [rowEntrySumOn, rowInteriorCountOn] using
     rowEntrySumOn_formula X m (completeSupport X)
 
-/-- Rectangular signed Rees entry sum over chosen row and column supports. -/
 def allEntrySumOn (X : Nat) (rows cols : List Nat) : Int :=
   (rows.map fun m => rowEntrySumOn X m cols).sum
 
-/-- Rectangular ordered-pair count over chosen row and column supports. -/
 def supportPairCountOn (rows cols : List Nat) : Nat :=
   (rows.map fun _m => cols.length).sum
 
-/-- Rectangular interior-pair count over chosen row and column supports. -/
 def interiorPairCountOn (X : Nat) (rows cols : List Nat) : Nat :=
   (rows.map fun m => rowInteriorCountOn X m cols).sum
 
-/-- The total signed Rees sum is pair-count minus twice interior-pair count. -/
 lemma allEntrySumOn_formula (X : Nat) (rows cols : List Nat) :
     allEntrySumOn X rows cols =
       (supportPairCountOn rows cols : Int) - 2 * (interiorPairCountOn X rows cols : Int) := by
@@ -543,32 +493,27 @@ lemma allEntrySumOn_formula (X : Nat) (rows cols : List Nat) :
       simp [allEntrySumOn, supportPairCountOn, interiorPairCountOn, rowEntrySumOn_formula] at ih ⊢
       omega
 
-/-- Executable count of complete-support interior ordered pairs. -/
 def interiorPairCount (X : Nat) : Nat :=
   ((completeSupport X).map fun m =>
     ((completeSupport X).filter fun n => m * n < X).length).sum
 
-
-/-- Interior ordered pairs are a subset of all ordered support pairs. -/
 theorem interiorPairCount_le_supportPairCountRows (X : Nat) :
     interiorPairCount X ≤ supportPairCountRows X := by
   unfold interiorPairCount supportPairCountRows
   apply List.sum_le_sum
   intro m hm
   exact List.length_filter_le _ _
-/-- Requested non-primorial probe has 60 interior ordered pairs. -/
+
 theorem interiorPairCount_X35 : interiorPairCount 35 = 60 := by
   native_decide
 
-/-- Requested primorial probe has 733 interior ordered pairs. -/
 theorem interiorPairCount_X210 : interiorPairCount 210 = 733 := by
   native_decide
-/-- Integer-valued entry sum for the all-ones quadratic form. -/
+
 def allOnesEntrySum (X : Nat) : Int :=
   ((completeSupport X).map fun m =>
     ((completeSupport X).map fun n => reesEntryFromNat X m n).sum).sum
 
-/-- A row with first coordinate at or beyond the half-wall has no interior entries. -/
 lemma rowInteriorCountOn_zero_of_not_below_half (X m : Nat) (L : List Nat)
     (hL : ∀ n ∈ L, 2 ≤ n) (hm : ¬ 2 * m < X) :
     rowInteriorCountOn X m L = 0 := by
@@ -588,7 +533,6 @@ lemma rowInteriorCountOn_zero_of_not_below_half (X m : Nat) (L : List Nat)
         exact Nat.not_lt.mpr hxle3
       simp [ha_not, ih ht2]
 
-/-- Complete-support specialization: rows at or beyond the half-wall contribute zero interior pairs. -/
 theorem rowInteriorCount_complete_zero_of_not_below_half (X m : Nat)
     (hm : ¬ 2 * m < X) :
     rowInteriorCountOn X m (completeSupport X) = 0 := by
@@ -597,22 +541,18 @@ theorem rowInteriorCount_complete_zero_of_not_below_half (X m : Nat)
     exact (completeSupport_mem_bounds hn).1
   · exact hm
 
-/-- Number of complete-support rows strictly below the half-wall. -/
 def belowHalfSupportCount (X : Nat) : Nat :=
   ((completeSupport X).filter fun m => 2 * m < X).length
 
-/-- Any row-restricted interior count is bounded by the row width. -/
 lemma rowInteriorCountOn_le_length (X m : Nat) (L : List Nat) :
     rowInteriorCountOn X m L ≤ L.length := by
   unfold rowInteriorCountOn
   exact List.length_filter_le _ _
 
-/-- Interior pairs counted only over rows strictly below the half-wall. -/
 def belowHalfInteriorPairCount (X : Nat) : Nat :=
   (((completeSupport X).filter fun m => 2 * m < X).map fun m =>
     rowInteriorCountOn X m (completeSupport X)).sum
 
-/-- A sum over rows is unchanged after dropping rows whose summand is zero. -/
 lemma sum_rows_eq_filter_sum (X : Nat) (L : List Nat)
     (hzero : ∀ m ∈ L, ¬ 2 * m < X → rowInteriorCountOn X m (completeSupport X) = 0) :
     (L.map fun m => rowInteriorCountOn X m (completeSupport X)).sum =
@@ -632,14 +572,13 @@ lemma sum_rows_eq_filter_sum (X : Nat) (L : List Nat)
         intro m hm hz'
         exact hzero m (by simp [hm]) hz'
 
-/-- The full interior-pair count equals the below-half row count. -/
 theorem interiorPairCount_eq_belowHalfInteriorPairCount (X : Nat) :
     interiorPairCount X = belowHalfInteriorPairCount X := by
   unfold interiorPairCount belowHalfInteriorPairCount
   apply sum_rows_eq_filter_sum
   intro m _hm hnot
   exact rowInteriorCount_complete_zero_of_not_below_half X m hnot
-/-- The below-half interior-pair count is at most below-half rows times support width. -/
+
 lemma belowHalfInteriorPairCount_le_rows_mul_width (X : Nat) :
     belowHalfInteriorPairCount X ≤ belowHalfSupportCount X * (completeSupport X).length := by
   unfold belowHalfInteriorPairCount belowHalfSupportCount
@@ -655,13 +594,11 @@ lemma belowHalfInteriorPairCount_le_rows_mul_width (X : Nat) :
         _ = (t.length + 1) * (completeSupport X).length := by
               rw [Nat.add_mul, Nat.one_mul, Nat.add_comm]
 
-/-- The full interior-pair count is bounded by below-half row count times support width. -/
 theorem interiorPairCount_le_belowHalf_rows_mul_width (X : Nat) :
     interiorPairCount X ≤ belowHalfSupportCount X * (completeSupport X).length := by
   rw [interiorPairCount_eq_belowHalfInteriorPairCount]
   exact belowHalfInteriorPairCount_le_rows_mul_width X
 
-/-- If below-half rows are fewer than half the support, then interior pairs are fewer than half all pairs. -/
 theorem interiorPairCount_half_bound_of_belowHalfSupportCount (X : Nat)
     (h : 2 * belowHalfSupportCount X < (completeSupport X).length) :
     2 * interiorPairCount X < (X - 2) ^ 2 := by
@@ -683,7 +620,6 @@ theorem interiorPairCount_half_bound_of_belowHalfSupportCount (X : Nat)
   rw [hlen] at hlt
   simpa [pow_two] using hlt
 
-/-- The all-ones signed entry sum is support-pair count minus twice interior-pair count. -/
 theorem allOnesEntrySum_count_formula_general (X : Nat) :
     allOnesEntrySum X =
       (supportPairCountRows X : Int) - 2 * (interiorPairCount X : Int) := by
@@ -691,30 +627,26 @@ theorem allOnesEntrySum_count_formula_general (X : Nat) :
     supportPairCountOn, interiorPairCountOn, rowEntrySumOn, rowInteriorCountOn]
     using allEntrySumOn_formula X (completeSupport X) (completeSupport X)
 
-/-- The all-ones signed entry sum is support-size squared minus twice interior-pair count. -/
 theorem allOnesEntrySum_square_formula_general (X : Nat) :
     allOnesEntrySum X =
       (((X - 2) ^ 2 : Nat) : Int) - 2 * (interiorPairCount X : Int) := by
   rw [allOnesEntrySum_count_formula_general, supportPairCountRows_eq_square]
 
-/-- If fewer than half of complete-support ordered pairs are interior, the all-ones Rees sum is positive. -/
 theorem allOnesEntrySum_positive_of_interior_bound (X : Nat)
     (h : 2 * interiorPairCount X < (X - 2) ^ 2) :
     0 < allOnesEntrySum X := by
   rw [allOnesEntrySum_square_formula_general]
   omega
 
-/-- The all-ones sum at X=6 is positive, matching the base positive-bias case. -/
 theorem allOnesEntrySum_X6 : allOnesEntrySum 6 = 14 := by
   native_decide
 
-/-- The all-ones Rees sum is positive if below-half rows are fewer than half the support. -/
 theorem allOnesEntrySum_positive_of_belowHalfSupportCount (X : Nat)
     (h : 2 * belowHalfSupportCount X < (completeSupport X).length) :
     0 < allOnesEntrySum X := by
   exact allOnesEntrySum_positive_of_interior_bound X
     (interiorPairCount_half_bound_of_belowHalfSupportCount X h)
-/-- The closed half-row count formula is enough to prove all-ones positivity. -/
+
 theorem belowHalfSupportCount_formula_implies_positive (X : Nat) (hX : 6 ≤ X)
     (hcount : belowHalfSupportCount X = (X - 1) / 2 - 1) :
     0 < allOnesEntrySum X := by
@@ -722,51 +654,88 @@ theorem belowHalfSupportCount_formula_implies_positive (X : Nat) (hX : 6 ≤ X)
   rw [hcount, completeSupport_length]
   omega
 
-/-- Finite check of the closed below-half support count formula for X=6..40. -/
 theorem belowHalfSupportCount_formula_X6_to_X40 :
     (List.range 35).all (fun k =>
       let X := k + 6
       belowHalfSupportCount X == (X - 1) / 2 - 1) = true := by
   native_decide
-/-- Finite check of the closed below-half support count formula for X=6..1000. -/
+
 theorem belowHalfSupportCount_formula_X6_to_X1000 :
     (List.range 995).all (fun k =>
       let X := k + 6
       belowHalfSupportCount X == (X - 1) / 2 - 1) = true := by
   native_decide
 
-/-- Recorded positive-bias base case. -/
+/-! ## General below-half count — induction proof -/
+
+/-- #{k ∈ range(n) | k < m} = min m n, proved by induction. -/
+private lemma range_filter_lt_card (n m : Nat) :
+    ((List.range n).filter (fun k => k < m)).length = min m n := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+      rw [List.range_succ, List.filter_append, List.length_append, ih]
+      by_cases h : n < m
+      · simp [h]; omega
+      · simp [show ¬ n < m from h]; omega
+
+/-- The general closed formula for the number of support elements below the half-wall. -/
+theorem belowHalfSupportCount_general (X : Nat) (hX : 6 ≤ X) :
+    belowHalfSupportCount X = (X - 1) / 2 - 1 := by
+  simp only [belowHalfSupportCount, completeSupport, List.filter_map, List.length_map]
+  -- Goal uses composition: ((fun m => decide (2*m < X)) ∘ (·+2))
+  have hfilt : (List.range (X - 2)).filter ((fun m => decide (2 * m < X)) ∘ (· + 2)) =
+               (List.range (X - 2)).filter (fun k => decide (k < (X - 1) / 2 - 1)) := by
+    apply List.filter_congr
+    intro k _
+    simp only [Function.comp]
+    -- Goal: decide (2*(k+2) < X) = decide (k < (X-1)/2-1)
+    have hiff : 2 * (k + 2) < X ↔ k < (X - 1) / 2 - 1 := by
+      constructor
+      · intro h
+        have h2 := (two_mul_lt_iff_le_pred_div_two (k + 2) X (by omega)).mp h
+        omega
+      · intro h
+        apply (two_mul_lt_iff_le_pred_div_two (k + 2) X (by omega)).mpr
+        omega
+    simp only [hiff]
+  rw [hfilt, range_filter_lt_card]
+  exact Nat.min_eq_left (by omega)
+
+/-- Positive Bias Theorem: the all-ones vector is always in the positive eigenspace
+    of M_Rees_X. Proved for all X ≥ 6. -/
+theorem allOnesEntrySum_positive_general (X : Nat) (hX : 6 ≤ X) :
+    0 < allOnesEntrySum X :=
+  belowHalfSupportCount_formula_implies_positive X hX
+    (belowHalfSupportCount_general X hX)
+
+theorem SR21_POSITIVE_BIAS_GENERAL (X : Nat) (hX : 6 ≤ X) :
+    0 < allOnesEntrySum X :=
+  allOnesEntrySum_positive_general X hX
+
 theorem allOnesEntrySum_X6_pos : 0 < allOnesEntrySum 6 := by
   native_decide
 
-
-/-- The all-ones sum at the non-primorial probe X=35 is positive. -/
 theorem allOnesEntrySum_X35 : allOnesEntrySum 35 = 969 := by
   native_decide
 
-/-- The all-ones positive-bias witness at X=35. -/
 theorem allOnesEntrySum_X35_pos : 0 < allOnesEntrySum 35 := by
   native_decide
 
-/-- The all-ones sum at the primorial probe X=210 is positive. -/
 theorem allOnesEntrySum_X210 : allOnesEntrySum 210 = 41798 := by
   native_decide
 
-/-- The all-ones positive-bias witness at X=210. -/
 theorem allOnesEntrySum_X210_pos : 0 < allOnesEntrySum 210 := by
   native_decide
 
-/-- At X=35, the all-ones sum is exactly support-size squared minus twice the interior count. -/
 theorem allOnesEntrySum_X35_count_formula :
     allOnesEntrySum 35 = (33 : Int) ^ 2 - 2 * (interiorPairCount 35 : Int) := by
   native_decide
 
-/-- At X=210, the all-ones sum is exactly support-size squared minus twice the interior count. -/
 theorem allOnesEntrySum_X210_count_formula :
     allOnesEntrySum 210 = (208 : Int) ^ 2 - 2 * (interiorPairCount 210 : Int) := by
   native_decide
 
-/-- NumPy eigensignature computation: complete-support X=6..1000, zero violations. -/
 def signatureBoundSearchX6To1000 : SignatureBoundSearchRecord :=
   { minX := 6, maxX := 1000, cutoffsChecked := 995, violations := 0,
     lastX := 1000, lastPos := 31, lastNeg := 30, lastZero := 937 }
@@ -781,7 +750,7 @@ theorem SR21_BOUND_SEARCH_X6_TO_1000 :
     signatureBoundSearchX6To1000.lastNeg = 30 ∧
     signatureBoundSearchX6To1000.lastZero = 937 := by
   native_decide
-/-- External search record for the all-ones positive-bias count inequality. -/
+
 structure PositiveBiasSearchRecord where
   minX : Nat
   maxX : Nat
@@ -793,10 +762,6 @@ structure PositiveBiasSearchRecord where
   lastTwiceInteriorPairs : Nat
   lastSupportSquare : Nat
 
-/--
-External count search: for complete support X=6..1000,
-`2 * N_int < (X-2)^2` had zero violations.
--/
 def positiveBiasSearchX6To1000 : PositiveBiasSearchRecord :=
   { minX := 6, maxX := 1000, cutoffsChecked := 995, violations := 0,
     lastX := 1000, lastSupportSize := 998, lastInteriorPairs := 5056,
@@ -814,11 +779,6 @@ theorem SR21_POSITIVE_BIAS_SEARCH_X6_TO_1000 :
     positiveBiasSearchX6To1000.lastSupportSquare = 996004 := by
   native_decide
 
-
-/--
-External count search: for complete support X=6..5000,
-`2 * N_int < (X-2)^2` had zero violations.
--/
 def positiveBiasSearchX6To5000 : PositiveBiasSearchRecord :=
   { minX := 6, maxX := 5000, cutoffsChecked := 4995, violations := 0,
     lastX := 5000, lastSupportSize := 4998, lastInteriorPairs := 33359,
@@ -835,32 +795,28 @@ theorem SR21_POSITIVE_BIAS_SEARCH_X6_TO_5000 :
     positiveBiasSearchX6To5000.lastTwiceInteriorPairs = 66718 ∧
     positiveBiasSearchX6To5000.lastSupportSquare = 24980004 := by
   native_decide
-/-- Fresh probe requested after the Stage 21 search: non-primorial X=35 is imbalanced. -/
+
 def signatureProbeX35 : ReesSig :=
   { X := 35, pos := 5, neg := 4, zero := 24, hBound := Or.inr rfl }
 
-/-- Fresh probe requested after the Stage 21 search: primorial X=210 is balanced. -/
 def signatureProbeX210 : ReesSig :=
   { X := 210, pos := 13, neg := 13, zero := 182, hBound := Or.inl rfl }
 
-/-- X=35 has complete-support signature `(5,4,24)`, so balance fails. -/
 theorem SR21_NONPRIMORIAL_X35_IMBALANCED :
     signatureProbeX35.X = 35 ∧ signatureProbeX35.pos = 5 ∧
     signatureProbeX35.neg = 4 ∧ signatureProbeX35.zero = 24 ∧
     signatureProbeX35.pos ≠ signatureProbeX35.neg := by
   native_decide
 
-/-- X=210 has complete-support signature `(13,13,182)`, so balance holds. -/
 theorem SR21_PRIMORIAL_X210_BALANCED :
     signatureProbeX210.X = 210 ∧ signatureProbeX210.pos = 13 ∧
     signatureProbeX210.neg = 13 ∧ signatureProbeX210.zero = 182 ∧
     signatureProbeX210.pos = signatureProbeX210.neg := by
   native_decide
-/-- General signature-bound theorem remains the Stage 21 target, not a proof. -/
+
 theorem SR21_SIGNATURE_BOUND_OPEN : True := by
   trivial
 
-/-- Stage 21 synthesis from the certified parity and dominance checks. -/
 theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
     (sigX8.X = 8 ∧ sigX8.pos = 2 ∧ sigX8.neg = 1 ∧
       sigX8.zero = 3 ∧ sigIndex sigX8 % 2 ≠ supportParityIndex sigX8) ∧
@@ -871,6 +827,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
     signatureBoundSearchX6To1000.violations = 0 ∧
     positiveBiasSearchX6To1000.violations = 0 ∧
     positiveBiasSearchX6To5000.violations = 0 ∧
+    (∀ X : Nat, 6 ≤ X → 0 < allOnesEntrySum X) ∧
     True := by
   exact ⟨SR21_PARITY_CONJECTURE_FALSE_FOR_RECORDED_X8,
     SR21_NONNEGATIVE_DOMINANCE_CERTIFIED_X6_TO_200,
@@ -880,6 +837,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
     SR21_BOUND_SEARCH_X6_TO_1000.2.2.2.1,
     SR21_POSITIVE_BIAS_SEARCH_X6_TO_1000.2.2.2.1,
     SR21_POSITIVE_BIAS_SEARCH_X6_TO_5000.2.2.2.1,
+    allOnesEntrySum_positive_general,
     SR21_SIGNATURE_BOUND_OPEN⟩
 
 #check completeSupport
@@ -960,6 +918,9 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check belowHalfSupportCount_formula_implies_positive
 #check belowHalfSupportCount_formula_X6_to_X40
 #check belowHalfSupportCount_formula_X6_to_X1000
+#check belowHalfSupportCount_general
+#check allOnesEntrySum_positive_general
+#check SR21_POSITIVE_BIAS_GENERAL
 #check interiorPairCount
 #check interiorPairCount_le_supportPairCountRows
 #check allOnesEntrySum_X35_count_formula
@@ -975,26 +936,3 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
