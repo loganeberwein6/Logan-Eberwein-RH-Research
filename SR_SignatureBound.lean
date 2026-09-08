@@ -728,6 +728,12 @@ theorem belowHalfSupportCount_formula_X6_to_X40 :
       let X := k + 6
       belowHalfSupportCount X == (X - 1) / 2 - 1) = true := by
   native_decide
+/-- Finite check of the closed below-half support count formula for X=6..1000. -/
+theorem belowHalfSupportCount_formula_X6_to_X1000 :
+    (List.range 995).all (fun k =>
+      let X := k + 6
+      belowHalfSupportCount X == (X - 1) / 2 - 1) = true := by
+  native_decide
 
 /-- Recorded positive-bias base case. -/
 theorem allOnesEntrySum_X6_pos : 0 < allOnesEntrySum 6 := by
@@ -953,6 +959,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check allOnesEntrySum_positive_of_belowHalfSupportCount
 #check belowHalfSupportCount_formula_implies_positive
 #check belowHalfSupportCount_formula_X6_to_X40
+#check belowHalfSupportCount_formula_X6_to_X1000
 #check interiorPairCount
 #check interiorPairCount_le_supportPairCountRows
 #check allOnesEntrySum_X35_count_formula
@@ -968,6 +975,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
 
 
 

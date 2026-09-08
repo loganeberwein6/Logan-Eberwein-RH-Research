@@ -1072,3 +1072,6 @@ end SR
 
 -- SR.21 half-wall arithmetic equivalence.
 #check SR.two_mul_lt_iff_le_pred_div_two
+
+-- SR.21 closed below-half support count formula certified to X=1000.
+#check SR.belowHalfSupportCount_formula_X6_to_X1000

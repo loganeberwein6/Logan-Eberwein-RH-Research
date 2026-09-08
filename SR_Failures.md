@@ -1298,3 +1298,8 @@ Stage 21 syntax/name failure: support-pair count promotion accidentally inserted
 ## Stage 21 below-half count formula failed attempts — 2026-09-08
 - Direct `List.range` proof of `belowHalfSupportCount X = (X-1)/2 - 1` did not simplify; `simp [List.countP_eq_length_filter]` made no progress on the mapped executable support.
 - Finset interval proof found the arithmetic equivalence but became tangled with the executable list representation of `completeSupport`; the first attempted `ext` proof exposed a residual side goal `m ≤ (X-1)/2 → 2 ≤ m → m ≤ X-1` and namespace mismatch for the interval card simplifier. The arithmetic equivalence was extracted and promoted separately as `two_mul_lt_iff_le_pred_div_two`.
+
+## Stage 21 large native count certificate runtime boundary — 2026-09-08
+- Attempted a single `native_decide` theorem combining the closed below-half support formula and all-ones positivity for `X=6..5000`; it remained live past multiple 30s capped polls and was interrupted without promotion.
+- Attempted the combined formula-and-positivity theorem for `X=6..1000`; it also remained live past a 30s capped poll and was interrupted.
+- Formula-only certificates are much cheaper: `X=6..500` and `X=6..1000` both compiled quickly in stdin. Promoted the `X=6..1000` formula-only certificate.

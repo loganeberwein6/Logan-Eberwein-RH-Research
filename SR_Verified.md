@@ -1380,3 +1380,9 @@ Stage 21 support-pair count backbone: supportPairCountRows counts all ordered co
 - Proof strategy used: convert strict inequality to `≤ X-1` via `Nat.le_pred_of_lt`, use `Nat.le_div_iff_mul_le`, and discharge the reverse direction with `omega`.
 - Mathlib/Lean tools used: `Nat.le_pred_of_lt`, `Nat.le_div_iff_mul_le`, `omega`.
 - Date: 2026-09-08
+
+## SR.21 closed below-half support count formula X=6..1000
+- Theorem statement: `belowHalfSupportCount_formula_X6_to_X1000` verifies the closed formula `belowHalfSupportCount X = (X-1)/2 - 1` for every integer cutoff `X=6..1000`.
+- Proof strategy used: executable finite certificate checked by `native_decide`.
+- Mathlib/Lean tools used: `native_decide`.
+- Date: 2026-09-08
