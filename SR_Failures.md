@@ -1294,3 +1294,7 @@ Stage 21 syntax/name failure: support-pair count promotion accidentally inserted
 - Build failed because `allOnesEntrySum_positive_of_belowHalfSupportCount` was promoted before `allOnesEntrySum_positive_of_interior_bound`, the theorem it invokes.
 - Exact obstruction: `Unknown identifier allOnesEntrySum_positive_of_interior_bound` at `SR_SignatureBound.lean:677:8`.
 - Fix: kept `interiorPairCount_half_bound_of_belowHalfSupportCount` near the counting lemmas and moved `allOnesEntrySum_positive_of_belowHalfSupportCount` below `allOnesEntrySum_positive_of_interior_bound`.
+
+## Stage 21 below-half count formula failed attempts — 2026-09-08
+- Direct `List.range` proof of `belowHalfSupportCount X = (X-1)/2 - 1` did not simplify; `simp [List.countP_eq_length_filter]` made no progress on the mapped executable support.
+- Finset interval proof found the arithmetic equivalence but became tangled with the executable list representation of `completeSupport`; the first attempted `ext` proof exposed a residual side goal `m ≤ (X-1)/2 → 2 ≤ m → m ≤ X-1` and namespace mismatch for the interval card simplifier. The arithmetic equivalence was extracted and promoted separately as `two_mul_lt_iff_le_pred_div_two`.

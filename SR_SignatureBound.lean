@@ -436,6 +436,19 @@ theorem SR21_BOUND_SEARCH_X6_TO_500 :
 
 
 
+/-- Positive-wall arithmetic: `2*m < X` is equivalent to `m ≤ (X-1)/2`. -/
+lemma two_mul_lt_iff_le_pred_div_two (m X : Nat) (hX : 0 < X) :
+    2 * m < X ↔ m ≤ (X - 1) / 2 := by
+  constructor
+  · intro h
+    have hle : 2 * m ≤ X - 1 := Nat.le_pred_of_lt h
+    have hle' : m * 2 ≤ X - 1 := by simpa [Nat.mul_comm] using hle
+    exact (Nat.le_div_iff_mul_le (by decide : 0 < 2)).2 hle'
+  · intro h
+    have hle' : m * 2 ≤ X - 1 := (Nat.le_div_iff_mul_le (by decide : 0 < 2)).1 h
+    have hle : 2 * m ≤ X - 1 := by simpa [Nat.mul_comm] using hle'
+    omega
+
 /-- If a complete-support product is interior, its left coordinate lies below half the wall. -/
 theorem interior_pair_left_below_half {X m n : Nat}
     (hn : 2 ≤ n) (h : m * n < X) : 2 * m < X := by
@@ -909,6 +922,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check signatureProbeX210
 #check SR21_NONPRIMORIAL_X35_IMBALANCED
 #check SR21_PRIMORIAL_X210_BALANCED
+#check two_mul_lt_iff_le_pred_div_two
 #check interior_pair_left_below_half
 #check interior_pair_right_below_half
 #check interior_pair_both_below_half
@@ -954,6 +968,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
 
 
 

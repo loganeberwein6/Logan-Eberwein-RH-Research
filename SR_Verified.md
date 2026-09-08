@@ -1374,3 +1374,9 @@ Stage 21 support-pair count backbone: supportPairCountRows counts all ordered co
 - Proof strategy used: rewrite the row-count inequality using the closed count formula and `completeSupport_length`, then discharge arithmetic with `omega`; finite formula check by `native_decide`.
 - Mathlib/Lean tools used: `rw`, `omega`, `native_decide`.
 - Date: 2026-09-08
+
+## SR.21 half-wall arithmetic equivalence
+- Theorem statement: `two_mul_lt_iff_le_pred_div_two` proves, for positive `X`, `2*m < X ↔ m ≤ (X-1)/2`.
+- Proof strategy used: convert strict inequality to `≤ X-1` via `Nat.le_pred_of_lt`, use `Nat.le_div_iff_mul_le`, and discharge the reverse direction with `omega`.
+- Mathlib/Lean tools used: `Nat.le_pred_of_lt`, `Nat.le_div_iff_mul_le`, `omega`.
+- Date: 2026-09-08

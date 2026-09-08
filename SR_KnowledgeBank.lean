@@ -1069,3 +1069,6 @@ end SR
 -- SR.21 closed below-half count formula bridges.
 #check SR.belowHalfSupportCount_formula_implies_positive
 #check SR.belowHalfSupportCount_formula_X6_to_X40
+
+-- SR.21 half-wall arithmetic equivalence.
+#check SR.two_mul_lt_iff_le_pred_div_two
