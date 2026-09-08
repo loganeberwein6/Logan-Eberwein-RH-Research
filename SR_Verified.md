@@ -1350,3 +1350,9 @@ Stage 21 support-pair count backbone: supportPairCountRows counts all ordered co
 - Proof strategy used: external integer computation of interior-pair counts; Lean records and checks the resulting certificate fields with `native_decide`.
 - Mathlib/Lean tools used: `native_decide`.
 - Date: 2026-09-08
+
+## SR.21 below-half row reduction
+- Theorem statement: `interiorPairCount_eq_belowHalfInteriorPairCount` proves that the full complete-support interior-pair count can be computed by summing only rows with `2*m < X`.
+- Proof strategy used: list induction, dropping each row whose summand is zero via `rowInteriorCount_complete_zero_of_not_below_half`.
+- Mathlib/Lean tools used: `simp`, list induction.
+- Date: 2026-09-08

@@ -584,6 +584,39 @@ theorem rowInteriorCount_complete_zero_of_not_below_half (X m : Nat)
     exact (completeSupport_mem_bounds hn).1
   · exact hm
 
+/-- Interior pairs counted only over rows strictly below the half-wall. -/
+def belowHalfInteriorPairCount (X : Nat) : Nat :=
+  (((completeSupport X).filter fun m => 2 * m < X).map fun m =>
+    rowInteriorCountOn X m (completeSupport X)).sum
+
+/-- A sum over rows is unchanged after dropping rows whose summand is zero. -/
+lemma sum_rows_eq_filter_sum (X : Nat) (L : List Nat)
+    (hzero : ∀ m ∈ L, ¬ 2 * m < X → rowInteriorCountOn X m (completeSupport X) = 0) :
+    (L.map fun m => rowInteriorCountOn X m (completeSupport X)).sum =
+      ((L.filter fun m => 2 * m < X).map fun m =>
+        rowInteriorCountOn X m (completeSupport X)).sum := by
+  induction L with
+  | nil => simp
+  | cons a t ih =>
+      by_cases ha : 2 * a < X
+      · simp [ha]
+        apply ih
+        intro m hm hz
+        exact hzero m (by simp [hm]) hz
+      · have hz : rowInteriorCountOn X a (completeSupport X) = 0 := hzero a (by simp) ha
+        simp [ha, hz]
+        apply ih
+        intro m hm hz'
+        exact hzero m (by simp [hm]) hz'
+
+/-- The full interior-pair count equals the below-half row count. -/
+theorem interiorPairCount_eq_belowHalfInteriorPairCount (X : Nat) :
+    interiorPairCount X = belowHalfInteriorPairCount X := by
+  unfold interiorPairCount belowHalfInteriorPairCount
+  apply sum_rows_eq_filter_sum
+  intro m _hm hnot
+  exact rowInteriorCount_complete_zero_of_not_below_half X m hnot
+
 /-- The all-ones signed entry sum is support-pair count minus twice interior-pair count. -/
 theorem allOnesEntrySum_count_formula_general (X : Nat) :
     allOnesEntrySum X =
@@ -821,6 +854,9 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check allOnesEntrySum_positive_of_interior_bound
 #check rowInteriorCountOn_zero_of_not_below_half
 #check rowInteriorCount_complete_zero_of_not_below_half
+#check belowHalfInteriorPairCount
+#check sum_rows_eq_filter_sum
+#check interiorPairCount_eq_belowHalfInteriorPairCount
 #check interiorPairCount
 #check interiorPairCount_le_supportPairCountRows
 #check allOnesEntrySum_X35_count_formula
@@ -836,6 +872,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
 
 
 

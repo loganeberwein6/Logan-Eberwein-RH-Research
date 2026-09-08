@@ -1050,3 +1050,8 @@ end SR
 -- SR.21 positive-bias count certificate extended to X=5000.
 #check SR.positiveBiasSearchX6To5000
 #check SR.SR21_POSITIVE_BIAS_SEARCH_X6_TO_5000
+
+-- SR.21 below-half row reduction for interior-pair counts.
+#check SR.belowHalfInteriorPairCount
+#check SR.sum_rows_eq_filter_sum
+#check SR.interiorPairCount_eq_belowHalfInteriorPairCount
