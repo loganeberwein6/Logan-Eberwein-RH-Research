@@ -1362,3 +1362,9 @@ Stage 21 support-pair count backbone: supportPairCountRows counts all ordered co
 - Proof strategy used: combine the below-half row reduction with the elementary fact that each row's filtered interior count is at most the full row width.
 - Mathlib/Lean tools used: `List.length_filter_le`, list induction, `Nat.add_le_add`, `Nat.add_mul`, `Nat.one_mul`.
 - Date: 2026-09-08
+
+## SR.21 row-count-to-positive-bias bridges
+- Theorem statement: `interiorPairCount_half_bound_of_belowHalfSupportCount` proves the desired interior-pair half-bound from the row-count inequality `2 * belowHalfSupportCount X < (completeSupport X).length`; `allOnesEntrySum_positive_of_belowHalfSupportCount` then proves positivity of the all-ones Rees sum from the same condition.
+- Proof strategy used: combine `interiorPairCount_le_belowHalf_rows_mul_width` with multiplication monotonicity by the positive support length, then rewrite `completeSupport_length`.
+- Mathlib/Lean tools used: `Nat.mul_lt_mul_of_pos_right`, `Nat.mul_le_mul_left`, `lt_of_le_of_lt`, `rw`, `simpa`.
+- Date: 2026-09-08

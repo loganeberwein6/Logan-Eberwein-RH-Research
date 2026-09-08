@@ -1061,3 +1061,7 @@ end SR
 #check SR.rowInteriorCountOn_le_length
 #check SR.belowHalfInteriorPairCount_le_rows_mul_width
 #check SR.interiorPairCount_le_belowHalf_rows_mul_width
+
+-- SR.21 row-count-to-positive-bias bridges.
+#check SR.interiorPairCount_half_bound_of_belowHalfSupportCount
+#check SR.allOnesEntrySum_positive_of_belowHalfSupportCount

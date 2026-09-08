@@ -1289,3 +1289,8 @@ Stage 21 syntax/name failure: support-pair count promotion accidentally inserted
 - Build failed because `allOnesEntrySum_count_formula_general` and `allOnesEntrySum_square_formula_general` were inserted before `allOnesEntrySum` was defined.
 - Exact obstruction: Lean reported `Function expected at allOnesEntrySum` and explained the identifier was unknown under `autoImplicit`; generated check output displayed malformed implicit parameters for `allOnesEntrySum`.
 - Fix: moved the global formula theorems below the `allOnesEntrySum` definition while leaving the rectangular helper lemmas above it.
+
+## Stage 21 row-count-to-positive-bias promotion ordering failure — 2026-09-08
+- Build failed because `allOnesEntrySum_positive_of_belowHalfSupportCount` was promoted before `allOnesEntrySum_positive_of_interior_bound`, the theorem it invokes.
+- Exact obstruction: `Unknown identifier allOnesEntrySum_positive_of_interior_bound` at `SR_SignatureBound.lean:677:8`.
+- Fix: kept `interiorPairCount_half_bound_of_belowHalfSupportCount` near the counting lemmas and moved `allOnesEntrySum_positive_of_belowHalfSupportCount` below `allOnesEntrySum_positive_of_interior_bound`.

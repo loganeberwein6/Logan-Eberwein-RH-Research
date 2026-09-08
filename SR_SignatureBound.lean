@@ -648,6 +648,28 @@ theorem interiorPairCount_le_belowHalf_rows_mul_width (X : Nat) :
   rw [interiorPairCount_eq_belowHalfInteriorPairCount]
   exact belowHalfInteriorPairCount_le_rows_mul_width X
 
+/-- If below-half rows are fewer than half the support, then interior pairs are fewer than half all pairs. -/
+theorem interiorPairCount_half_bound_of_belowHalfSupportCount (X : Nat)
+    (h : 2 * belowHalfSupportCount X < (completeSupport X).length) :
+    2 * interiorPairCount X < (X - 2) ^ 2 := by
+  have hI := interiorPairCount_le_belowHalf_rows_mul_width X
+  have hlen := completeSupport_length X
+  have hpos : 0 < (completeSupport X).length := lt_of_le_of_lt (Nat.zero_le _) h
+  have hmul0 : (2 * belowHalfSupportCount X) * (completeSupport X).length <
+      (completeSupport X).length * (completeSupport X).length := by
+    exact Nat.mul_lt_mul_of_pos_right h hpos
+  have hmul : 2 * (belowHalfSupportCount X * (completeSupport X).length) <
+      (completeSupport X).length * (completeSupport X).length := by
+    simpa [Nat.mul_assoc, Nat.mul_left_comm, Nat.mul_comm] using hmul0
+  have hI2 : 2 * interiorPairCount X ≤
+      2 * (belowHalfSupportCount X * (completeSupport X).length) := by
+    exact Nat.mul_le_mul_left 2 hI
+  have hlt : 2 * interiorPairCount X <
+      (completeSupport X).length * (completeSupport X).length :=
+    lt_of_le_of_lt hI2 hmul
+  rw [hlen] at hlt
+  simpa [pow_two] using hlt
+
 /-- The all-ones signed entry sum is support-pair count minus twice interior-pair count. -/
 theorem allOnesEntrySum_count_formula_general (X : Nat) :
     allOnesEntrySum X =
@@ -672,6 +694,13 @@ theorem allOnesEntrySum_positive_of_interior_bound (X : Nat)
 /-- The all-ones sum at X=6 is positive, matching the base positive-bias case. -/
 theorem allOnesEntrySum_X6 : allOnesEntrySum 6 = 14 := by
   native_decide
+
+/-- The all-ones Rees sum is positive if below-half rows are fewer than half the support. -/
+theorem allOnesEntrySum_positive_of_belowHalfSupportCount (X : Nat)
+    (h : 2 * belowHalfSupportCount X < (completeSupport X).length) :
+    0 < allOnesEntrySum X := by
+  exact allOnesEntrySum_positive_of_interior_bound X
+    (interiorPairCount_half_bound_of_belowHalfSupportCount X h)
 
 /-- Recorded positive-bias base case. -/
 theorem allOnesEntrySum_X6_pos : 0 < allOnesEntrySum 6 := by
@@ -892,6 +921,8 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check interiorPairCount_eq_belowHalfInteriorPairCount
 #check belowHalfInteriorPairCount_le_rows_mul_width
 #check interiorPairCount_le_belowHalf_rows_mul_width
+#check interiorPairCount_half_bound_of_belowHalfSupportCount
+#check allOnesEntrySum_positive_of_belowHalfSupportCount
 #check interiorPairCount
 #check interiorPairCount_le_supportPairCountRows
 #check allOnesEntrySum_X35_count_formula
@@ -907,6 +938,8 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
+
 
 
 
