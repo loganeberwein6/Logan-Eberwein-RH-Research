@@ -471,11 +471,28 @@ theorem support_interior_pair_below_half {X m n : Nat}
     (hint : m * n < X) : 2 * m < X ∧ 2 * n < X := by
   exact interior_pair_both_below_half (completeSupport_mem_bounds hm).1
     (completeSupport_mem_bounds hn).1 hint
+
+/-- Executable row-sum count of all ordered complete-support pairs. -/
+def supportPairCountRows (X : Nat) : Nat :=
+  ((completeSupport X).map fun _m => (completeSupport X).length).sum
+
+/-- The row-sum support pair count is the support-size square. -/
+theorem supportPairCountRows_eq_square (X : Nat) :
+    supportPairCountRows X = (X - 2) ^ 2 := by
+  simp [supportPairCountRows, completeSupport_length, pow_two]
 /-- Executable count of complete-support interior ordered pairs. -/
 def interiorPairCount (X : Nat) : Nat :=
   ((completeSupport X).map fun m =>
     ((completeSupport X).filter fun n => m * n < X).length).sum
 
+
+/-- Interior ordered pairs are a subset of all ordered support pairs. -/
+theorem interiorPairCount_le_supportPairCountRows (X : Nat) :
+    interiorPairCount X ≤ supportPairCountRows X := by
+  unfold interiorPairCount supportPairCountRows
+  apply List.sum_le_sum
+  intro m hm
+  exact List.length_filter_le _ _
 /-- Requested non-primorial probe has 60 interior ordered pairs. -/
 theorem interiorPairCount_X35 : interiorPairCount 35 = 60 := by
   native_decide
@@ -665,9 +682,10 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check interior_pair_right_below_half
 #check interior_pair_both_below_half
 #check support_interior_pair_below_half
+#check supportPairCountRows
+#check supportPairCountRows_eq_square
 #check interiorPairCount
-#check interiorPairCount_X35
-#check interiorPairCount_X210
+#check interiorPairCount_le_supportPairCountRows
 #check allOnesEntrySum_X35_count_formula
 #check allOnesEntrySum_X210_count_formula
 #check allOnesEntrySum
@@ -681,6 +699,8 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
+
 
 
 

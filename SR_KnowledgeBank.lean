@@ -991,9 +991,18 @@ Nothing enters this file unless the corresponding Lean target compiles.
 #check interior_pair_right_below_half
 #check interior_pair_both_below_half
 #check support_interior_pair_below_half
+#check supportPairCountRows
+#check supportPairCountRows_eq_square
 #check interiorPairCount
-#check interiorPairCount_X35
-#check interiorPairCount_X210
+#check interiorPairCount_le_supportPairCountRows
+#check supportPairCountRows
+#check supportPairCountRows_eq_square
+#check interiorPairCount
+#check interiorPairCount_le_supportPairCountRows_X35
+#check supportPairCountRows
+#check supportPairCountRows_eq_square
+#check interiorPairCount
+#check interiorPairCount_le_supportPairCountRows_X210
 #check allOnesEntrySum_X35_count_formula
 #check allOnesEntrySum_X210_count_formula
 #check allOnesEntrySum
@@ -1009,6 +1018,7 @@ Nothing enters this file unless the corresponding Lean target compiles.
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
 
 
 

@@ -1318,3 +1318,5 @@ Stage 21 certificate extension: SR21_BOUND_SEARCH_X6_TO_1000 records the complet
 Stage 21 support-shape lemmas: completeSupport_length proves the executable support has length X-2; completeSupport_mem_bounds proves every member lies in the intended interval 2 ≤ m < X. These are prerequisites for a general positive-bias count proof.
 
 Stage 21 proof scaffolding: reesEntry_neg_or_pos proves every executable Rees entry is exactly -1 or 1. support_interior_pair_below_half specializes the half-wall localization to members of completeSupport X. Both compile and prepare the general all-ones positivity proof.
+
+Stage 21 support-pair count backbone: supportPairCountRows counts all ordered complete-support pairs as a row sum; supportPairCountRows_eq_square proves it equals (X-2)^2 for all X; interiorPairCount_le_supportPairCountRows proves the interior count is bounded by the total ordered-pair count.

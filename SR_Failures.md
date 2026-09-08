@@ -1277,3 +1277,5 @@ Stage 21 repair note: List.bind field notation was unavailable for completeSuppo
 
 
 Stage 21 invariant attempt: the conference/constant-Gram candidate fails. For complete-support M_Rees, M*M^T has constant diagonal n but nonconstant off-diagonal entries already at X=6 (off values 2 and 4), X=8 (2,4,6), and many values at X=35/210. Therefore M_Rees is not an a*I+b*J Gram-class matrix under the current sign rule.
+
+Stage 21 syntax/name failure: support-pair count promotion accidentally inserted #check lines for undefined names interiorPairCount_le_supportPairCountRows_X35 and _X210. The general theorem interiorPairCount_le_supportPairCountRows exists; removed the stale finite #check names.
