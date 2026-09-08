@@ -1025,3 +1025,9 @@ end SR
 
 
 
+
+-- SR.21 row-sum bridge toward the positive-bias proof.
+#check SR.rowEntrySumOn
+#check SR.rowInteriorCountOn
+#check SR.rowEntrySumOn_formula
+#check SR.completeSupport_row_entry_sum_formula

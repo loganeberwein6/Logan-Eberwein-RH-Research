@@ -1279,3 +1279,8 @@ Stage 21 repair note: List.bind field notation was unavailable for completeSuppo
 Stage 21 invariant attempt: the conference/constant-Gram candidate fails. For complete-support M_Rees, M*M^T has constant diagonal n but nonconstant off-diagonal entries already at X=6 (off values 2 and 4), X=8 (2,4,6), and many values at X=35/210. Therefore M_Rees is not an a*I+b*J Gram-class matrix under the current sign rule.
 
 Stage 21 syntax/name failure: support-pair count promotion accidentally inserted #check lines for undefined names interiorPairCount_le_supportPairCountRows_X35 and _X210. The general theorem interiorPairCount_le_supportPairCountRows exists; removed the stale finite #check names.
+
+## Stage 21 row-sum bridge failed attempts — 2026-09-08
+- First stdin attempt unfolded `completeSupport` directly and failed because `simp` produced a composed `List.map` term where the induction hypothesis was not syntactically visible. Raw obstruction: rewrite/simp left goals of the form `-1 + (List.map ((fun n => if m * n < X then -1 else 1) ∘ fun k => k + 2) t).sum = ...`.
+- Second stdin attempt introduced helper definitions but `simp` expanded them before `rw [ih]`, so the rewrite pattern `rowEntrySumOn X m t` no longer occurred. Resolution: simplify both the induction hypothesis and target with the same definitions, then close by `omega`.
+- Promotion script failure: exact insertion needle did not match the current file spacing; no Lean state changed. Retried with the actual file anchor.

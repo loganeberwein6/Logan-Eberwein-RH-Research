@@ -1320,3 +1320,9 @@ Stage 21 support-shape lemmas: completeSupport_length proves the executable supp
 Stage 21 proof scaffolding: reesEntry_neg_or_pos proves every executable Rees entry is exactly -1 or 1. support_interior_pair_below_half specializes the half-wall localization to members of completeSupport X. Both compile and prepare the general all-ones positivity proof.
 
 Stage 21 support-pair count backbone: supportPairCountRows counts all ordered complete-support pairs as a row sum; supportPairCountRows_eq_square proves it equals (X-2)^2 for all X; interiorPairCount_le_supportPairCountRows proves the interior count is bounded by the total ordered-pair count.
+
+## SR.21 row-sum bridge
+- Theorem statement: `completeSupport_row_entry_sum_formula` proves each complete-support row sum equals row width minus twice its interior-pair count.
+- Proof strategy used: list induction on the row support, splitting on `m * a < X`; arithmetic discharged by `omega`.
+- Mathlib/Lean tools used: `simp`, `omega`, list induction.
+- Date: 2026-09-08

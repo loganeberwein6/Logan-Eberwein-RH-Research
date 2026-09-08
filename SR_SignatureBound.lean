@@ -480,6 +480,34 @@ def supportPairCountRows (X : Nat) : Nat :=
 theorem supportPairCountRows_eq_square (X : Nat) :
     supportPairCountRows X = (X - 2) ^ 2 := by
   simp [supportPairCountRows, completeSupport_length, pow_two]
+/-- Row-restricted signed Rees entry sum. -/
+def rowEntrySumOn (X m : Nat) (L : List Nat) : Int :=
+  (L.map fun n => reesEntryFromNat X m n).sum
+
+/-- Row-restricted interior-pair count. -/
+def rowInteriorCountOn (X m : Nat) (L : List Nat) : Nat :=
+  (L.filter fun n => m * n < X).length
+
+/-- A row's signed Rees sum is its width minus twice its interior count. -/
+lemma rowEntrySumOn_formula (X m : Nat) (L : List Nat) :
+    rowEntrySumOn X m L = (L.length : Int) - 2 * (rowInteriorCountOn X m L : Int) := by
+  induction L with
+  | nil => simp [rowEntrySumOn, rowInteriorCountOn]
+  | cons a t ih =>
+      by_cases h : m * a < X
+      · simp [rowEntrySumOn, rowInteriorCountOn, reesEntryFromNat, h] at ih ⊢
+        omega
+      · simp [rowEntrySumOn, rowInteriorCountOn, reesEntryFromNat, h] at ih ⊢
+        omega
+
+/-- Each complete-support row has sum equal to support length minus twice the row interior count. -/
+theorem completeSupport_row_entry_sum_formula (X m : Nat) :
+    ((completeSupport X).map fun n => reesEntryFromNat X m n).sum =
+      ((completeSupport X).length : Int) -
+        2 * ((((completeSupport X).filter fun n => m * n < X).length) : Int) := by
+  simpa [rowEntrySumOn, rowInteriorCountOn] using
+    rowEntrySumOn_formula X m (completeSupport X)
+
 /-- Executable count of complete-support interior ordered pairs. -/
 def interiorPairCount (X : Nat) : Nat :=
   ((completeSupport X).map fun m =>
@@ -684,6 +712,10 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check support_interior_pair_below_half
 #check supportPairCountRows
 #check supportPairCountRows_eq_square
+#check rowEntrySumOn
+#check rowInteriorCountOn
+#check rowEntrySumOn_formula
+#check completeSupport_row_entry_sum_formula
 #check interiorPairCount
 #check interiorPairCount_le_supportPairCountRows
 #check allOnesEntrySum_X35_count_formula
@@ -699,6 +731,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
 
 
 
