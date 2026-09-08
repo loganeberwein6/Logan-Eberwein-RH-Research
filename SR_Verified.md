@@ -1356,3 +1356,9 @@ Stage 21 support-pair count backbone: supportPairCountRows counts all ordered co
 - Proof strategy used: list induction, dropping each row whose summand is zero via `rowInteriorCount_complete_zero_of_not_below_half`.
 - Mathlib/Lean tools used: `simp`, list induction.
 - Date: 2026-09-08
+
+## SR.21 row-count upper bounds
+- Theorem statement: `interiorPairCount_le_belowHalf_rows_mul_width` proves `interiorPairCount X ≤ belowHalfSupportCount X * (completeSupport X).length`.
+- Proof strategy used: combine the below-half row reduction with the elementary fact that each row's filtered interior count is at most the full row width.
+- Mathlib/Lean tools used: `List.length_filter_le`, list induction, `Nat.add_le_add`, `Nat.add_mul`, `Nat.one_mul`.
+- Date: 2026-09-08

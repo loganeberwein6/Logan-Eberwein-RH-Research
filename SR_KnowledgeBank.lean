@@ -1055,3 +1055,9 @@ end SR
 #check SR.belowHalfInteriorPairCount
 #check SR.sum_rows_eq_filter_sum
 #check SR.interiorPairCount_eq_belowHalfInteriorPairCount
+
+-- SR.21 row-count upper bounds for positive-bias counting.
+#check SR.belowHalfSupportCount
+#check SR.rowInteriorCountOn_le_length
+#check SR.belowHalfInteriorPairCount_le_rows_mul_width
+#check SR.interiorPairCount_le_belowHalf_rows_mul_width

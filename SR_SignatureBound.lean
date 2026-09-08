@@ -584,6 +584,16 @@ theorem rowInteriorCount_complete_zero_of_not_below_half (X m : Nat)
     exact (completeSupport_mem_bounds hn).1
   · exact hm
 
+/-- Number of complete-support rows strictly below the half-wall. -/
+def belowHalfSupportCount (X : Nat) : Nat :=
+  ((completeSupport X).filter fun m => 2 * m < X).length
+
+/-- Any row-restricted interior count is bounded by the row width. -/
+lemma rowInteriorCountOn_le_length (X m : Nat) (L : List Nat) :
+    rowInteriorCountOn X m L ≤ L.length := by
+  unfold rowInteriorCountOn
+  exact List.length_filter_le _ _
+
 /-- Interior pairs counted only over rows strictly below the half-wall. -/
 def belowHalfInteriorPairCount (X : Nat) : Nat :=
   (((completeSupport X).filter fun m => 2 * m < X).map fun m =>
@@ -616,6 +626,27 @@ theorem interiorPairCount_eq_belowHalfInteriorPairCount (X : Nat) :
   apply sum_rows_eq_filter_sum
   intro m _hm hnot
   exact rowInteriorCount_complete_zero_of_not_below_half X m hnot
+/-- The below-half interior-pair count is at most below-half rows times support width. -/
+lemma belowHalfInteriorPairCount_le_rows_mul_width (X : Nat) :
+    belowHalfInteriorPairCount X ≤ belowHalfSupportCount X * (completeSupport X).length := by
+  unfold belowHalfInteriorPairCount belowHalfSupportCount
+  induction ((completeSupport X).filter fun m => 2 * m < X) with
+  | nil => simp
+  | cons a t ih =>
+      simp only [List.map_cons, List.sum_cons, List.length_cons]
+      calc
+        rowInteriorCountOn X a (completeSupport X) +
+            (List.map (fun m => rowInteriorCountOn X m (completeSupport X)) t).sum
+            ≤ (completeSupport X).length + t.length * (completeSupport X).length := by
+              exact Nat.add_le_add (rowInteriorCountOn_le_length X a (completeSupport X)) ih
+        _ = (t.length + 1) * (completeSupport X).length := by
+              rw [Nat.add_mul, Nat.one_mul, Nat.add_comm]
+
+/-- The full interior-pair count is bounded by below-half row count times support width. -/
+theorem interiorPairCount_le_belowHalf_rows_mul_width (X : Nat) :
+    interiorPairCount X ≤ belowHalfSupportCount X * (completeSupport X).length := by
+  rw [interiorPairCount_eq_belowHalfInteriorPairCount]
+  exact belowHalfInteriorPairCount_le_rows_mul_width X
 
 /-- The all-ones signed entry sum is support-pair count minus twice interior-pair count. -/
 theorem allOnesEntrySum_count_formula_general (X : Nat) :
@@ -854,9 +885,13 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check allOnesEntrySum_positive_of_interior_bound
 #check rowInteriorCountOn_zero_of_not_below_half
 #check rowInteriorCount_complete_zero_of_not_below_half
+#check belowHalfSupportCount
+#check rowInteriorCountOn_le_length
 #check belowHalfInteriorPairCount
 #check sum_rows_eq_filter_sum
 #check interiorPairCount_eq_belowHalfInteriorPairCount
+#check belowHalfInteriorPairCount_le_rows_mul_width
+#check interiorPairCount_le_belowHalf_rows_mul_width
 #check interiorPairCount
 #check interiorPairCount_le_supportPairCountRows
 #check allOnesEntrySum_X35_count_formula
@@ -872,6 +907,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
 
 
 
