@@ -651,3 +651,27 @@ Distance from RH proof:
 The project now has a dynamic finite-flow scaffold, but RH would still require
 an analytic bridge from SR signature evolution to zeta-zero locations and a
 limit theorem.  No RH consequence has been proved.
+
+## Stage 20 completion audit (2026-09-08)
+
+Status: partial but compiled certificate success.
+
+Completed and Lean-verified:
+
+- File SR_SignatureBound.lean exists and target build passes.
+- Complete-support signatures for X=6..200 are recorded in knownSigs and each carries a proof of pos = neg ∨ pos = neg + 1.
+- The certificate list has length 195, starts at X=6, and ends at X=200.
+- Rees coordinate decomposition is proved as ees_decomposition.
+- Transition formula is verified for n=1..8 as 	ransition_formula_verified.
+- Boundary determinant/characteristic-equation scaffold is proved as oundary_eigenvalues_sqrt2 over Rat.
+
+Too weak / still open:
+
+- The general theorem for all X≥6 is not proved; it is represented only by SR20_CONJ_SIGNATURE_BOUND : True.
+- The boundary theorem is not a full real Matrix.det (M - λ • 1) theorem; it is a rational scalar characteristic-equation certificate.
+- Density claims are not proved; SR20_DENSITY_SCAFFOLD is only an explicit placeholder.
+- The Lean certificate verifies the recorded signatures, not the eigenspectrum computation that produced them.
+
+RH remains open.
+
+Stage 20 correction: oundary_matrix_det_sqrt2_proxy now proves the exact rational Matrix.det determinant statement for !![-1,b;b,1] with b=±1. Remaining weakness: not yet the full real shifted characteristic determinant Matrix.det (M - lam • 1).

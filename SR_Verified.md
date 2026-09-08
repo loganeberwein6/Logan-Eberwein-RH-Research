@@ -1266,3 +1266,23 @@
 - Verification:
   - `lake -Kjobs=1 build SR_Balance_Comparison` completed successfully.
 - Date: 2026-09-07
+
+## Stage 20 — Signature Bound Theorem: Lean certificate layer (2026-09-08)
+
+Stable IDs promoted after lake -Kjobs=1 build SR_SignatureBound succeeded:
+
+- SR.20A.1: completeSupport, eesSign, eesEntryFromNat, ReesSig, and hasBoundedSignature define the complete-support signature certificate layer.
+- SR.20B.1: knownSigs records complete-support signatures for every integer cutoff X=6..200; knownSigs_length = 195, first X=6, last X=200.
+- SR.20.BOUND_COMPUTATIONAL: SR20_BOUND_X6_TO_200 verifies every recorded certificate satisfies pos = neg ∨ pos = neg + 1.
+- SR.20C.1: oundary_eigenvalues_sqrt2 proves the determinant/characteristic-equation scaffold for the two-by-two boundary block over Rat.
+- SR.20D.1: ees_decomposition proves the coordinate identity M = J - 2A for integer-valued Rees entries.
+- SR.20F.1: 	ransition_formula_verified checks transition points (1,3) through (8,87) satisfy k = n^2 + 3n - 1.
+- SR.20.OPEN: SR20_CONJ_SIGNATURE_BOUND and SR20_DENSITY_SCAFFOLD are explicit True scaffolds only; no general theorem or RH consequence is claimed.
+- SR.20.OUTCOME: SR20_SYNTHESIS packages the compiled finite certificate/proof layer.
+
+Proof strategy used: external NumPy eigensignature computation produced certificate data; Lean verifies the bound field for all listed records, plus exact arithmetic identities for decomposition and transitions. Boundary algebra is encoded as a rational characteristic-equation certificate to avoid importing the full real-analysis matrix stack.
+
+Mathlib/Lean ingredients used: existing SR_Primitives, 
+ative_decide, simp, record projections, finite list membership simplification.
+
+Stage 20 correction: added oundaryMatrix and oundary_matrix_det_sqrt2_proxy, an exact rational Matrix.det proof for the 2x2 boundary block. The full real Matrix.det (M - lam • 1) eigenvalue theorem remains listed as future strengthening.

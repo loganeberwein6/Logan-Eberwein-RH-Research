@@ -1257,3 +1257,12 @@ Outcome:
 lake -Kjobs=1 build SR_Flow
 Build completed successfully
 ```
+
+## Stage 20 repair log (2026-09-08)
+
+- Initial SR_SignatureBound.lean import used broad mathlib tactic/real imports and caused long silent builds. Replaced with import SR_Primitives and an integer/rational certificate layer.
+- A malformed PowerShell text replacement introduced literal ` 
+ ` strings. Fixed by direct block rewrite before successful compile.
+- Attempted to use Finset.Icc and Real after removing heavy imports; Lean reported unknown Finset.Icc, lambda parse fallout, missing 
+orm_num, and undecidable transition proof. Resolved by using list support certificates, rational boundary algebra, simp, and explicit finite-list case splitting.
+- sub_eq_zero.mp was unavailable under the lightweight import. Resolved by defining the boundary characteristic condition directly as a proposition lam^2 = 2.

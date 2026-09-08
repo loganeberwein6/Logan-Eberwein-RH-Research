@@ -405,3 +405,11 @@ Definitions or hypotheses now needed:
   `J - 2D_n`;
 - a precise zeta-spectrum conjecture stating the analytic bridge without
   pretending that the finite support condition alone proves it.
+
+## Stage 20 definitions/proofs still needed (2026-09-08)
+
+- A native Lean eigensignature or inertia verifier that computes pos, 
+eg, and zero from M_Rees_X, rather than trusting externally recorded certificates.
+- A full real matrix version of the boundary theorem using Matrix.det (M - lam • 1) and actual Real.sqrt 2 eigenvalues.
+- A proof of the general signature bound for all X≥6, likely via an interlacing/rank-update theorem for the divisor-threshold matrix.
+- Formal density statements for balanced even cutoffs and semiprime 2p cutoffs.

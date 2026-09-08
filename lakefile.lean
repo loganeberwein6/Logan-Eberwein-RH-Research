@@ -72,3 +72,9 @@ lean_lib SR_Balance where
 
 lean_lib SR_Balance_Comparison where
   roots := #[`SR_Balance_Comparison]
+
+lean_lib SR_Primorial where
+  roots := #[`SR_Primorial]
+
+lean_lib SR_SignatureBound where
+  roots := #[`SR_SignatureBound]

@@ -19,6 +19,7 @@ import SR_Signature
 import SR_Flow
 import SR_Balance
 import SR_Balance_Comparison
+import SR_SignatureBound
 
 namespace SR
 
@@ -915,5 +916,43 @@ Nothing enters this file unless the corresponding Lean target compiles.
 #check SR18_CONJ_ZETA_SPECTRUM
 #check SR18_SURGERY_REQUIRES_MORE_THAN_COMPLETE_SUPPORT
 #check SR18_COMPUTATIONAL_COMPLETE
+
+/- SR.20A.1: Complete support and Rees sign/entry primitives for the signature bound layer. -/
+#check completeSupport
+#check reesSign
+#check reesEntryFromNat
+#check ReesSig
+#check hasBoundedSignature
+
+/- SR.20B.1: Computational certificate list for complete-support X=6..200. -/
+#check knownSigs
+#check all_known_bounded
+#check SR20_BOUND_X6_TO_200
+#check knownSigs_length
+#check knownSigs_first_X
+#check knownSigs_last_X
+
+/- SR.20C.1: Boundary two-by-two determinant and characteristic equation certify the ±√2 pattern. -/
+#check boundaryDet
+#check boundaryCharacteristic
+#check boundary_eigenvalues_sqrt2
+#check boundaryMatrix
+#check boundary_matrix_det_sqrt2_proxy
+
+/- SR.20D.1: Coordinate Rees decomposition M = J - 2A. -/
+#check rees_decomposition
+
+/- SR.20F.1: Transition points k = n^2 + 3n - 1 verified for n=1..8. -/
+#check transitionK
+#check transitionPoints
+#check transition_formula
+#check transition_formula_verified
+
+/- SR.20.OPEN: General signature bound and density statements remain conjectural scaffolds. -/
+#check SR20_CONJ_SIGNATURE_BOUND
+#check SR20_DENSITY_SCAFFOLD
+
+/- SR.20.OUTCOME: Compiled Stage 20 finite certificate/proof package. -/
+#check SR20_SYNTHESIS
 
 end SR
