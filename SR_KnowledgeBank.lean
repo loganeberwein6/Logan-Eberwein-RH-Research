@@ -975,6 +975,8 @@ Nothing enters this file unless the corresponding Lean target compiles.
 #check SignatureBoundSearchRecord
 #check signatureBoundSearchX6To500
 #check SR21_BOUND_SEARCH_X6_TO_500
+#check signatureBoundSearchX6To1000
+#check SR21_BOUND_SEARCH_X6_TO_1000
 #check PositiveBiasSearchRecord
 #check positiveBiasSearchX6To1000
 #check SR21_POSITIVE_BIAS_SEARCH_X6_TO_1000
@@ -1003,6 +1005,7 @@ Nothing enters this file unless the corresponding Lean target compiles.
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
 
 
 

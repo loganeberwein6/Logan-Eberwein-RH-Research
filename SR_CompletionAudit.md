@@ -701,3 +701,5 @@ Stage 21 positive-bias audit: computational evidence supports the all-ones posit
 Stage 21 proof-seed audit: the first analytic ingredients for the positive-bias proof now compile, but they do not yet prove the full N_int_less_half count or the spectral signature bound.
 
 Stage 21 late probe: X=210 (next primorial after 30) supports the balance pattern with signature (13,13,182). X=35, a non-primorial cutoff between 30 and 210, breaks balance with signature (5,4,24). This strengthens the evidence that special cutoffs, not arbitrary complete supports, drive exact p=q balance.
+
+Stage 21 computational bound extension: the signature-bound certificate has been extended externally from X=500 to X=1000 and promoted as a finite Lean record. This is still not the all-X theorem, but it broadens the audited evidence substantially.

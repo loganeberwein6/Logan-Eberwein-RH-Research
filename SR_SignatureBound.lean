@@ -492,6 +492,22 @@ theorem allOnesEntrySum_X35_count_formula :
 theorem allOnesEntrySum_X210_count_formula :
     allOnesEntrySum 210 = (208 : Int) ^ 2 - 2 * (interiorPairCount 210 : Int) := by
   native_decide
+
+/-- NumPy eigensignature computation: complete-support X=6..1000, zero violations. -/
+def signatureBoundSearchX6To1000 : SignatureBoundSearchRecord :=
+  { minX := 6, maxX := 1000, cutoffsChecked := 995, violations := 0,
+    lastX := 1000, lastPos := 31, lastNeg := 30, lastZero := 937 }
+
+theorem SR21_BOUND_SEARCH_X6_TO_1000 :
+    signatureBoundSearchX6To1000.minX = 6 ∧
+    signatureBoundSearchX6To1000.maxX = 1000 ∧
+    signatureBoundSearchX6To1000.cutoffsChecked = 995 ∧
+    signatureBoundSearchX6To1000.violations = 0 ∧
+    signatureBoundSearchX6To1000.lastX = 1000 ∧
+    signatureBoundSearchX6To1000.lastPos = 31 ∧
+    signatureBoundSearchX6To1000.lastNeg = 30 ∧
+    signatureBoundSearchX6To1000.lastZero = 937 := by
+  native_decide
 /-- External search record for the all-ones positive-bias count inequality. -/
 structure PositiveBiasSearchRecord where
   minX : Nat
@@ -559,6 +575,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
     (∀ s ∈ knownSigs, s.pos ≤ s.neg + 1) ∧
     hereditaryCertificateX6To100.violations = 0 ∧
     signatureBoundSearchX6To500.violations = 0 ∧
+    signatureBoundSearchX6To1000.violations = 0 ∧
     positiveBiasSearchX6To1000.violations = 0 ∧
     True := by
   exact ⟨SR21_PARITY_CONJECTURE_FALSE_FOR_RECORDED_X8,
@@ -566,6 +583,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
     SR21_UPPER_BOUND_CERTIFIED_X6_TO_200,
     SR21_HEREDITARY_CERTIFIED.2.2.2,
     SR21_BOUND_SEARCH_X6_TO_500.2.2.2.1,
+    SR21_BOUND_SEARCH_X6_TO_1000.2.2.2.1,
     SR21_POSITIVE_BIAS_SEARCH_X6_TO_1000.2.2.2.1,
     SR21_SIGNATURE_BOUND_OPEN⟩
 
@@ -601,6 +619,8 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check SignatureBoundSearchRecord
 #check signatureBoundSearchX6To500
 #check SR21_BOUND_SEARCH_X6_TO_500
+#check signatureBoundSearchX6To1000
+#check SR21_BOUND_SEARCH_X6_TO_1000
 #check PositiveBiasSearchRecord
 #check positiveBiasSearchX6To1000
 #check SR21_POSITIVE_BIAS_SEARCH_X6_TO_1000
@@ -627,6 +647,8 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+
+
 
 
 
