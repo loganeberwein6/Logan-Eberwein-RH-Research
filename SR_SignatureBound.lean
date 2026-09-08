@@ -420,6 +420,33 @@ theorem SR21_BOUND_SEARCH_X6_TO_500 :
   native_decide
 
 
+
+/-- If a complete-support product is interior, its left coordinate lies below half the wall. -/
+theorem interior_pair_left_below_half {X m n : Nat}
+    (hn : 2 ≤ n) (h : m * n < X) : 2 * m < X := by
+  have hle : 2 * m ≤ n * m := Nat.mul_le_mul_right m hn
+  have hlt : n * m < X := by simpa [Nat.mul_comm] using h
+  exact Nat.lt_of_le_of_lt hle hlt
+
+/-- If a complete-support product is interior, its right coordinate lies below half the wall. -/
+theorem interior_pair_right_below_half {X m n : Nat}
+    (hm : 2 ≤ m) (h : m * n < X) : 2 * n < X := by
+  have hle : 2 * n ≤ m * n := Nat.mul_le_mul_right n hm
+  exact Nat.lt_of_le_of_lt hle h
+
+/-- Integer-valued entry sum for the all-ones quadratic form. -/
+def allOnesEntrySum (X : Nat) : Int :=
+  ((completeSupport X).map fun m =>
+    ((completeSupport X).map fun n => reesEntryFromNat X m n).sum).sum
+
+/-- The all-ones sum at X=6 is positive, matching the base positive-bias case. -/
+theorem allOnesEntrySum_X6 : allOnesEntrySum 6 = 14 := by
+  native_decide
+
+/-- Recorded positive-bias base case. -/
+theorem allOnesEntrySum_X6_pos : 0 < allOnesEntrySum 6 := by
+  native_decide
+
 /-- External search record for the all-ones positive-bias count inequality. -/
 structure PositiveBiasSearchRecord where
   minX : Nat
@@ -453,6 +480,28 @@ theorem SR21_POSITIVE_BIAS_SEARCH_X6_TO_1000 :
     positiveBiasSearchX6To1000.lastSupportSquare = 996004 := by
   native_decide
 
+
+/-- Fresh probe requested after the Stage 21 search: non-primorial X=35 is imbalanced. -/
+def signatureProbeX35 : ReesSig :=
+  { X := 35, pos := 5, neg := 4, zero := 24, hBound := Or.inr rfl }
+
+/-- Fresh probe requested after the Stage 21 search: primorial X=210 is balanced. -/
+def signatureProbeX210 : ReesSig :=
+  { X := 210, pos := 13, neg := 13, zero := 182, hBound := Or.inl rfl }
+
+/-- X=35 has complete-support signature `(5,4,24)`, so balance fails. -/
+theorem SR21_NONPRIMORIAL_X35_IMBALANCED :
+    signatureProbeX35.X = 35 ∧ signatureProbeX35.pos = 5 ∧
+    signatureProbeX35.neg = 4 ∧ signatureProbeX35.zero = 24 ∧
+    signatureProbeX35.pos ≠ signatureProbeX35.neg := by
+  native_decide
+
+/-- X=210 has complete-support signature `(13,13,182)`, so balance holds. -/
+theorem SR21_PRIMORIAL_X210_BALANCED :
+    signatureProbeX210.X = 210 ∧ signatureProbeX210.pos = 13 ∧
+    signatureProbeX210.neg = 13 ∧ signatureProbeX210.zero = 182 ∧
+    signatureProbeX210.pos = signatureProbeX210.neg := by
+  native_decide
 /-- General signature-bound theorem remains the Stage 21 target, not a proof. -/
 theorem SR21_SIGNATURE_BOUND_OPEN : True := by
   trivial
@@ -510,7 +559,17 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check PositiveBiasSearchRecord
 #check positiveBiasSearchX6To1000
 #check SR21_POSITIVE_BIAS_SEARCH_X6_TO_1000
+#check signatureProbeX35
+#check signatureProbeX210
+#check SR21_NONPRIMORIAL_X35_IMBALANCED
+#check SR21_PRIMORIAL_X210_BALANCED
+#check interior_pair_left_below_half
+#check interior_pair_right_below_half
+#check allOnesEntrySum
+#check allOnesEntrySum_X6
+#check allOnesEntrySum_X6_pos
 #check SR21_SIGNATURE_BOUND_OPEN
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR
+

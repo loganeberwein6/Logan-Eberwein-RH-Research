@@ -697,3 +697,7 @@ What remains open:
 RH remains open.
 
 Stage 21 positive-bias audit: computational evidence supports the all-ones positive-bias inequality through X=1000, but this is not yet a general Lean proof of N_int_less_half or of the spectral lower bound.
+
+Stage 21 proof-seed audit: the first analytic ingredients for the positive-bias proof now compile, but they do not yet prove the full N_int_less_half count or the spectral signature bound.
+
+Stage 21 late probe: X=210 (next primorial after 30) supports the balance pattern with signature (13,13,182). X=35, a non-primorial cutoff between 30 and 210, breaks balance with signature (5,4,24). This strengthens the evidence that special cutoffs, not arbitrary complete supports, drive exact p=q balance.

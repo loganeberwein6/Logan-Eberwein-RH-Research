@@ -1301,3 +1301,8 @@ Proof strategy used: Lean
 ative_decide over finite certificate records, plus explicit counterexample recording for the failed parity route. No general spectral theorem was promoted.
 
 Stage 21 extension: SR21_POSITIVE_BIAS_SEARCH_X6_TO_1000 records an external count search for complete-support X=6..1000 with zero violations of 2*N_int < (X-2)^2; at X=1000, support size 998, interior pairs 5056, twice interior pairs 10112, support square 996004.
+
+Stage 21 proof-seed extension: added interior_pair_left_below_half and interior_pair_right_below_half, proving in Lean that if m,n ≥ 2 and m*n < X, then both coordinates are below the half-wall. Added executable allOnesEntrySum; allOnesEntrySum_X6 = 14 and allOnesEntrySum_X6_pos.
+
+Stage 21 probe: SR21_NONPRIMORIAL_X35_IMBALANCED records complete-support X=35 signature (5,4,24), so p≠q. SR21_PRIMORIAL_X210_BALANCED records complete-support X=210 signature (13,13,182), so p=q. Computed externally by symmetric real eigensignature and promoted as finite Lean records with native_decide field checks.
+

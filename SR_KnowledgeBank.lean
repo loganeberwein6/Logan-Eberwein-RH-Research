@@ -978,6 +978,15 @@ Nothing enters this file unless the corresponding Lean target compiles.
 #check PositiveBiasSearchRecord
 #check positiveBiasSearchX6To1000
 #check SR21_POSITIVE_BIAS_SEARCH_X6_TO_1000
+#check signatureProbeX35
+#check signatureProbeX210
+#check SR21_NONPRIMORIAL_X35_IMBALANCED
+#check SR21_PRIMORIAL_X210_BALANCED
+#check interior_pair_left_below_half
+#check interior_pair_right_below_half
+#check allOnesEntrySum
+#check allOnesEntrySum_X6
+#check allOnesEntrySum_X6_pos
 
 /- SR.21.OPEN: The all-X signature bound remains open after parity failed. -/
 #check SR21_SIGNATURE_BOUND_OPEN

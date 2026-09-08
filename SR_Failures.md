@@ -1272,3 +1272,6 @@ orm_num, and undecidable transition proof. Resolved by using list support certif
 - Parity conjecture failed under Lean evaluation: ∀ s ∈ knownSigs, sigIndex s % 2 = supportParityIndex s is false.
 - First extracted obstruction: X=8 has signature (2,1,3), so sigIndex = 1 while (X-2)%2 = 0.
 - A direct membership proof sigX8 ∈ knownSigs was not decidable because ReesSig contains the proof field hBound; replaced with a standalone compiled X=8 counterexample record.
+
+Stage 21 repair note: List.bind field notation was unavailable for completeSupport; rewrote allOnesEntrySum as nested List.map ... .sum.
+
