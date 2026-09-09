@@ -45,3 +45,6 @@ norm-squared normalization lemma is needed.
 
 The norm bridge compiles, but the scalar identity `inner ℝ a b = a*b` is not
 definitional and does not close by unit sesquilinearity alone.
+
+`RCLike.inner_apply` is present in other mathlib contexts but does not rewrite
+scalar `inner ℝ` terms under the current imports.
