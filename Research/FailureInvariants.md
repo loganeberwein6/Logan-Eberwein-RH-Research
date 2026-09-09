@@ -73,3 +73,7 @@ shortcut is archived in `SR_Bridge.lean`.
 Even `Finset.sum_fin_eq_sum_range` leaves an `if h : i < n`/proof-dependent
 index expression. A clean transport should use a dedicated equivalence or
 retain `Fin` sums until the final arithmetic specialization.
+
+A direct induction for `List.sum = ∑ i : Fin length, l[i]` hits recursive
+simplification-depth limits on dependent indexing. This is archived; use an
+existing List/Fin equivalence or a nondependent `getD` representation.

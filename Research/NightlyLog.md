@@ -97,3 +97,6 @@ archived because range binders erase the bounded-index proofs.
 2026-09-09 — The standard `sum_fin_eq_sum_range` API was tested; its proof-
 dependent `if` normal form confirms that the transport should remain in `Fin`
 coordinates rather than forcing raw range notation.
+
+2026-09-09 — Direct List-to-Fin sum induction hit dependent-index recursion
+depth; archived and marked for replacement by a library equivalence.

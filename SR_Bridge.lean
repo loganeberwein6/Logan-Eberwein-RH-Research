@@ -367,6 +367,15 @@ theorem SRPairAt_index_reconstruct (X : Nat)
         (i.1 % (completeSupport X).length) = i.1 := by
   simpa [Nat.mul_comm] using Nat.div_add_mod i.1 (completeSupport X).length
 
+/- FAILED ATTEMPT (archived 2026-09-09): straightforward induction triggers
+   recursive simplification depth on dependent List indexing. -/
+/- theorem list_sum_eq_fin_sum (l : List ℝ) :
+    l.sum = ∑ i : Fin l.length, l[i] := by
+  induction l with
+  | nil => simp
+  | cons a l ih =>
+      simp [ih, Fin.sum_univ_succ] -/
+
 theorem SRSupportAt_eq_get (X i : Nat)
     (hi : i < (completeSupport X).length) :
     SRSupportAt X i = (completeSupport X)[i] := by
