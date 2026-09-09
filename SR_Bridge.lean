@@ -48,6 +48,44 @@ theorem SR_S1_log_eq_halfWeighted (X : Nat) :
     SR_S1_log X = SR_HalfWeightedSum X := by
   rfl
 
+/- FAILED ATTEMPT (archived 2026-09-08): unfolding the existing logarithmic
+   List.map definitions changes membership witnesses to reals, preventing
+   direct application of completeSupport_mem_bounds. -/
+/- theorem SR_S2_log_nonneg (X : Nat) : 0 ≤ SR_S2_log X := by
+  classical
+  unfold SR_S2_log
+  apply List.sum_nonneg
+  intro z hz
+  rcases List.mem_map.1 hz with ⟨m, hm, rfl⟩
+  apply List.sum_nonneg
+  intro w hw
+  obtain ⟨n : Nat, hn, rfl⟩ := List.mem_map.1 hw
+  have hm0 : m ∈ completeSupport X := by simpa using hm
+  have hn0 : n ∈ completeSupport X := by simpa using hn
+  have hm' := completeSupport_mem_bounds hm0
+  have hn' := completeSupport_mem_bounds hn0
+  have hlogm : 0 ≤ Real.log m := Real.log_nonneg (by exact_mod_cast hm'.1)
+  have hlogn : 0 ≤ Real.log n := Real.log_nonneg (by exact_mod_cast hn'.1)
+  have hden : 0 ≤ (m : ℝ) * n := by positivity
+  exact div_nonneg (mul_nonneg hlogm hlogn) hden
+
+theorem SR_S3_log_nonneg (X : Nat) : 0 ≤ SR_S3_log X := by
+  classical
+  unfold SR_S3_log
+  apply List.sum_nonneg
+  intro z hz
+  rcases List.mem_map.1 hz with ⟨m, hm, rfl⟩
+  apply List.sum_nonneg
+  intro w hw
+  obtain ⟨n : Nat, hn, rfl⟩ := List.mem_map.1 hw
+  have hm0 : m ∈ completeSupport X := by simpa using hm
+  have hn0 : n ∈ completeSupport X := by simpa using hn
+  have hm' := completeSupport_mem_bounds hm0
+  have hn' := completeSupport_mem_bounds hn0
+  have hlogm : 0 ≤ Real.log m := Real.log_nonneg (by exact_mod_cast hm'.1)
+  have hlogn : 0 ≤ Real.log n := Real.log_nonneg (by exact_mod_cast hn'.1)
+  exact mul_nonneg hlogm hlogn -/
+
 lemma vonMangoldt_nonneg (n : Nat) :
     0 ≤ vonMangoldt n := by
   classical

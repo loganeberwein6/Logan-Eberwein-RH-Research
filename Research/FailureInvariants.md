@@ -18,3 +18,7 @@ the finite-sum lift must use list induction or an available finite-sum API.
 The first row-induction formulation also leaves subtraction associativity
 goals after rewriting the induction hypothesis; the pointwise identity remains
 the stable boundary theorem.
+
+The attempted `SR_S2_log_nonneg`/`SR_S3_log_nonneg` proofs reveal a coercion
+obstruction: `List.mem_map` witnesses become `ℝ` after unfolding the nested
+logarithmic maps, while `completeSupport_mem_bounds` requires Nat membership.
