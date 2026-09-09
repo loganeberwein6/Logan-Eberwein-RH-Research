@@ -265,6 +265,14 @@ theorem SR_weil_form_half_abs_le_card_sq (X : Nat) (gamma : ℝ) :
     _ = ((X - 2 : Nat) : ℝ) ^ 2 := by
       simp [SR_completeSupport_card, pow_two]
 
+theorem SR_weil_form_half_abs_le_X_sq (X : Nat) (gamma : ℝ) :
+    |SR_weil_form_real X (1 / 2) gamma| ≤ (X : ℝ) ^ 2 := by
+  have h0 := SR_weil_form_half_abs_le_card_sq X gamma
+  have hcast : ((X - 2 : Nat) : ℝ) ≤ (X : ℝ) := by
+    exact_mod_cast Nat.sub_le X 2
+  have hx : 0 ≤ (X : ℝ) := by positivity
+  nlinarith [sq_nonneg (((X - 2 : Nat) : ℝ) - (X : ℝ))]
+
 theorem SR_weil_form_phase_minus_zero (X : Nat) (beta : ℝ) :
     SR_weil_form_phase_minus X beta 0 =
       SR_weil_form_phase_plus X beta 0 := by
