@@ -83,6 +83,19 @@ theorem SR_allOnesEntrySum_small_table :
     allOnesEntrySum 20 = 278 := by
   native_decide
 
+def divisorPairsInSupport (X : Nat) : Nat :=
+  ((completeSupport X).toFinset.biUnion (fun m =>
+    (completeSupport X).toFinset.filter (fun n => decide (m * n = X)))).card
+
+theorem SR_allOnes_increment_certified_6_20 :
+    (allOnesEntrySum 7 - allOnesEntrySum 6 = 5) ∧
+    (allOnesEntrySum 8 - allOnesEntrySum 7 = 11) ∧
+    (allOnesEntrySum 9 - allOnesEntrySum 8 = 9) ∧
+    (allOnesEntrySum 10 - allOnesEntrySum 9 = 13) ∧
+    (allOnesEntrySum 11 - allOnesEntrySum 10 = 13) ∧
+    (allOnesEntrySum 12 - allOnesEntrySum 11 = 19) := by
+  native_decide
+
 theorem rees_trace_small_table :
     reesTrace 6 = 2 ∧ reesTrace 7 = 1 ∧ reesTrace 8 = 2 ∧
       reesTrace 9 = 1 ∧ reesTrace 10 = 2 ∧ reesTrace 11 = 1 ∧
