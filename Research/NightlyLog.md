@@ -62,3 +62,6 @@ finite Cauchy proof from the remaining SR index-enumeration construction.
 
 2026-09-08 — Added total support and ordered-pair index maps `SRSupportAt` and
 `SRPairAt`; definitions compile for all X.
+
+2026-09-08 — Proved `SRPairAt_coord_bounds` using Nat division and remainder
+lemmas.

@@ -293,6 +293,15 @@ theorem SRPairAt_fst_snd (X : Nat)
        SRSupportAt X (i.1 % (completeSupport X).length)) := by
   rfl
 
+theorem SRPairAt_coord_bounds (X : Nat)
+    (h : 0 < (completeSupport X).length)
+    (i : Fin ((completeSupport X).length ^ 2)) :
+    i.1 / (completeSupport X).length < (completeSupport X).length ∧
+      i.1 % (completeSupport X).length < (completeSupport X).length := by
+  constructor
+  · exact Nat.div_lt_of_lt_mul (by simpa [pow_two] using i.2)
+  · exact Nat.mod_lt _ h
+
 theorem psi2_SR_nonneg (X : Nat) : 0 ≤ psi2_SR X := by
   classical
   unfold psi2_SR

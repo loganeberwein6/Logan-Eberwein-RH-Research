@@ -57,3 +57,6 @@ instantiating the theorem with an ordered-pair enumeration.
 
 `SRSupportAt` and `SRPairAt` now provide a total finite index-to-ordered-pair
 map for complete support, including the empty-support edge case.
+
+`SRPairAt_coord_bounds` is verified for positive support length, proving both
+quotient and remainder coordinates stay below the support length.
