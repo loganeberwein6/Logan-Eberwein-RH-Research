@@ -146,3 +146,5 @@ the remaining SR construction is isolated to coordinate/sum identities.
 2026-09-09 — Proved srPairAt_finCongr_eq_support_pair after correcting declaration order; embedded Fin(length*length) coordinates now reduce pointwise to support-list entries. SR_Bridge build passed.
 
 2026-09-09 — Closed the flattened-to-nested ordered-pair sum transport with srPairAt_flat_sum_eq_nested; proof uses fin_flatten_sum and the transported pair-coordinate theorem. SR_Bridge build passed.
+
+2026-09-09 — Proved sr_cauchy_x_sum_nested: the x-vector norm sum equals the nested typed logarithmic support sum. SR_Bridge build passed.
