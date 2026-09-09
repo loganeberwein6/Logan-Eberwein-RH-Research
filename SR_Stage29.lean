@@ -195,6 +195,19 @@ theorem SR_weil_form_abs_le_term_abs (X : Nat) (beta gamma : ℝ) :
           intro m hm
           apply Finset.abs_sum_le_sum_abs
 
+theorem SR_weil_term_abs_le_weight (X : Nat) (beta gamma : ℝ) (m n : Nat)
+    (hm : m ∈ completeSupport X) (hn : n ∈ completeSupport X) :
+    |SR_weil_term X beta gamma m n| ≤
+      |(m : ℝ) ^ (beta - 1 / 2)| * |(n : ℝ) ^ (beta - 1 / 2)| := by
+  unfold SR_weil_term
+  rw [abs_mul, abs_mul, abs_mul]
+  have hre : |(reesEntryFromNat X m n : ℝ)| = 1 := by
+    rcases reesEntry_neg_or_pos X m n with h | h <;> simp [h]
+  rw [hre]
+  have hc : |Real.cos (gamma * Real.log m)| ≤ 1 := Real.abs_cos_le_one _
+  have hc' : |Real.cos (gamma * Real.log n)| ≤ 1 := Real.abs_cos_le_one _
+  positivity
+
 theorem SR_weil_form_phase_minus_zero (X : Nat) (beta : ℝ) :
     SR_weil_form_phase_minus X beta 0 =
       SR_weil_form_phase_plus X beta 0 := by
