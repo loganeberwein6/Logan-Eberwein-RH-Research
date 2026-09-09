@@ -42,3 +42,6 @@ and the expected real-inner simplification identifier is unavailable.
 `WithLp.toLp` plus `PiLp.inner_apply` reaches Cauchy, but the RHS simplifies
 to Euclidean norm products rather than coordinate square sums; a separate
 norm-squared normalization lemma is needed.
+
+The norm bridge compiles, but the scalar identity `inner ℝ a b = a*b` is not
+definitional and does not close by unit sesquilinearity alone.
