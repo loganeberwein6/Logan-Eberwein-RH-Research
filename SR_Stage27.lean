@@ -72,6 +72,16 @@ theorem sr_sqrt_prod_eq (m n : Nat) :
   push_cast
   rfl
 
+theorem sr_weight_norm (m n : Nat) (hm : 0 < m) (hn : 0 < n) :
+    Real.log (m : ℝ) * Real.log (n : ℝ) /
+        Real.sqrt ((m * n : Nat) : ℝ) =
+      Real.log (m : ℝ) * Real.log (n : ℝ) /
+        (Real.sqrt (m : ℝ) * Real.sqrt (n : ℝ)) := by
+  have hs : Real.sqrt ((m * n : Nat) : ℝ) =
+      Real.sqrt (m : ℝ) * Real.sqrt (n : ℝ) := by
+    rw [← sr_sqrt_prod_eq m n, Real.sqrt_mul (by positivity)]
+  rw [hs]
+
 theorem SR_kappa_log_le_one_of_signed_cauchy
     (X : Nat)
     (hbound : SR_HalfWeightedSum X ^ 2 ≤
