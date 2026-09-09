@@ -752,6 +752,18 @@ theorem b3_square_premise_from_kappa
     apply (le_div_iff₀ hD).mp
     exact hkappa
   nlinarith [mul_nonneg hc hden]
+
+theorem B3_from_kappa_and_denominator
+    (T I S c D : ℝ)
+    (hT : 0 < T) (hc : 0 < c) (hc1 : c < 1)
+    (hI : 0 ≤ I) (hS : 0 ≤ S)
+    (hdecomp : S = T - 2 * I)
+    (hD : 0 < D) (hden : T ^ 2 ≤ D)
+    (hkappa : c ≤ S ^ 2 / D) :
+    I / T ≤ (1 - Real.sqrt c) / 2 := by
+  apply B3_corrected_compiles 0 (by norm_num) T I S c hT hc hc1 hI hS hdecomp
+  exact b3_square_premise_from_kappa T S c D (le_of_lt hT)
+    (le_of_lt hc) hD hden hkappa
   · have hg := SRSupportAt_eq_get X (i.1 % (completeSupport X).length) hb.2
     have hm := List.getElem_mem (l := completeSupport X)
       (n := i.1 % (completeSupport X).length) hb.2

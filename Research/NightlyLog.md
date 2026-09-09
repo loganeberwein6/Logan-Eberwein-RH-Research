@@ -160,3 +160,5 @@ the remaining SR construction is isolated to coordinate/sum identities.
 2026-09-09 — Added B3_corrected_compiles, a Lean-verified endpoint from the explicit square lower bound c*T² ≤ S² and the necessary nonnegative-sign hypotheses. The remaining analytic task is deriving that square bound from the chosen kappa/unsigned definitions.
 
 2026-09-09 — Proved b3_square_premise_from_kappa, isolating the exact remaining analytic input: T² ≤ denominator D. Together with κ ≥ c this yields c*T² ≤ S².
+
+2026-09-09 — Added B3_from_kappa_and_denominator, composing the denominator comparison, kappa lower bound, and corrected B3 endpoint in one verified theorem. SR_Bridge build passed.
