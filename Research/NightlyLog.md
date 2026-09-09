@@ -126,3 +126,5 @@ the Lean proof exposed the necessary nonnegative-sign hypothesis on `S`.
 the remaining SR construction is isolated to coordinate/sum identities.
 
 2026-09-09 — Added and Lean-verified reesTrace, rees_trace_formula, rees_trace_value, and the X=6..20 parity table in SR_WEntropy.lean. Build SR_WEntropy passed.
+
+2026-09-09 — Located Mathlib's Fin.sum_univ_fun_getElem and proved list_sum_eq_fin_sum_getElem in SR_Bridge.lean. This resolves the proof-dependent List-to-Fin single-sum transport; SR_Bridge build passed.

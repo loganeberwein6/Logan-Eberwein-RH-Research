@@ -77,3 +77,5 @@ retain `Fin` sums until the final arithmetic specialization.
 A direct induction for `List.sum = ∑ i : Fin length, l[i]` hits recursive
 simplification-depth limits on dependent indexing. This is archived; use an
 existing List/Fin equivalence or a nondependent `getD` representation.
+
+2026-09-09 — The List-to-Fin sum bridge is available as Fin.sum_univ_fun_getElem; direct rw leaves proof-dependent index terms, but simpa using the symmetric theorem resolves proof irrelevance.

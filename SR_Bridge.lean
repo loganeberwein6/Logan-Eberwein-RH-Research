@@ -421,6 +421,11 @@ theorem list_finset_double_sum_bridge
         ∑ n ∈ (completeSupport X).toFinset, f m n := by
   simp only [List.sum_toFinset _ (completeSupport_nodup X)]
 
+theorem list_sum_eq_fin_sum_getElem
+    {α : Type*} [AddCommMonoid α] (l : List Nat) (f : Nat → α) :
+    (l.map f).sum = ∑ i : Fin l.length, f l[i] := by
+  simpa using (Fin.sum_univ_fun_getElem (l := l) (f := f)).symm
+
 theorem SR_cauchy_log_from_witness
     (X : Nat) (n : Nat) (w : SRCauchyWitness n)
     (h1 : w.s1 = SR_Sint_log X)
