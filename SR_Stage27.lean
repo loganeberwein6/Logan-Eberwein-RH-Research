@@ -109,6 +109,56 @@ theorem sr_int_finset (X : Nat) (hX : 6 ≤ X) :
   unfold SR_Sint_log
   exact list_finset_double_sum_bridge X hX _
 
+theorem SR_halfweighted_le_unsigned (X : Nat) (hX : 6 ≤ X) :
+    |SR_HalfWeightedSum X| ≤ SR_S_unsigned_log X := by
+  let s : Finset Nat := (completeSupport X).toFinset
+  have hmem : ∀ m ∈ s, 1 ≤ m := by
+    intro m hm
+    have hm' := completeSupport_mem_bounds (List.mem_toFinset.mp hm)
+    omega
+  rw [sr_halfweighted_finset X hX]
+  calc
+    |∑ m ∈ s, ∑ n ∈ s,
+        ((reesEntryFromNat X m n : ℤ) : ℝ) * Real.log m * Real.log n *
+          (Real.sqrt (m * n))⁻¹|
+        ≤ ∑ m ∈ s, |∑ n ∈ s,
+          ((reesEntryFromNat X m n : ℤ) : ℝ) * Real.log m * Real.log n *
+            (Real.sqrt (m * n))⁻¹| := by
+      simpa using
+        (Finset.abs_sum_le_sum_abs
+          (fun m : Nat => ∑ n ∈ s,
+            ((reesEntryFromNat X m n : ℤ) : ℝ) * Real.log m * Real.log n *
+              (Real.sqrt (m * n))⁻¹) s)
+    _ ≤ ∑ m ∈ s, ∑ n ∈ s,
+        |((reesEntryFromNat X m n : ℤ) : ℝ) * Real.log m * Real.log n *
+          (Real.sqrt (m * n))⁻¹| := by
+      apply Finset.sum_le_sum
+      intro m hm
+      simpa using
+        (Finset.abs_sum_le_sum_abs
+          (fun n : Nat =>
+            ((reesEntryFromNat X m n : ℤ) : ℝ) * Real.log m * Real.log n *
+              (Real.sqrt (m * n))⁻¹) s)
+    _ = ∑ m ∈ s, ∑ n ∈ s,
+        Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹ := by
+      apply Finset.sum_congr rfl
+      intro m hm
+      apply Finset.sum_congr rfl
+      intro n hn
+      exact sr_rees_abs_weight X m n (hmem m hm) (hmem n hn)
+    _ = SR_S_unsigned_log X := by
+      have hU : SR_S_unsigned_log X = SR_Sext_log X + SR_Sint_log X := by
+        rfl
+      rw [hU, sr_ext_finset X hX, sr_int_finset X hX]
+      simp only [s]
+      rw [← Finset.sum_add_distrib]
+      apply Finset.sum_congr rfl
+      intro m hm
+      rw [← Finset.sum_add_distrib]
+      apply Finset.sum_congr rfl
+      intro n hn
+      by_cases h : m * n < X <;> simp [h]
+
 theorem SR_kappa_log_le_one_of_signed_cauchy
     (X : Nat)
     (hbound : SR_HalfWeightedSum X ^ 2 ≤
