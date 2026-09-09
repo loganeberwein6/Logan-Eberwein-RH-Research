@@ -66,6 +66,12 @@ theorem sr_rees_abs_weight (X m n : Nat)
   · simp [hpos, abs_mul, abs_of_nonneg hlogm, abs_of_nonneg hlogn,
       abs_of_nonneg hsqrt, abs_of_nonneg hsm, abs_of_nonneg hsn]
 
+theorem sr_sqrt_prod_eq (m n : Nat) :
+    Real.sqrt ((m : ℝ) * (n : ℝ)) =
+      Real.sqrt ((m * n : Nat) : ℝ) := by
+  push_cast
+  rfl
+
 theorem SR_kappa_log_le_one_of_signed_cauchy
     (X : Nat)
     (hbound : SR_HalfWeightedSum X ^ 2 ≤
