@@ -404,6 +404,14 @@ theorem completeSupport_mem_iff {X m : Nat} :
     · simpa using (show m - 2 < X - 2 by omega)
     · omega
 
+theorem completeSupport_nodup (X : Nat) :
+    (completeSupport X).Nodup := by
+  unfold completeSupport
+  apply List.Nodup.map
+  · intro a b hab
+    exact Nat.add_right_cancel hab
+  · exact List.nodup_range
+
 theorem SRPairAt_eq_add_two (X : Nat)
     (h : 0 < (completeSupport X).length)
     (i : Fin ((completeSupport X).length ^ 2)) :
