@@ -308,6 +308,35 @@ theorem SRSupportAt_eq_get (X i : Nat)
     SRSupportAt X i = (completeSupport X)[i] := by
   exact List.getD_eq_getElem (completeSupport X) 0 hi
 
+/- FAILED ATTEMPT (archived 2026-09-09): bounds theorem insertion split the
+   two-branch membership proof. -/
+/- theorem SRPairAt_components_mem (X : Nat)
+    (h : 0 < (completeSupport X).length)
+    (i : Fin ((completeSupport X).length ^ 2)) :
+    (SRPairAt X i).1 ∈ completeSupport X ∧
+      (SRPairAt X i).2 ∈ completeSupport X := by
+  have hb := SRPairAt_coord_bounds X h i
+  constructor
+  · have hg := SRSupportAt_eq_get X (i.1 / (completeSupport X).length) hb.1
+    have hm := List.getElem_mem (l := completeSupport X)
+      (n := i.1 / (completeSupport X).length) hb.1
+    simpa [SRPairAt, hg] using hm
+
+theorem SRPairAt_components_bounds (X : Nat)
+    (h : 0 < (completeSupport X).length)
+    (i : Fin ((completeSupport X).length ^ 2)) :
+    2 ≤ (SRPairAt X i).1 ∧ (SRPairAt X i).1 < X ∧
+      2 ≤ (SRPairAt X i).2 ∧ (SRPairAt X i).2 < X := by
+  have hm := completeSupport_mem_bounds
+    (SRPairAt_components_mem X h i).1
+  have hn := completeSupport_mem_bounds
+    (SRPairAt_components_mem X h i).2
+  exact ⟨hm.1, hm.2, hn.1, hn.2⟩
+  · have hg := SRSupportAt_eq_get X (i.1 % (completeSupport X).length) hb.2
+    have hm := List.getElem_mem (l := completeSupport X)
+      (n := i.1 % (completeSupport X).length) hb.2
+    simpa [SRPairAt, hg] using hm -/
+
 theorem SRPairAt_components_mem (X : Nat)
     (h : 0 < (completeSupport X).length)
     (i : Fin ((completeSupport X).length ^ 2)) :
@@ -323,6 +352,17 @@ theorem SRPairAt_components_mem (X : Nat)
     have hm := List.getElem_mem (l := completeSupport X)
       (n := i.1 % (completeSupport X).length) hb.2
     simpa [SRPairAt, hg] using hm
+
+theorem SRPairAt_components_bounds (X : Nat)
+    (h : 0 < (completeSupport X).length)
+    (i : Fin ((completeSupport X).length ^ 2)) :
+    2 ≤ (SRPairAt X i).1 ∧ (SRPairAt X i).1 < X ∧
+      2 ≤ (SRPairAt X i).2 ∧ (SRPairAt X i).2 < X := by
+  have hm := completeSupport_mem_bounds
+    (SRPairAt_components_mem X h i).1
+  have hn := completeSupport_mem_bounds
+    (SRPairAt_components_mem X h i).2
+  exact ⟨hm.1, hm.2, hn.1, hn.2⟩
 
 theorem psi2_SR_nonneg (X : Nat) : 0 ≤ psi2_SR X := by
   classical

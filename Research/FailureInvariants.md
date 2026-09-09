@@ -54,3 +54,8 @@ behavior in `SR_Bridge.lean`; the scalar identity remains unresolved.
 
 Resolution: the usable theorem is the apostrophe variant `RCLike.inner_apply'`,
 applied explicitly as a proof term; this closes the scalar normalization.
+
+The indexed-pair bounds theorem must be placed after the complete membership
+theorem; inserting it inside that theorem splits its second constructor branch
+and produces a misleading parser/type failure. The malformed attempt is
+archived in `SR_Bridge.lean`.

@@ -71,3 +71,6 @@ lemmas.
 
 2026-09-08 — Proved `SRPairAt_components_mem`, showing both indexed pair
 components lie in complete support.
+
+2026-09-09 — Repaired and Lean-verified `SRPairAt_components_bounds`; each
+ordered support-pair coordinate is now certified in [2, X).

@@ -26,3 +26,6 @@
 
 - `SRPairAt_components_mem` is complete; the next construction can use the
   existing support bounds on both coordinates.
+
+- `SRPairAt_components_bounds` is complete and compiled. It transfers
+  `completeSupport_mem_bounds` to both coordinates of every indexed pair.

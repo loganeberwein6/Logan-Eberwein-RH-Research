@@ -66,3 +66,6 @@ List indexing, using the dedicated `Mathlib.Data.List.GetD` API.
 
 `SRPairAt_components_mem` now transfers this to both coordinates of every
 positive-length ordered-pair index.
+
+`SRPairAt_components_bounds` is now verified: every indexed pair component
+inherits the complete-support bounds `2 ≤ coordinate < X`.
