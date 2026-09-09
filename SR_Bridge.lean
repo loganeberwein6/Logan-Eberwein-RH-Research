@@ -718,6 +718,19 @@ theorem sr_cauchy_product_sum_eq_Sint (X : Nat) (hX : 6 ≤ X) :
     (fun m n => if m * n < X then
       Real.log (m : ℝ) * Real.log (n : ℝ) * (Real.sqrt (m * n))⁻¹
       else 0)
+
+theorem SR_cauchy_log_version (X : Nat) (hX : 6 ≤ X) :
+    SR_Sint_log X ^ 2 ≤ SR_S3_log_typed X * SR_S2_log_typed X := by
+  let w := SRCauchyWitness.ofFunctions
+    (sr_cauchy_x X) (sr_cauchy_y X)
+  have hw := sr_cauchy_witness_bound w
+  rw [show w.s1 = SR_Sint_log X by
+        simpa [w] using sr_cauchy_product_sum_eq_Sint X hX,
+      show w.s2 = SR_S3_log_typed X by
+        simpa [w] using sr_cauchy_x_sum_eq_S3 X hX,
+      show w.s3 = SR_S2_log_typed X by
+        simpa [w] using sr_cauchy_y_sum_eq_S2 X hX] at hw
+  exact hw
   · have hg := SRSupportAt_eq_get X (i.1 % (completeSupport X).length) hb.2
     have hm := List.getElem_mem (l := completeSupport X)
       (n := i.1 % (completeSupport X).length) hb.2
