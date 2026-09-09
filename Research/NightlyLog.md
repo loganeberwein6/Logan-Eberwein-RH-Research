@@ -20,3 +20,6 @@
 After correcting nested `List.map` membership and declaration order, the
 nonnegativity theorem `psi2_SR_nonneg` compiled.  This advances Branch 2.1;
 no unsupported ψ₂ comparison was promoted.
+
+2026-09-08 — Added interior/exterior literal-log half-weighted sums and
+compiled the exact pointwise signed-term theorem `rees_weighted_term_signed`.

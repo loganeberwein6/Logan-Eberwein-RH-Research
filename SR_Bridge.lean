@@ -31,6 +31,19 @@ noncomputable def psi2_SR_interior_count (X : Nat) : ℕ :=
     ((completeSupport X).map (fun n =>
       if m * n < X then 1 else 0)).sum)).sum
 
+noncomputable def SR_Sint_log (X : Nat) : ℝ :=
+  ((completeSupport X).map (fun m =>
+    ((completeSupport X).map (fun n =>
+      if m * n < X then
+        Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹
+      else 0)).sum)).sum
+
+noncomputable def SR_Sext_log (X : Nat) : ℝ :=
+  ((completeSupport X).map (fun m =>
+    ((completeSupport X).map (fun n =>
+      if m * n < X then 0 else
+        Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹)).sum)).sum
+
 theorem SR_S1_log_eq_halfWeighted (X : Nat) :
     SR_S1_log X = SR_HalfWeightedSum X := by
   rfl
@@ -59,6 +72,15 @@ theorem psi2_SR_nonneg (X : Nat) : 0 ≤ psi2_SR X := by
   split_ifs
   · exact mul_nonneg (vonMangoldt_nonneg m) (vonMangoldt_nonneg n)
   · rfl
+
+theorem rees_weighted_term_signed (X m n : Nat) :
+    ((reesEntryFromNat X m n : ℤ) : ℝ) * Real.log m * Real.log n *
+        (Real.sqrt (m * n))⁻¹ =
+      if m * n < X then
+        -(Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹)
+      else Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹ := by
+  rw [rees_decomposition]
+  split_ifs <;> norm_num
 
 /- The signed/unsigned split is intentionally left explicit until the
    definitions are corrected; no false equality is promoted here. -/
