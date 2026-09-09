@@ -743,3 +743,7 @@ The boundary proxy has been generalized to non-square cutoffs: the induced ±1 b
 The all-ones Rayleigh quotient is now formally positive for every `X ≥ 6`. This proves a positive spectral direction, but does not establish the inertia comparison `pos ≥ neg`.
 
 Primorial balance records at X=6, 30, 210, and 2310 are now collected under the explicit Lean certificate `SR_PRIMORIAL_BALANCE_CERT`; no universal primorial balance theorem is claimed.
+
+## Continuous-loop queue status
+
+Problems 1, 3, 4, 5, and 6 are now Lean-proved or explicitly certified at their stated scopes. Problem 2's analytic all-X upper bound remains open; its prescribed finite fallback certificate is verified through X=1000. The signature theorem for arbitrary X therefore remains conjectural.
