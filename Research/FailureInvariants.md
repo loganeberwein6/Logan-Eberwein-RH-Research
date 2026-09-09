@@ -38,3 +38,7 @@ explicitly.
 The attempted raw-function specialization also fails because
 `EuclideanSpace ℝ (Fin n)` is not definitionally a plain `Fin n → ℝ` here,
 and the expected real-inner simplification identifier is unavailable.
+
+`WithLp.toLp` plus `PiLp.inner_apply` reaches Cauchy, but the RHS simplifies
+to Euclidean norm products rather than coordinate square sums; a separate
+norm-squared normalization lemma is needed.

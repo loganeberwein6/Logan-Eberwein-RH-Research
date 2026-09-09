@@ -189,6 +189,17 @@ theorem cauchy_euclidean_inner (n : Nat)
   have h := cauchy_euclidean_inner n x y
   simpa [real_inner, dotProduct, pow_two] using h -/
 
+/- FAILED ATTEMPT (archived 2026-09-08): WithLp/PiLp conversion reaches the
+   inner-product bound, but simplification leaves Euclidean norms on the RHS;
+   an additional norm-squared-to-coordinate-sum normalization is required. -/
+/- theorem cauchy_fin_sum_inner (n : Nat) (x y : Fin n → ℝ) :
+    (∑ i, x i * y i) ^ 2 ≤
+      (∑ i, x i * x i) * (∑ i, y i * y i) := by
+  let x' : EuclideanSpace ℝ (Fin n) := WithLp.toLp 2 x
+  let y' : EuclideanSpace ℝ (Fin n) := WithLp.toLp 2 y
+  have h := cauchy_euclidean_inner n x' y'
+  simpa [x', y', PiLp.inner_apply, pow_two] using h -/
+
 theorem psi2_SR_nonneg (X : Nat) : 0 ≤ psi2_SR X := by
   classical
   unfold psi2_SR
