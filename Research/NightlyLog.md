@@ -78,3 +78,6 @@ ordered support-pair coordinate is now certified in [2, X).
 2026-09-09 — Attempted finite Abel summation. Two natural terminal/prefix
  formulations exposed an index-boundary mismatch; both attempts were archived
  and the bridge remains compiling.
+
+2026-09-09 — Replaced the failed induction with Mathlib's
+`Finset.sum_range_by_parts`; `abel_summation_finset_verified` compiled.

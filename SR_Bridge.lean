@@ -118,6 +118,14 @@ theorem abel_summation_finset_v2 (f g : Nat → ℝ) (N : Nat) :
           rw [ih]
           ring -/
 
+theorem abel_summation_finset_verified (f g : Nat → ℝ) (N : Nat) :
+    (∑ n ∈ Finset.range N, f n * g n) =
+      g (N - 1) * (∑ k ∈ Finset.range N, f k) -
+        ∑ n ∈ Finset.range (N - 1),
+          (g (n + 1) - g n) * (∑ k ∈ Finset.range (n + 1), f k) := by
+  simpa [smul_eq_mul, mul_comm] using
+    (Finset.sum_range_by_parts (n := N) (f := g) (g := f))
+
 /- FAILED ATTEMPT (archived 2026-09-08): unfolding the existing logarithmic
    List.map definitions changes membership witnesses to reals, preventing
    direct application of completeSupport_mem_bounds. -/

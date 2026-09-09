@@ -69,3 +69,7 @@ positive-length ordered-pair index.
 
 `SRPairAt_components_bounds` is now verified: every indexed pair component
 inherits the complete-support bounds `2 ≤ coordinate < X`.
+
+`abel_summation_finset_verified` is now Lean-verified via Mathlib's
+`Finset.sum_range_by_parts`; it gives the finite Abel identity with the
+correct terminal and prefix indices.

@@ -32,3 +32,6 @@
 
 - Finite Abel summation remains open: the first two formulations fail at the
   successor-successor boundary and are archived in `SR_Bridge.lean`.
+
+- `abel_summation_finset_verified` is complete using Mathlib's
+  `Finset.sum_range_by_parts`; the earlier formulations remain archived.
