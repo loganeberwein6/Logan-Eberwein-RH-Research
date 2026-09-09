@@ -82,6 +82,33 @@ theorem sr_weight_norm (m n : Nat) (hm : 0 < m) (hn : 0 < n) :
     rw [← sr_sqrt_prod_eq m n, Real.sqrt_mul (by positivity)]
   rw [hs]
 
+theorem sr_halfweighted_finset (X : Nat) (hX : 6 ≤ X) :
+    SR_HalfWeightedSum X =
+      ∑ m ∈ (completeSupport X).toFinset,
+        ∑ n ∈ (completeSupport X).toFinset,
+          ((reesEntryFromNat X m n : ℤ) : ℝ) * Real.log m * Real.log n *
+            (Real.sqrt (m * n))⁻¹ := by
+  unfold SR_HalfWeightedSum
+  exact list_finset_double_sum_bridge X hX _
+
+theorem sr_ext_finset (X : Nat) (hX : 6 ≤ X) :
+    SR_Sext_log X =
+      ∑ m ∈ (completeSupport X).toFinset,
+        ∑ n ∈ (completeSupport X).toFinset,
+          if m * n < X then 0 else
+            Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹ := by
+  unfold SR_Sext_log
+  exact list_finset_double_sum_bridge X hX _
+
+theorem sr_int_finset (X : Nat) (hX : 6 ≤ X) :
+    SR_Sint_log X =
+      ∑ m ∈ (completeSupport X).toFinset,
+        ∑ n ∈ (completeSupport X).toFinset,
+          if m * n < X then
+            Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹ else 0 := by
+  unfold SR_Sint_log
+  exact list_finset_double_sum_bridge X hX _
+
 theorem SR_kappa_log_le_one_of_signed_cauchy
     (X : Nat)
     (hbound : SR_HalfWeightedSum X ^ 2 ≤
