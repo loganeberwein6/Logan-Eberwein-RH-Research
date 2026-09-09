@@ -430,6 +430,25 @@ theorem SR_cauchy_log_from_witness
   rw [← h1, ← h2, ← h3]
   exact sr_cauchy_witness_bound w
 
+theorem sr_log_sqrt_factorization (m n : Nat)
+    (hm : 1 ≤ m) (hn : 1 ≤ n) :
+    Real.sqrt (Real.log (m : ℝ) * Real.log (n : ℝ)) *
+        (Real.sqrt (Real.log (m : ℝ) * Real.log (n : ℝ)) *
+          (Real.sqrt (m * n))⁻¹) =
+      Real.log (m : ℝ) * Real.log (n : ℝ) *
+        (Real.sqrt (m * n))⁻¹ := by
+  have hlogm : 0 ≤ Real.log (m : ℝ) :=
+    Real.log_nonneg (by exact_mod_cast hm)
+  have hlogn : 0 ≤ Real.log (n : ℝ) :=
+    Real.log_nonneg (by exact_mod_cast hn)
+  have hprod : 0 ≤ Real.log (m : ℝ) * Real.log (n : ℝ) :=
+    mul_nonneg hlogm hlogn
+  calc
+    _ = (Real.sqrt (Real.log (m : ℝ) * Real.log (n : ℝ)) *
+        Real.sqrt (Real.log (m : ℝ) * Real.log (n : ℝ))) *
+        (Real.sqrt (m * n))⁻¹ := by ring
+    _ = _ := by rw [Real.mul_self_sqrt hprod]
+
 theorem SRPairAt_eq_add_two (X : Nat)
     (h : 0 < (completeSupport X).length)
     (i : Fin ((completeSupport X).length ^ 2)) :

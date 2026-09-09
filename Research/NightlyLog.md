@@ -115,3 +115,6 @@ observable is certified directly from the existing signature certificates.
 
 2026-09-09 — Closed the algebraic part of Stage 26B with
 `SR_cauchy_log_from_witness`; only witness construction remains.
+
+2026-09-09 — Proved `sr_log_sqrt_factorization`, the pointwise square-root
+factorization of the SR interior summand.

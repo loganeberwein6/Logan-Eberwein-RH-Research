@@ -58,3 +58,6 @@
 - Stage 26B algebraic endpoint `SR_cauchy_log_from_witness` is complete. The
   remaining task is constructing a witness whose three fields equal the SR
   sums.
+
+- `sr_log_sqrt_factorization` is complete. It factors each nonnegative
+  interior logarithmic summand into the two square-root Cauchy factors.

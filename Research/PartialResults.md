@@ -94,3 +94,6 @@ List-based support sums to nested `toFinset` sums using `List.sum_toFinset`.
 
 `SR_cauchy_log_from_witness` now transfers `sr_cauchy_witness_bound` directly
 to the typed SR logarithmic sums under explicit witness-equality hypotheses.
+
+`sr_log_sqrt_factorization` verifies the pointwise factorization needed to
+construct those witness coordinates.
