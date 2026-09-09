@@ -459,6 +459,14 @@ theorem fin_pow_two_sum_transport
   let e : Fin (n * n) ≃ Fin (n ^ 2) := finCongr (by simp [pow_two])
   exact (Fintype.sum_equiv e _ _ (by intro j; rfl)).symm
 
+theorem srPairAt_sum_transport
+    {α : Type*} [AddCommMonoid α] (X : Nat) (hX : 6 ≤ X)
+    (F : Nat × Nat → α) :
+    (∑ i : Fin ((completeSupport X).length ^ 2), F (SRPairAt X i)) =
+      ∑ i : Fin ((completeSupport X).length * (completeSupport X).length),
+        F (SRPairAt X (finCongr (by simp [pow_two]) i)) := by
+  exact fin_pow_two_sum_transport _ (fun i => F (SRPairAt X i))
+
 theorem SR_cauchy_log_from_witness
     (X : Nat) (n : Nat) (w : SRCauchyWitness n)
     (h1 : w.s1 = SR_Sint_log X)

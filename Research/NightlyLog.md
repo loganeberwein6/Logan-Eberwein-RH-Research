@@ -140,3 +140,5 @@ the remaining SR construction is isolated to coordinate/sum identities.
 2026-09-09 — Proved fin_flatten_sum using finProdFinEquiv and Fintype.sum_equiv, converting flattened Fin(n²) sums to nested Fin sums. SR_Bridge build passed.
 
 2026-09-09 — Added and verified fin_pow_two_sum_transport, explicitly transporting sums between Fin(n²) and Fin(n*n) via finCongr.
+
+2026-09-09 — Added and verified srPairAt_sum_transport, explicitly rewriting the SRPairAt sum from Fin(length²) to Fin(length*length) via finCongr.
