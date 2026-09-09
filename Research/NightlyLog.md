@@ -81,3 +81,6 @@ ordered support-pair coordinate is now certified in [2, X).
 
 2026-09-09 — Replaced the failed induction with Mathlib's
 `Finset.sum_range_by_parts`; `abel_summation_finset_verified` compiled.
+
+2026-09-09 — Marked the finite Abel API ready for transport to SR support
+indices; the remaining work is the `SRPairAt` range-enumeration bridge.

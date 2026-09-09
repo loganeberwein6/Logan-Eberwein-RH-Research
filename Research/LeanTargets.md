@@ -35,3 +35,7 @@
 
 - `abel_summation_finset_verified` is complete using Mathlib's
   `Finset.sum_range_by_parts`; the earlier formulations remain archived.
+
+- The Abel identity is now available for any finite index range. The next
+  step is transporting it through `SRPairAt` to the complete-support pair
+  enumeration; that transport is still open.
