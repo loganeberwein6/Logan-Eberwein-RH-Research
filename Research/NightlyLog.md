@@ -45,3 +45,5 @@ archived as a failed formulation.
 2026-09-08 — Added explicitly typed logarithmic helper sums and proved their
 nonnegativity; the legacy definitions remain separate because equality is not
 definitionally reducible.
+
+2026-09-08 — Proved nonnegativity of the typed Cauchy denominator product.

@@ -164,6 +164,10 @@ theorem SR_S3_log_typed_nonneg (X : Nat) : 0 ≤ SR_S3_log_typed X := by
   have hlogn : 0 ≤ Real.log (n : ℝ) := Real.log_nonneg (by exact_mod_cast hn1)
   exact mul_nonneg hlogm hlogn
 
+theorem SR_log_typed_denominator_nonneg (X : Nat) :
+    0 ≤ SR_S2_log_typed X * SR_S3_log_typed X := by
+  exact mul_nonneg (SR_S2_log_typed_nonneg X) (SR_S3_log_typed_nonneg X)
+
 theorem psi2_SR_nonneg (X : Nat) : 0 ≤ psi2_SR X := by
   classical
   unfold psi2_SR

@@ -40,3 +40,5 @@ actual complete support and named SR definitions.
 
 Explicitly typed helper sums `SR_S2_log_typed` and `SR_S3_log_typed` now have
 Lean-verified nonnegativity theorems, using Nat support bounds before coercion.
+
+Their product nonnegativity is recorded as `SR_log_typed_denominator_nonneg`.
