@@ -23,6 +23,18 @@ theorem SR_kappa_log_nonneg (X : Nat) : 0 ≤ SR_kappa_log X := by
   · positivity
   · norm_num
 
+theorem list_abs_sum_le_sum_abs (l : List ℝ) :
+    |l.sum| ≤ (l.map (fun x => |x|)).sum := by
+  induction l with
+  | nil => simp
+  | cons a l ih =>
+      calc
+        |a + l.sum| ≤ |a| + |l.sum| := abs_add_le _ _
+        _ ≤ |a| + (l.map (fun x => |x|)).sum :=
+          by simpa [add_comm] using add_le_add_left ih |a|
+        _ = ((a :: l).map (fun x => |x|)).sum := by
+          simp [List.sum_cons]
+
 theorem SR_kappa_log_le_one_of_signed_cauchy
     (X : Nat)
     (hbound : SR_HalfWeightedSum X ^ 2 ≤
