@@ -178,6 +178,23 @@ theorem SR_weil_form_real_eq_phase (X : Nat) (beta gamma : ℝ) :
   rw [SR_log_cos_product_split]
   ring
 
+theorem SR_weil_form_abs_le_term_abs (X : Nat) (beta gamma : ℝ) :
+    |SR_weil_form_real X beta gamma| ≤
+      ∑ m ∈ (completeSupport X).toFinset,
+        ∑ n ∈ (completeSupport X).toFinset, |SR_weil_term X beta gamma m n| := by
+  unfold SR_weil_form_real
+  calc
+    |∑ m ∈ (completeSupport X).toFinset,
+        ∑ n ∈ (completeSupport X).toFinset, SR_weil_term X beta gamma m n| ≤
+        ∑ m ∈ (completeSupport X).toFinset,
+          |∑ n ∈ (completeSupport X).toFinset, SR_weil_term X beta gamma m n| := by
+            apply Finset.abs_sum_le_sum_abs
+    _ ≤ ∑ m ∈ (completeSupport X).toFinset,
+        ∑ n ∈ (completeSupport X).toFinset, |SR_weil_term X beta gamma m n| := by
+          apply Finset.sum_le_sum
+          intro m hm
+          apply Finset.abs_sum_le_sum_abs
+
 theorem SR_weil_form_phase_minus_zero (X : Nat) (beta : ℝ) :
     SR_weil_form_phase_minus X beta 0 =
       SR_weil_form_phase_plus X beta 0 := by
