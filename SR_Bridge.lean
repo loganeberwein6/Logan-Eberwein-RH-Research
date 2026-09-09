@@ -173,6 +173,54 @@ theorem rees_weighted_rect_as_signed_differences (X : Nat)
       rw [rees_weighted_row_as_signed_differences]
       rw [ih]
 
+theorem rect_sum_diff_split {α β : Type} (rows : List α) (cols : List β)
+    (ext interior : α → β → ℝ) :
+    (rows.map (fun a =>
+      (cols.map (fun b => ext a b - interior a b)).sum)).sum =
+    (rows.map (fun a => (cols.map (fun b => ext a b)).sum)).sum -
+      (rows.map (fun a => (cols.map (fun b => interior a b)).sum)).sum := by
+  have hrow (a : α) :
+      (cols.map (fun b => ext a b - interior a b)).sum =
+        (cols.map (fun b => ext a b)).sum -
+          (cols.map (fun b => interior a b)).sum := by
+    exact (list_sum_map_sub cols (fun b => ext a b) (fun b => interior a b)).symm
+  induction rows with
+  | nil => simp
+  | cons a rows ih =>
+      simp only [List.map_cons, List.sum_cons]
+      rw [hrow, ih]
+      ring
+
+theorem rees_weighted_rect_eq_ext_sub_int (X : Nat)
+    (rows cols : List Nat) :
+    (rows.map (fun m =>
+      (cols.map (fun n =>
+        ((reesEntryFromNat X m n : ℤ) : ℝ) * Real.log m * Real.log n *
+          (Real.sqrt (m * n))⁻¹)).sum)).sum =
+    (rows.map (fun m =>
+      (cols.map (fun n =>
+        if m * n < X then 0 else
+          Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹)).sum)).sum -
+      (rows.map (fun m =>
+        (cols.map (fun n =>
+          if m * n < X then
+            Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹
+          else 0)).sum)).sum := by
+  calc
+    _ = (rows.map (fun m =>
+      (cols.map (fun n =>
+        (if m * n < X then 0 else
+          Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹) -
+        (if m * n < X then
+          Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹
+        else 0))).sum)).sum :=
+      rees_weighted_rect_as_signed_differences X rows cols
+    _ = _ := rect_sum_diff_split rows cols
+      (fun m n => if m * n < X then 0 else
+        Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹)
+      (fun m n => if m * n < X then
+        Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹ else 0)
+
 /- FAILED ATTEMPT (archived 2026-09-08): row induction requires additional
    normalization of nested subtraction expressions. -/
 /- theorem rees_weighted_row_signed (X m : Nat) (l : List Nat) :

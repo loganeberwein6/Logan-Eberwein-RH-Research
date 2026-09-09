@@ -31,3 +31,6 @@ the signed Rees row equals the sum of pointwise exterior-minus-interior terms.
 
 The rectangular lift `rees_weighted_rect_as_signed_differences` also compiles,
 proving the result for arbitrary independent row and column lists.
+
+`rect_sum_diff_split` and `rees_weighted_rect_eq_ext_sub_int` now convert that
+pointwise form into the exact exterior-total minus interior-total expression.

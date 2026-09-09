@@ -35,3 +35,6 @@ row-level lift of the pointwise sign identity.
 2026-09-08 — Compiled the independent rows/columns rectangular lift
 `rees_weighted_rect_as_signed_differences`; dependent-support induction was
 archived as a failed formulation.
+
+2026-09-08 — Compiled `rect_sum_diff_split` and the full rectangular theorem
+`rees_weighted_rect_eq_ext_sub_int`.
