@@ -15,3 +15,8 @@
 - Added killed-approach records DEAD-01 through DEAD-05.
 - Added the definition-space comparison for logarithmic and von-Mangoldt weights.
 - Added external-connection notes for divisor sums, explicit formulas, and traces.
+
+2026-09-08 — Added `psi2_SR` and `psi2_SR_interior_count` to `SR_Bridge.lean`.
+After correcting nested `List.map` membership and declaration order, the
+nonnegativity theorem `psi2_SR_nonneg` compiled.  This advances Branch 2.1;
+no unsupported ψ₂ comparison was promoted.

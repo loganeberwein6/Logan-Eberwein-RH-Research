@@ -4,3 +4,9 @@
 2. Prove the corrected finite Abel summation identity with explicit indices.
 3. Prove the signed decomposition using a common weight family.
 4. Define support-restricted `psi2` and compare it to the interior sum.
+
+### Completed 2026-09-08
+
+- `psi2_SR_nonneg`: nonnegativity of the support-restricted von Mangoldt
+  double sum.  Next target is a rigorously stated comparison with the
+  unrestricted ψ₂, with the support boundary handled explicitly.
