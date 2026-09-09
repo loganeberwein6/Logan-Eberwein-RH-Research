@@ -91,3 +91,6 @@ List-based support sums to nested `toFinset` sums using `List.sum_toFinset`.
 
 `SR_WEntropy.lean` adds `W_SR_of_sig`, its certified nonnegativity and
 `{0,1}` bound, and a native-decide primorial-zero scaffold.
+
+`SR_cauchy_log_from_witness` now transfers `sr_cauchy_witness_bound` directly
+to the typed SR logarithmic sums under explicit witness-equality hypotheses.

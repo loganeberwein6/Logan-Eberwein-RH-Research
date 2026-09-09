@@ -112,3 +112,6 @@ characterization of the complete integer support.
 
 2026-09-09 — Added and compiled `SR_WEntropy.lean`; the finite W-bias
 observable is certified directly from the existing signature certificates.
+
+2026-09-09 — Closed the algebraic part of Stage 26B with
+`SR_cauchy_log_from_witness`; only witness construction remains.

@@ -421,6 +421,15 @@ theorem list_finset_double_sum_bridge
         ∑ n ∈ (completeSupport X).toFinset, f m n := by
   simp only [List.sum_toFinset _ (completeSupport_nodup X)]
 
+theorem SR_cauchy_log_from_witness
+    (X : Nat) (n : Nat) (w : SRCauchyWitness n)
+    (h1 : w.s1 = SR_Sint_log X)
+    (h2 : w.s2 = SR_S3_log_typed X)
+    (h3 : w.s3 = SR_S2_log_typed X) :
+    SR_Sint_log X ^ 2 ≤ SR_S3_log_typed X * SR_S2_log_typed X := by
+  rw [← h1, ← h2, ← h3]
+  exact sr_cauchy_witness_bound w
+
 theorem SRPairAt_eq_add_two (X : Nat)
     (h : 0 < (completeSupport X).length)
     (i : Fin ((completeSupport X).length ^ 2)) :

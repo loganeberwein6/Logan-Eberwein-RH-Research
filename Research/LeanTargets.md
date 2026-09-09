@@ -54,3 +54,7 @@
 
 - Stage 26D scaffold `SR_WEntropy.lean` is compiled. Certified signature
   records now expose nonnegative `{0,1}` W-bias and primorial-zero data.
+
+- Stage 26B algebraic endpoint `SR_cauchy_log_from_witness` is complete. The
+  remaining task is constructing a witness whose three fields equal the SR
+  sums.
