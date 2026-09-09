@@ -168,6 +168,13 @@ theorem SR_log_typed_denominator_nonneg (X : Nat) :
     0 ≤ SR_S2_log_typed X * SR_S3_log_typed X := by
   exact mul_nonneg (SR_S2_log_typed_nonneg X) (SR_S3_log_typed_nonneg X)
 
+/- FAILED ATTEMPT (archived 2026-09-08): the unicode real-inner notation
+   does not parse in this file's current notation environment. -/
+/- theorem cauchy_euclidean_real (n : Nat)
+    (x y : EuclideanSpace ℝ (Fin n)) :
+    ⟪x, y⟫_ℝ * ⟪x, y⟫_ℝ ≤ ⟪x, x⟫_ℝ * ⟪y, y⟫_ℝ := by
+  exact real_inner_mul_inner_self_le x y -/
+
 theorem psi2_SR_nonneg (X : Nat) : 0 ≤ psi2_SR X := by
   classical
   unfold psi2_SR

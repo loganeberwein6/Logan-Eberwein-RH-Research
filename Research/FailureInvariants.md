@@ -29,3 +29,8 @@ the legacy sums; a separate extensional equality proof is required.
 The simplifier confirms the mismatch is structural: legacy definitions use a
 coercion/`List.flatMap` representation, so equality requires a dedicated
 map/flatMap theorem rather than `rfl` or plain `simp`.
+
+The local theorem `real_inner_mul_inner_self_le` is available, but its
+unicode `⟪x,y⟫_ℝ` notation does not parse in `SR_Bridge.lean`; a future
+specialization must use the underlying `inner` constant or import notation
+explicitly.
