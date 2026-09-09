@@ -61,6 +61,17 @@ theorem rees_trace_value (X : Nat) (hX : 6 ≤ X) :
   rw [rees_trace_formula X hX, belowHalfSupportCount_general X hX]
   by_cases hpar : X % 2 = 0 <;> simp [hpar] <;> omega
 
+theorem SR_flow_derivative (X : Nat) (hX : 6 ≤ X) :
+    reesTrace (X + 1) - reesTrace X =
+      if X % 2 = 0 then -1 else 1 := by
+  have hX1 : 6 ≤ X + 1 := by omega
+  rw [rees_trace_value (X + 1) hX1, rees_trace_value X hX]
+  by_cases hp : X % 2 = 0
+  · have hp1 : (X + 1) % 2 = 1 := by omega
+    simp [hp, hp1]
+  · have hp1 : (X + 1) % 2 = 0 := by omega
+    simp [hp, hp1]
+
 theorem rees_trace_small_table :
     reesTrace 6 = 2 ∧ reesTrace 7 = 1 ∧ reesTrace 8 = 2 ∧
       reesTrace 9 = 1 ∧ reesTrace 10 = 2 ∧ reesTrace 11 = 1 ∧

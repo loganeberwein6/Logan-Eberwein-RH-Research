@@ -164,3 +164,5 @@ the remaining SR construction is isolated to coordinate/sum identities.
 2026-09-09 — Added B3_from_kappa_and_denominator, composing the denominator comparison, kappa lower bound, and corrected B3 endpoint in one verified theorem. SR_Bridge build passed.
 
 2026-09-09 — Defined SR_S_unsigned_log := SR_Sext_log + SR_Sint_log and proved SR_S_unsigned_log_decomp, making the B3 decomposition explicit without assuming the denominator comparison. SR_Bridge build passed.
+
+2026-09-09 — Proved SR_flow_derivative: the Rees trace changes by -1 on even X and +1 on odd X. The theorem follows from the exact trace formula and parity arithmetic; SR_WEntropy build passed.
