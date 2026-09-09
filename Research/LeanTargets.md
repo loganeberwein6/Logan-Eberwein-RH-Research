@@ -61,3 +61,7 @@
 
 - `sr_log_sqrt_factorization` is complete. It factors each nonnegative
   interior logarithmic summand into the two square-root Cauchy factors.
+
+- Stage 26C algebraic endpoint `b3_ratio_bound_algebra` is complete. It
+  requires the natural sign hypothesis `0 ≤ S` in addition to the square
+  lower bound and signed decomposition.

@@ -97,3 +97,6 @@ to the typed SR logarithmic sums under explicit witness-equality hypotheses.
 
 `sr_log_sqrt_factorization` verifies the pointwise factorization needed to
 construct those witness coordinates.
+
+`b3_ratio_bound_algebra` now derives `I/T ≤ (1 - √c)/2` from the decomposed
+sum, positivity of `T,S,I`, and the Cauchy square lower bound.

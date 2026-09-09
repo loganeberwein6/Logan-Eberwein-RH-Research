@@ -118,3 +118,6 @@ observable is certified directly from the existing signature certificates.
 
 2026-09-09 — Proved `sr_log_sqrt_factorization`, the pointwise square-root
 factorization of the SR interior summand.
+
+2026-09-09 — Closed the Stage 26C algebra with `b3_ratio_bound_algebra`;
+the Lean proof exposed the necessary nonnegative-sign hypothesis on `S`.

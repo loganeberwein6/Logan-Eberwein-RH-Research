@@ -449,6 +449,17 @@ theorem sr_log_sqrt_factorization (m n : Nat)
         (Real.sqrt (m * n))⁻¹ := by ring
     _ = _ := by rw [Real.mul_self_sqrt hprod]
 
+theorem b3_ratio_bound_algebra
+    (T I S c : ℝ)
+    (hT : 0 < T) (hc : 0 < c) (hc1 : c < 1)
+    (hI : 0 ≤ I) (hS : 0 ≤ S) (hdecomp : S = T - 2 * I)
+    (hsq : c * T ^ 2 ≤ S ^ 2) :
+    I / T ≤ (1 - Real.sqrt c) / 2 := by
+  have hsqrt : 0 ≤ Real.sqrt c := Real.sqrt_nonneg c
+  have hsqrt_sq : (Real.sqrt c) ^ 2 = c := Real.sq_sqrt (le_of_lt hc)
+  apply (div_le_iff₀ hT).2
+  nlinarith [sq_nonneg (S - Real.sqrt c * T)]
+
 theorem SRPairAt_eq_add_two (X : Nat)
     (h : 0 < (completeSupport X).length)
     (i : Fin ((completeSupport X).length ^ 2)) :
