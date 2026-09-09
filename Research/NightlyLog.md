@@ -166,3 +166,5 @@ the remaining SR construction is isolated to coordinate/sum identities.
 2026-09-09 — Defined SR_S_unsigned_log := SR_Sext_log + SR_Sint_log and proved SR_S_unsigned_log_decomp, making the B3 decomposition explicit without assuming the denominator comparison. SR_Bridge build passed.
 
 2026-09-09 — Proved SR_flow_derivative: the Rees trace changes by -1 on even X and +1 on odd X. The theorem follows from the exact trace formula and parity arithmetic; SR_WEntropy build passed.
+
+2026-09-09 — Added SR_allOnesEntrySum_small_table, native_decide-certified values for X=6..20. The observable is strictly increasing on this range, providing a concrete entropy-flow dataset.

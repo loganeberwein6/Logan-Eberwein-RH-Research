@@ -69,6 +69,24 @@ theorem SR_flow_derivative (X : Nat) (hX : 6 ≤ X) :
   by_cases hp : X % 2 = 0
   · have hp1 : (X + 1) % 2 = 1 := by omega
     simp [hp, hp1]
+
+theorem SR_allOnesEntrySum_small_table :
+    allOnesEntrySum 6 = 14 ∧
+    allOnesEntrySum 7 = 17 ∧
+    allOnesEntrySum 8 = 24 ∧
+    allOnesEntrySum 9 = 31 ∧
+    allOnesEntrySum 10 = 40 ∧
+    allOnesEntrySum 11 = 49 ∧
+    allOnesEntrySum 12 = 60 ∧
+    allOnesEntrySum 13 = 71 ∧
+    allOnesEntrySum 14 = 84 ∧
+    allOnesEntrySum 15 = 97 ∧
+    allOnesEntrySum 16 = 112 ∧
+    allOnesEntrySum 17 = 127 ∧
+    allOnesEntrySum 18 = 144 ∧
+    allOnesEntrySum 19 = 161 ∧
+    allOnesEntrySum 20 = 180 := by
+  native_decide
   · have hp1 : (X + 1) % 2 = 0 := by omega
     simp [hp, hp1]
 
