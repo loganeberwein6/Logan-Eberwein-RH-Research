@@ -690,6 +690,34 @@ theorem sr_cauchy_product_sum_nested (X : Nat) (hX : 6 ≤ X) :
       simpa using srPairAt_flat_sum_eq_nested X hX (fun p =>
         Real.log (p.1 : ℝ) * Real.log (p.2 : ℝ) *
           (Real.sqrt (p.1 * p.2))⁻¹)
+
+theorem sr_cauchy_x_sum_eq_S3 (X : Nat) (hX : 6 ≤ X) :
+    (∑ i : Fin ((completeSupport X).length ^ 2),
+      sr_cauchy_x X i * sr_cauchy_x X i) = SR_S3_log_typed X := by
+  rw [sr_cauchy_x_sum_nested X hX]
+  symm
+  exact list_double_sum_eq_fin_double_sum (completeSupport X)
+    (fun m n => Real.log (m : ℝ) * Real.log (n : ℝ))
+
+theorem sr_cauchy_y_sum_eq_S2 (X : Nat) (hX : 6 ≤ X) :
+    (∑ i : Fin ((completeSupport X).length ^ 2),
+      sr_cauchy_y X i * sr_cauchy_y X i) = SR_S2_log_typed X := by
+  rw [sr_cauchy_y_sum_nested X hX]
+  symm
+  exact list_double_sum_eq_fin_double_sum (completeSupport X)
+    (fun m n => Real.log (m : ℝ) * Real.log (n : ℝ) /
+      (m : ℝ) /
+        (n : ℝ))
+
+theorem sr_cauchy_product_sum_eq_Sint (X : Nat) (hX : 6 ≤ X) :
+    (∑ i : Fin ((completeSupport X).length ^ 2),
+      sr_cauchy_x X i * sr_cauchy_y X i) = SR_Sint_log X := by
+  rw [sr_cauchy_product_sum_nested X hX]
+  symm
+  exact list_double_sum_eq_fin_double_sum (completeSupport X)
+    (fun m n => if m * n < X then
+      Real.log (m : ℝ) * Real.log (n : ℝ) * (Real.sqrt (m * n))⁻¹
+      else 0)
   · have hg := SRSupportAt_eq_get X (i.1 % (completeSupport X).length) hb.2
     have hm := List.getElem_mem (l := completeSupport X)
       (n := i.1 % (completeSupport X).length) hb.2
