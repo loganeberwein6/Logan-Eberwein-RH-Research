@@ -51,3 +51,6 @@ scalar `inner ℝ` terms under the current imports.
 
 Importing `Mathlib.Analysis.RCLike.Inner` explicitly does not change this
 behavior in `SR_Bridge.lean`; the scalar identity remains unresolved.
+
+Resolution: the usable theorem is the apostrophe variant `RCLike.inner_apply'`,
+applied explicitly as a proof term; this closes the scalar normalization.

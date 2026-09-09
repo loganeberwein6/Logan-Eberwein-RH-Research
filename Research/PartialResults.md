@@ -47,3 +47,7 @@ The finite Euclidean Cauchy theorem is now exposed without notation issues as
 `cauchy_euclidean_inner`, stated directly with `inner ℝ`.
 
 The missing norm bridge is now verified as `euclidean_toLp_real_norm_sq`.
+
+The full finite-coordinate Cauchy theorem is now verified as
+`cauchy_fin_sum_verified`; scalar inner terms are normalized using
+`RCLike.inner_apply'`.

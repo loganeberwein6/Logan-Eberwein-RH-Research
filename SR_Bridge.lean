@@ -242,6 +242,27 @@ theorem cauchy_fin_sum_inner_complete (n : Nat) (x y : Fin n → ℝ) :
 /- theorem real_scalar_inner_mul_imported (a b : ℝ) : inner ℝ a b = a * b := by
   simp [RCLike.inner_apply] -/
 
+theorem real_scalar_inner_mul_prime (a b : ℝ) : inner ℝ a b = a * b := by
+  simpa [RCLike.inner_apply', conj_trivial] using (RCLike.inner_apply' a b)
+
+theorem cauchy_fin_sum_verified (n : Nat) (x y : Fin n → ℝ) :
+    (∑ i, x i * y i) ^ 2 ≤
+      (∑ i, x i * x i) * (∑ i, y i * y i) := by
+  let x' : EuclideanSpace ℝ (Fin n) := WithLp.toLp 2 x
+  let y' : EuclideanSpace ℝ (Fin n) := WithLp.toLp 2 y
+  have h := cauchy_euclidean_inner n x' y'
+  have hx : ‖x'‖ * ‖x'‖ = ∑ i, x i * x i := by
+    calc
+      ‖x'‖ * ‖x'‖ = ‖x'‖ ^ 2 := by ring
+      _ = ∑ i, x i ^ 2 := euclidean_toLp_real_norm_sq n x
+      _ = ∑ i, x i * x i := by simp [pow_two]
+  have hy : ‖y'‖ * ‖y'‖ = ∑ i, y i * y i := by
+    calc
+      ‖y'‖ * ‖y'‖ = ‖y'‖ ^ 2 := by ring
+      _ = ∑ i, y i ^ 2 := euclidean_toLp_real_norm_sq n y
+      _ = ∑ i, y i * y i := by simp [pow_two]
+  simpa [x', y', PiLp.inner_apply, real_scalar_inner_mul_prime, pow_two, hx, hy] using h
+
 theorem psi2_SR_nonneg (X : Nat) : 0 ≤ psi2_SR X := by
   classical
   unfold psi2_SR

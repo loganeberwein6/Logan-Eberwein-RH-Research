@@ -53,3 +53,6 @@ constant; this bypasses the unavailable Unicode real-inner notation.
 
 2026-09-08 — Proved `euclidean_toLp_real_norm_sq`, converting a WithLp finite
 vector norm square to its coordinate square sum.
+
+2026-09-08 — Located `RCLike.inner_apply'` and compiled
+`cauchy_fin_sum_verified`, completing the finite-function Cauchy bridge.
