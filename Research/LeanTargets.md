@@ -65,3 +65,7 @@
 - Stage 26C algebraic endpoint `b3_ratio_bound_algebra` is complete. It
   requires the natural sign hypothesis `0 ≤ S` in addition to the square
   lower bound and signed decomposition.
+
+- `SRCauchyWitness.ofFunctions` and its bound are complete. SR witness work
+  now reduces to defining the coordinate functions and proving their three
+  sum identities.

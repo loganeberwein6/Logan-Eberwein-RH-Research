@@ -100,3 +100,6 @@ construct those witness coordinates.
 
 `b3_ratio_bound_algebra` now derives `I/T ≤ (1 - √c)/2` from the decomposed
 sum, positivity of `T,S,I`, and the Cauchy square lower bound.
+
+`SRCauchyWitness.ofFunctions` canonically packages any finite coordinate
+functions into a witness with definitional sum fields.

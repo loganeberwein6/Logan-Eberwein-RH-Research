@@ -121,3 +121,6 @@ factorization of the SR interior summand.
 
 2026-09-09 — Closed the Stage 26C algebra with `b3_ratio_bound_algebra`;
 the Lean proof exposed the necessary nonnegative-sign hypothesis on `S`.
+
+2026-09-09 — Added the canonical `SRCauchyWitness.ofFunctions` constructor;
+the remaining SR construction is isolated to coordinate/sum identities.

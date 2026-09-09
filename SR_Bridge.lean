@@ -460,6 +460,23 @@ theorem b3_ratio_bound_algebra
   apply (div_le_iff₀ hT).2
   nlinarith [sq_nonneg (S - Real.sqrt c * T)]
 
+def SRCauchyWitness.ofFunctions {n : Nat} (x y : Fin n → ℝ) :
+    SRCauchyWitness n :=
+  { x := x
+    y := y
+    s1 := ∑ i, x i * y i
+    s2 := ∑ i, x i * x i
+    s3 := ∑ i, y i * y i
+    s1_eq := rfl
+    s2_eq := rfl
+    s3_eq := rfl }
+
+theorem SRCauchyWitness.ofFunctions_bound {n : Nat} (x y : Fin n → ℝ) :
+    (SRCauchyWitness.ofFunctions x y).s1 ^ 2 ≤
+      (SRCauchyWitness.ofFunctions x y).s2 *
+        (SRCauchyWitness.ofFunctions x y).s3 := by
+  exact sr_cauchy_witness_bound (SRCauchyWitness.ofFunctions x y)
+
 theorem SRPairAt_eq_add_two (X : Nat)
     (h : 0 < (completeSupport X).length)
     (i : Fin ((completeSupport X).length ^ 2)) :
