@@ -1091,5 +1091,6 @@ end SR
 #check SR.quadraticForm_ones_not_nonpositive
 #check SR.allOnesEntrySum_pos_implies_not_NSD
 #check SR.SR24_SPECTRAL_BRIDGE
+#check SR.rees_rayleigh_positive
 #check SR.boundary_eigenvalues_general
 #check SR.boundary_eigenvalues_pm_sqrt2

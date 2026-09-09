@@ -739,3 +739,5 @@ The generic Rayleigh implication is Lean-verified, and the finite `Fin`-sum/list
 The finite signature-bound certificate is extended to X=6..1000 with zero recorded violations. This remains a certificate, not a proof of the universal upper bound.
 
 The boundary proxy has been generalized to non-square cutoffs: the induced ±1 block has trace zero and determinant −2, hence characteristic relation `λ² = 2`.
+
+The all-ones Rayleigh quotient is now formally positive for every `X ≥ 6`. This proves a positive spectral direction, but does not establish the inertia comparison `pos ≥ neg`.

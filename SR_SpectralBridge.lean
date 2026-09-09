@@ -9,6 +9,10 @@ def quadraticForm {n : Nat} (M : Matrix (Fin n) (Fin n) ℝ)
 
 def onesVector {n : Nat} : Fin n → ℝ := fun _ => 1
 
+def rayleighQuotient {n : Nat} (M : Matrix (Fin n) (Fin n) ℝ)
+    (v : Fin n → ℝ) (hv : v ≠ 0) : ℝ :=
+  quadraticForm M v / (∑ i : Fin n, v i * v i)
+
 theorem quadraticForm_ones_not_nonpositive {n : Nat}
     (M : Matrix (Fin n) (Fin n) ℝ)
     (hpos : 0 < quadraticForm M (onesVector : Fin n → ℝ)) :
@@ -49,5 +53,22 @@ theorem SR24_SPECTRAL_BRIDGE (X : Nat) (hX : 6 ≤ X) :
   apply quadraticForm_ones_not_nonpositive
   rw [reesQuadraticOnes_eq_allOnesEntrySum]
   exact_mod_cast allOnesEntrySum_positive_general X hX
+
+theorem rees_rayleigh_positive (X : Nat) (hX : 6 ≤ X) :
+    0 < rayleighQuotient (reesMatrixReal X)
+      (onesVector : Fin (X - 2) → ℝ) (by
+        intro h
+        have := congrFun h ⟨0, by omega⟩
+        norm_num at this) := by
+  unfold rayleighQuotient
+  have hnum : 0 < quadraticForm (reesMatrixReal X)
+      (onesVector : Fin (X - 2) → ℝ) := by
+    rw [reesQuadraticOnes_eq_allOnesEntrySum]
+    exact_mod_cast allOnesEntrySum_positive_general X hX
+  have hden : 0 < (∑ i : Fin (X - 2),
+      (onesVector : Fin (X - 2) → ℝ) i * onesVector i) := by
+    simp [onesVector]
+    omega
+  exact div_pos hnum hden
 
 end SR
