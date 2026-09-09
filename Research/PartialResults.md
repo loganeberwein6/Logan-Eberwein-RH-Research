@@ -85,3 +85,6 @@ directly for ordinary bounded List indexing.
 
 `completeSupport_mem_iff` is verified: support membership is exactly the
 interval condition `2 ≤ m ∧ m < X`.
+
+Stage 26A is complete: `list_finset_double_sum_bridge` converts nested
+List-based support sums to nested `toFinset` sums using `List.sum_toFinset`.

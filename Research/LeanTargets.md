@@ -48,3 +48,6 @@
 
 - `completeSupport_mem_iff` is complete; support membership can now be
   rewritten directly as `2 ≤ m ∧ m < X`.
+
+- Stage 26A `list_finset_double_sum_bridge` is complete. Stage 26B can now
+  apply the finite Cauchy witness to the bridged support sums.

@@ -412,6 +412,15 @@ theorem completeSupport_nodup (X : Nat) :
     exact Nat.add_right_cancel hab
   · exact List.nodup_range
 
+theorem list_finset_double_sum_bridge
+    {α : Type*} [AddCommMonoid α]
+    (X : Nat) (hX : 6 ≤ X) (f : Nat → Nat → α) :
+    ((completeSupport X).map (fun m =>
+      ((completeSupport X).map (fun n => f m n)).sum)).sum =
+    ∑ m ∈ (completeSupport X).toFinset,
+        ∑ n ∈ (completeSupport X).toFinset, f m n := by
+  simp only [List.sum_toFinset _ (completeSupport_nodup X)]
+
 theorem SRPairAt_eq_add_two (X : Nat)
     (h : 0 < (completeSupport X).length)
     (i : Fin ((completeSupport X).length ^ 2)) :

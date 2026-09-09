@@ -106,3 +106,6 @@ support coordinate formula without dependent sum conversion.
 
 2026-09-09 — Proved `completeSupport_mem_iff`, giving an exact interval
 characterization of the complete integer support.
+
+2026-09-09 — Closed Stage 26A: `list_finset_double_sum_bridge` compiled via
+`List.sum_toFinset` and `completeSupport_nodup`.
