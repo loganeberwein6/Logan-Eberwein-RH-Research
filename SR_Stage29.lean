@@ -236,6 +236,19 @@ theorem SR_power_sum_factorization (X : Nat) (beta : ℝ) :
   intro n hn
   ring
 
+theorem SR_weil_form_abs_le_square_weight_sum (X : Nat) (beta gamma : ℝ) :
+    |SR_weil_form_real X beta gamma| ≤
+      (∑ m ∈ (completeSupport X).toFinset,
+        |(m : ℝ) ^ (beta - 1 / 2)|) ^ 2 := by
+  calc
+    |SR_weil_form_real X beta gamma| ≤
+        ∑ m ∈ (completeSupport X).toFinset,
+          ∑ n ∈ (completeSupport X).toFinset,
+            |(m : ℝ) ^ (beta - 1 / 2)| *
+              |(n : ℝ) ^ (beta - 1 / 2)| :=
+      SR_weil_form_abs_le_power_sum X beta gamma
+    _ = _ := SR_power_sum_factorization X beta
+
 theorem SR_completeSupport_card (X : Nat) :
     (completeSupport X).toFinset.card = X - 2 := by
   simp [completeSupport_length]
