@@ -189,6 +189,34 @@ theorem SR_weil_form_phase_minus_zero (X : Nat) (beta : ℝ) :
   rw [zero_mul, zero_mul, Real.cos_zero]
   ring
 
+theorem SR_weil_form_phase_plus_gamma_neg (X : Nat) (beta gamma : ℝ) :
+    SR_weil_form_phase_plus X beta (-gamma) =
+      SR_weil_form_phase_plus X beta gamma := by
+  unfold SR_weil_form_phase_plus
+  apply Finset.sum_congr rfl
+  intro m hm
+  apply Finset.sum_congr rfl
+  intro n hn
+  rw [neg_mul, Real.cos_neg]
+
+theorem SR_weil_form_phase_minus_gamma_neg (X : Nat) (beta gamma : ℝ) :
+    SR_weil_form_phase_minus X beta (-gamma) =
+      SR_weil_form_phase_minus X beta gamma := by
+  unfold SR_weil_form_phase_minus
+  apply Finset.sum_congr rfl
+  intro m hm
+  apply Finset.sum_congr rfl
+  intro n hn
+  rw [neg_mul, neg_mul, Real.cos_neg]
+  ring
+
+theorem SR_weil_form_real_zero_gamma_eq_twice_phase_plus (X : Nat) (beta : ℝ) :
+    SR_weil_form_real X beta 0 =
+      2 * SR_weil_form_phase_plus X beta 0 := by
+  rw [SR_weil_form_real_eq_phase, SR_weil_form_phase_eq_plus_add_minus,
+    SR_weil_form_phase_minus_zero]
+  ring
+
 noncomputable def SR_Hilbert_inner (X : Nat) (f g : Nat → ℝ) : ℝ :=
   ∑ m ∈ (completeSupport X).toFinset,
     ∑ n ∈ (completeSupport X).toFinset,
