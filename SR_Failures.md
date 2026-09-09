@@ -1309,3 +1309,9 @@ Stage 21 syntax/name failure: support-pair count promotion accidentally inserted
 - Type/representation obstruction: `allOnesEntrySum` is defined as nested sums over the executable `List` support, while the quadratic form is indexed by `Fin (X-2)`; the missing theorem is a general `Fin`-sum/list-map correspondence together with the `i.val + 2` support-index conversion.
 - Resolution: promoted the generic Rayleigh implication with this identification as an explicit hypothesis in `SR_SpectralBridge.lean`; no equality was assumed silently.
 - Next approach: prove the finite-index/list correspondence separately before claiming an unconditional spectral bridge.
+
+## Stage 22 Problem 2 interlacing upper-bound invariant — 2026-09-08
+- Goal: prove the universal inertia bound `pos ≤ neg + 1` by bordering and Cauchy interlacing.
+- Approach: compare a matrix with its principal submatrix after adding one row and column.
+- Failure invariant: interlacing yields `pos(M') ≤ pos(M)+1` and `neg(M') ≥ neg(M)`, but when `pos(M)=neg(M)+1` this only gives `pos(M') ≤ neg(M')+2`; it does not prevent accumulation of the excess.
+- Resolution: retain `SR22_UPPER_BOUND_OPEN` and the verified finite certificates through X=1000. A structural invariant beyond ordinary interlacing is required for the all-X theorem.
