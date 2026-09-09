@@ -741,3 +741,5 @@ The finite signature-bound certificate is extended to X=6..1000 with zero record
 The boundary proxy has been generalized to non-square cutoffs: the induced ±1 block has trace zero and determinant −2, hence characteristic relation `λ² = 2`.
 
 The all-ones Rayleigh quotient is now formally positive for every `X ≥ 6`. This proves a positive spectral direction, but does not establish the inertia comparison `pos ≥ neg`.
+
+Primorial balance records at X=6, 30, 210, and 2310 are now collected under the explicit Lean certificate `SR_PRIMORIAL_BALANCE_CERT`; no universal primorial balance theorem is claimed.

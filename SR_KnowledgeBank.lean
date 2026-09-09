@@ -1094,3 +1094,4 @@ end SR
 #check SR.rees_rayleigh_positive
 #check SR.boundary_eigenvalues_general
 #check SR.boundary_eigenvalues_pm_sqrt2
+#check SR.SR_PRIMORIAL_BALANCE_CERT

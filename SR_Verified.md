@@ -1353,6 +1353,12 @@ Stage 21 support-pair count backbone: supportPairCountRows counts all ordered co
 - Proof strategy used: numerator is the proved positive `allOnesEntrySum`; denominator is the positive squared norm of the all-ones vector; apply `div_pos`.
 - Date: 2026-09-08
 
+## SR.28 primorial balance certificate
+- Theorem statement: `SR_PRIMORIAL_BALANCE_CERT` certifies the recorded balanced signatures at X=6, 30, 210, and 2310.
+- Proof strategy used: finite list membership reduction and reflexive arithmetic equalities.
+- Status: these are recorded computational signatures, not an all-primorial theorem.
+- Date: 2026-09-08
+
 ## SR.22 upper-bound certificate X=6..500
 - Theorem statement: `SR22_UPPER_BOUND_CERT_X6_TO_500` verifies zero upper-bound violations across the 495 cutoffs X=6,...,500.
 - Proof strategy used: finite certificate with `native_decide`.

@@ -87,6 +87,15 @@ theorem SR19_PRIMORIAL_EVIDENCE :
   exact ⟨completeSig6_balanced, completeSig30_balanced,
     completeSig210_balanced, completeSig2310_balanced⟩
 
+def primorialBalanceCerts : List RecordedCompleteSignature :=
+  [completeSig6, completeSig30, completeSig210, completeSig2310]
+
+theorem SR_PRIMORIAL_BALANCE_CERT :
+    ∀ c ∈ primorialBalanceCerts, c.pos = c.neg := by
+  intro c hc
+  simp [primorialBalanceCerts] at hc
+  rcases hc with rfl | rfl | rfl | rfl <;> rfl
+
 def completeSig35 : RecordedCompleteSignature :=
   ⟨35, 33, 5, 4, 24⟩
 
