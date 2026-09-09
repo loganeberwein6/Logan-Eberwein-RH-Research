@@ -1081,6 +1081,7 @@ end SR
 
 -- SR.22 finite upper-bound certificate.
 #check SR.SR22_UPPER_BOUND_CERT_X6_TO_500
+#check SR.SR22_UPPER_BOUND_CERT_X6_TO_1000
 #check SR.SR22_UPPER_BOUND_OPEN
 #check SR.SR23_DENSITY_CERT
 #check SR.transition_formula_n9_to_n12

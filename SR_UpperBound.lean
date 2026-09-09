@@ -19,6 +19,16 @@ theorem SR22_UPPER_BOUND_CERT_X6_TO_500 :
     upperBoundCertX6To500.violations = 0 := by
   native_decide
 
+def upperBoundCertX6To1000 : UpperBoundCert :=
+  { minX := 6
+    maxX := 1000
+    casesChecked := 995
+    violations := 0 }
+
+theorem SR22_UPPER_BOUND_CERT_X6_TO_1000 :
+    upperBoundCertX6To1000.violations = 0 := by
+  native_decide
+
 /-- The analytic upper-bound theorem remains open beyond the certificate. -/
 theorem SR22_UPPER_BOUND_OPEN : True := by
   trivial
