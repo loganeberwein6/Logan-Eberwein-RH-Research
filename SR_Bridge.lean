@@ -659,6 +659,37 @@ theorem sr_cauchy_y_sum_nested (X : Nat) (hX : 6 ≤ X) :
         Real.log (p.1 : ℝ) * Real.log (p.2 : ℝ) /
           (p.1 : ℝ) /
             (p.2 : ℝ))
+
+theorem sr_cauchy_product_sum_nested (X : Nat) (hX : 6 ≤ X) :
+    (∑ i : Fin ((completeSupport X).length ^ 2),
+      sr_cauchy_x X i * sr_cauchy_y X i) =
+      ∑ a : Fin (completeSupport X).length,
+        ∑ b : Fin (completeSupport X).length,
+          Real.log ((completeSupport X)[a] : ℝ) *
+            Real.log ((completeSupport X)[b] : ℝ) *
+              (Real.sqrt ((completeSupport X)[a] *
+                (completeSupport X)[b]))⁻¹ := by
+  calc
+    _ = ∑ i : Fin ((completeSupport X).length ^ 2),
+        (Real.log ((SRPairAt X i).1 : ℝ) *
+          Real.log ((SRPairAt X i).2 : ℝ) *
+            (Real.sqrt ((SRPairAt X i).1 *
+              (SRPairAt X i).2))⁻¹) := by
+      apply Finset.sum_congr rfl
+      intro i hi
+      exact sr_cauchy_pointwise_product X hX i
+    _ = ∑ i : Fin ((completeSupport X).length * (completeSupport X).length),
+        (Real.log ((SRPairAt X (finCongr (by simp [pow_two]) i)).1 : ℝ) *
+          Real.log ((SRPairAt X (finCongr (by simp [pow_two]) i)).2 : ℝ) *
+            (Real.sqrt ((SRPairAt X (finCongr (by simp [pow_two]) i)).1 *
+              (SRPairAt X (finCongr (by simp [pow_two]) i)).2))⁻¹) := by
+      exact srPairAt_sum_transport X hX (fun p =>
+        Real.log (p.1 : ℝ) * Real.log (p.2 : ℝ) *
+          (Real.sqrt (p.1 * p.2))⁻¹)
+    _ = _ := by
+      simpa using srPairAt_flat_sum_eq_nested X hX (fun p =>
+        Real.log (p.1 : ℝ) * Real.log (p.2 : ℝ) *
+          (Real.sqrt (p.1 * p.2))⁻¹)
   · have hg := SRSupportAt_eq_get X (i.1 % (completeSupport X).length) hb.2
     have hm := List.getElem_mem (l := completeSupport X)
       (n := i.1 % (completeSupport X).length) hb.2

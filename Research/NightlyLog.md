@@ -150,3 +150,5 @@ the remaining SR construction is isolated to coordinate/sum identities.
 2026-09-09 — Proved sr_cauchy_x_sum_nested: the x-vector norm sum equals the nested typed logarithmic support sum. SR_Bridge build passed.
 
 2026-09-09 — Proved sr_cauchy_y_sum_nested: the y-vector norm sum equals the nested typed S2 logarithmic support sum. SR_Bridge build passed.
+
+2026-09-09 — Proved sr_cauchy_product_sum_nested: the witness inner-product sum equals the nested SR interior logarithmic sum. SR_Bridge build passed.
