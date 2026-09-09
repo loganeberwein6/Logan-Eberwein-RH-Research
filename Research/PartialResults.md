@@ -82,3 +82,6 @@ the indexed support values as quotient/remainder coordinates shifted by 2.
 
 `completeSupport_getElem_eq_add_two` is also verified, giving the same formula
 directly for ordinary bounded List indexing.
+
+`completeSupport_mem_iff` is verified: support membership is exactly the
+interval condition `2 ≤ m ∧ m < X`.

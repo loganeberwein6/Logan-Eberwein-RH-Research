@@ -103,3 +103,6 @@ depth; archived and marked for replacement by a library equivalence.
 
 2026-09-09 — Verified `completeSupport_getElem_eq_add_two`, strengthening the
 support coordinate formula without dependent sum conversion.
+
+2026-09-09 — Proved `completeSupport_mem_iff`, giving an exact interval
+characterization of the complete integer support.

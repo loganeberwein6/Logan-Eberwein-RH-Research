@@ -393,6 +393,17 @@ theorem completeSupport_getElem_eq_add_two (X i : Nat)
   simpa [SRSupportAt_eq_add_two X i hi] using
     (SRSupportAt_eq_get X i hi).symm
 
+theorem completeSupport_mem_iff {X m : Nat} :
+    m ∈ completeSupport X ↔ 2 ≤ m ∧ m < X := by
+  constructor
+  · exact completeSupport_mem_bounds
+  · intro hm
+    unfold completeSupport
+    apply List.mem_map.mpr
+    refine ⟨m - 2, ?_, ?_⟩
+    · simpa using (show m - 2 < X - 2 by omega)
+    · omega
+
 theorem SRPairAt_eq_add_two (X : Nat)
     (h : 0 < (completeSupport X).length)
     (i : Fin ((completeSupport X).length ^ 2)) :

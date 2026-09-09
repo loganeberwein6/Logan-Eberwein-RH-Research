@@ -45,3 +45,6 @@
 
 - `SRSupportAt_eq_add_two` and `SRPairAt_eq_add_two` are complete. The
   remaining bridge is now primarily a finite-index reindexing statement.
+
+- `completeSupport_mem_iff` is complete; support membership can now be
+  rewritten directly as `2 ≤ m ∧ m < X`.
