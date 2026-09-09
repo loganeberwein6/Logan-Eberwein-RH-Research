@@ -132,3 +132,5 @@ the remaining SR construction is isolated to coordinate/sum identities.
 2026-09-09 — Extended the Fin.sum_univ_fun_getElem transport to the nested list_double_sum_eq_fin_double_sum theorem; SR_Bridge build passed.
 
 2026-09-09 — Defined sr_cauchy_x and sr_cauchy_y on ordered support-pair Fin indices and proved sr_cauchy_pointwise_product. SR_Bridge build passed.
+
+2026-09-09 — Proved sr_cauchy_x_sq and sr_cauchy_y_sq, identifying the two Cauchy norm summands with typed logarithmic S3 and S2 terms pointwise. SR_Bridge build passed.

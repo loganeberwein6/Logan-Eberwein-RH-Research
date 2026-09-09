@@ -595,6 +595,52 @@ theorem sr_cauchy_pointwise_product (X : Nat) (hX : 6 ≤ X)
   simpa [sr_cauchy_x, sr_cauchy_y] using
     (sr_log_sqrt_factorization (SRPairAt X i).1 (SRPairAt X i).2 hm1 hn1)
 
+theorem sr_cauchy_x_sq (X : Nat) (hX : 6 ≤ X)
+    (i : Fin ((completeSupport X).length ^ 2)) :
+    sr_cauchy_x X i * sr_cauchy_x X i =
+      Real.log ((SRPairAt X i).1 : ℝ) *
+        Real.log ((SRPairAt X i).2 : ℝ) := by
+  have hlen : 0 < (completeSupport X).length := by
+    simp [completeSupport]
+    omega
+  have hp := SRPairAt_components_bounds X hlen i
+  have hm1 : 1 ≤ (SRPairAt X i).1 := by omega
+  have hn1 : 1 ≤ (SRPairAt X i).2 := by omega
+  have hlogm : 0 ≤ Real.log ((SRPairAt X i).1 : ℝ) :=
+    Real.log_nonneg (by exact_mod_cast hm1)
+  have hlogn : 0 ≤ Real.log ((SRPairAt X i).2 : ℝ) :=
+    Real.log_nonneg (by exact_mod_cast hn1)
+  simpa [sr_cauchy_x] using
+    (Real.mul_self_sqrt (mul_nonneg hlogm hlogn))
+
+theorem sr_cauchy_y_sq (X : Nat) (hX : 6 ≤ X)
+    (i : Fin ((completeSupport X).length ^ 2)) :
+    sr_cauchy_y X i * sr_cauchy_y X i =
+      Real.log ((SRPairAt X i).1 : ℝ) *
+        Real.log ((SRPairAt X i).2 : ℝ) /
+          ((SRPairAt X i).1 : ℝ) /
+            ((SRPairAt X i).2 : ℝ) := by
+  have hprod := sr_cauchy_pointwise_product X hX i
+  have hlen : 0 < (completeSupport X).length := by
+    simp [completeSupport]
+    omega
+  have hp := SRPairAt_components_bounds X hlen i
+  have hm0 : 0 < ((SRPairAt X i).1 : ℝ) := by exact_mod_cast (show 0 < (SRPairAt X i).1 by omega)
+  have hn0 : 0 < ((SRPairAt X i).2 : ℝ) := by exact_mod_cast (show 0 < (SRPairAt X i).2 by omega)
+  have hlogm : 0 ≤ Real.log ((SRPairAt X i).1 : ℝ) :=
+    Real.log_nonneg (by exact_mod_cast (show 1 ≤ (SRPairAt X i).1 by omega))
+  have hlogn : 0 ≤ Real.log ((SRPairAt X i).2 : ℝ) :=
+    Real.log_nonneg (by exact_mod_cast (show 1 ≤ (SRPairAt X i).2 by omega))
+  have hlogs : 0 ≤ Real.log ((SRPairAt X i).1 : ℝ) *
+      Real.log ((SRPairAt X i).2 : ℝ) := mul_nonneg hlogm hlogn
+  have hsq : 0 < Real.sqrt (((SRPairAt X i).1 : ℝ) *
+      ((SRPairAt X i).2 : ℝ)) := by positivity
+  dsimp [sr_cauchy_y]
+  rw [div_eq_mul_inv]
+  field_simp [ne_of_gt hsq, ne_of_gt hm0, ne_of_gt hn0]
+  rw [Real.sq_sqrt hlogs, Real.sq_sqrt (le_of_lt (mul_pos hm0 hn0))]
+  ring
+
 theorem psi2_SR_nonneg (X : Nat) : 0 ≤ psi2_SR X := by
   classical
   unfold psi2_SR
