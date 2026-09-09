@@ -34,3 +34,6 @@ proving the result for arbitrary independent row and column lists.
 
 `rect_sum_diff_split` and `rees_weighted_rect_eq_ext_sub_int` now convert that
 pointwise form into the exact exterior-total minus interior-total expression.
+
+The specialization `SR_HalfWeightedSum_eq_ext_sub_int` now compiles for the
+actual complete support and named SR definitions.

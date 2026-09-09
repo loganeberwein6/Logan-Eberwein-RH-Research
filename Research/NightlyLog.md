@@ -38,3 +38,6 @@ archived as a failed formulation.
 
 2026-09-08 — Compiled `rect_sum_diff_split` and the full rectangular theorem
 `rees_weighted_rect_eq_ext_sub_int`.
+
+2026-09-08 — Specialized the decomposition to complete support as
+`SR_HalfWeightedSum_eq_ext_sub_int`; all named definitions unfold cleanly.

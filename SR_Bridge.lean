@@ -221,6 +221,11 @@ theorem rees_weighted_rect_eq_ext_sub_int (X : Nat)
       (fun m n => if m * n < X then
         Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹ else 0)
 
+theorem SR_HalfWeightedSum_eq_ext_sub_int (X : Nat) :
+    SR_HalfWeightedSum X = SR_Sext_log X - SR_Sint_log X := by
+  simpa [SR_HalfWeightedSum, SR_Sext_log, SR_Sint_log] using
+    (rees_weighted_rect_eq_ext_sub_int X (completeSupport X) (completeSupport X))
+
 /- FAILED ATTEMPT (archived 2026-09-08): row induction requires additional
    normalization of nested subtraction expressions. -/
 /- theorem rees_weighted_row_signed (X m : Nat) (l : List Nat) :
