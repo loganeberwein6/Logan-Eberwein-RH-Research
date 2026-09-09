@@ -21,3 +21,6 @@ a different contraction `Tr(M J)`.
 
 The trace data alone do not expose von Mangoldt weights; a weighted diagonal
 or weighted all-ones contraction is needed for a direct `psi2` connection.
+
+## Stage 26 trace update (2026-09-09)
+The certified trace observable reesTrace X = (X-2) - 2*belowHalfSupportCount X satisfies reesTrace X = 2 for even X and 1 for odd X, for all X ≥ 6. The explicit X=6..20 table was Lean-verified.

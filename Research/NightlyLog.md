@@ -124,3 +124,5 @@ the Lean proof exposed the necessary nonnegative-sign hypothesis on `S`.
 
 2026-09-09 — Added the canonical `SRCauchyWitness.ofFunctions` constructor;
 the remaining SR construction is isolated to coordinate/sum identities.
+
+2026-09-09 — Added and Lean-verified reesTrace, rees_trace_formula, rees_trace_value, and the X=6..20 parity table in SR_WEntropy.lean. Build SR_WEntropy passed.

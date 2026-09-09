@@ -40,6 +40,36 @@ def W_SR_converges : Prop :=
 def W_SR_RH_bridge : Prop :=
   W_SR_converges → True
 
+/-! The diagonal trace of the Rees sign matrix, expressed through the
+    below-half support count.  This is kept as an arithmetic observable,
+    independently of any unproved spectral claim. -/
+def reesTrace (X : Nat) : Int :=
+  ((completeSupport X).length : Int) - 2 * (belowHalfSupportCount X : Int)
+
+theorem rees_trace_formula (X : Nat) (hX : 6 ≤ X) :
+    reesTrace X = (X - 2 : Int) -
+      2 * belowHalfSupportCount X := by
+  unfold reesTrace
+  have hlen : (completeSupport X).length = X - 2 := by
+    simp [completeSupport]
+  rw [hlen]
+  rw [Nat.cast_sub (by omega)]
+  norm_num
+
+theorem rees_trace_value (X : Nat) (hX : 6 ≤ X) :
+    reesTrace X = if X % 2 = 0 then 2 else 1 := by
+  rw [rees_trace_formula X hX, belowHalfSupportCount_general X hX]
+  by_cases hpar : X % 2 = 0 <;> simp [hpar] <;> omega
+
+theorem rees_trace_small_table :
+    reesTrace 6 = 2 ∧ reesTrace 7 = 1 ∧ reesTrace 8 = 2 ∧
+      reesTrace 9 = 1 ∧ reesTrace 10 = 2 ∧ reesTrace 11 = 1 ∧
+      reesTrace 12 = 2 ∧ reesTrace 13 = 1 ∧ reesTrace 14 = 2 ∧
+      reesTrace 15 = 1 ∧ reesTrace 16 = 2 ∧ reesTrace 17 = 1 ∧
+      reesTrace 18 = 2 ∧ reesTrace 19 = 1 ∧ reesTrace 20 = 2 := by
+  repeat' apply And.intro
+  all_goals native_decide
+
 theorem SR26_PERELMAN_CONJECTURE :
     W_SR_RH_bridge → W_SR_converges → True := by
   intro _ _
