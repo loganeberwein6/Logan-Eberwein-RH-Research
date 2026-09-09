@@ -26,3 +26,5 @@ compiled the exact pointwise signed-term theorem `rees_weighted_term_signed`.
 
 2026-09-08 — Proved `list_sum_map_sub` by induction; this is the local
 finite-sum algebra needed to lift the signed-term identity globally.
+
+2026-09-08 — Verified the reusable normalization lemma `real_sub_sum_cons`.

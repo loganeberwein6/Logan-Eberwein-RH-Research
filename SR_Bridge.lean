@@ -90,6 +90,10 @@ theorem list_sum_map_sub {α : Type} (l : List α) (f g : α → ℝ) :
       simp only [List.map_cons, List.sum_cons]
       linarith [ih]
 
+theorem real_sub_sum_cons (a b c d : ℝ) :
+    a + b - (c + d) = (a - c) + (b - d) := by
+  ring
+
 /- FAILED ATTEMPT (archived 2026-09-08): row induction requires additional
    normalization of nested subtraction expressions. -/
 /- theorem rees_weighted_row_signed (X m : Nat) (l : List Nat) :

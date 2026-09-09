@@ -22,3 +22,6 @@ negative interior term or positive exterior term.
 The auxiliary theorem `list_sum_map_sub` is now proved by direct list
 induction, providing the algebraic replacement for unavailable guessed List
 subtraction lemmas.
+
+Also verified `real_sub_sum_cons`, the four-term additive normalization needed
+to separate head and tail contributions in the remaining row induction.
