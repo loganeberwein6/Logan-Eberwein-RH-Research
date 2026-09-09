@@ -63,3 +63,6 @@ quotient and remainder coordinates stay below the support length.
 
 `SRSupportAt_eq_get` now proves bounded `getD` access agrees with ordinary
 List indexing, using the dedicated `Mathlib.Data.List.GetD` API.
+
+`SRPairAt_components_mem` now transfers this to both coordinates of every
+positive-length ordered-pair index.

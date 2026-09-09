@@ -68,3 +68,6 @@ lemmas.
 
 2026-09-08 — Imported `Mathlib.Data.List.GetD` and proved
 `SRSupportAt_eq_get` for bounded support coordinates.
+
+2026-09-08 — Proved `SRPairAt_components_mem`, showing both indexed pair
+components lie in complete support.

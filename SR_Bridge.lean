@@ -308,6 +308,22 @@ theorem SRSupportAt_eq_get (X i : Nat)
     SRSupportAt X i = (completeSupport X)[i] := by
   exact List.getD_eq_getElem (completeSupport X) 0 hi
 
+theorem SRPairAt_components_mem (X : Nat)
+    (h : 0 < (completeSupport X).length)
+    (i : Fin ((completeSupport X).length ^ 2)) :
+    (SRPairAt X i).1 ∈ completeSupport X ∧
+      (SRPairAt X i).2 ∈ completeSupport X := by
+  have hb := SRPairAt_coord_bounds X h i
+  constructor
+  · have hg := SRSupportAt_eq_get X (i.1 / (completeSupport X).length) hb.1
+    have hm := List.getElem_mem (l := completeSupport X)
+      (n := i.1 / (completeSupport X).length) hb.1
+    simpa [SRPairAt, hg] using hm
+  · have hg := SRSupportAt_eq_get X (i.1 % (completeSupport X).length) hb.2
+    have hm := List.getElem_mem (l := completeSupport X)
+      (n := i.1 % (completeSupport X).length) hb.2
+    simpa [SRPairAt, hg] using hm
+
 theorem psi2_SR_nonneg (X : Nat) : 0 ≤ psi2_SR X := by
   classical
   unfold psi2_SR

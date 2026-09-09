@@ -23,3 +23,6 @@
 
 - `SRSupportAt_eq_get` is complete; support-value bounds can now be transferred
   from `completeSupport_mem_bounds`.
+
+- `SRPairAt_components_mem` is complete; the next construction can use the
+  existing support bounds on both coordinates.
