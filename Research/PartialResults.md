@@ -54,3 +54,6 @@ The full finite-coordinate Cauchy theorem is now verified as
 
 `SRCauchyWitness` and `sr_cauchy_witness_bound` package the exact contract for
 instantiating the theorem with an ordered-pair enumeration.
+
+`SRSupportAt` and `SRPairAt` now provide a total finite index-to-ordered-pair
+map for complete support, including the empty-support edge case.

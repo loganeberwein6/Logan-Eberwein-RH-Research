@@ -59,3 +59,6 @@ vector norm square to its coordinate square sum.
 
 2026-09-08 — Added `SRCauchyWitness` and its bound theorem, separating the
 finite Cauchy proof from the remaining SR index-enumeration construction.
+
+2026-09-08 — Added total support and ordered-pair index maps `SRSupportAt` and
+`SRPairAt`; definitions compile for all X.

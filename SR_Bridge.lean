@@ -278,6 +278,21 @@ theorem sr_cauchy_witness_bound {n : Nat} (w : SRCauchyWitness n) :
   rw [w.s1_eq, w.s2_eq, w.s3_eq]
   exact cauchy_fin_sum_verified n w.x w.y
 
+noncomputable def SRSupportAt (X : Nat) (i : Nat) : Nat :=
+  (completeSupport X).getD i 0
+
+noncomputable def SRPairAt (X : Nat)
+    (i : Fin ((completeSupport X).length ^ 2)) : Nat × Nat :=
+  let n := (completeSupport X).length
+  (SRSupportAt X (i.1 / n), SRSupportAt X (i.1 % n))
+
+theorem SRPairAt_fst_snd (X : Nat)
+    (i : Fin ((completeSupport X).length ^ 2)) :
+    SRPairAt X i =
+      (SRSupportAt X (i.1 / (completeSupport X).length),
+       SRSupportAt X (i.1 % (completeSupport X).length)) := by
+  rfl
+
 theorem psi2_SR_nonneg (X : Nat) : 0 ≤ psi2_SR X := by
   classical
   unfold psi2_SR

@@ -17,3 +17,6 @@
 
 - `SRCauchyWitness` is complete; remaining target is constructing its fields
   from the ordered support pair enumeration.
+
+- `SRPairAt` is complete; next target is proving its range agrees with the
+  complete-support ordered pairs when the support length is positive.
