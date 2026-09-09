@@ -451,6 +451,14 @@ theorem fin_flatten_sum
     _ = ∑ i : Fin n, ∑ j : Fin n, F i j := by
       simp [Fintype.sum_prod_type]
 
+theorem fin_pow_two_sum_transport
+    {α : Type*} [AddCommMonoid α] (n : Nat)
+    (F : Fin (n ^ 2) → α) :
+    (∑ i : Fin (n ^ 2), F i) =
+      ∑ j : Fin (n * n), F (finCongr (by simp [pow_two]) j) := by
+  let e : Fin (n * n) ≃ Fin (n ^ 2) := finCongr (by simp [pow_two])
+  exact (Fintype.sum_equiv e _ _ (by intro j; rfl)).symm
+
 theorem SR_cauchy_log_from_witness
     (X : Nat) (n : Nat) (w : SRCauchyWitness n)
     (h1 : w.s1 = SR_Sint_log X)
