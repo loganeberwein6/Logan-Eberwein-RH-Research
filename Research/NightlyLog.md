@@ -156,3 +156,5 @@ the remaining SR construction is isolated to coordinate/sum identities.
 2026-09-09 — Reduced all three witness aggregate sums to the named SR quantities: sr_cauchy_x_sum_eq_S3, sr_cauchy_y_sum_eq_S2, and sr_cauchy_product_sum_eq_Sint. SR_Bridge build passed.
 
 2026-09-09 — Closed Stage 26B: SR_cauchy_log_version now compiles by instantiating SRCauchyWitness with the SR vectors and the three aggregate identities. SR_Bridge build passed.
+
+2026-09-09 — Added B3_corrected_compiles, a Lean-verified endpoint from the explicit square lower bound c*T² ≤ S² and the necessary nonnegative-sign hypotheses. The remaining analytic task is deriving that square bound from the chosen kappa/unsigned definitions.

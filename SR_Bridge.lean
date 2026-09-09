@@ -731,6 +731,16 @@ theorem SR_cauchy_log_version (X : Nat) (hX : 6 ≤ X) :
       show w.s3 = SR_S2_log_typed X by
         simpa [w] using sr_cauchy_y_sum_eq_S2 X hX] at hw
   exact hw
+
+theorem B3_corrected_compiles
+    (X : Nat) (hX : 6 ≤ X)
+    (T I S c : ℝ)
+    (hT : 0 < T) (hc : 0 < c) (hc1 : c < 1)
+    (hI : 0 ≤ I) (hS : 0 ≤ S)
+    (hdecomp : S = T - 2 * I)
+    (hsq : c * T ^ 2 ≤ S ^ 2) :
+    I / T ≤ (1 - Real.sqrt c) / 2 := by
+  exact b3_ratio_bound_algebra T I S c hT hc hc1 hI hS hdecomp hsq
   · have hg := SRSupportAt_eq_get X (i.1 % (completeSupport X).length) hb.2
     have hm := List.getElem_mem (l := completeSupport X)
       (n := i.1 % (completeSupport X).length) hb.2
