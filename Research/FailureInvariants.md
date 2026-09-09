@@ -48,3 +48,6 @@ definitional and does not close by unit sesquilinearity alone.
 
 `RCLike.inner_apply` is present in other mathlib contexts but does not rewrite
 scalar `inner ℝ` terms under the current imports.
+
+Importing `Mathlib.Analysis.RCLike.Inner` explicitly does not change this
+behavior in `SR_Bridge.lean`; the scalar identity remains unresolved.

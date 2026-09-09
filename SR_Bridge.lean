@@ -1,5 +1,6 @@
 import SR_Mollifier
 import Mathlib.Analysis.InnerProductSpace.PiL2
+import Mathlib.Analysis.RCLike.Inner
 
 namespace SR
 
@@ -234,6 +235,11 @@ theorem cauchy_fin_sum_inner_complete (n : Nat) (x y : Fin n → ℝ) :
 /- FAILED ATTEMPT (archived 2026-09-08): `RCLike.inner_apply` does not
    rewrite scalar `inner ℝ` terms in this import context. -/
 /- theorem real_scalar_inner_mul_rclike (a b : ℝ) : inner ℝ a b = a * b := by
+  simp [RCLike.inner_apply] -/
+
+/- FAILED ATTEMPT (archived 2026-09-08): even with the defining RCLike import,
+   the scalar inner expression is not rewritten by this simp lemma. -/
+/- theorem real_scalar_inner_mul_imported (a b : ℝ) : inner ℝ a b = a * b := by
   simp [RCLike.inner_apply] -/
 
 theorem psi2_SR_nonneg (X : Nat) : 0 ≤ psi2_SR X := by
