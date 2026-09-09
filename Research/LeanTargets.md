@@ -51,3 +51,6 @@
 
 - Stage 26A `list_finset_double_sum_bridge` is complete. Stage 26B can now
   apply the finite Cauchy witness to the bridged support sums.
+
+- Stage 26D scaffold `SR_WEntropy.lean` is compiled. Certified signature
+  records now expose nonnegative `{0,1}` W-bias and primorial-zero data.

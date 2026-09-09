@@ -88,3 +88,6 @@ interval condition `2 ≤ m ∧ m < X`.
 
 Stage 26A is complete: `list_finset_double_sum_bridge` converts nested
 List-based support sums to nested `toFinset` sums using `List.sum_toFinset`.
+
+`SR_WEntropy.lean` adds `W_SR_of_sig`, its certified nonnegativity and
+`{0,1}` bound, and a native-decide primorial-zero scaffold.

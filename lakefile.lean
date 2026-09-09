@@ -96,3 +96,6 @@ lean_lib SR_Mollifier where
 
 lean_lib SR_Bridge where
   roots := #[`SR_Bridge]
+
+lean_lib SR_WEntropy where
+  roots := #[`SR_WEntropy]

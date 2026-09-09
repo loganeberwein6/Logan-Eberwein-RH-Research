@@ -109,3 +109,6 @@ characterization of the complete integer support.
 
 2026-09-09 — Closed Stage 26A: `list_finset_double_sum_bridge` compiled via
 `List.sum_toFinset` and `completeSupport_nodup`.
+
+2026-09-09 — Added and compiled `SR_WEntropy.lean`; the finite W-bias
+observable is certified directly from the existing signature certificates.
