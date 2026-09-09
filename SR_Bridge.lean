@@ -435,6 +435,22 @@ theorem list_double_sum_eq_fin_double_sum
   intro i hi
   exact list_sum_eq_fin_sum_getElem l (fun n => f l[i] n)
 
+theorem fin_flatten_sum
+    {α : Type*} [AddCommMonoid α] (n : Nat)
+    (F : Fin n → Fin n → α) :
+    (∑ i : Fin (n * n),
+      F (finProdFinEquiv.symm i).1 (finProdFinEquiv.symm i).2) =
+      ∑ i : Fin n, ∑ j : Fin n, F i j := by
+  classical
+  let e := (finProdFinEquiv (m := n) (n := n))
+  calc
+    (∑ i : Fin (n * n),
+      F (finProdFinEquiv.symm i).1 (finProdFinEquiv.symm i).2) =
+        ∑ p : Fin n × Fin n, F p.1 p.2 := by
+          exact Fintype.sum_equiv e.symm _ _ (by intro i; rfl)
+    _ = ∑ i : Fin n, ∑ j : Fin n, F i j := by
+      simp [Fintype.sum_prod_type]
+
 theorem SR_cauchy_log_from_witness
     (X : Nat) (n : Nat) (w : SRCauchyWitness n)
     (h1 : w.s1 = SR_Sint_log X)
