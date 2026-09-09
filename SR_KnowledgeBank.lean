@@ -9,6 +9,7 @@ import SR_Underdetermination
 import SR_UpperBound
 import SR_Density
 import SR_SpectralBridge
+import SR_Boundary
 import SR_Stage8
 import SR_Valuation
 import SR_Stage9
@@ -1089,3 +1090,5 @@ end SR
 #check SR.quadraticForm_ones_not_nonpositive
 #check SR.allOnesEntrySum_pos_implies_not_NSD
 #check SR.SR24_SPECTRAL_BRIDGE
+#check SR.boundary_eigenvalues_general
+#check SR.boundary_eigenvalues_pm_sqrt2

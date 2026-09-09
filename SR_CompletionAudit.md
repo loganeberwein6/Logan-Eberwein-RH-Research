@@ -737,3 +737,5 @@ For `X = 6,...,500`, the computed certificate records 128 balanced even cutoffs 
 The generic Rayleigh implication is Lean-verified, and the finite `Fin`-sum/list-support identity is now also proved. Consequently `SR24_SPECTRAL_BRIDGE` unconditionally proves that the concrete Rees quadratic form is not negative semidefinite for every `X ≥ 6`. This establishes existence of a positive direction, but does not by itself prove `pos ≥ neg`.
 
 The finite signature-bound certificate is extended to X=6..1000 with zero recorded violations. This remains a certificate, not a proof of the universal upper bound.
+
+The boundary proxy has been generalized to non-square cutoffs: the induced ±1 block has trace zero and determinant −2, hence characteristic relation `λ² = 2`.
