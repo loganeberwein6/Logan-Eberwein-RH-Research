@@ -100,3 +100,6 @@ coordinates rather than forcing raw range notation.
 
 2026-09-09 — Direct List-to-Fin sum induction hit dependent-index recursion
 depth; archived and marked for replacement by a library equivalence.
+
+2026-09-09 — Verified `completeSupport_getElem_eq_add_two`, strengthening the
+support coordinate formula without dependent sum conversion.

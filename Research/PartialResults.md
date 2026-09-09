@@ -79,3 +79,6 @@ original ordered-pair index, providing the arithmetic core of enumeration.
 
 `SRSupportAt_eq_add_two` and `SRPairAt_eq_add_two` are verified, identifying
 the indexed support values as quotient/remainder coordinates shifted by 2.
+
+`completeSupport_getElem_eq_add_two` is also verified, giving the same formula
+directly for ordinary bounded List indexing.

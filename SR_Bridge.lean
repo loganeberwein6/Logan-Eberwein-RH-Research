@@ -387,6 +387,12 @@ theorem SRSupportAt_eq_add_two (X i : Nat)
   rw [SRSupportAt_eq_get X i hi]
   simp [completeSupport]
 
+theorem completeSupport_getElem_eq_add_two (X i : Nat)
+    (hi : i < (completeSupport X).length) :
+    (completeSupport X)[i] = i + 2 := by
+  simpa [SRSupportAt_eq_add_two X i hi] using
+    (SRSupportAt_eq_get X i hi).symm
+
 theorem SRPairAt_eq_add_two (X : Nat)
     (h : 0 < (completeSupport X).length)
     (i : Fin ((completeSupport X).length ^ 2)) :
