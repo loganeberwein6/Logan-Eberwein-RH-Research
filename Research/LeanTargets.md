@@ -29,3 +29,6 @@
 
 - `SRPairAt_components_bounds` is complete and compiled. It transfers
   `completeSupport_mem_bounds` to both coordinates of every indexed pair.
+
+- Finite Abel summation remains open: the first two formulations fail at the
+  successor-successor boundary and are archived in `SR_Bridge.lean`.

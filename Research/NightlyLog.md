@@ -74,3 +74,7 @@ components lie in complete support.
 
 2026-09-09 — Repaired and Lean-verified `SRPairAt_components_bounds`; each
 ordered support-pair coordinate is now certified in [2, X).
+
+2026-09-09 — Attempted finite Abel summation. Two natural terminal/prefix
+ formulations exposed an index-boundary mismatch; both attempts were archived
+ and the bridge remains compiling.

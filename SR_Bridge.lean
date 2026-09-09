@@ -81,6 +81,43 @@ theorem SR_S1_log_eq_halfWeighted (X : Nat) :
     SR_S1_log X = SR_HalfWeightedSum X := by
   rfl
 
+/- FAILED ATTEMPT (archived 2026-09-09): the first Abel formula used a
+    terminal value g (N - 1) and an index-shifted prefix sum; the induction
+    exposes a boundary mismatch at the successor-successor case. -/
+/-! A finite Abel summation identity, independent of the SR weights. -/
+/-
+theorem abel_summation_finset (f g : Nat → ℝ) (N : Nat) :
+    (∑ n ∈ Finset.range N, f n * g n) =
+      (∑ k ∈ Finset.range N, f k) * g (N - 1) -
+        ∑ n ∈ Finset.range (N - 1),
+          (∑ k ∈ Finset.range (n + 1), f k) * (g n - g (n + 1)) := by
+  induction N with
+  | zero => simp
+  | succ N ih =>
+      cases N with
+      | zero => simp
+      | succ N =>
+          simp only [Finset.sum_range_succ]
+          rw [ih]
+          push_cast
+           ring
+
+theorem abel_summation_finset_v2 (f g : Nat → ℝ) (N : Nat) :
+    (∑ n ∈ Finset.range N, f n * g n) =
+      (∑ k ∈ Finset.range N, f k) * g (N - 1) -
+        ∑ n ∈ Finset.range (N - 1),
+          (∑ k ∈ Finset.range (n + 1), f k) * (g (n + 1) - g n) := by
+  induction N with
+  | zero => simp
+  | succ N ih =>
+      cases N with
+      | zero => simp
+      | succ N =>
+          simp only [Finset.sum_range_succ]
+          simp at ih ⊢
+          rw [ih]
+          ring -/
+
 /- FAILED ATTEMPT (archived 2026-09-08): unfolding the existing logarithmic
    List.map definitions changes membership witnesses to reals, preventing
    direct application of completeSupport_mem_bounds. -/

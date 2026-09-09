@@ -59,3 +59,8 @@ The indexed-pair bounds theorem must be placed after the complete membership
 theorem; inserting it inside that theorem splits its second constructor branch
 and produces a misleading parser/type failure. The malformed attempt is
 archived in `SR_Bridge.lean`.
+
+The first two finite Abel-summation statements are archived: induction reaches
+the successor-successor case with a boundary/index mismatch. A correct Abel
+identity needs a separately normalized prefix-sum formulation before Lean
+induction can close it.
