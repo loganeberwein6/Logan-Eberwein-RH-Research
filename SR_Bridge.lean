@@ -200,6 +200,12 @@ theorem cauchy_euclidean_inner (n : Nat)
   have h := cauchy_euclidean_inner n x' y'
   simpa [x', y', PiLp.inner_apply, pow_two] using h -/
 
+theorem euclidean_toLp_real_norm_sq (n : Nat) (x : Fin n → ℝ) :
+    ‖(WithLp.toLp 2 x : EuclideanSpace ℝ (Fin n))‖ ^ 2 =
+      ∑ i, (x i) ^ 2 := by
+  simpa using (EuclideanSpace.real_norm_sq_eq
+    (WithLp.toLp 2 x : EuclideanSpace ℝ (Fin n)))
+
 theorem psi2_SR_nonneg (X : Nat) : 0 ≤ psi2_SR X := by
   classical
   unfold psi2_SR

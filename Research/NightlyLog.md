@@ -50,3 +50,6 @@ definitionally reducible.
 
 2026-09-08 — Compiled `cauchy_euclidean_inner` using the underlying `inner ℝ`
 constant; this bypasses the unavailable Unicode real-inner notation.
+
+2026-09-08 — Proved `euclidean_toLp_real_norm_sq`, converting a WithLp finite
+vector norm square to its coordinate square sum.

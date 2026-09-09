@@ -45,3 +45,5 @@ Their product nonnegativity is recorded as `SR_log_typed_denominator_nonneg`.
 
 The finite Euclidean Cauchy theorem is now exposed without notation issues as
 `cauchy_euclidean_inner`, stated directly with `inner ℝ`.
+
+The missing norm bridge is now verified as `euclidean_toLp_real_norm_sq`.
