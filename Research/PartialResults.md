@@ -73,3 +73,6 @@ inherits the complete-support bounds `2 ≤ coordinate < X`.
 `abel_summation_finset_verified` is now Lean-verified via Mathlib's
 `Finset.sum_range_by_parts`; it gives the finite Abel identity with the
 correct terminal and prefix indices.
+
+`SRPairAt_index_reconstruct` is verified: quotient and remainder recover the
+original ordered-pair index, providing the arithmetic core of enumeration.

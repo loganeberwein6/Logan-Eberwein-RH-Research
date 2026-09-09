@@ -348,6 +348,13 @@ theorem SRPairAt_coord_bounds (X : Nat)
   · exact Nat.div_lt_of_lt_mul (by simpa [pow_two] using i.2)
   · exact Nat.mod_lt _ h
 
+theorem SRPairAt_index_reconstruct (X : Nat)
+    (h : 0 < (completeSupport X).length)
+    (i : Fin ((completeSupport X).length ^ 2)) :
+    (i.1 / (completeSupport X).length) * (completeSupport X).length +
+        (i.1 % (completeSupport X).length) = i.1 := by
+  simpa [Nat.mul_comm] using Nat.div_add_mod i.1 (completeSupport X).length
+
 theorem SRSupportAt_eq_get (X i : Nat)
     (hi : i < (completeSupport X).length) :
     SRSupportAt X i = (completeSupport X)[i] := by

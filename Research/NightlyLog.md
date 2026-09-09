@@ -84,3 +84,6 @@ ordered support-pair coordinate is now certified in [2, X).
 
 2026-09-09 — Marked the finite Abel API ready for transport to SR support
 indices; the remaining work is the `SRPairAt` range-enumeration bridge.
+
+2026-09-09 — Proved `SRPairAt_index_reconstruct` using `Nat.div_add_mod`;
+quotient/remainder reconstruction is now available for the support index map.

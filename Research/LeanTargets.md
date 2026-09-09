@@ -39,3 +39,6 @@
 - The Abel identity is now available for any finite index range. The next
   step is transporting it through `SRPairAt` to the complete-support pair
   enumeration; that transport is still open.
+
+- `SRPairAt_index_reconstruct` is complete. The remaining enumeration proof
+  must connect the reconstructed quotient/remainder coordinates to list values.
