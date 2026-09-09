@@ -18,3 +18,7 @@ with unrestricted ψ₂ or partial summation has been asserted yet.
 The bridge also defines `SR_Sint_log` and `SR_Sext_log`, and Lean verifies
 `rees_weighted_term_signed`: each half-weighted Rees summand is exactly the
 negative interior term or positive exterior term.
+
+The auxiliary theorem `list_sum_map_sub` is now proved by direct list
+induction, providing the algebraic replacement for unavailable guessed List
+subtraction lemmas.

@@ -82,6 +82,14 @@ theorem rees_weighted_term_signed (X m n : Nat) :
   rw [rees_decomposition]
   split_ifs <;> norm_num
 
+theorem list_sum_map_sub {α : Type} (l : List α) (f g : α → ℝ) :
+    (l.map f).sum - (l.map g).sum = (l.map (fun x => f x - g x)).sum := by
+  induction l with
+  | nil => simp
+  | cons a l ih =>
+      simp only [List.map_cons, List.sum_cons]
+      linarith [ih]
+
 /- FAILED ATTEMPT (archived 2026-09-08): this proof used unavailable
    List.sum_congr and List.sum_sub_distrib constants. -/
 /- theorem SR_HalfWeightedSum_eq_ext_sub_int (X : Nat) :
