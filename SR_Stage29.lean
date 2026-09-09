@@ -240,6 +240,18 @@ theorem SR_completeSupport_card (X : Nat) :
     (completeSupport X).toFinset.card = X - 2 := by
   simp [completeSupport_length]
 
+theorem SR_weil_form_half_abs_le_card_sq (X : Nat) (gamma : ℝ) :
+    |SR_weil_form_real X (1 / 2) gamma| ≤ ((X - 2 : Nat) : ℝ) ^ 2 := by
+  calc
+    |SR_weil_form_real X (1 / 2) gamma| ≤
+        ∑ m ∈ (completeSupport X).toFinset,
+          ∑ n ∈ (completeSupport X).toFinset,
+            |(m : ℝ) ^ ((1 / 2 : ℝ) - 1 / 2)| *
+              |(n : ℝ) ^ ((1 / 2 : ℝ) - 1 / 2)| :=
+      SR_weil_form_abs_le_power_sum X (1 / 2) gamma
+    _ = ((X - 2 : Nat) : ℝ) ^ 2 := by
+      simp [SR_completeSupport_card, pow_two]
+
 theorem SR_weil_form_phase_minus_zero (X : Nat) (beta : ℝ) :
     SR_weil_form_phase_minus X beta 0 =
       SR_weil_form_phase_plus X beta 0 := by
