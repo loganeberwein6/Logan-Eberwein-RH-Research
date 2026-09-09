@@ -82,6 +82,30 @@ theorem rees_weighted_term_signed (X m n : Nat) :
   rw [rees_decomposition]
   split_ifs <;> norm_num
 
+/- FAILED ATTEMPT (archived 2026-09-08): this proof used unavailable
+   List.sum_congr and List.sum_sub_distrib constants. -/
+/- theorem SR_HalfWeightedSum_eq_ext_sub_int (X : Nat) :
+    SR_HalfWeightedSum X = SR_Sext_log X - SR_Sint_log X := by
+  classical
+  unfold SR_HalfWeightedSum SR_Sext_log SR_Sint_log
+  have inner (m : Nat) :
+      ((completeSupport X).map (fun n =>
+        ((reesEntryFromNat X m n : ℤ) : ℝ) * Real.log m * Real.log n *
+          (Real.sqrt (m * n))⁻¹)).sum =
+      ((completeSupport X).map (fun n =>
+        if m * n < X then 0 else
+          Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹)).sum -
+      ((completeSupport X).map (fun n =>
+        if m * n < X then
+          Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹
+        else 0)).sum := by
+    apply List.sum_congr rfl
+    intro n hn
+    rw [rees_weighted_term_signed]
+    split_ifs <;> ring
+  simp_rw [inner]
+  rw [← List.sum_sub_distrib] -/
+
 /- The signed/unsigned split is intentionally left explicit until the
    definitions are corrected; no false equality is promoted here. -/
 theorem SR25_BRIDGE_SIGN_OBSTRUCTION : True := by

@@ -8,3 +8,9 @@
   the original psi2 lower bound.
 - The proposed Abel summation formula has an index error: at `N=1` its
   right-hand side is `f 0 * g 1`, not `f 0 * g 0`.
+# Failure invariant — global signed-sum lift
+
+2026-09-08 — The attempted global signed decomposition used guessed names
+`List.sum_congr` and `List.sum_sub_distrib`; this mathlib version has neither
+constant. The pointwise identity `rees_weighted_term_signed` compiles, but
+the finite-sum lift must use list induction or an available finite-sum API.
