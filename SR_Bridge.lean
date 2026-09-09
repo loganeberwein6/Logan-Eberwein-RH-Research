@@ -77,6 +77,9 @@ noncomputable def SR_Sext_log (X : Nat) : ℝ :=
       if m * n < X then 0 else
         Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹)).sum)).sum
 
+noncomputable def SR_S_unsigned_log (X : Nat) : ℝ :=
+  SR_Sext_log X + SR_Sint_log X
+
 theorem SR_S1_log_eq_halfWeighted (X : Nat) :
     SR_S1_log X = SR_HalfWeightedSum X := by
   rfl
@@ -1033,6 +1036,12 @@ theorem SR_HalfWeightedSum_eq_ext_sub_int (X : Nat) :
     SR_HalfWeightedSum X = SR_Sext_log X - SR_Sint_log X := by
   simpa [SR_HalfWeightedSum, SR_Sext_log, SR_Sint_log] using
     (rees_weighted_rect_eq_ext_sub_int X (completeSupport X) (completeSupport X))
+
+theorem SR_S_unsigned_log_decomp (X : Nat) :
+    SR_HalfWeightedSum X = SR_S_unsigned_log X - 2 * SR_Sint_log X := by
+  rw [SR_HalfWeightedSum_eq_ext_sub_int]
+  unfold SR_S_unsigned_log
+  ring
 
 /- FAILED ATTEMPT (archived 2026-09-08): row induction requires additional
    normalization of nested subtraction expressions. -/
