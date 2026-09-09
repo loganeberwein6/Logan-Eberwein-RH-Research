@@ -51,3 +51,6 @@ The missing norm bridge is now verified as `euclidean_toLp_real_norm_sq`.
 The full finite-coordinate Cauchy theorem is now verified as
 `cauchy_fin_sum_verified`; scalar inner terms are normalized using
 `RCLike.inner_apply'`.
+
+`SRCauchyWitness` and `sr_cauchy_witness_bound` package the exact contract for
+instantiating the theorem with an ordered-pair enumeration.

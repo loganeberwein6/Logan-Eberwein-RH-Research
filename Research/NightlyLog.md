@@ -56,3 +56,6 @@ vector norm square to its coordinate square sum.
 
 2026-09-08 — Located `RCLike.inner_apply'` and compiled
 `cauchy_fin_sum_verified`, completing the finite-function Cauchy bridge.
+
+2026-09-08 — Added `SRCauchyWitness` and its bound theorem, separating the
+finite Cauchy proof from the remaining SR index-enumeration construction.

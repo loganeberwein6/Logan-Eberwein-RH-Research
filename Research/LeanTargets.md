@@ -14,3 +14,6 @@
 - Typed logarithmic denominator nonnegativity is complete.  The next Cauchy
   API target is Mathlib's `inner_le_Lp_mul_Lq_tsum` (or its
   `_of_nonneg`/finite specialization) from `Analysis.MeanInequalities`.
+
+- `SRCauchyWitness` is complete; remaining target is constructing its fields
+  from the ordered support pair enumeration.

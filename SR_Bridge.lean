@@ -263,6 +263,21 @@ theorem cauchy_fin_sum_verified (n : Nat) (x y : Fin n → ℝ) :
       _ = ∑ i, y i * y i := by simp [pow_two]
   simpa [x', y', PiLp.inner_apply, real_scalar_inner_mul_prime, pow_two, hx, hy] using h
 
+structure SRCauchyWitness (n : Nat) where
+  x : Fin n → ℝ
+  y : Fin n → ℝ
+  s1 : ℝ
+  s2 : ℝ
+  s3 : ℝ
+  s1_eq : s1 = ∑ i, x i * y i
+  s2_eq : s2 = ∑ i, x i * x i
+  s3_eq : s3 = ∑ i, y i * y i
+
+theorem sr_cauchy_witness_bound {n : Nat} (w : SRCauchyWitness n) :
+    w.s1 ^ 2 ≤ w.s2 * w.s3 := by
+  rw [w.s1_eq, w.s2_eq, w.s3_eq]
+  exact cauchy_fin_sum_verified n w.x w.y
+
 theorem psi2_SR_nonneg (X : Nat) : 0 ≤ psi2_SR X := by
   classical
   unfold psi2_SR
