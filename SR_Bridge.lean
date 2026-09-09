@@ -537,6 +537,16 @@ theorem SRPairAt_components_bounds (X : Nat)
   have hn := completeSupport_mem_bounds
     (SRPairAt_components_mem X h i).2
   exact ⟨hm.1, hm.2, hn.1, hn.2⟩
+
+theorem SRPairAt_eq_finProdFinEquiv (X : Nat)
+    (h : 0 < (completeSupport X).length)
+    (i : Fin ((completeSupport X).length ^ 2)) :
+    SRPairAt X i =
+      ((completeSupport X)[(finProdFinEquiv.symm i).1],
+       (completeSupport X)[(finProdFinEquiv.symm i).2]) := by
+  have hb := SRPairAt_coord_bounds X h i
+  simp [SRPairAt, finProdFinEquiv, SRSupportAt_eq_get X _ hb.1,
+    SRSupportAt_eq_get X _ hb.2]
   · have hg := SRSupportAt_eq_get X (i.1 % (completeSupport X).length) hb.2
     have hm := List.getElem_mem (l := completeSupport X)
       (n := i.1 % (completeSupport X).length) hb.2
