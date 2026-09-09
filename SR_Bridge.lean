@@ -175,6 +175,11 @@ theorem SR_log_typed_denominator_nonneg (X : Nat) :
     ⟪x, y⟫_ℝ * ⟪x, y⟫_ℝ ≤ ⟪x, x⟫_ℝ * ⟪y, y⟫_ℝ := by
   exact real_inner_mul_inner_self_le x y -/
 
+theorem cauchy_euclidean_inner (n : Nat)
+    (x y : EuclideanSpace ℝ (Fin n)) :
+    inner ℝ x y * inner ℝ x y ≤ inner ℝ x x * inner ℝ y y := by
+  exact real_inner_mul_inner_self_le x y
+
 theorem psi2_SR_nonneg (X : Nat) : 0 ≤ psi2_SR X := by
   classical
   unfold psi2_SR

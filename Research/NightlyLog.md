@@ -47,3 +47,6 @@ nonnegativity; the legacy definitions remain separate because equality is not
 definitionally reducible.
 
 2026-09-08 — Proved nonnegativity of the typed Cauchy denominator product.
+
+2026-09-08 — Compiled `cauchy_euclidean_inner` using the underlying `inner ℝ`
+constant; this bypasses the unavailable Unicode real-inner notation.

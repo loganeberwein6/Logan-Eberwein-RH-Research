@@ -42,3 +42,6 @@ Explicitly typed helper sums `SR_S2_log_typed` and `SR_S3_log_typed` now have
 Lean-verified nonnegativity theorems, using Nat support bounds before coercion.
 
 Their product nonnegativity is recorded as `SR_log_typed_denominator_nonneg`.
+
+The finite Euclidean Cauchy theorem is now exposed without notation issues as
+`cauchy_euclidean_inner`, stated directly with `inner ℝ`.
