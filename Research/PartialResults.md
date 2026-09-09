@@ -25,3 +25,6 @@ subtraction lemmas.
 
 Also verified `real_sub_sum_cons`, the four-term additive normalization needed
 to separate head and tail contributions in the remaining row induction.
+
+The row-level theorem `rees_weighted_row_as_signed_differences` now compiles:
+the signed Rees row equals the sum of pointwise exterior-minus-interior terms.

@@ -94,6 +94,23 @@ theorem real_sub_sum_cons (a b c d : ℝ) :
     a + b - (c + d) = (a - c) + (b - d) := by
   ring
 
+theorem rees_weighted_row_as_signed_differences (X m : Nat) (l : List Nat) :
+    (l.map (fun n =>
+      ((reesEntryFromNat X m n : ℤ) : ℝ) * Real.log m * Real.log n *
+        (Real.sqrt (m * n))⁻¹)).sum =
+    (l.map (fun n =>
+      (if m * n < X then 0 else
+        Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹) -
+      (if m * n < X then
+        Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹
+      else 0))).sum := by
+  induction l with
+  | nil => simp
+  | cons n l ih =>
+      simp only [List.map_cons, List.sum_cons]
+      rw [rees_weighted_term_signed, ih]
+      split_ifs <;> ring
+
 /- FAILED ATTEMPT (archived 2026-09-08): row induction requires additional
    normalization of nested subtraction expressions. -/
 /- theorem rees_weighted_row_signed (X m : Nat) (l : List Nat) :

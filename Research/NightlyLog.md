@@ -28,3 +28,6 @@ compiled the exact pointwise signed-term theorem `rees_weighted_term_signed`.
 finite-sum algebra needed to lift the signed-term identity globally.
 
 2026-09-08 — Verified the reusable normalization lemma `real_sub_sum_cons`.
+
+2026-09-08 — Compiled `rees_weighted_row_as_signed_differences`, a stable
+row-level lift of the pointwise sign identity.
