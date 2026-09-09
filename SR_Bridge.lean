@@ -111,6 +111,68 @@ theorem rees_weighted_row_as_signed_differences (X m : Nat) (l : List Nat) :
       rw [rees_weighted_term_signed, ih]
       split_ifs <;> ring
 
+/- FAILED ATTEMPT (archived 2026-09-08): induction directly on
+   `completeSupport X` produced a dependent rewrite mismatch. -/
+/- theorem rees_weighted_support_as_signed_differences (X : Nat) :
+    ((completeSupport X).map (fun m =>
+      ((completeSupport X).map (fun n =>
+        ((reesEntryFromNat X m n : ℤ) : ℝ) * Real.log m * Real.log n *
+          (Real.sqrt (m * n))⁻¹)).sum)).sum =
+    ((completeSupport X).map (fun m =>
+      ((completeSupport X).map (fun n =>
+        (if m * n < X then 0 else
+          Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹) -
+        (if m * n < X then
+          Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹
+        else 0))).sum)).sum := by
+  induction h : completeSupport X with
+  | nil => simp
+  | cons m l ih =>
+      simp only [List.map_cons, List.sum_cons]
+      rw [rees_weighted_row_as_signed_differences]
+      rw [ih] -/
+
+/- FAILED ATTEMPT (archived 2026-09-08): rows and columns were coupled in
+   the induction statement, so the tail hypothesis had the wrong inner list. -/
+/- theorem rees_weighted_support_list_as_signed_differences (X : Nat) (l : List Nat) :
+    (l.map (fun m =>
+      ((l.map (fun n =>
+        ((reesEntryFromNat X m n : ℤ) : ℝ) * Real.log m * Real.log n *
+          (Real.sqrt (m * n))⁻¹)).sum))).sum =
+    (l.map (fun m =>
+      ((l.map (fun n =>
+        (if m * n < X then 0 else
+          Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹) -
+        (if m * n < X then
+          Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹
+        else 0))).sum))).sum := by
+  induction l with
+  | nil => simp
+  | cons m l ih =>
+      simp only [List.map_cons, List.sum_cons]
+      rw [rees_weighted_row_as_signed_differences]
+      simp only [ih] -/
+
+theorem rees_weighted_rect_as_signed_differences (X : Nat)
+    (rows cols : List Nat) :
+    (rows.map (fun m =>
+      ((cols.map (fun n =>
+        ((reesEntryFromNat X m n : ℤ) : ℝ) * Real.log m * Real.log n *
+          (Real.sqrt (m * n))⁻¹)).sum))).sum =
+    (rows.map (fun m =>
+      ((cols.map (fun n =>
+        (if m * n < X then 0 else
+          Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹) -
+        (if m * n < X then
+          Real.log m * Real.log n * (Real.sqrt (m * n))⁻¹
+        else 0))).sum))).sum := by
+  induction rows with
+  | nil => simp
+  | cons m rows ih =>
+      simp only [List.map_cons, List.sum_cons]
+      rw [rees_weighted_row_as_signed_differences]
+      rw [ih]
+
 /- FAILED ATTEMPT (archived 2026-09-08): row induction requires additional
    normalization of nested subtraction expressions. -/
 /- theorem rees_weighted_row_signed (X m : Nat) (l : List Nat) :

@@ -28,3 +28,6 @@ to separate head and tail contributions in the remaining row induction.
 
 The row-level theorem `rees_weighted_row_as_signed_differences` now compiles:
 the signed Rees row equals the sum of pointwise exterior-minus-interior terms.
+
+The rectangular lift `rees_weighted_rect_as_signed_differences` also compiles,
+proving the result for arbitrary independent row and column lists.

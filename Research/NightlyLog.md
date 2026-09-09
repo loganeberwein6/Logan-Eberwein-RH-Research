@@ -31,3 +31,7 @@ finite-sum algebra needed to lift the signed-term identity globally.
 
 2026-09-08 — Compiled `rees_weighted_row_as_signed_differences`, a stable
 row-level lift of the pointwise sign identity.
+
+2026-09-08 — Compiled the independent rows/columns rectangular lift
+`rees_weighted_rect_as_signed_differences`; dependent-support induction was
+archived as a failed formulation.
