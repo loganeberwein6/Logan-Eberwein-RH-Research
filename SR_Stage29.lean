@@ -236,6 +236,10 @@ theorem SR_power_sum_factorization (X : Nat) (beta : ℝ) :
   intro n hn
   ring
 
+theorem SR_completeSupport_card (X : Nat) :
+    (completeSupport X).toFinset.card = X - 2 := by
+  simp [completeSupport_length]
+
 theorem SR_weil_form_phase_minus_zero (X : Nat) (beta : ℝ) :
     SR_weil_form_phase_minus X beta 0 =
       SR_weil_form_phase_plus X beta 0 := by
