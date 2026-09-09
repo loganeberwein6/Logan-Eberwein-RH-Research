@@ -1343,6 +1343,11 @@ Stage 21 support-pair count backbone: supportPairCountRows counts all ordered co
 - Proof strategy used: split the ±1 boundary parameter and apply the existing determinant proxy; trace and determinant are discharged by `native_decide`.
 - Date: 2026-09-08
 
+## SR.26 transition formula extension
+- Theorem statement: `transition_formula_n9_to_n16` verifies the closed formula at all eight additional transition indices.
+- Proof strategy used: kernel reduction by `decide`.
+- Date: 2026-09-08
+
 ## SR.22 upper-bound certificate X=6..500
 - Theorem statement: `SR22_UPPER_BOUND_CERT_X6_TO_500` verifies zero upper-bound violations across the 495 cutoffs X=6,...,500.
 - Proof strategy used: finite certificate with `native_decide`.

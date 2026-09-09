@@ -1086,6 +1086,7 @@ end SR
 #check SR.SR22_UPPER_BOUND_OPEN
 #check SR.SR23_DENSITY_CERT
 #check SR.transition_formula_n9_to_n12
+#check SR.transition_formula_n9_to_n16
 #check SR.SR23_SYNTHESIS
 #check SR.quadraticForm_ones_not_nonpositive
 #check SR.allOnesEntrySum_pos_implies_not_NSD

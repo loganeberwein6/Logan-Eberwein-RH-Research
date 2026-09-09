@@ -31,6 +31,13 @@ theorem transition_formula_n9_to_n12 :
     transitionK 12 = 179 := by
   decide
 
+theorem transition_formula_n9_to_n16 :
+    transitionK 9 = 107 ∧ transitionK 10 = 129 ∧
+    transitionK 11 = 153 ∧ transitionK 12 = 179 ∧
+    transitionK 13 = 207 ∧ transitionK 14 = 237 ∧
+    transitionK 15 = 269 ∧ transitionK 16 = 303 := by
+  decide
+
 theorem SR23_CONJ_CONREY_CONNECTION : True := by
   trivial
 
