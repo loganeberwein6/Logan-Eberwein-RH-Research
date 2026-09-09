@@ -25,3 +25,7 @@ logarithmic maps, while `completeSupport_mem_bounds` requires Nat membership.
 
 Explicit Nat-indexed helper sums compile, but are not definitionally equal to
 the legacy sums; a separate extensional equality proof is required.
+
+The simplifier confirms the mismatch is structural: legacy definitions use a
+coercion/`List.flatMap` representation, so equality requires a dedicated
+map/flatMap theorem rather than `rfl` or plain `simp`.

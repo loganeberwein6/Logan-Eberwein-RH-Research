@@ -38,6 +38,16 @@ theorem SR_S3_log_typed_eq (X : Nat) :
     SR_S3_log_typed X = SR_S3_log X := by
   rfl -/
 
+/- FAILED ATTEMPT (archived 2026-09-08): simplification exposes that the
+   legacy definitions map through a coercion/flatMap representation. -/
+/- theorem SR_S2_log_typed_eq_simp (X : Nat) :
+    SR_S2_log_typed X = SR_S2_log X := by
+  simp [SR_S2_log_typed, SR_S2_log]
+
+theorem SR_S3_log_typed_eq_simp (X : Nat) :
+    SR_S3_log_typed X = SR_S3_log X := by
+  simp [SR_S3_log_typed, SR_S3_log] -/
+
 /-! The von Mangoldt-weighted arithmetic count restricted to the same finite
 support used by the Rees matrix.  This keeps the support restriction and the
 prime-power weighting separate, which is the datum needed before attempting
