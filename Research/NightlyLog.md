@@ -41,3 +41,7 @@ archived as a failed formulation.
 
 2026-09-08 — Specialized the decomposition to complete support as
 `SR_HalfWeightedSum_eq_ext_sub_int`; all named definitions unfold cleanly.
+
+2026-09-08 — Added explicitly typed logarithmic helper sums and proved their
+nonnegativity; the legacy definitions remain separate because equality is not
+definitionally reducible.

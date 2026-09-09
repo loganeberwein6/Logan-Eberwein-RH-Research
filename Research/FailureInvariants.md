@@ -22,3 +22,6 @@ the stable boundary theorem.
 The attempted `SR_S2_log_nonneg`/`SR_S3_log_nonneg` proofs reveal a coercion
 obstruction: `List.mem_map` witnesses become `ℝ` after unfolding the nested
 logarithmic maps, while `completeSupport_mem_bounds` requires Nat membership.
+
+Explicit Nat-indexed helper sums compile, but are not definitionally equal to
+the legacy sums; a separate extensional equality proof is required.

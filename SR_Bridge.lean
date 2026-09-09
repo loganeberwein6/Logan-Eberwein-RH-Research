@@ -17,6 +17,27 @@ noncomputable def SR_S3_log (X : Nat) : ℝ :=
     ((completeSupport X).map (fun m =>
       ((completeSupport X).map (fun n => Real.log m * Real.log n)).sum)).sum
 
+noncomputable def SR_S2_log_typed (X : Nat) : ℝ :=
+  ((completeSupport X).map (fun m : Nat =>
+    ((completeSupport X).map (fun n : Nat =>
+      Real.log (m : ℝ) * Real.log (n : ℝ) /
+        ((m : ℝ) * (n : ℝ)))).sum)).sum
+
+noncomputable def SR_S3_log_typed (X : Nat) : ℝ :=
+  ((completeSupport X).map (fun m : Nat =>
+    ((completeSupport X).map (fun n : Nat =>
+      Real.log (m : ℝ) * Real.log (n : ℝ))).sum)).sum
+
+/- FAILED ATTEMPT (archived 2026-09-08): the old and explicitly typed sums
+   are propositionally similar but not definitionally equal. -/
+/- theorem SR_S2_log_typed_eq (X : Nat) :
+    SR_S2_log_typed X = SR_S2_log X := by
+  rfl
+
+theorem SR_S3_log_typed_eq (X : Nat) :
+    SR_S3_log_typed X = SR_S3_log X := by
+  rfl -/
+
 /-! The von Mangoldt-weighted arithmetic count restricted to the same finite
 support used by the Rees matrix.  This keeps the support restriction and the
 prime-power weighting separate, which is the datum needed before attempting
@@ -97,6 +118,41 @@ lemma vonMangoldt_nonneg (n : Nat) :
     have hp1 : 1 ≤ Classical.choose h := le_trans (by norm_num) hp
     exact Real.log_nonneg (by exact_mod_cast hp1)
   · exact le_rfl
+
+theorem SR_S2_log_typed_nonneg (X : Nat) : 0 ≤ SR_S2_log_typed X := by
+  classical
+  unfold SR_S2_log_typed
+  apply List.sum_nonneg
+  intro z hz
+  rcases List.mem_map.1 hz with ⟨m, hm, rfl⟩
+  apply List.sum_nonneg
+  intro w hw
+  rcases List.mem_map.1 hw with ⟨n, hn, rfl⟩
+  have hm' := completeSupport_mem_bounds hm
+  have hn' := completeSupport_mem_bounds hn
+  have hm1 : 1 ≤ m := le_trans (by norm_num) hm'.1
+  have hn1 : 1 ≤ n := le_trans (by norm_num) hn'.1
+  have hlogm : 0 ≤ Real.log (m : ℝ) := Real.log_nonneg (by exact_mod_cast hm1)
+  have hlogn : 0 ≤ Real.log (n : ℝ) := Real.log_nonneg (by exact_mod_cast hn1)
+  have hden : 0 ≤ (m : ℝ) * n := by positivity
+  exact div_nonneg (mul_nonneg hlogm hlogn) hden
+
+theorem SR_S3_log_typed_nonneg (X : Nat) : 0 ≤ SR_S3_log_typed X := by
+  classical
+  unfold SR_S3_log_typed
+  apply List.sum_nonneg
+  intro z hz
+  rcases List.mem_map.1 hz with ⟨m, hm, rfl⟩
+  apply List.sum_nonneg
+  intro w hw
+  rcases List.mem_map.1 hw with ⟨n, hn, rfl⟩
+  have hm' := completeSupport_mem_bounds hm
+  have hn' := completeSupport_mem_bounds hn
+  have hm1 : 1 ≤ m := le_trans (by norm_num) hm'.1
+  have hn1 : 1 ≤ n := le_trans (by norm_num) hn'.1
+  have hlogm : 0 ≤ Real.log (m : ℝ) := Real.log_nonneg (by exact_mod_cast hm1)
+  have hlogn : 0 ≤ Real.log (n : ℝ) := Real.log_nonneg (by exact_mod_cast hn1)
+  exact mul_nonneg hlogm hlogn
 
 theorem psi2_SR_nonneg (X : Nat) : 0 ≤ psi2_SR X := by
   classical

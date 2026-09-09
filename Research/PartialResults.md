@@ -37,3 +37,6 @@ pointwise form into the exact exterior-total minus interior-total expression.
 
 The specialization `SR_HalfWeightedSum_eq_ext_sub_int` now compiles for the
 actual complete support and named SR definitions.
+
+Explicitly typed helper sums `SR_S2_log_typed` and `SR_S3_log_typed` now have
+Lean-verified nonnegativity theorems, using Nat support bounds before coercion.
