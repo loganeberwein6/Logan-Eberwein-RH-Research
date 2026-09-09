@@ -218,8 +218,23 @@ theorem SR_weil_form_abs_le_power_sum (X : Nat) (beta gamma : ℝ) :
   intro m hm
   apply Finset.sum_le_sum
   intro n hn
-  exact SR_weil_term_abs_le_weight X beta gamma m n
+    exact SR_weil_term_abs_le_weight X beta gamma m n
     (by simpa using hm) (by simpa using hn)
+
+theorem SR_power_sum_factorization (X : Nat) (beta : ℝ) :
+    (∑ m ∈ (completeSupport X).toFinset,
+      ∑ n ∈ (completeSupport X).toFinset,
+        |(m : ℝ) ^ (beta - 1 / 2)| * |(n : ℝ) ^ (beta - 1 / 2)|) =
+      (∑ m ∈ (completeSupport X).toFinset,
+        |(m : ℝ) ^ (beta - 1 / 2)|) ^ 2 := by
+  simp only [pow_two]
+  rw [Finset.sum_mul]
+  apply Finset.sum_congr rfl
+  intro m hm
+  rw [Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro n hn
+  ring
 
 theorem SR_weil_form_phase_minus_zero (X : Nat) (beta : ℝ) :
     SR_weil_form_phase_minus X beta 0 =
