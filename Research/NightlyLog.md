@@ -130,3 +130,5 @@ the remaining SR construction is isolated to coordinate/sum identities.
 2026-09-09 — Located Mathlib's Fin.sum_univ_fun_getElem and proved list_sum_eq_fin_sum_getElem in SR_Bridge.lean. This resolves the proof-dependent List-to-Fin single-sum transport; SR_Bridge build passed.
 
 2026-09-09 — Extended the Fin.sum_univ_fun_getElem transport to the nested list_double_sum_eq_fin_double_sum theorem; SR_Bridge build passed.
+
+2026-09-09 — Defined sr_cauchy_x and sr_cauchy_y on ordered support-pair Fin indices and proved sr_cauchy_pointwise_product. SR_Bridge build passed.

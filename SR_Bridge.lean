@@ -433,7 +433,7 @@ theorem list_double_sum_eq_fin_double_sum
   rw [list_sum_eq_fin_sum_getElem]
   apply Finset.sum_congr rfl
   intro i hi
-  rw [list_sum_eq_fin_sum_getElem]
+  exact list_sum_eq_fin_sum_getElem l (fun n => f l[i] n)
 
 theorem SR_cauchy_log_from_witness
     (X : Nat) (n : Nat) (w : SRCauchyWitness n)
@@ -568,6 +568,32 @@ theorem SRPairAt_components_bounds (X : Nat)
   have hn := completeSupport_mem_bounds
     (SRPairAt_components_mem X h i).2
   exact ⟨hm.1, hm.2, hn.1, hn.2⟩
+
+noncomputable def sr_cauchy_x (X : Nat)
+    (i : Fin ((completeSupport X).length ^ 2)) : ℝ :=
+  let p := SRPairAt X i
+  Real.sqrt (Real.log (p.1 : ℝ) * Real.log (p.2 : ℝ))
+
+noncomputable def sr_cauchy_y (X : Nat)
+    (i : Fin ((completeSupport X).length ^ 2)) : ℝ :=
+  let p := SRPairAt X i
+  Real.sqrt (Real.log (p.1 : ℝ) * Real.log (p.2 : ℝ)) *
+    (Real.sqrt (p.1 * p.2))⁻¹
+
+theorem sr_cauchy_pointwise_product (X : Nat) (hX : 6 ≤ X)
+    (i : Fin ((completeSupport X).length ^ 2)) :
+    sr_cauchy_x X i * sr_cauchy_y X i =
+      Real.log ((SRPairAt X i).1 : ℝ) *
+        Real.log ((SRPairAt X i).2 : ℝ) *
+          (Real.sqrt ((SRPairAt X i).1 * (SRPairAt X i).2))⁻¹ := by
+  have hlen : 0 < (completeSupport X).length := by
+    simp [completeSupport]
+    omega
+  have hp := SRPairAt_components_bounds X hlen i
+  have hm1 : 1 ≤ (SRPairAt X i).1 := by omega
+  have hn1 : 1 ≤ (SRPairAt X i).2 := by omega
+  simpa [sr_cauchy_x, sr_cauchy_y] using
+    (sr_log_sqrt_factorization (SRPairAt X i).1 (SRPairAt X i).2 hm1 hn1)
 
 theorem psi2_SR_nonneg (X : Nat) : 0 ≤ psi2_SR X := by
   classical
