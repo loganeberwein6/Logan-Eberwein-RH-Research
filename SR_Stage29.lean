@@ -208,6 +208,19 @@ theorem SR_weil_term_abs_le_weight (X : Nat) (beta gamma : ℝ) (m n : Nat)
   have hc' : |Real.cos (gamma * Real.log n)| ≤ 1 := Real.abs_cos_le_one _
   positivity
 
+theorem SR_weil_form_abs_le_power_sum (X : Nat) (beta gamma : ℝ) :
+    |SR_weil_form_real X beta gamma| ≤
+      ∑ m ∈ (completeSupport X).toFinset,
+        ∑ n ∈ (completeSupport X).toFinset,
+          |(m : ℝ) ^ (beta - 1 / 2)| * |(n : ℝ) ^ (beta - 1 / 2)| := by
+  apply le_trans (SR_weil_form_abs_le_term_abs X beta gamma)
+  apply Finset.sum_le_sum
+  intro m hm
+  apply Finset.sum_le_sum
+  intro n hn
+  exact SR_weil_term_abs_le_weight X beta gamma m n
+    (by simpa using hm) (by simpa using hn)
+
 theorem SR_weil_form_phase_minus_zero (X : Nat) (beta : ℝ) :
     SR_weil_form_phase_minus X beta 0 =
       SR_weil_form_phase_plus X beta 0 := by
