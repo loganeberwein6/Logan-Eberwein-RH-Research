@@ -388,6 +388,13 @@ theorem SRPairAt_eq_add_two (X : Nat)
   · simp [SRPairAt, SRSupportAt_eq_add_two X _ hb.1]
   · simp [SRPairAt, SRSupportAt_eq_add_two X _ hb.2]
 
+/- FAILED ATTEMPT (archived 2026-09-09): direct range notation loses the
+   membership proofs needed to construct bounded `Fin` indices. -/
+/- theorem fin_double_sum_eq_range {n : Nat} (F : Fin n → Fin n → ℝ) :
+    (∑ i : Fin n, ∑ j : Fin n, F i j) =
+      ∑ a ∈ Finset.range n, ∑ b ∈ Finset.range n, F ⟨a, by omega⟩ ⟨b, by omega⟩ := by
+  simp [Fin.sum_univ_eq_sum_range] -/
+
 /- FAILED ATTEMPT (archived 2026-09-09): bounds theorem insertion split the
    two-branch membership proof. -/
 /- theorem SRPairAt_components_mem (X : Nat)

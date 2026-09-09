@@ -90,3 +90,6 @@ quotient/remainder reconstruction is now available for the support index map.
 
 2026-09-09 — Proved explicit support-value formulas for `SRSupportAt` and
 `SRPairAt`; coordinates are quotient/remainder indices plus 2.
+
+2026-09-09 — A direct `Fin`-to-range double-sum rewrite was attempted and
+archived because range binders erase the bounded-index proofs.

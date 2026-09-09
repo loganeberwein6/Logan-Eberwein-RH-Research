@@ -64,3 +64,8 @@ The first two finite Abel-summation statements are archived: induction reaches
 the successor-successor case with a boundary/index mismatch. A correct Abel
 identity needs a separately normalized prefix-sum formulation before Lean
 induction can close it.
+
+Directly rewriting a `Fin n` double sum as nested `Finset.range` sums is not
+syntactically harmless: range binders hide membership proofs, so constructing
+`Fin` coordinates requires an explicit bounded-index map. The attempted
+shortcut is archived in `SR_Bridge.lean`.
