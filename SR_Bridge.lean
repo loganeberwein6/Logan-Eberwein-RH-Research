@@ -180,6 +180,15 @@ theorem cauchy_euclidean_inner (n : Nat)
     inner ℝ x y * inner ℝ x y ≤ inner ℝ x x * inner ℝ y y := by
   exact real_inner_mul_inner_self_le x y
 
+/- FAILED ATTEMPT (archived 2026-09-08): `EuclideanSpace` is not definitionally
+   the raw function type here, and the expected real-inner simplification
+   theorem is not named `real_inner`. -/
+/- theorem cauchy_fin_sum (n : Nat) (x y : Fin n → ℝ) :
+    (∑ i, x i * y i) ^ 2 ≤
+      (∑ i, x i * x i) * (∑ i, y i * y i) := by
+  have h := cauchy_euclidean_inner n x y
+  simpa [real_inner, dotProduct, pow_two] using h -/
+
 theorem psi2_SR_nonneg (X : Nat) : 0 ≤ psi2_SR X := by
   classical
   unfold psi2_SR

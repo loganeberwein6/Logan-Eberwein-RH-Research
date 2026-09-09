@@ -34,3 +34,7 @@ The local theorem `real_inner_mul_inner_self_le` is available, but its
 unicode `⟪x,y⟫_ℝ` notation does not parse in `SR_Bridge.lean`; a future
 specialization must use the underlying `inner` constant or import notation
 explicitly.
+
+The attempted raw-function specialization also fails because
+`EuclideanSpace ℝ (Fin n)` is not definitionally a plain `Fin n → ℝ` here,
+and the expected real-inner simplification identifier is unavailable.
