@@ -46,6 +46,26 @@ theorem list_sum_map_add (l : List ℕ) (f g : ℕ → ℝ) :
             f a + g a + ((List.map f l).sum + (List.map g l).sum) := by ring
         _ = f a + g a + (List.map (fun x => f x + g x) l).sum := by rw [ih]
 
+theorem sr_rees_abs_weight (X m n : Nat)
+    (hm : 1 ≤ m) (hn : 1 ≤ n) :
+    |((reesEntryFromNat X m n : ℤ) : ℝ) * Real.log (m : ℝ) *
+      Real.log (n : ℝ) * (Real.sqrt (m * n))⁻¹| =
+      Real.log (m : ℝ) * Real.log (n : ℝ) *
+        (Real.sqrt (m * n))⁻¹ := by
+  have hlogm : 0 ≤ Real.log (m : ℝ) :=
+    Real.log_nonneg (by exact_mod_cast hm)
+  have hlogn : 0 ≤ Real.log (n : ℝ) :=
+    Real.log_nonneg (by exact_mod_cast hn)
+  have hsqrt : 0 ≤ (Real.sqrt (m * n : ℝ))⁻¹ :=
+    inv_nonneg.mpr (Real.sqrt_nonneg _)
+  have hsm : 0 ≤ Real.sqrt (m : ℝ) := Real.sqrt_nonneg _
+  have hsn : 0 ≤ Real.sqrt (n : ℝ) := Real.sqrt_nonneg _
+  rcases reesEntry_neg_or_pos X m n with hneg | hpos
+  · simp [hneg, abs_mul, abs_of_nonneg hlogm, abs_of_nonneg hlogn,
+      abs_of_nonneg hsqrt, abs_of_nonneg hsm, abs_of_nonneg hsn]
+  · simp [hpos, abs_mul, abs_of_nonneg hlogm, abs_of_nonneg hlogn,
+      abs_of_nonneg hsqrt, abs_of_nonneg hsm, abs_of_nonneg hsn]
+
 theorem SR_kappa_log_le_one_of_signed_cauchy
     (X : Nat)
     (hbound : SR_HalfWeightedSum X ^ 2 ≤
