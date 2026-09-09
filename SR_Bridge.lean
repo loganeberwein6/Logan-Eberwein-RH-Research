@@ -579,6 +579,16 @@ theorem SRPairAt_eq_finProdFinEquiv (X : Nat)
   have hb := SRPairAt_coord_bounds X h i
   simp [SRPairAt, finProdFinEquiv, SRSupportAt_eq_get X _ hb.1,
     SRSupportAt_eq_get X _ hb.2]
+
+theorem srPairAt_finCongr_eq_support_pair (X : Nat) (hX : 6 ≤ X)
+    (i : Fin ((completeSupport X).length * (completeSupport X).length)) :
+    SRPairAt X (finCongr (by simp [pow_two]) i) =
+      ((completeSupport X)[(finProdFinEquiv.symm i).1],
+       (completeSupport X)[(finProdFinEquiv.symm i).2]) := by
+  have hlen : 0 < (completeSupport X).length := by
+    simp [completeSupport]
+    omega
+  exact SRPairAt_eq_finProdFinEquiv X hlen
   · have hg := SRSupportAt_eq_get X (i.1 % (completeSupport X).length) hb.2
     have hm := List.getElem_mem (l := completeSupport X)
       (n := i.1 % (completeSupport X).length) hb.2

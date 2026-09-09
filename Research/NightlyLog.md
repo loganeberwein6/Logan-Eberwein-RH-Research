@@ -142,3 +142,5 @@ the remaining SR construction is isolated to coordinate/sum identities.
 2026-09-09 — Added and verified fin_pow_two_sum_transport, explicitly transporting sums between Fin(n²) and Fin(n*n) via finCongr.
 
 2026-09-09 — Added and verified srPairAt_sum_transport, explicitly rewriting the SRPairAt sum from Fin(length²) to Fin(length*length) via finCongr.
+
+2026-09-09 — Proved srPairAt_finCongr_eq_support_pair after correcting declaration order; embedded Fin(length*length) coordinates now reduce pointwise to support-list entries. SR_Bridge build passed.
