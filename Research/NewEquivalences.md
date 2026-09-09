@@ -29,3 +29,7 @@ test function.
 Evidence: the kernel is an explicit finite arithmetic object and its
 unweighted all-ones form is positive.  The missing step is the SR-to-zeta
 explicit-formula identity.
+
+## Stage 26 W-SR equivalence (2026-09-09)
+
+The formal scaffold defines W_SR_converges as normalized signature-bias convergence and W_SR_RH_bridge as the proposed implication from that convergence to asymptotic zero density. The intended equivalence is recorded as the conjectural package: RH ↔ W_SR_converges ∧ W_SR_RH_bridge. Current Lean evidence proves neither direction. The verified content is limited to the finite signature certificates, the W_SR bounds on the certified range, the trace parity formula, and the logarithmic Cauchy bridge. Establishing either implication requires new analytic input connecting Rees spectral data to zeta zero statistics.
