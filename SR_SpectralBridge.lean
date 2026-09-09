@@ -26,6 +26,11 @@ def reesMatrixReal (X : Nat) : Matrix (Fin (X - 2)) (Fin (X - 2)) ℝ :=
 def reesQuadraticOnes (X : Nat) : ℝ :=
   quadraticForm (reesMatrixReal X) (onesVector : Fin (X - 2) → ℝ)
 
+theorem reesQuadraticOnes_eq_allOnesEntrySum (X : Nat) :
+    reesQuadraticOnes X = (allOnesEntrySum X : ℝ) := by
+  simp [reesQuadraticOnes, quadraticForm, reesMatrixReal, onesVector,
+    allOnesEntrySum, completeSupport]
+
 theorem rees_quadratic_ones_pos_of_sum_pos (X : Nat) (hX : 6 ≤ X)
     (hident : (allOnesEntrySum X : ℝ) = reesQuadraticOnes X) :
     0 < reesQuadraticOnes X := by
@@ -37,5 +42,12 @@ theorem allOnesEntrySum_pos_implies_not_NSD (X : Nat) (hX : 6 ≤ X)
     ¬ (∀ v : Fin (X - 2) → ℝ, quadraticForm (reesMatrixReal X) v ≤ 0) := by
   apply quadraticForm_ones_not_nonpositive
   exact rees_quadratic_ones_pos_of_sum_pos X hX hident
+
+theorem SR24_SPECTRAL_BRIDGE (X : Nat) (hX : 6 ≤ X) :
+    ¬ (∀ v : Fin (X - 2) → ℝ,
+      quadraticForm (reesMatrixReal X) v ≤ 0) := by
+  apply quadraticForm_ones_not_nonpositive
+  rw [reesQuadraticOnes_eq_allOnesEntrySum]
+  exact_mod_cast allOnesEntrySum_positive_general X hX
 
 end SR

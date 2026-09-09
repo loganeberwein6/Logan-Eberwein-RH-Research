@@ -1327,6 +1327,11 @@ Stage 21 support-pair count backbone: supportPairCountRows counts all ordered co
 - Mathlib/Lean tools used: `simp`, `omega`, list induction.
 - Date: 2026-09-08
 
+## SR.24 unconditional spectral bridge
+- Theorem statement: `SR24_SPECTRAL_BRIDGE` proves that the concrete Rees quadratic form is not negative semidefinite for every `X ≥ 6`.
+- Proof strategy: first prove the finite `Fin`-sum/list-support identity `reesQuadraticOnes_eq_allOnesEntrySum`, then apply the generic all-ones Rayleigh witness lemma and the positive arithmetic sum theorem.
+- Date: 2026-09-08
+
 ## SR.22 upper-bound certificate X=6..500
 - Theorem statement: `SR22_UPPER_BOUND_CERT_X6_TO_500` verifies zero upper-bound violations across the 495 cutoffs X=6,...,500.
 - Proof strategy used: finite certificate with `native_decide`.

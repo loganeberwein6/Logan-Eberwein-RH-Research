@@ -1087,3 +1087,4 @@ end SR
 #check SR.SR23_SYNTHESIS
 #check SR.quadraticForm_ones_not_nonpositive
 #check SR.allOnesEntrySum_pos_implies_not_NSD
+#check SR.SR24_SPECTRAL_BRIDGE

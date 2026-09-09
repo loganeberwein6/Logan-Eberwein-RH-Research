@@ -734,4 +734,4 @@ For `X = 6,...,500`, the computed certificate records 128 balanced even cutoffs 
 
 ## Spectral bridge status
 
-The generic Rayleigh implication is now Lean-verified: a positive quadratic form on the all-ones vector implies that the matrix is not negative semidefinite. The remaining arithmetic bridge—proving that the concrete Rees matrix quadratic form is exactly the cast of `allOnesEntrySum X`—is kept as an explicit hypothesis in `SR_SpectralBridge.lean`. Therefore the formal spectral consequence is conditional, while the unconditional proved result remains the positive integer sum theorem.
+The generic Rayleigh implication is Lean-verified, and the finite `Fin`-sum/list-support identity is now also proved. Consequently `SR24_SPECTRAL_BRIDGE` unconditionally proves that the concrete Rees quadratic form is not negative semidefinite for every `X ≥ 6`. This establishes existence of a positive direction, but does not by itself prove `pos ≥ neg`.
