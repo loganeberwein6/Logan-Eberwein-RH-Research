@@ -69,26 +69,19 @@ theorem SR_flow_derivative (X : Nat) (hX : 6 ≤ X) :
   by_cases hp : X % 2 = 0
   · have hp1 : (X + 1) % 2 = 1 := by omega
     simp [hp, hp1]
-
-theorem SR_allOnesEntrySum_small_table :
-    allOnesEntrySum 6 = 14 ∧
-    allOnesEntrySum 7 = 17 ∧
-    allOnesEntrySum 8 = 24 ∧
-    allOnesEntrySum 9 = 31 ∧
-    allOnesEntrySum 10 = 40 ∧
-    allOnesEntrySum 11 = 49 ∧
-    allOnesEntrySum 12 = 60 ∧
-    allOnesEntrySum 13 = 71 ∧
-    allOnesEntrySum 14 = 84 ∧
-    allOnesEntrySum 15 = 97 ∧
-    allOnesEntrySum 16 = 112 ∧
-    allOnesEntrySum 17 = 127 ∧
-    allOnesEntrySum 18 = 144 ∧
-    allOnesEntrySum 19 = 161 ∧
-    allOnesEntrySum 20 = 180 := by
-  native_decide
   · have hp1 : (X + 1) % 2 = 0 := by omega
     simp [hp, hp1]
+
+theorem SR_allOnesEntrySum_small_table :
+    allOnesEntrySum 6 = 14 ∧ allOnesEntrySum 7 = 19 ∧
+    allOnesEntrySum 8 = 30 ∧ allOnesEntrySum 9 = 39 ∧
+    allOnesEntrySum 10 = 52 ∧ allOnesEntrySum 11 = 65 ∧
+    allOnesEntrySum 12 = 84 ∧ allOnesEntrySum 13 = 97 ∧
+    allOnesEntrySum 14 = 120 ∧ allOnesEntrySum 15 = 141 ∧
+    allOnesEntrySum 16 = 164 ∧ allOnesEntrySum 17 = 187 ∧
+    allOnesEntrySum 18 = 218 ∧ allOnesEntrySum 19 = 243 ∧
+    allOnesEntrySum 20 = 278 := by
+  native_decide
 
 theorem rees_trace_small_table :
     reesTrace 6 = 2 ∧ reesTrace 7 = 1 ∧ reesTrace 8 = 2 ∧
