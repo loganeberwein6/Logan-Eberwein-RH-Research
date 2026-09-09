@@ -741,6 +741,17 @@ theorem B3_corrected_compiles
     (hsq : c * T ^ 2 ≤ S ^ 2) :
     I / T ≤ (1 - Real.sqrt c) / 2 := by
   exact b3_ratio_bound_algebra T I S c hT hc hc1 hI hS hdecomp hsq
+
+theorem b3_square_premise_from_kappa
+    (T S c D : ℝ)
+    (hT : 0 ≤ T) (hc : 0 ≤ c) (hD : 0 < D)
+    (hden : T ^ 2 ≤ D)
+    (hkappa : c ≤ S ^ 2 / D) :
+    c * T ^ 2 ≤ S ^ 2 := by
+  have hmul : c * D ≤ S ^ 2 := by
+    apply (le_div_iff₀ hD).mp
+    exact hkappa
+  nlinarith [mul_nonneg hc hden]
   · have hg := SRSupportAt_eq_get X (i.1 % (completeSupport X).length) hb.2
     have hm := List.getElem_mem (l := completeSupport X)
       (n := i.1 % (completeSupport X).length) hb.2
