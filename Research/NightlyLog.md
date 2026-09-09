@@ -93,3 +93,7 @@ quotient/remainder reconstruction is now available for the support index map.
 
 2026-09-09 — A direct `Fin`-to-range double-sum rewrite was attempted and
 archived because range binders erase the bounded-index proofs.
+
+2026-09-09 — The standard `sum_fin_eq_sum_range` API was tested; its proof-
+dependent `if` normal form confirms that the transport should remain in `Fin`
+coordinates rather than forcing raw range notation.

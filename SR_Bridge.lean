@@ -395,6 +395,11 @@ theorem SRPairAt_eq_add_two (X : Nat)
       ∑ a ∈ Finset.range n, ∑ b ∈ Finset.range n, F ⟨a, by omega⟩ ⟨b, by omega⟩ := by
   simp [Fin.sum_univ_eq_sum_range] -/
 
+/- theorem fin_sum_eq_range_verified {n : Nat} (F : Fin n → ℝ) :
+    (∑ i : Fin n, F i) =
+      ∑ a ∈ Finset.range n, F ⟨a, by omega⟩ := by
+  rw [Finset.sum_fin_eq_sum_range] -/
+
 /- FAILED ATTEMPT (archived 2026-09-09): bounds theorem insertion split the
    two-branch membership proof. -/
 /- theorem SRPairAt_components_mem (X : Nat)

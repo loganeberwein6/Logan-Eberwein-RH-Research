@@ -69,3 +69,7 @@ Directly rewriting a `Fin n` double sum as nested `Finset.range` sums is not
 syntactically harmless: range binders hide membership proofs, so constructing
 `Fin` coordinates requires an explicit bounded-index map. The attempted
 shortcut is archived in `SR_Bridge.lean`.
+
+Even `Finset.sum_fin_eq_sum_range` leaves an `if h : i < n`/proof-dependent
+index expression. A clean transport should use a dedicated equivalence or
+retain `Fin` sums until the final arithmetic specialization.
