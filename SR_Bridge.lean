@@ -589,6 +589,20 @@ theorem srPairAt_finCongr_eq_support_pair (X : Nat) (hX : 6 ≤ X)
     simp [completeSupport]
     omega
   exact SRPairAt_eq_finProdFinEquiv X hlen
+
+theorem srPairAt_flat_sum_eq_nested
+    {α : Type*} [AddCommMonoid α] (X : Nat) (hX : 6 ≤ X)
+    (F : Nat × Nat → α) :
+    (∑ i : Fin ((completeSupport X).length * (completeSupport X).length),
+      F (SRPairAt X (finCongr (by simp [pow_two]) i))) =
+      ∑ a : Fin (completeSupport X).length,
+        ∑ b : Fin (completeSupport X).length,
+          F ((completeSupport X)[a], (completeSupport X)[b]) := by
+  let n := (completeSupport X).length
+  let H : Fin n → Fin n → α := fun a b =>
+    F (SRPairAt X (finCongr (by simp [pow_two]) (finProdFinEquiv (a, b))))
+  have hh := fin_flatten_sum n H
+  simpa [H, n, finProdFinEquiv] using hh
   · have hg := SRSupportAt_eq_get X (i.1 % (completeSupport X).length) hb.2
     have hm := List.getElem_mem (l := completeSupport X)
       (n := i.1 % (completeSupport X).length) hb.2
