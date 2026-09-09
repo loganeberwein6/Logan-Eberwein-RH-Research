@@ -35,6 +35,17 @@ theorem list_abs_sum_le_sum_abs (l : List ℝ) :
         _ = ((a :: l).map (fun x => |x|)).sum := by
           simp [List.sum_cons]
 
+theorem list_sum_map_add (l : List ℕ) (f g : ℕ → ℝ) :
+    (l.map f).sum + (l.map g).sum = (l.map (fun x => f x + g x)).sum := by
+  induction l with
+  | nil => simp
+  | cons a l ih =>
+      simp only [List.map_cons, List.sum_cons]
+      calc
+        f a + (List.map f l).sum + (g a + (List.map g l).sum) =
+            f a + g a + ((List.map f l).sum + (List.map g l).sum) := by ring
+        _ = f a + g a + (List.map (fun x => f x + g x) l).sum := by rw [ih]
+
 theorem SR_kappa_log_le_one_of_signed_cauchy
     (X : Nat)
     (hbound : SR_HalfWeightedSum X ^ 2 ≤
