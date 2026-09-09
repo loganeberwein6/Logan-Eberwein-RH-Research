@@ -339,6 +339,18 @@ theorem SRPairAt_fst_snd (X : Nat)
        SRSupportAt X (i.1 % (completeSupport X).length)) := by
   rfl
 
+/- FAILED ATTEMPT (archived 2026-09-09): theorem was initially inserted
+   before `SRPairAt_coord_bounds`, violating declaration order. -/
+/- theorem SRPairAt_eq_add_two (X : Nat)
+    (h : 0 < (completeSupport X).length)
+    (i : Fin ((completeSupport X).length ^ 2)) :
+    (SRPairAt X i).1 = i.1 / (completeSupport X).length + 2 ∧
+      (SRPairAt X i).2 = i.1 % (completeSupport X).length + 2 := by
+  have hb := SRPairAt_coord_bounds X h i
+  constructor
+  · simp [SRPairAt, SRSupportAt_eq_add_two X _ hb.1]
+  · simp [SRPairAt, SRSupportAt_eq_add_two X _ hb.2] -/
+
 theorem SRPairAt_coord_bounds (X : Nat)
     (h : 0 < (completeSupport X).length)
     (i : Fin ((completeSupport X).length ^ 2)) :
@@ -359,6 +371,22 @@ theorem SRSupportAt_eq_get (X i : Nat)
     (hi : i < (completeSupport X).length) :
     SRSupportAt X i = (completeSupport X)[i] := by
   exact List.getD_eq_getElem (completeSupport X) 0 hi
+
+theorem SRSupportAt_eq_add_two (X i : Nat)
+    (hi : i < (completeSupport X).length) :
+    SRSupportAt X i = i + 2 := by
+  rw [SRSupportAt_eq_get X i hi]
+  simp [completeSupport]
+
+theorem SRPairAt_eq_add_two (X : Nat)
+    (h : 0 < (completeSupport X).length)
+    (i : Fin ((completeSupport X).length ^ 2)) :
+    (SRPairAt X i).1 = i.1 / (completeSupport X).length + 2 ∧
+      (SRPairAt X i).2 = i.1 % (completeSupport X).length + 2 := by
+  have hb := SRPairAt_coord_bounds X h i
+  constructor
+  · simp [SRPairAt, SRSupportAt_eq_add_two X _ hb.1]
+  · simp [SRPairAt, SRSupportAt_eq_add_two X _ hb.2]
 
 /- FAILED ATTEMPT (archived 2026-09-09): bounds theorem insertion split the
    two-branch membership proof. -/

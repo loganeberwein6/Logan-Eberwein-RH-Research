@@ -76,3 +76,6 @@ correct terminal and prefix indices.
 
 `SRPairAt_index_reconstruct` is verified: quotient and remainder recover the
 original ordered-pair index, providing the arithmetic core of enumeration.
+
+`SRSupportAt_eq_add_two` and `SRPairAt_eq_add_two` are verified, identifying
+the indexed support values as quotient/remainder coordinates shifted by 2.

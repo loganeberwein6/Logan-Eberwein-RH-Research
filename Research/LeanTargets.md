@@ -42,3 +42,6 @@
 
 - `SRPairAt_index_reconstruct` is complete. The remaining enumeration proof
   must connect the reconstructed quotient/remainder coordinates to list values.
+
+- `SRSupportAt_eq_add_two` and `SRPairAt_eq_add_two` are complete. The
+  remaining bridge is now primarily a finite-index reindexing statement.

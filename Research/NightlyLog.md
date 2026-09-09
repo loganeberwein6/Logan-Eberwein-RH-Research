@@ -87,3 +87,6 @@ indices; the remaining work is the `SRPairAt` range-enumeration bridge.
 
 2026-09-09 — Proved `SRPairAt_index_reconstruct` using `Nat.div_add_mod`;
 quotient/remainder reconstruction is now available for the support index map.
+
+2026-09-09 — Proved explicit support-value formulas for `SRSupportAt` and
+`SRPairAt`; coordinates are quotient/remainder indices plus 2.
