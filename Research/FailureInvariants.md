@@ -14,3 +14,7 @@
 `List.sum_congr` and `List.sum_sub_distrib`; this mathlib version has neither
 constant. The pointwise identity `rees_weighted_term_signed` compiles, but
 the finite-sum lift must use list induction or an available finite-sum API.
+
+The first row-induction formulation also leaves subtraction associativity
+goals after rewriting the induction hypothesis; the pointwise identity remains
+the stable boundary theorem.
