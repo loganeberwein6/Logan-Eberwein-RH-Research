@@ -1,0 +1,10 @@
+# Failure invariants
+
+- `S_int + S_ext` is unsigned; the Rees half-weighted sum is `S_ext-S_int`.
+- Literal logarithmic weights and von-Mangoldt weights differ on complete
+  integer support.
+- The proposed B3 implication fails numerically at X=6, c=3/4.
+- Cauchy–Schwarz bounds the interior weighted sum in the wrong direction for
+  the original psi2 lower bound.
+- The proposed Abel summation formula has an index error: at `N=1` its
+  right-hand side is `f 0 * g 1`, not `f 0 * g 0`.

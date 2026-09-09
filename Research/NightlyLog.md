@@ -1,0 +1,17 @@
+# Nightly log
+
+- Stage 25 continuation: read the revised overnight objective.
+- Confirmed the sign obstruction and weight mismatch.
+- Searched local Mathlib for finite Cauchy–Schwarz lemmas; no direct theorem
+  under the proposed names was found.
+- Began the common-weight definition branch.
+- Computed diagonal `L_SR( s, X )` values for X=30,210,2310.
+- Recorded the zero-factor obstruction at s=0.
+- Computed eigenvalue gaps for X=50,100,200.
+- Observed a separated top eigenvalue and non-GUE spacing.
+- Computed exact traces Tr(M), Tr(M^2), Tr(M^3) at X=6,30,210.
+- Recorded that Tr(M^2) equals the squared support dimension.
+- Added three explicit conjectural SR/RH equivalence candidates.
+- Added killed-approach records DEAD-01 through DEAD-05.
+- Added the definition-space comparison for logarithmic and von-Mangoldt weights.
+- Added external-connection notes for divisor sums, explicit formulas, and traces.

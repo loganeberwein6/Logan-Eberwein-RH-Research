@@ -90,3 +90,9 @@ lean_lib SR_SpectralBridge where
 
 lean_lib SR_Boundary where
   roots := #[`SR_Boundary]
+
+lean_lib SR_Mollifier where
+  roots := #[`SR_Mollifier]
+
+lean_lib SR_Bridge where
+  roots := #[`SR_Bridge]
