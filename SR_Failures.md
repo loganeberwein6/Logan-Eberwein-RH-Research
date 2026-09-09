@@ -1303,3 +1303,9 @@ Stage 21 syntax/name failure: support-pair count promotion accidentally inserted
 - Attempted a single `native_decide` theorem combining the closed below-half support formula and all-ones positivity for `X=6..5000`; it remained live past multiple 30s capped polls and was interrupted without promotion.
 - Attempted the combined formula-and-positivity theorem for `X=6..1000`; it also remained live past a 30s capped poll and was interrupted.
 - Formula-only certificates are much cheaper: `X=6..500` and `X=6..1000` both compiled quickly in stdin. Promoted the `X=6..1000` formula-only certificate.
+
+## Stage 24 Problem 1 spectral bridge representation boundary — 2026-09-08
+- Goal: identify the `Fin (X-2)` double sum for `reesMatrixReal X` with `(allOnesEntrySum X : ℝ)`.
+- Type/representation obstruction: `allOnesEntrySum` is defined as nested sums over the executable `List` support, while the quadratic form is indexed by `Fin (X-2)`; the missing theorem is a general `Fin`-sum/list-map correspondence together with the `i.val + 2` support-index conversion.
+- Resolution: promoted the generic Rayleigh implication with this identification as an explicit hypothesis in `SR_SpectralBridge.lean`; no equality was assumed silently.
+- Next approach: prove the finite-index/list correspondence separately before claiming an unconditional spectral bridge.
