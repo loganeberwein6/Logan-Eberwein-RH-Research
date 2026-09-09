@@ -60,3 +60,6 @@ map for complete support, including the empty-support edge case.
 
 `SRPairAt_coord_bounds` is verified for positive support length, proving both
 quotient and remainder coordinates stay below the support length.
+
+`SRSupportAt_eq_get` now proves bounded `getD` access agrees with ordinary
+List indexing, using the dedicated `Mathlib.Data.List.GetD` API.

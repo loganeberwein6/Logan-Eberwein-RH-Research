@@ -65,3 +65,6 @@ finite Cauchy proof from the remaining SR index-enumeration construction.
 
 2026-09-08 — Proved `SRPairAt_coord_bounds` using Nat division and remainder
 lemmas.
+
+2026-09-08 — Imported `Mathlib.Data.List.GetD` and proved
+`SRSupportAt_eq_get` for bounded support coordinates.

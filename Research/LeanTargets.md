@@ -20,3 +20,6 @@
 
 - `SRPairAt` is complete; next target is proving its range agrees with the
   complete-support ordered pairs when the support length is positive.
+
+- `SRSupportAt_eq_get` is complete; support-value bounds can now be transferred
+  from `completeSupport_mem_bounds`.

@@ -1,6 +1,7 @@
 import SR_Mollifier
 import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.Analysis.RCLike.Inner
+import Mathlib.Data.List.GetD
 
 namespace SR
 
@@ -301,6 +302,11 @@ theorem SRPairAt_coord_bounds (X : Nat)
   constructor
   · exact Nat.div_lt_of_lt_mul (by simpa [pow_two] using i.2)
   · exact Nat.mod_lt _ h
+
+theorem SRSupportAt_eq_get (X i : Nat)
+    (hi : i < (completeSupport X).length) :
+    SRSupportAt X i = (completeSupport X)[i] := by
+  exact List.getD_eq_getElem (completeSupport X) 0 hi
 
 theorem psi2_SR_nonneg (X : Nat) : 0 ≤ psi2_SR X := by
   classical
