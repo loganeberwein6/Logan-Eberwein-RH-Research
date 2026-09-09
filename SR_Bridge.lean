@@ -426,6 +426,15 @@ theorem list_sum_eq_fin_sum_getElem
     (l.map f).sum = ∑ i : Fin l.length, f l[i] := by
   simpa using (Fin.sum_univ_fun_getElem (l := l) (f := f)).symm
 
+theorem list_double_sum_eq_fin_double_sum
+    {α : Type*} [AddCommMonoid α] (l : List Nat) (f : Nat → Nat → α) :
+    (l.map (fun m => (l.map (fun n => f m n)).sum)).sum =
+      ∑ i : Fin l.length, ∑ j : Fin l.length, f l[i] l[j] := by
+  rw [list_sum_eq_fin_sum_getElem]
+  apply Finset.sum_congr rfl
+  intro i hi
+  rw [list_sum_eq_fin_sum_getElem]
+
 theorem SR_cauchy_log_from_witness
     (X : Nat) (n : Nat) (w : SRCauchyWitness n)
     (h1 : w.s1 = SR_Sint_log X)

@@ -128,3 +128,5 @@ the remaining SR construction is isolated to coordinate/sum identities.
 2026-09-09 — Added and Lean-verified reesTrace, rees_trace_formula, rees_trace_value, and the X=6..20 parity table in SR_WEntropy.lean. Build SR_WEntropy passed.
 
 2026-09-09 — Located Mathlib's Fin.sum_univ_fun_getElem and proved list_sum_eq_fin_sum_getElem in SR_Bridge.lean. This resolves the proof-dependent List-to-Fin single-sum transport; SR_Bridge build passed.
+
+2026-09-09 — Extended the Fin.sum_univ_fun_getElem transport to the nested list_double_sum_eq_fin_double_sum theorem; SR_Bridge build passed.
