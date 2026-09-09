@@ -10,3 +10,7 @@
 - `psi2_SR_nonneg`: nonnegativity of the support-restricted von Mangoldt
   double sum.  Next target is a rigorously stated comparison with the
   unrestricted ψ₂, with the support boundary handled explicitly.
+
+- Typed logarithmic denominator nonnegativity is complete.  The next Cauchy
+  API target is Mathlib's `inner_le_Lp_mul_Lq_tsum` (or its
+  `_of_nonneg`/finite specialization) from `Analysis.MeanInequalities`.
