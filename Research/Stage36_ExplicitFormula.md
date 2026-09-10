@@ -194,3 +194,10 @@ The final theorem `sr36_complex_divisor_pair_normalization` now compiles.
 The successful route uses `Complex.ofReal_mul`, the sign-cast lemma, and the
 non-symmetric orientation of `Finset.sum_product`; the earlier `.symm` form
 produced the exact reverse equality and failed with a type mismatch.
+
+The direct Lean check passes for the complete finite bridge. Together,
+`sr36_complex_divisor_fiber_sum` and
+`sr36_complex_divisor_pair_normalization` identify the complex divisor-fiber
+sum with the original nested complex product-channel sum. The remaining
+gap is analytic rather than finite algebraic: no ζ Dirichlet-series or
+Perron identity has yet been proved.
