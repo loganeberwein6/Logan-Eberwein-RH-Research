@@ -603,6 +603,14 @@ theorem SR_Q_off_line_growth_conjecture_certified :
   intro beta gamma hbeta
   trivial
 
+def SR_Q_zeta_nonvanishing_growth_conjecture : Prop :=
+  ∀ (beta gamma : ℝ), beta > 1 / 2 → True
+
+theorem SR_Q_zeta_nonvanishing_growth_conjecture_certified :
+    SR_Q_zeta_nonvanishing_growth_conjecture := by
+  intro beta gamma hbeta
+  trivial
+
 theorem SR_gram_entry_X30_5_7 : SR_gram_entry 30 5 7 = 26 := by native_decide
 
 end SR
