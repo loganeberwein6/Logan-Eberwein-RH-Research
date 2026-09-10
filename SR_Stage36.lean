@@ -18,6 +18,12 @@ theorem sr36_completeSupport_nodup (X : Nat) :
     omega
   · exact List.nodup_range
 
+theorem sr36_completeSupport_sum_toFinset
+    {M : Type} [AddCommMonoid M] (X : Nat) (f : Nat → M) :
+    ((completeSupport X).map f).sum =
+      ∑ m ∈ (completeSupport X).toFinset, f m := by
+  rw [List.sum_toFinset f (sr36_completeSupport_nodup X)]
+
 noncomputable def SR_signed_dirichlet_polynomial (X : Nat) (s : ℂ) : ℂ :=
   ∑ k ∈ Finset.range (X ^ 2),
     (SR_signed_divisor_coefficient X k : ℂ) *
