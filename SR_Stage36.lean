@@ -57,6 +57,11 @@ theorem sr36_signed_dirichlet_polynomial_hasDerivAt (X : Nat) (s : ℂ) :
   have hterm := hexp.const_mul a
   convert hterm using 1 <;> dsimp [a, c] <;> ring
 
+theorem sr36_signed_dirichlet_polynomial_deriv_eq_deriv (X : Nat) (s : ℂ) :
+    deriv (SR_signed_dirichlet_polynomial X) s =
+      SR_signed_dirichlet_polynomial_deriv X s :=
+  (sr36_signed_dirichlet_polynomial_hasDerivAt X s).deriv
+
 theorem sr36_signed_dirichlet_polynomial_differentiable (X : Nat) :
     Differentiable ℂ (SR_signed_dirichlet_polynomial X) := by
   unfold SR_signed_dirichlet_polynomial
