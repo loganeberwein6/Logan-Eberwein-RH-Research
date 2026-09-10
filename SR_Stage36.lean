@@ -25,6 +25,31 @@ theorem sr36_hasMellin_add {f g : ℝ → ℂ} {s : ℂ}
     HasMellin (fun t => f t + g t) s (mellin f s + mellin g s) := by
   exact hasMellin_add hf.1 hg.1
 
+theorem sr36_zero_hasMellin (s : ℂ) :
+    HasMellin (fun _ : ℝ => (0 : ℂ)) s 0 := by
+  constructor
+  · simp [MellinConvergent]
+  · simp [mellin]
+
+theorem sr36_hasMellin_finset_sum {ι : Type} (u : Finset ι)
+    (f : ι → ℝ → ℂ) (s : ℂ)
+    (h : ∀ i ∈ u, HasMellin (f i) s (mellin (f i) s)) :
+    HasMellin (fun t => ∑ i ∈ u, f i t) s
+      (∑ i ∈ u, mellin (f i) s) := by
+  classical
+  induction u using Finset.induction_on with
+  | empty =>
+      simpa using sr36_zero_hasMellin s
+  | @insert i u hi ih =>
+      have hi' := h i (Finset.mem_insert_self i u)
+      have hu' : ∀ j ∈ u, HasMellin (f j) s (mellin (f j) s) := by
+        intro j hj
+        exact h j (Finset.mem_insert_of_mem hj)
+      have hsum := ih hu'
+      have hadd := hasMellin_add hi'.1 hsum.1
+      rw [hsum.2] at hadd
+      simpa [Finset.sum_insert, hi] using hadd
+
 def SR_divisorMultiplicity (X k : Nat) : Nat :=
   ((completeSupport X).toFinset.product (completeSupport X).toFinset).filter
     (fun p => p.1 * p.2 = k) |>.card
