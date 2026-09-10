@@ -91,7 +91,7 @@ def M_Rees_X6 : ReesSignKernel FlowSupport6 :=
 def M_Rees_X30 : ReesSignKernel SupportIndex30 :=
   M_Rees_X (30 : Rat) SupportIndex30 SupportIndex30.toNat
 
-theorem M_Rees_X6_agrees_stage15_checkpoint : True := by
+theorem M_Rees_X6_AGREES_STAGE15_OPEN : True := by
   trivial
 
 def M_Rees_signature_X52 : SignatureSummary :=
@@ -1070,7 +1070,7 @@ theorem stage16_synthesis_enriched :
 #check M_Rees_X52
 #check M_Rees_X6
 #check M_Rees_X30
-#check M_Rees_X6_agrees_stage15_checkpoint
+#check M_Rees_X6_AGREES_STAGE15_OPEN
 #check interiorProductCount
 #check interiorProductCount_X52
 #check interiorProductCount_X6

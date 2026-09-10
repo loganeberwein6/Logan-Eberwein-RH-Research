@@ -1089,7 +1089,7 @@ theorem SR_S_unsigned_log_decomp (X : Nat) :
 
 /- The signed/unsigned split is intentionally left explicit until the
    definitions are corrected; no false equality is promoted here. -/
-theorem SR25_BRIDGE_SIGN_OBSTRUCTION : True := by
+theorem SR25_BRIDGE_SIGN_OBSTRUCTION_OPEN : True := by
   trivial
 
 end SR

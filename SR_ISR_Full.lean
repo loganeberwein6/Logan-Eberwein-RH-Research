@@ -206,7 +206,7 @@ The choice `Interior ↦ -1`, `Exit ↦ +1` is an externally motivated Hodge-ind
 sign convention; it is not forced by the earlier SR axioms in this finite
 Lean base.
 -/
-theorem SR14_SIGN_EXTERNAL_MOTIVATION : True := by
+theorem SR14_SIGN_EXTERNAL_MOTIVATION_CONJECTURE : True := by
   trivial
 
 theorem stage14_outcome :
@@ -218,7 +218,7 @@ theorem stage14_outcome :
   exact ⟨E11_mul_offDiagonal_observed_zero,
     radical_witness_rees_signed_negative,
     not_partial_sign_theorem,
-    SR14_SIGN_EXTERNAL_MOTIVATION⟩
+    SR14_SIGN_EXTERNAL_MOTIVATION_CONJECTURE⟩
 
 #check I_SR_full_matrix
 #check I_SR_full
@@ -248,7 +248,7 @@ theorem stage14_outcome :
 #check I_SR_Rees_partialSignCounterexample_value
 #check I_SR_Rees_partialSignCounterexample_positive
 #check not_partial_sign_theorem
-#check SR14_SIGN_EXTERNAL_MOTIVATION
+#check SR14_SIGN_EXTERNAL_MOTIVATION_CONJECTURE
 #check stage14_outcome
 
 end SR

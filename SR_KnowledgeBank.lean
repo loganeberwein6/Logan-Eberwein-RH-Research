@@ -560,7 +560,7 @@ Nothing enters this file unless the corresponding Lean target compiles.
 #check not_partial_sign_theorem
 
 /- SR.14.SIGN_EXTERNAL_MOTIVATION: Rees sign convention is external Hodge-index motivation. -/
-#check SR14_SIGN_EXTERNAL_MOTIVATION
+#check SR14_SIGN_EXTERNAL_MOTIVATION_CONJECTURE
 
 /- SR.14.OUTCOME: Off-diagonal GNS collapse plus Rees-signed negative witness. -/
 #check stage14_outcome
@@ -671,7 +671,7 @@ Nothing enters this file unless the corresponding Lean target compiles.
 #check M_Rees_signature_witnesses
 
 /- SR.15E.REDUCTION_AUDIT: Sign theorem is tautological on the narrowed sector; sign convention remains external. -/
-#check SR15_REDUCTION_AUDIT
+#check SR15_REDUCTION_AUDIT_OPEN
 
 /- SR.15F.SIGN_ARITHMETIC_OPEN: Selberg/Weil derivation of the Rees sign convention remains open. -/
 #check SR15_SIGN_ARITHMETIC_OPEN
@@ -695,7 +695,7 @@ Nothing enters this file unless the corresponding Lean target compiles.
 #check M_Rees_X52
 
 /- SR.16A.6: X = 6 Rees sign matrix agrees with Stage 15. -/
-#check M_Rees_X6_agrees_stage15_checkpoint
+#check M_Rees_X6_AGREES_STAGE15_OPEN
 
 /- SR.16A.7: X = 30 Rees sign matrix. -/
 #check M_Rees_X30

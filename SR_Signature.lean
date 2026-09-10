@@ -559,7 +559,7 @@ arithmetic; the assignment `Interior ↦ -1` remains externally Hodge-motivated
 rather than derived from a Selberg explicit-formula theorem inside this Lean
 base.
 -/
-theorem SR15_REDUCTION_AUDIT : True := by
+theorem SR15_REDUCTION_AUDIT_OPEN : True := by
   trivial
 
 /--
@@ -629,7 +629,7 @@ theorem stage15_outcome :
   constructor
   · exact M_Rees_signature_witnesses
   constructor
-  · exact SR15_REDUCTION_AUDIT
+  · exact SR15_REDUCTION_AUDIT_OPEN
   · exact SR15_SIGN_ARITHMETIC_OPEN
 
 #check M_Rees
@@ -666,7 +666,7 @@ theorem stage15_outcome :
 #check radical_witness_in_true_phys
 #check counterexample_not_in_true_phys
 #check M_Rees_signature_witnesses
-#check SR15_REDUCTION_AUDIT
+#check SR15_REDUCTION_AUDIT_OPEN
 #check SR15_SIGN_ARITHMETIC_OPEN
 #check stage15_outcome
 
