@@ -14,6 +14,9 @@ noncomputable def SR_signed_dirichlet_polynomial (X : Nat) (s : ℂ) : ℂ :=
     (SR_signed_divisor_coefficient X k : ℂ) *
       Complex.exp (-s * (Real.log k : ℂ))
 
+noncomputable def SR_complex_parameter (beta gamma : ℝ) : ℂ :=
+  (-(beta - 1 / 2) : ℂ) - (gamma : ℂ) * Complex.I
+
 theorem sr36_filtered_const_sum
     {α M : Type} [AddCommMonoid M]
     (s : Finset α) (p : α → Prop) [DecidablePred p] (a : M) :

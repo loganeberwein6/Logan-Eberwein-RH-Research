@@ -211,6 +211,13 @@ threshold sign times the proved divisor multiplicity, and its kernel is
 `exp(-s * log k)`. This is a concrete finite Dirichlet object; convergence,
 continuation, and identification with classical ζ remain unproved.
 
+The parameter map `SR_complex_parameter beta gamma` is now explicit:
+`-(beta - 1/2) - gamma*I`. It is marked noncomputable because the complex
+field instance used by subtraction/division is noncomputable. The source
+check passes after this correction. Proving that evaluation at this
+parameter reproduces the product-channel kernel is the next algebraic step
+toward a genuine Dirichlet-series connection.
+
 ## Analytic-library capability audit
 
 A local search of the available Mathlib sources found special Riemann-zeta
