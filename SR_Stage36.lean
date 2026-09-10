@@ -62,6 +62,16 @@ theorem sr36_signed_dirichlet_polynomial_deriv_eq_deriv (X : Nat) (s : ℂ) :
       SR_signed_dirichlet_polynomial_deriv X s :=
   (sr36_signed_dirichlet_polynomial_hasDerivAt X s).deriv
 
+theorem sr36_signed_dirichlet_polynomial_deriv_differentiable (X : Nat) :
+    Differentiable ℂ (SR_signed_dirichlet_polynomial_deriv X) := by
+  unfold SR_signed_dirichlet_polynomial_deriv
+  fun_prop
+
+theorem sr36_signed_dirichlet_polynomial_deriv_analytic (X : Nat) :
+    AnalyticOnNhd ℂ (SR_signed_dirichlet_polynomial_deriv X) Set.univ := by
+  exact Complex.analyticOnNhd_univ_iff_differentiable.mpr
+    (sr36_signed_dirichlet_polynomial_deriv_differentiable X)
+
 theorem sr36_signed_dirichlet_polynomial_differentiable (X : Nat) :
     Differentiable ℂ (SR_signed_dirichlet_polynomial X) := by
   unfold SR_signed_dirichlet_polynomial
