@@ -67,6 +67,10 @@ theorem sr36_signed_dirichlet_polynomial_deriv_differentiable (X : Nat) :
   unfold SR_signed_dirichlet_polynomial_deriv
   fun_prop
 
+theorem sr36_signed_dirichlet_polynomial_deriv_continuous (X : Nat) :
+    Continuous (SR_signed_dirichlet_polynomial_deriv X) :=
+  (sr36_signed_dirichlet_polynomial_deriv_differentiable X).continuous
+
 theorem sr36_signed_dirichlet_polynomial_deriv_analytic (X : Nat) :
     AnalyticOnNhd ℂ (SR_signed_dirichlet_polynomial_deriv X) Set.univ := by
   exact Complex.analyticOnNhd_univ_iff_differentiable.mpr
