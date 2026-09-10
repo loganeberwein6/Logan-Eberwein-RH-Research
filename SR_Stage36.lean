@@ -89,6 +89,14 @@ theorem sr36_signed_dirichlet_polynomial_analytic (X : Nat) :
 noncomputable def SR_complex_parameter (beta gamma : ℝ) : ℂ :=
   (-(beta - 1 / 2) : ℂ) - (gamma : ℂ) * Complex.I
 
+theorem sr36_signed_dirichlet_polynomial_parameter_deriv (X : Nat)
+    (beta gamma : ℝ) :
+    deriv (SR_signed_dirichlet_polynomial X)
+        (SR_complex_parameter beta gamma) =
+      SR_signed_dirichlet_polynomial_deriv X (SR_complex_parameter beta gamma) := by
+  exact sr36_signed_dirichlet_polynomial_deriv_eq_deriv X
+    (SR_complex_parameter beta gamma)
+
 theorem sr36_parameter_exponent (beta gamma x : ℝ) :
     -SR_complex_parameter beta gamma * (x : ℂ) =
       ((beta - 1 / 2) : ℂ) * (x : ℂ) +
