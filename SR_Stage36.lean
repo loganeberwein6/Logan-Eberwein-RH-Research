@@ -6,10 +6,6 @@ import Mathlib.NumberTheory.LSeries.Dirichlet
 
 namespace SR
 
-theorem sr36_zeta_dirichlet_series {s : ℂ} (hs : 1 < s.re) :
-    LSeriesHasSum (↑ζ) s (riemannZeta s) :=
-  LSeriesHasSum_zeta hs
-
 theorem sr36_unit_interval_hasMellin {s : ℂ} (hs : 0 < s.re) :
     HasMellin (Set.indicator (Set.Ioc 0 1) (fun _ : ℝ => 1 : ℝ → ℂ)) s (1 / s) :=
   hasMellin_one_Ioc hs
@@ -682,6 +678,27 @@ theorem sr36_signed_polynomial_zero_term_removed (X : Nat) (s : ℂ) :
   · subst k
     simp [sr36_zero_divisor_coefficient]
   · simp [hzero]
+
+theorem sr36_zeta_dirichlet_series {s : ℂ} (hs : 1 < s.re) :
+    LSeriesHasSum (↑ζ) s (riemannZeta s) :=
+  LSeriesHasSum_zeta hs
+
+theorem sr36_signed_polynomial_as_LSeries_sum (X : Nat) (s : ℂ) :
+    SR_signed_dirichlet_polynomial X s =
+      ∑ k ∈ Finset.range (X ^ 2),
+        LSeries.term (fun k => (SR_signed_divisor_coefficient X k : ℂ)) s k := by
+  unfold SR_signed_dirichlet_polynomial
+  apply Finset.sum_congr rfl
+  intro k hk
+  by_cases hzero : k = 0
+  · subst k
+    simp [sr36_zero_divisor_coefficient]
+  · rw [LSeries.term_def₀ (by simp [sr36_zero_divisor_coefficient])]
+    rw [Complex.cpow_def_of_ne_zero]
+    · rw [Complex.ofReal_log (by positivity)]
+      congr 1
+      ring
+    · exact_mod_cast hzero
 
 theorem sr36_small_divisor_coefficient (X k : Nat) (hk : k < 4) :
     SR_signed_divisor_coefficient X k = 0 := by
