@@ -1,5 +1,18 @@
 # Nightly log
 
+2026-09-10 — Full `lake -Kjobs=1 build` completed successfully after setting
+`ELAN_HOME` to the installed Elan directory. Accelerated fiber-sum evaluation
+for `beta=0.8`, `gamma=21.022` gave:
+`X=6 Q=2.556842 Q/X^2.4=0.03468494 Q/X^3.3=0.00691520`;
+`X=30 Q=49.286536 Q/X^2.4=0.01404874 Q/X^3.3=0.00065800`;
+`X=110 Q=646.722121 Q/X^2.4=0.00815409 Q/X^3.3=0.00011861`;
+`X=500 Q=7065.565064 Q/X^2.4=0.00235298 Q/X^3.3=0.00000876`;
+`X=1000 Q=18912.364465 Q/X^2.4=0.00119329 Q/X^3.3=0.00000238`;
+`X=2000 Q=56108.522505 Q/X^2.4=0.00067074 Q/X^3.3=0.00000072`;
+`X=5000 Q=260865.042722 Q/X^2.4=0.00034585 Q/X^3.3=0.00000016`;
+`X=10000 Q=814469.676454 Q/X^2.4=0.00020459 Q/X^3.3=0.00000005`.
+The tested sequence does not falsify the empirical `X^(3 beta)` envelope.
+
 - Stage 25 continuation: read the revised overnight objective.
 - Confirmed the sign obstruction and weight mismatch.
 - Searched local Mathlib for finite Cauchy–Schwarz lemmas; no direct theorem

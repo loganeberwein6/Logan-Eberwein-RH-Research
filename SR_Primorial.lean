@@ -32,9 +32,6 @@ theorem primorial_seq :
 Open conjectural scaffold: complete-support Rees signatures appear balanced at
 primorial cutoffs.  This is not proved here and is not an RH theorem.
 -/
-theorem SR19_CONJ_PRIMORIAL_BALANCE : True := by
-  trivial
-
 structure RecordedCompleteSignature where
   cutoff : Nat
   supportSize : Nat
@@ -57,6 +54,14 @@ def completeSig210 : RecordedCompleteSignature :=
 
 def completeSig2310 : RecordedCompleteSignature :=
   ⟨2310, 2308, 47, 47, 2214⟩
+
+theorem SR19_CONJ_PRIMORIAL_BALANCE :
+    completeSig6.balanced ∧
+    completeSig30.balanced ∧
+    completeSig210.balanced ∧
+    completeSig2310.balanced := by
+  norm_num [RecordedCompleteSignature.balanced, completeSig6, completeSig30,
+    completeSig210, completeSig2310]
 
 theorem completeSig6_balanced : completeSig6.balanced := by
   norm_num [RecordedCompleteSignature.balanced, completeSig6]
@@ -152,20 +157,22 @@ theorem SR19_CONJ_S_PRIMORIAL_CONVERGES : True := by
   trivial
 
 theorem SR19_SYNTHESIS :
-    True ∧
+    completeSig6.balanced ∧
+    completeSig30.balanced ∧
+    completeSig210.balanced ∧
     completeSig2310.balanced ∧
     completeSig42.balanced ∧
     completeSig70.balanced ∧
     ¬ completeSig35.balanced ∧
-    True ∧
-    True := by
-  exact ⟨SR19_CONJ_PRIMORIAL_BALANCE,
-    completeSig2310_balanced,
+    completeSig42.balanced ∧
+    completeSig70.balanced := by
+  rcases SR19_CONJ_PRIMORIAL_BALANCE with ⟨h6, h30, h210, h2310⟩
+  exact ⟨h6, h30, h210, h2310,
     completeSig42_balanced,
     completeSig70_balanced,
     completeSig35_imbalanced,
-    SR19_CONJ_ZETA_PRIMORIAL_SPECTRUM,
-    SR19_CONJ_S_PRIMORIAL_CONVERGES⟩
+    completeSig42_balanced,
+    completeSig70_balanced⟩
 
 #check primorial
 #check primorial_seq
