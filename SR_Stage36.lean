@@ -640,6 +640,12 @@ theorem sr36_signed_polynomial_at_neutral_parameter (X : Nat) :
       ∑ k ∈ Finset.range (X ^ 2), (SR_signed_divisor_coefficient X k : ℂ) := by
   simp [SR_signed_dirichlet_polynomial, SR_complex_parameter]
 
+theorem sr36_signed_polynomial_at_neutral_parameter_re (X : Nat) :
+    (SR_signed_dirichlet_polynomial X (SR_complex_parameter (1 / 2) 0)).re =
+      ∑ k ∈ Finset.range (X ^ 2), (SR_signed_divisor_coefficient X k : ℝ) := by
+  rw [sr36_signed_polynomial_at_neutral_parameter]
+  simp
+
 theorem sr36_complex_divisor_re (X : Nat) (hX : 6 ≤ X) (beta gamma : ℝ) :
     (SR_product_channel_complex_divisor X beta gamma).re =
       SR_channel_product X beta gamma := by
