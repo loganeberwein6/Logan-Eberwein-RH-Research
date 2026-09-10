@@ -2,6 +2,11 @@ import SR_Stage35
 
 namespace SR
 
+theorem sr36_rees_sign_by_product (X m n : Nat) :
+    reesEntryFromNat X m n = if m * n < X then -1 else 1 := by
+  rw [rees_decomposition]
+  split_ifs <;> simp_all
+
 theorem sr36_product_weight_normalization
     (m n : Nat) (hm : 0 < m) (hn : 0 < n) (beta gamma : ℝ) :
     ((m : ℝ) * n) ^ (beta - 1 / 2) *
