@@ -3,6 +3,14 @@ import Mathlib.Data.Real.Sqrt
 
 namespace SR
 
+theorem SR_finite_abel_identity {R M : Type*} [Ring R] [AddCommGroup M]
+    [Module R M] (f : Nat → R) (g : Nat → M) (n : Nat) :
+    ∑ i ∈ Finset.range n, f i • g i =
+      f (n - 1) • ∑ i ∈ Finset.range n, g i -
+        ∑ i ∈ Finset.range (n - 1),
+          (f (i + 1) - f i) • ∑ j ∈ Finset.range (i + 1), g j := by
+  exact Finset.sum_range_by_parts f g n
+
 noncomputable def SR_weil_form_real (X : Nat) (beta gamma : ℝ) : ℝ :=
   ∑ m ∈ (completeSupport X).toFinset,
     ∑ n ∈ (completeSupport X).toFinset,
