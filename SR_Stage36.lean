@@ -89,6 +89,44 @@ def SR_divisorMultiplicity (X k : Nat) : Nat :=
 def SR_signed_divisor_coefficient (X k : Nat) : ℤ :=
   (if k < X then -1 else 1) * SR_divisorMultiplicity X k
 
+theorem sr36_signed_step_hasMellin (X : Nat) {s : ℂ} (hs : 0 < s.re) :
+    HasMellin
+      (fun t : ℝ => ∑ k ∈ Finset.Icc 1 (X ^ 2),
+        (SR_signed_divisor_coefficient X k : ℂ) •
+          Set.indicator (Set.Ioc 0 1) (fun _ : ℝ => 1 : ℝ → ℂ)
+            ((1 / k : ℝ) * t)) s
+      (∑ k ∈ Finset.Icc 1 (X ^ 2),
+        (SR_signed_divisor_coefficient X k : ℂ) •
+          ((1 / k : ℂ) ^ (-s) • (1 / s))) := by
+  let f : Nat → ℝ → ℂ := fun k t =>
+    (SR_signed_divisor_coefficient X k : ℂ) •
+      Set.indicator (Set.Ioc 0 1) (fun _ : ℝ => 1 : ℝ → ℂ)
+        ((1 / k : ℝ) * t)
+  have hsum := sr36_hasMellin_finset_sum (u := Finset.Icc 1 (X ^ 2)) f s (by
+    intro k hk
+    have hkpos : 0 < k := by
+      have := (Finset.mem_Icc.mp hk).1
+      omega
+    have hterm := sr36_scaled_coefficient_hasMellin k hkpos hs
+      (SR_signed_divisor_coefficient X k : ℂ)
+    exact ⟨hterm.1, by simp [f, hterm.2]⟩
+  )
+  have hvals :
+      (∑ k ∈ Finset.Icc 1 (X ^ 2), mellin (f k) s) =
+        ∑ k ∈ Finset.Icc 1 (X ^ 2),
+          (SR_signed_divisor_coefficient X k : ℂ) •
+            ((1 / k : ℂ) ^ (-s) • (1 / s)) := by
+    apply Finset.sum_congr rfl
+    intro k hk
+    have hkpos : 0 < k := by
+      have := (Finset.mem_Icc.mp hk).1
+      omega
+    have hterm := sr36_scaled_coefficient_hasMellin k hkpos hs
+      (SR_signed_divisor_coefficient X k : ℂ)
+    simpa [f] using hterm.2
+  rw [hvals] at hsum
+  simpa [f, smul_assoc] using hsum
+
 theorem sr36_completeSupport_nodup (X : Nat) :
     (completeSupport X).Nodup := by
   unfold completeSupport
