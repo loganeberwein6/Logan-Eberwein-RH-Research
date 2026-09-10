@@ -889,8 +889,14 @@ theorem SR_flow_entry_update_minus_two_archived_late_copy
   simp [M_Rees_X, hOld, hNew]
   norm_num
 
-theorem SR_flow_entry_update_22_X52_to_X6 : True := by
-  trivial
+theorem SR_flow_entry_update_22_X52_to_X6 :
+    M_Rees_X (6 : Rat) FlowSupport52 FlowSupport52.toNat
+        FlowSupport52.p2 FlowSupport52.p2 =
+      M_Rees_X FlowX52 FlowSupport52 FlowSupport52.toNat
+        FlowSupport52.p2 FlowSupport52.p2 - 2 := by
+  exact SR_flow_entry_update_minus_two FlowX52 (6 : Rat) FlowSupport52
+    FlowSupport52.toNat FlowSupport52.p2 FlowSupport52.p2
+    flow_grade_22_X52_exit grade_22_X6_interior
 
 theorem flow_produces_negative_eigenvalues :
     M_Rees_signature_X52 = ⟨1, 0, 0⟩ ∧
