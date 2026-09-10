@@ -308,6 +308,21 @@ theorem sr36_rees_sign_real_cast (X m n : Nat) :
   rw [sr36_rees_sign_by_product]
   split_ifs <;> norm_num
 
+theorem sr36_complex_divisor_pair_normalization
+    (X : Nat) (beta gamma : ℝ) :
+    (∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset,
+      Complex.ofReal (if p.1 * p.2 < X then (-1 : ℝ) else 1) *
+        (Complex.ofReal (((p.1 : ℝ) * p.2) ^ (beta - 1 / 2)) *
+          Complex.exp (((gamma * (Real.log p.1 + Real.log p.2) : ℝ) : ℂ) * Complex.I))) =
+    SR_product_channel_complex X beta gamma := by
+  unfold SR_product_channel_complex
+  simpa only [sr36_rees_sign_real_cast, Complex.ofReal_mul, mul_assoc] using
+    (Finset.sum_product (completeSupport X).toFinset
+      (completeSupport X).toFinset (fun p : Nat × Nat =>
+        Complex.ofReal (reesEntryFromNat X p.1 p.2 : ℝ) *
+          (Complex.ofReal (((p.1 : ℝ) * p.2) ^ (beta - 1 / 2)) *
+            Complex.exp (((gamma * (Real.log p.1 + Real.log p.2) : ℝ) : ℂ) * Complex.I))))
+
 def SR_product_channel_divisor_reorganization_conjecture : Prop := True
 
 theorem SR_product_channel_divisor_reorganization_conjecture_certified :

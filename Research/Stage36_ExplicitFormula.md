@@ -189,3 +189,8 @@ real-to-complex and integer-to-real-to-complex casts are not definitionally
 identical. Splitting the threshold cases and using `norm_num` proves both
 branches. This supplies the missing pointwise normalization for the final
 complex pair-sum theorem.
+
+The final theorem `sr36_complex_divisor_pair_normalization` now compiles.
+The successful route uses `Complex.ofReal_mul`, the sign-cast lemma, and the
+non-symmetric orientation of `Finset.sum_product`; the earlier `.symm` form
+produced the exact reverse equality and failed with a type mismatch.
