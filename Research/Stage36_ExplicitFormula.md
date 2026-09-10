@@ -152,3 +152,12 @@ for real `a,x`, the real part of `a * exp(i x)` is `a*cos x`. Its tactic
 sequence expands `Complex.mul_re`, simplifies the real embedding, and uses
 `sr36_exp_phase_re`. This is the exact scalar projection needed to lift the
 already-proved finite divisor reorganization to a complex exponential sum.
+
+The finite lift is now source-verified by `sr36_complex_product_re`. The
+definition sums the real Rees-weighted amplitude times
+`exp(i*gamma*(log m + log n))` over the finite support. The first proof
+attempt failed with `map_sum` because real-part projection is not expressed
+through that generic rewrite. Replacing it with Mathlib's `Complex.re_sum`
+at both sum levels, followed by `sr36_real_mul_exp_phase_re`, closed the
+theorem. This is a genuine finite complex representation of the product
+channel; the analytic ζ/Perron connection remains open.

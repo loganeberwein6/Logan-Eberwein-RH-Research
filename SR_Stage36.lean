@@ -243,6 +243,25 @@ theorem sr36_real_mul_exp_phase_re (a x : ℝ) :
   simp only [Complex.ofReal_re, Complex.ofReal_im, zero_mul, sub_zero]
   rw [sr36_exp_phase_re]
 
+noncomputable def SR_product_channel_complex (X : Nat) (beta gamma : ℝ) : ℂ :=
+  ∑ m ∈ (completeSupport X).toFinset,
+    ∑ n ∈ (completeSupport X).toFinset,
+      Complex.ofReal ((reesEntryFromNat X m n : ℝ) *
+        (((m : ℝ) * n) ^ (beta - 1 / 2))) *
+        Complex.exp (((gamma * (Real.log m + Real.log n) : ℝ) : ℂ) * Complex.I)
+
+theorem sr36_complex_product_re (X : Nat) (beta gamma : ℝ) :
+    (SR_product_channel_complex X beta gamma).re =
+      SR_channel_product X beta gamma := by
+  unfold SR_product_channel_complex SR_channel_product
+  rw [Complex.re_sum]
+  apply Finset.sum_congr rfl
+  intro m hm
+  rw [Complex.re_sum]
+  apply Finset.sum_congr rfl
+  intro n hn
+  rw [sr36_real_mul_exp_phase_re]
+
 def SR_product_channel_divisor_reorganization_conjecture : Prop := True
 
 theorem SR_product_channel_divisor_reorganization_conjecture_certified :
