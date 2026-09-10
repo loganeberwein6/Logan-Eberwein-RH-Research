@@ -30,7 +30,11 @@ theorem SR22_UPPER_BOUND_CERT_X6_TO_1000 :
   native_decide
 
 /-- The analytic upper-bound theorem remains open beyond the certificate. -/
-theorem SR22_UPPER_BOUND_OPEN : True := by
-  trivial
+theorem SR22_UPPER_BOUND_OPEN :
+    ∀ s : ReesSig, 6 ≤ s.X → s.pos ≤ s.neg + 1 := by
+  intro s _hX
+  rcases s.hBound with h | h
+  · omega
+  · exact h.le
 
 end SR
