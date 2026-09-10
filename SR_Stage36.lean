@@ -40,6 +40,14 @@ theorem sr36_signed_coefficient_as_fiber_sum (X k : Nat) :
   rw [sr36_filtered_const_sum]
   simp [mul_comm]
 
+theorem sr36_signed_coefficient_complex_as_fiber_sum (X k : Nat) :
+    (SR_signed_divisor_coefficient X k : ℂ) =
+      ∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset
+        with p.1 * p.2 = k,
+        (if k < X then (-1 : ℂ) else 1) := by
+  rw [sr36_signed_coefficient_as_fiber_sum]
+  norm_cast
+
 
 theorem sr36_nested_eq_filtered_product
     {α β γ M : Type} [AddCommMonoid M] [DecidableEq γ]

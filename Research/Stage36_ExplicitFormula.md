@@ -255,3 +255,5 @@ Finally, `sr36_product_kernel_matches_pair_phase` combines the rpow identity wit
 The authorized command `ELAN_HOME=C:\\Users\\ljoe6\\.elan lake -Kjobs=1 build SR_Stage36` completed successfully on the current source, building `SR_Stage36` in 3336 jobs with exit code 0. The prior generated-setup permission failure did not recur. Linter warnings remain, but there are no compilation errors.
 
 The source now also proves `sr36_signed_coefficient_as_fiber_sum`: each signed divisor coefficient is exactly the integer-valued signed constant summed over its finite product fiber. The first insertion was ordered before `sr36_filtered_const_sum`, producing a declaration-order failure; moving it below that reusable lemma allowed `rw [sr36_filtered_const_sum]` followed by `simp [mul_comm]` to close the theorem. This is a concrete coefficient interface for the finite Dirichlet polynomial, not an infinite-series claim.
+
+Its complex-cast companion `sr36_signed_coefficient_complex_as_fiber_sum` is now verified as well. After rewriting by the integer theorem, `norm_cast` transports the finite fiber sum into `ℂ`, giving the exact coefficient form used by the complex polynomial.
