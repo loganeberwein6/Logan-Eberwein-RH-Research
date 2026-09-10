@@ -217,6 +217,16 @@ theorem SR_product_channel_fiber_identity
     Nat.mul_lt_mul_of_pos_right hm (by omega)
   exact Finset.mem_range.mpr (h1.trans (by simpa [pow_two] using h2))
 
+theorem sr36_support_pos {X m : Nat} (hm : m ∈ completeSupport X) :
+    0 < m := by
+  have hbounds := completeSupport_mem_bounds hm
+  omega
+
+theorem sr36_product_pos {X m n : Nat}
+    (hm : m ∈ completeSupport X) (hn : n ∈ completeSupport X) :
+    0 < m * n := by
+  exact Nat.mul_pos (sr36_support_pos hm) (sr36_support_pos hn)
+
 def SR_product_channel_divisor_reorganization_conjecture : Prop := True
 
 theorem SR_product_channel_divisor_reorganization_conjecture_certified :
