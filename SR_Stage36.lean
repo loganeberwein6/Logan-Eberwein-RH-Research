@@ -530,11 +530,34 @@ theorem sr36_complex_divisor_pair_normalization
     SR_product_channel_complex X beta gamma := by
   unfold SR_product_channel_complex
   simpa only [sr36_rees_sign_real_cast, Complex.ofReal_mul, mul_assoc] using
-    (Finset.sum_product (completeSupport X).toFinset
+      (Finset.sum_product (completeSupport X).toFinset
       (completeSupport X).toFinset (fun p : Nat × Nat =>
         Complex.ofReal (reesEntryFromNat X p.1 p.2 : ℝ) *
           (Complex.ofReal (((p.1 : ℝ) * p.2) ^ (beta - 1 / 2)) *
             Complex.exp (((gamma * (Real.log p.1 + Real.log p.2) : ℝ) : ℂ) * Complex.I))))
+
+theorem sr36_signed_polynomial_parameter_complex
+    (X : Nat) (beta gamma : ℝ) :
+    SR_signed_dirichlet_polynomial X (SR_complex_parameter beta gamma) =
+      SR_product_channel_complex X beta gamma := by
+  rw [sr36_signed_polynomial_parameter_product_sum]
+  calc
+    (∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset,
+        (if p.1 * p.2 < X then (-1 : ℂ) else 1) *
+          Complex.exp (-SR_complex_parameter beta gamma *
+            (Real.log (p.1 * p.2) : ℂ))) =
+      ∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset,
+        (if p.1 * p.2 < X then (-1 : ℝ) else 1) *
+          (Complex.ofReal (((p.1 : ℝ) * p.2) ^ (beta - 1 / 2)) *
+            Complex.exp (((gamma * (Real.log p.1 + Real.log p.2) : ℝ) : ℂ) * Complex.I)) := by
+      apply Finset.sum_congr rfl
+      intro p hp
+      have hpm : p.1 ∈ completeSupport X := by simpa using (Finset.mem_product.mp hp).1
+      have hpn : p.2 ∈ completeSupport X := by simpa using (Finset.mem_product.mp hp).2
+      rw [← Nat.cast_mul, sr36_parameter_kernel_matches_pair_phase hpm hpn beta gamma]
+      split_ifs <;> norm_num
+    _ = SR_product_channel_complex X beta gamma :=
+      sr36_complex_divisor_pair_normalization X beta gamma
 
 theorem sr36_complex_divisor_re (X : Nat) (hX : 6 ≤ X) (beta gamma : ℝ) :
     (SR_product_channel_complex_divisor X beta gamma).re =
