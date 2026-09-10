@@ -262,6 +262,15 @@ theorem sr36_parameter_product_log_exponent {X m n : Nat}
         ((gamma * Real.log ((m * n : Nat) : ℝ) : ℝ) : ℂ) * Complex.I := by
   exact sr36_parameter_exponent beta gamma (Real.log ((m * n : Nat) : ℝ))
 
+theorem sr36_parameter_product_kernel_split {X m n : Nat}
+    (hm : m ∈ completeSupport X) (hn : n ∈ completeSupport X)
+    (beta gamma : ℝ) :
+    Complex.exp (-SR_complex_parameter beta gamma *
+        (Real.log ((m * n : Nat) : ℝ) : ℂ)) =
+      Complex.exp (((beta - 1 / 2) * Real.log ((m * n : Nat) : ℝ) : ℂ)) *
+        Complex.exp (((gamma * Real.log ((m * n : Nat) : ℝ) : ℝ) : ℂ) * Complex.I) := by
+  rw [sr36_parameter_product_log_exponent hm hn beta gamma, Complex.exp_add]
+
 theorem sr36_exp_phase_re (x : ℝ) :
     (Complex.exp (((x : ℂ) * Complex.I))).re = Real.cos x := by
   rw [Complex.exp_mul_I]
