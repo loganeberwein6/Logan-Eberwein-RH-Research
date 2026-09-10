@@ -100,3 +100,37 @@ The verification command initially failed with `couldn't find value of
 ELAN_HOME`; setting `ELAN_HOME=C:\\Users\\ljoe6\\.elan` allowed the complete
 `SR_Stage35 SR_Stage36` build to succeed (3337 jobs). Existing unrelated
 worktree changes were preserved.
+
+## Reproducible numerical test update
+
+`Research/Stage36_numeric_test.py` now reproduces the prescribed explicit-
+formula and Gram tests. The explicit-prediction ratios for the critical-line
+model at X=30,100,210,500,1000 are respectively 1.5606, 0.3217, 0.7497,
+5.0177, and 0.6264. For the beta=0.8 test against the off-line model they
+are 1.2393, -0.1891, 2.2201, 25.1030, and 6.9930. Thus no stable coefficient
+is established.
+
+The measured growth exponents from X=100 to X=1000 are:
+
+```
+gamma       beta=0.5     beta=0.8
+14.1347       1.484        2.163
+21.0220       1.750        3.328
+25.0109       0.237        0.528
+30.4249       0.414          --
+32.9351       1.692          --
+10.0000       0.417          --
+15.0000       1.002          --
+20.0000       0.250          --
+```
+
+The Gram results are:
+
+```
+X=10:  max eig(G)=48.8486, ||M||=6.9892,  ratio ||M||/sqrt(n)=2.4710
+X=30:  max eig(G)=667.4494, ||M||=25.8350, ratio ||M||/sqrt(n)=4.8824
+X=100: max eig(G)=8857.7833, ||M||=94.1158, ratio ||M||/sqrt(n)=9.5071
+```
+
+These finite samples are evidence of oscillation and frequency dependence,
+not proof of an explicit-formula asymptotic or RH connection.
