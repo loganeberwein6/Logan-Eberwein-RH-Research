@@ -73,6 +73,24 @@ theorem sr36_smoothed_interval_hasMellin {s : ℂ} (hs : 0 < s.re) :
   refine ⟨hsub.1, ?_⟩
   rw [hsub.2, h1.2, h2.2]
 
+theorem sr36_second_difference_interval_hasMellin {s : ℂ} (hs : 0 < s.re) :
+    HasMellin
+      (fun t : ℝ =>
+        Set.indicator (Set.Ioc 0 1) (fun _ : ℝ => 1 : ℝ → ℂ) t +
+        (-2 : ℂ) • Set.indicator (Set.Ioc 0 1)
+          (fun x : ℝ => (x : ℂ) ^ (1 : ℂ)) t +
+        Set.indicator (Set.Ioc 0 1)
+          (fun x : ℝ => (x : ℂ) ^ (2 : ℂ)) t) s
+      (1 / s + (-2 : ℂ) • (1 / (s + 1)) + 1 / (s + 2)) := by
+  have h0 := sr36_unit_interval_hasMellin hs
+  have h1 := sr36_powered_interval_hasMellin 1 s (by linarith)
+  have h2 := sr36_powered_interval_hasMellin 2 s (by linarith)
+  have h1' := hasMellin_const_smul h1.1 (-2 : ℂ)
+  have h01 := hasMellin_add h0.1 h1'.1
+  have h012 := hasMellin_add h01.1 h2.1
+  refine ⟨h012.1, ?_⟩
+  rw [h012.2, h0.2, h1.2, h2.2]
+
 theorem sr36_smoothed_interval_transform_denominator {s : ℂ} (hs : 0 < s.re) :
     1 / s - 1 / (s + 1) = 1 / (s * (s + 1)) := by
   have hs0 : s ≠ 0 := by
