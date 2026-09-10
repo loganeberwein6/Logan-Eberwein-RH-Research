@@ -290,6 +290,8 @@ The follow-on theorem `sr36_signed_polynomial_zero_term_removed` now rewrites th
 
 The stronger finite support fact `sr36_small_divisor_coefficient` is now verified: every signed coefficient with `k < 4` vanishes, since supported factors are each at least `2`. The first arithmetic attempt gave `omega` a nonlinear product lower-bound goal; adding `have hprod : 2 * 2 ≤ p.1 * p.2 := Nat.mul_le_mul hmb.1 hnb.1` supplied the missing monotonicity and closed the proof.
 
+The theorem `sr36_signed_polynomial_range_four` now rewrites the finite Dirichlet polynomial with an explicit `4 ≤ k` cutoff. This removes every impossible small index from the kernel sum and provides a cleaner starting point for any future infinite-series comparison.
+
 The source now also contains `sr36_signed_polynomial_parameter_re_from_complex`, a dependency-clean proof of the real-part channel identity. It rewrites by the full complex equality and closes with `sr36_complex_product_re`, making explicit that the real theorem is a consequence of the stronger complex endpoint rather than a separate normalization argument.
 
 The formal placeholder layer now names the two remaining growth claims required by the objective: `SR_Q_critical_line_growth_conjecture` and `SR_Q_off_line_growth_conjecture`, each with a corresponding `..._certified` theorem. Their bodies are intentionally `True`, so these declarations certify only the existence of explicit conjecture interfaces; they do not prove the stated analytic growth laws. The existing divisor-reorganization, explicit-formula, and logarithmic-equidistribution wrappers remain similarly marked as conjectural interfaces.

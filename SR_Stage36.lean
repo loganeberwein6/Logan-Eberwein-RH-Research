@@ -394,6 +394,22 @@ theorem sr36_small_divisor_coefficient (X k : Nat) (hk : k < 4) :
   rw [hempty]
   simp
 
+theorem sr36_signed_polynomial_range_four (X : Nat) (s : ℂ) :
+    SR_signed_dirichlet_polynomial X s =
+      ∑ k ∈ Finset.range (X ^ 2),
+        if 4 ≤ k then
+          (SR_signed_divisor_coefficient X k : ℂ) *
+            Complex.exp (-s * (Real.log k : ℂ))
+        else 0 := by
+  unfold SR_signed_dirichlet_polynomial
+  apply Finset.sum_congr rfl
+  intro k hk
+  by_cases h : 4 ≤ k
+  · simp [h]
+  · have hsmall : k < 4 := by omega
+    rw [sr36_small_divisor_coefficient X k hsmall]
+    simp [h]
+
 theorem sr36_log_product_additive {X m n : Nat}
     (hm : m ∈ completeSupport X) (hn : n ∈ completeSupport X) :
     Real.log ((m * n : Nat) : ℝ) = Real.log m + Real.log n := by
