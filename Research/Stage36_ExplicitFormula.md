@@ -341,3 +341,15 @@ transform construction can therefore be based on finite sums of scaled
 interval indicators. The missing obligations are the scaling identity, the
 step-function encoding of the signed divisor coefficients, and the convergence
 and inversion argument connecting that construction to the SR channel.
+
+## Mellin inversion status update
+
+Stage 36 now exposes Mathlib's exact `mellinInv_mellin_eq` theorem through
+`sr36_mellin_inversion`. Its hypotheses are explicit: Mellin convergence,
+vertical integrability of the Mellin transform, and continuity at the recovery
+point. The sharp interval kernel has transform `1 / s`, whose vertical decay is
+only of order `1 / |Im(s)|`; therefore absolute vertical integrability cannot be
+claimed for that unsmoothed kernel. The correct next analytic route is to use a
+smoothed cutoff (or additional integration by parts) before invoking inversion.
+This is an identified analytic requirement, not a proof of the Perron or
+explicit-formula conjectures.
