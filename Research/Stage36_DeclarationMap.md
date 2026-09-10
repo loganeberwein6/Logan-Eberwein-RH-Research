@@ -46,6 +46,9 @@ analytic claims that remain conjectural.
   `14`.
 - `sr36_signed_coefficient_sum_matches_allOnes_X6`: this equals the Stage 35
   `allOnesEntrySum 6` invariant.
+- `sr36_signed_coefficient_sum_X35` and
+  `sr36_signed_coefficient_sum_matches_allOnes_X35`: the larger finite
+  benchmark equals `969` and the Stage 35 `allOnesEntrySum 35` invariant.
 - `sr36_channel_product_neutral_X6`: the neutral channel at `X = 6` is `14`.
 - `SR_gram_entry_X30_5_7`: checked Gram entry.
 
@@ -57,10 +60,13 @@ they are evidence only and do not prove an asymptotic or RH statement.
 
 ## Formal conjecture interfaces
 
-The following declarations are intentionally placeholders whose propositions
-currently reduce to `True`: explicit formula, logarithmic equidistribution,
-critical-line growth, off-line growth, and zeta-nonvanishing growth. Their
-certification theorems certify only the placeholder interfaces.
+The explicit-formula, logarithmic-equidistribution, critical-line-growth,
+off-line-growth, and zeta-nonvanishing-growth declarations are intentionally
+placeholders whose propositions currently reduce to `True`; their
+certification theorems certify only those placeholder interfaces. The
+divisor-reorganization interface is different: it is now a non-vacuous
+quantified statement and is certified by the proved finite theorem
+`SR_product_channel_divisor_form`.
 
 ## Open analytic obligations
 
