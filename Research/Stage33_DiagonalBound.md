@@ -9,6 +9,15 @@ The special case `beta = 1/2` is now formally proved in
 `reesEntry_neg_or_pos` lemma, an explicit nodup proof for the support, and
 the support cardinality `X - 2`; the resulting bound is `X - 2 ≤ X`.
 
+The general square-root cutoff formula is also now formally proved:
+
+```lean
+SR_sqrt_cutoff_count X = Nat.sqrt (X - 1) - 1
+```
+
+The proof uses an induction for filtered ranges, `(Nat.le_sqrt).symm`, and
+`Nat.sqrt_le_self`.
+
 ## Actual proof attempts
 
 The first cutoff attempt was:
