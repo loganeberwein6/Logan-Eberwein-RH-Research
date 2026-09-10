@@ -19,6 +19,12 @@ theorem sr36_powered_interval_hasMellin (a s : ℂ)
       (1 / (s + a)) :=
   hasMellin_cpow_Ioc a hs
 
+theorem sr36_hasMellin_add {f g : ℝ → ℂ} {s : ℂ}
+    (hf : HasMellin f s (mellin f s))
+    (hg : HasMellin g s (mellin g s)) :
+    HasMellin (fun t => f t + g t) s (mellin f s + mellin g s) := by
+  exact hasMellin_add hf.1 hg.1
+
 def SR_divisorMultiplicity (X k : Nat) : Nat :=
   ((completeSupport X).toFinset.product (completeSupport X).toFinset).filter
     (fun p => p.1 * p.2 = k) |>.card
