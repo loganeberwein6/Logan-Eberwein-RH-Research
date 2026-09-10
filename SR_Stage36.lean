@@ -90,6 +90,18 @@ theorem sr36_weighted_fiber_sum
   rw [Finset.mem_filter] at hi
   rw [hi.2]
 
+theorem sr36_filtered_sum_mul_right
+    {α M : Type} [CommSemiring M]
+    (s : Finset α) (p : α → Prop) [DecidablePred p]
+    (f : α → M) (a : M) :
+    (∑ x ∈ s with p x, f x * a) =
+      a * ∑ x ∈ s with p x, f x := by
+  simp only [Finset.sum_filter]
+  rw [Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro x hx
+  by_cases h : p x <;> simp [h, mul_comm]
+
 theorem sr36_rees_sign_by_product (X m n : Nat) :
     reesEntryFromNat X m n = if m * n < X then -1 else 1 := by
   rw [rees_decomposition]
