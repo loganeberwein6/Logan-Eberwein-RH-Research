@@ -703,6 +703,11 @@ theorem sr36_signed_coefficient_sum_eq_allOnes (X : Nat) :
   rw [sr36_completeSupport_int_sum_cast X]
   norm_cast
 
+theorem sr36_signed_coefficient_sum_X210_certified :
+    ∑ k ∈ Finset.range (210 ^ 2), (SR_signed_divisor_coefficient 210 k : ℝ) = 41798 := by
+  rw [sr36_signed_coefficient_sum_eq_allOnes, allOnesEntrySum_X210]
+  norm_num
+
 theorem sr36_divisorMultiplicity_X6_4 : SR_divisorMultiplicity 6 4 = 1 := by
   native_decide
 
