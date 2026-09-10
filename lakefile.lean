@@ -129,3 +129,6 @@ lean_lib SR_Stage34 where
 
 lean_lib SR_Stage35 where
   roots := #[`SR_Stage35]
+
+lean_lib SR_Stage36 where
+  roots := #[`SR_Stage36]
