@@ -22,3 +22,4 @@ scalar analytic mollifier with the required zero-density interpretation.
 
 The interior matrix `A_X` is not positive semidefinite for all cutoffs, so the
 proposed Weyl shortcut does not apply universally.
+The earlier planning note claiming `N_int(30)=60` is inconsistent with the current definition `2 ≤ m,n < X` and `m*n < X`; direct enumeration gives `N_int(30)=46`. Any asymptotic inference based on the value 60 is discarded.
