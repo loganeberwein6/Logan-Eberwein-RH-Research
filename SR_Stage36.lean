@@ -227,6 +227,15 @@ theorem sr36_product_pos {X m n : Nat}
     0 < m * n := by
   exact Nat.mul_pos (sr36_support_pos hm) (sr36_support_pos hn)
 
+theorem sr36_exp_phase_re (x : ℝ) :
+    (Complex.exp (((x : ℂ) * Complex.I))).re = Real.cos x := by
+  rw [Complex.exp_mul_I]
+  rw [Complex.add_re, Complex.mul_re]
+  simp only [Complex.I_re, Complex.I_im, Complex.sin_ofReal_re,
+    Complex.sin_ofReal_im, mul_zero, zero_mul, sub_self, sub_zero,
+    add_zero]
+  exact Complex.cos_ofReal_re x
+
 def SR_product_channel_divisor_reorganization_conjecture : Prop := True
 
 theorem SR_product_channel_divisor_reorganization_conjecture_certified :

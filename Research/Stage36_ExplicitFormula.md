@@ -134,3 +134,15 @@ X=100: max eig(G)=8857.7833, ||M||=94.1158, ratio ||M||/sqrt(n)=9.5071
 
 These finite samples are evidence of oscillation and frequency dependence,
 not proof of an explicit-formula asymptotic or RH connection.
+
+## Formal phase projection result
+
+The source now contains `sr36_exp_phase_re`: for every real `x`, the real
+part of `exp ((x : Complex) * I)` is `Real.cos x`. The proof expands
+`Complex.exp_mul_I`, projects the sum and product with `Complex.add_re` and
+`Complex.mul_re`, simplifies the real and imaginary projections of `I` and
+the real-cast sine, and closes with `Complex.cos_ofReal_re`. A direct
+`lake env lean SR_Stage36.lean` check reached only linter warnings; the
+ordinary Lake target could not replace its generated setup artifact because
+that artifact remained permission-locked. This verifies the theorem source
+but does not yet formalize the full complex divisor-sum explicit formula.
