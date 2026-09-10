@@ -29,6 +29,10 @@ formal conjectures are deliberately not mathematical proofs of those claims.
 
 ## Divisor-fiber proof boundary
 
+The attempted sign-normalized fiber theorem also showed that an outer `k`
+summand must be rewritten explicitly using the filtered-fiber equality
+`p.1 * p.2 = k`; Lean will not perform that dependent rewrite automatically.
+
 The initial `sum_mul`/`mul_sum` route failed syntactically. The successful
 route explicitly formed the Cartesian product and applied
 `sum_fiberwise_of_maps_to`; support bounds proved every product lies in
