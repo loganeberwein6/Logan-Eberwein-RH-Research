@@ -40,6 +40,30 @@ theorem SR_product_fibre_sum_eq_double_sum (X : Nat) (beta gamma : ℝ) :
     omega
   simp [Finset.sum_ite_eq', hmn]
 
+/-! The weighted divisor summatory function.  The cutoff is inclusive, so
+    `T = X - 1` corresponds exactly to the Rees interior condition `m*n < X`.
+    This is an exact finite definition, with no imported analytic input. -/
+noncomputable def SR_A_weighted (X : Nat) (beta gamma : ℝ) (T : Nat) : ℝ :=
+  ∑ k ∈ Finset.range (T + 1), SR_product_fibre_weight X beta gamma k
+
+theorem SR_A_weighted_cutoff_eq_interior (X : Nat) (beta gamma : ℝ) :
+    SR_A_weighted X beta gamma (X - 1) =
+      ∑ m ∈ (completeSupport X).toFinset,
+        ∑ n ∈ (completeSupport X).toFinset,
+          if m * n < X then SR_weil_term X beta gamma m n else 0 := by
+  unfold SR_A_weighted SR_product_fibre_weight
+  classical
+  rw [Finset.sum_comm]
+  apply Finset.sum_congr rfl
+  intro m hm
+  rw [Finset.sum_comm]
+  apply Finset.sum_congr rfl
+  intro n hn
+  by_cases h : m * n < X
+  · have hbound : m * n < X - 1 + 1 := by omega
+    simp [Finset.sum_ite_eq', hbound, h]
+  · simp [h]
+
 noncomputable def SR_weil_form_real (X : Nat) (beta gamma : ℝ) : ℝ :=
   ∑ m ∈ (completeSupport X).toFinset,
     ∑ n ∈ (completeSupport X).toFinset,
