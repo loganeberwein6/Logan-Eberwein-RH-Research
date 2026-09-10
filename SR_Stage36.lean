@@ -68,6 +68,11 @@ theorem sr36_hasSum_mellin_dirichlet {ι : Type} [Countable ι]
       (mellin F s) :=
   hasSum_mellin hp hs hF h_sum
 
+theorem sr36_hasSum_of_finset_support {ι : Type}
+    (u : Finset ι) (f : ι → ℂ) (hzero : ∀ i ∉ u, f i = 0) :
+    HasSum f (∑ i ∈ u, f i) := by
+  simpa using hasSum_sum_of_ne_finset_zero hzero
+
 theorem sr36_zero_hasMellin (s : ℂ) :
     HasMellin (fun _ : ℝ => (0 : ℂ)) s 0 := by
   constructor
