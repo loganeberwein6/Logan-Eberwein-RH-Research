@@ -389,6 +389,20 @@ theorem sr36_product_kernel_matches_pair_phase {X m n : Nat}
   rw [sr36_product_rpow_exponential hm hn beta]
   rw [sr36_log_product_additive hm hn]
 
+theorem sr36_parameter_kernel_matches_pair_phase {X m n : Nat}
+    (hm : m ∈ completeSupport X) (hn : n ∈ completeSupport X)
+    (beta gamma : ℝ) :
+    Complex.exp (-SR_complex_parameter beta gamma *
+        (Real.log ((m * n : Nat) : ℝ) : ℂ)) =
+      Complex.ofReal (((m * n : Nat) : ℝ) ^ (beta - 1 / 2)) *
+        Complex.exp (((gamma * (Real.log m + Real.log n) : ℝ) : ℂ) * Complex.I) := by
+  rw [sr36_parameter_product_kernel_split hm hn]
+  rw [sr36_product_rpow_exponential hm hn beta]
+  rw [sr36_log_product_additive hm hn]
+  congr 1
+  push_cast
+  ring
+
 theorem sr36_exp_phase_re (x : ℝ) :
     (Complex.exp (((x : ℂ) * Complex.I))).re = Real.cos x := by
   rw [Complex.exp_mul_I]
