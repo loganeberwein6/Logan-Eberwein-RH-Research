@@ -89,6 +89,13 @@ proof for `k`. The positivity is available from the support witnesses and
 the equality `m*n=k`, but was not completed in this cycle. The experiment was
 removed, and the source was rebuilt successfully afterward (3336 jobs).
 
+An isolated scalar lemma then reduced the remaining issue further: after
+`Complex.mul_re` and `Complex.exp_mul_I`, the target is the real and imaginary
+projection of `Complex.cos` and `Complex.sin` on a real argument. The attempted
+`rw [← Complex.ofReal_cos, ← Complex.ofReal_sin]` sequence did not match the
+elaborated coercions, leaving the same projection goal. That experiment was
+also removed; no placeholder was introduced.
+
 The verification command initially failed with `couldn't find value of
 ELAN_HOME`; setting `ELAN_HOME=C:\\Users\\ljoe6\\.elan` allowed the complete
 `SR_Stage35 SR_Stage36` build to succeed (3337 jobs). Existing unrelated
