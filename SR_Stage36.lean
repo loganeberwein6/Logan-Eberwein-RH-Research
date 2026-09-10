@@ -67,7 +67,6 @@ noncomputable def SR_product_channel_fiber_sum
         ((p.1 : ℝ) * p.2) ^ (beta - 1 / 2) *
         Real.cos (gamma * (Real.log p.1 + Real.log p.2))
 
-/-
 theorem SR_product_channel_divisor_as_product_sum
     (X : Nat) (hX : 6 ≤ X) (beta gamma : ℝ) :
     SR_product_channel_as_divisor_sum X beta gamma =
@@ -100,17 +99,72 @@ theorem SR_product_channel_divisor_as_product_sum
           with p.1 * p.2 = k,
           ((p.1 : ℝ) * p.2) ^ (beta - 1 / 2) *
             Real.cos (gamma * Real.log ((p.1 : ℝ) * p.2)) := by
-    simpa using sr36_nested_eq_filtered_product
-      (completeSupport X).toFinset (completeSupport X).toFinset
-      (fun p : Nat × Nat => p.1 * p.2) k
-      ((k : ℝ) ^ (beta - 1 / 2) * Real.cos (gamma * Real.log k))
+    calc
+      _ = ∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset
+          with p.1 * p.2 = k,
+          (k : ℝ) ^ (beta - 1 / 2) * Real.cos (gamma * Real.log k) := by
+        simpa using sr36_nested_eq_filtered_product
+          (completeSupport X).toFinset (completeSupport X).toFinset
+          (fun p : Nat × Nat => p.1 * p.2) k
+          ((k : ℝ) ^ (beta - 1 / 2) * Real.cos (gamma * Real.log k))
+      _ = ∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset
+          with p.1 * p.2 = k,
+          ((p.1 : ℝ) * p.2) ^ (beta - 1 / 2) *
+            Real.cos (gamma * Real.log ((p.1 : ℝ) * p.2)) := by
+        apply Finset.sum_congr rfl
+        intro p hp
+        have heq := (Finset.mem_filter.mp hp).2
+        rw [← heq]
+        rw [Nat.cast_mul]
   simp_rw [hinner]
-  exact sr36_weighted_fiber_sum hmap
+  simpa [mul_assoc] using (sr36_weighted_fiber_sum hmap
     (fun k : Nat => (if k < X then (-1 : ℝ) else 1))
     (fun p : Nat × Nat =>
       ((p.1 : ℝ) * p.2) ^ (beta - 1 / 2) *
-        Real.cos (gamma * Real.log ((p.1 : ℝ) * p.2)))
- -/
+        Real.cos (gamma * Real.log ((p.1 : ℝ) * p.2))))
+
+theorem SR_product_channel_divisor_form
+    (X : Nat) (hX : 6 ≤ X) (beta gamma : ℝ) :
+    SR_channel_product X beta gamma =
+      SR_product_channel_as_divisor_sum X beta gamma := by
+  rw [SR_product_channel_divisor_as_product_sum X hX beta gamma]
+  unfold SR_channel_product
+  have hprod :
+      (∑ m ∈ (completeSupport X).toFinset,
+        ∑ n ∈ (completeSupport X).toFinset,
+          (reesEntryFromNat X m n : ℝ) *
+            ((m : ℝ) * n) ^ (beta - 1 / 2) *
+            Real.cos (gamma * (Real.log m + Real.log n))) =
+        ∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset,
+          (reesEntryFromNat X p.1 p.2 : ℝ) *
+            ((p.1 : ℝ) * p.2) ^ (beta - 1 / 2) *
+            Real.cos (gamma * (Real.log p.1 + Real.log p.2)) := by
+    simpa using (Finset.sum_product (completeSupport X).toFinset
+      (completeSupport X).toFinset (fun p : Nat × Nat =>
+        (reesEntryFromNat X p.1 p.2 : ℝ) *
+          ((p.1 : ℝ) * p.2) ^ (beta - 1 / 2) *
+          Real.cos (gamma * (Real.log p.1 + Real.log p.2)))).symm
+  rw [hprod]
+  apply Finset.sum_congr rfl
+  intro p hp
+  have hpm : p.1 ∈ completeSupport X := by
+    simpa using (Finset.mem_product.mp hp).1
+  have hpn : p.2 ∈ completeSupport X := by
+    simpa using (Finset.mem_product.mp hp).2
+  have hmb := completeSupport_mem_bounds (by simpa using hpm)
+  have hnb := completeSupport_mem_bounds (by simpa using hpn)
+  rw [sr36_rees_sign_by_product]
+  split_ifs with h
+  · norm_num
+    have hp1 : (p.1 : ℝ) ≠ 0 := by exact_mod_cast (show p.1 ≠ 0 by omega)
+    have hp2 : (p.2 : ℝ) ≠ 0 := by exact_mod_cast (show p.2 ≠ 0 by omega)
+    rw [Real.log_mul hp1 hp2]
+    exact Or.inl rfl
+  · norm_num
+    have hp1 : (p.1 : ℝ) ≠ 0 := by exact_mod_cast (show p.1 ≠ 0 by omega)
+    have hp2 : (p.2 : ℝ) ≠ 0 := by exact_mod_cast (show p.2 ≠ 0 by omega)
+    rw [Real.log_mul hp1 hp2]
+    exact Or.inl rfl
 
 theorem SR_product_channel_fiber_identity
     (X : Nat) (hX : 6 ≤ X) (beta gamma : ℝ) :

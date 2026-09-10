@@ -29,6 +29,11 @@ formal conjectures are deliberately not mathematical proofs of those claims.
 
 ## Divisor-fiber proof boundary
 
+The exact theorem `SR_product_channel_divisor_form` is now proved. It combines
+the conditional-to-filtered-product lemma, the weighted-fiber lemma, the exact
+Rees sign identity, explicit natural-to-real cast normalization, and
+`Real.log_mul`.
+
 The attempted sign-normalized fiber theorem also showed that an outer `k`
 summand must be rewritten explicitly using the filtered-fiber equality
 `p.1 * p.2 = k`; Lean will not perform that dependent rewrite automatically.
