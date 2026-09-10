@@ -202,6 +202,15 @@ sum with the original nested complex product-channel sum. The remaining
 gap is analytic rather than finite algebraic: no ζ Dirichlet-series or
 Perron identity has yet been proved.
 
+## Analytic-library capability audit
+
+A local search of the available Mathlib sources found special Riemann-zeta
+value lemmas and unrelated incidence-algebra/Dedekind-zeta definitions, but
+no ready-to-use classical complex Riemann-zeta API, Perron inversion theorem,
+or zero-explicit-formula theorem for this construction. Consequently the
+finite complex endpoint is formally verified, while the analytic bridge must
+be developed as new analysis rather than imported from the current library.
+
 The endpoint theorem `sr36_complex_divisor_re` is now verified. It composes
 the fiber regrouping, sign normalization, and complex real-part theorem to
 show directly that the real part of the complex divisor-fiber object equals
