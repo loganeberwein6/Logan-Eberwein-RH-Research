@@ -312,10 +312,11 @@ theorem transition_formula_verified :
   simp [transitionPoints] at h
   rcases h with h | h | h | h | h | h | h | h <;> simp_all
 
-theorem SR20_CONJ_SIGNATURE_BOUND : True := by
-  trivial
+theorem SR20_CONJ_SIGNATURE_BOUND :
+    ∀ s ∈ knownSigs, hasBoundedSignature s := by
+  exact all_known_bounded
 
-theorem SR20_DENSITY_SCAFFOLD : True := by
+theorem SR20_DENSITY_OPEN : True := by
   trivial
 
 theorem SR20_SYNTHESIS :
@@ -329,10 +330,11 @@ theorem SR20_SYNTHESIS :
         1 - 2 * (if m * n < X then (1 : Int) else 0)) ∧
     (∀ (n k : Nat), (n, k) ∈ transitionPoints →
       k = n ^ 2 + 3 * n - 1) ∧
-    True ∧ True := by
+    (∀ s ∈ knownSigs, hasBoundedSignature s) ∧
+    knownSigs.length = 195 := by
   exact ⟨all_known_bounded, knownSigs_length, boundary_eigenvalues_sqrt2,
     rees_decomposition, transition_formula_verified,
-    SR20_CONJ_SIGNATURE_BOUND, SR20_DENSITY_SCAFFOLD⟩
+    SR20_CONJ_SIGNATURE_BOUND, knownSigs_length⟩
 
 /-! ## Stage 21 -/
 
@@ -814,8 +816,9 @@ theorem SR21_PRIMORIAL_X210_BALANCED :
     signatureProbeX210.pos = signatureProbeX210.neg := by
   native_decide
 
-theorem SR21_SIGNATURE_BOUND_OPEN : True := by
-  trivial
+theorem SR21_SIGNATURE_BOUND_OPEN :
+    ∀ s ∈ knownSigs, s.pos ≤ s.neg + 1 := by
+  exact SR21_UPPER_BOUND_CERTIFIED_X6_TO_200
 
 theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
     (sigX8.X = 8 ∧ sigX8.pos = 2 ∧ sigX8.neg = 1 ∧
@@ -828,7 +831,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
     positiveBiasSearchX6To1000.violations = 0 ∧
     positiveBiasSearchX6To5000.violations = 0 ∧
     (∀ X : Nat, 6 ≤ X → 0 < allOnesEntrySum X) ∧
-    True := by
+    (∀ s ∈ knownSigs, s.pos ≤ s.neg + 1) := by
   exact ⟨SR21_PARITY_CONJECTURE_FALSE_FOR_RECORDED_X8,
     SR21_NONNEGATIVE_DOMINANCE_CERTIFIED_X6_TO_200,
     SR21_UPPER_BOUND_CERTIFIED_X6_TO_200,
@@ -860,7 +863,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check transition_formula
 #check transition_formula_verified
 #check SR20_CONJ_SIGNATURE_BOUND
-#check SR20_DENSITY_SCAFFOLD
+#check SR20_DENSITY_OPEN
 #check SR20_SYNTHESIS
 #check sigIndex
 #check supportParityIndex
