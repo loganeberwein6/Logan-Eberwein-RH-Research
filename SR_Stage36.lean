@@ -166,6 +166,22 @@ theorem sr36_signed_step_hasMellin (X : Nat) {s : ℂ} (hs : 0 < s.re) :
   rw [hvals] at hsum
   simpa [f, smul_assoc] using hsum
 
+theorem sr36_signed_step_hasMellin_scalar_form (X : Nat) {s : ℂ} (hs : 0 < s.re) :
+    HasMellin
+      (fun t : ℝ => ∑ k ∈ Finset.Icc 1 (X ^ 2),
+        (SR_signed_divisor_coefficient X k : ℂ) •
+          Set.indicator (Set.Ioc 0 1) (fun _ : ℝ => 1 : ℝ → ℂ)
+            ((1 / k : ℝ) * t)) s
+      (∑ k ∈ Finset.Icc 1 (X ^ 2),
+        (SR_signed_divisor_coefficient X k : ℂ) *
+          ((1 / k : ℂ) ^ (-s) * (1 / s))) := by
+  have h := sr36_signed_step_hasMellin X hs
+  refine ⟨h.1, ?_⟩
+  rw [h.2]
+  apply Finset.sum_congr rfl
+  intro k hk
+  simp only [smul_eq_mul]
+
 theorem sr36_completeSupport_nodup (X : Nat) :
     (completeSupport X).Nodup := by
   unfold completeSupport
