@@ -241,3 +241,5 @@ the remaining gap begins at the analytic Dirichlet-series identification.
 The proof is fully checked by Lean using `unfold SR_complex_parameter`, `push_cast`, and `ring`. This is an algebraic parameterization identity only; it does not prove convergence, a Perron formula, an explicit formula, zero detection, or the RH equivalence.
 
 The source also now proves `sr36_log_product_additive`: on the positive finite support, `Real.log ((m*n : Nat) : ℝ) = Real.log m + Real.log n`. The failed first proof used `Real.log_mul (by positivity) (by positivity)`; Lean could not infer nonzeroness. The repaired proof explicitly derives cast positivity with `exact_mod_cast sr36_support_pos` and supplies `hmpos.ne'` and `hnpos.ne'`.
+
+Using that parameter theorem, `sr36_parameter_product_log_exponent` now exposes the exact complex exponent at a divisor product. This is a finite kernel identity; the support hypotheses are retained as interface context, while the algebra itself is inherited from the general parameter theorem. It still makes no analytic claim.

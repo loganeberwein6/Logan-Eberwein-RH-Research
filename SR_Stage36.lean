@@ -253,6 +253,15 @@ theorem sr36_log_product_additive {X m n : Nat}
   have hnpos : 0 < (n : ℝ) := by exact_mod_cast sr36_support_pos hn
   rw [Nat.cast_mul, Real.log_mul hmpos.ne' hnpos.ne']
 
+theorem sr36_parameter_product_log_exponent {X m n : Nat}
+    (hm : m ∈ completeSupport X) (hn : n ∈ completeSupport X)
+    (beta gamma : ℝ) :
+    -SR_complex_parameter beta gamma *
+        (Real.log ((m * n : Nat) : ℝ) : ℂ) =
+      ((beta - 1 / 2) * Real.log ((m * n : Nat) : ℝ) : ℂ) +
+        ((gamma * Real.log ((m * n : Nat) : ℝ) : ℝ) : ℂ) * Complex.I := by
+  exact sr36_parameter_exponent beta gamma (Real.log ((m * n : Nat) : ℝ))
+
 theorem sr36_exp_phase_re (x : ℝ) :
     (Complex.exp (((x : ℂ) * Complex.I))).re = Real.cos x := by
   rw [Complex.exp_mul_I]
