@@ -1,6 +1,7 @@
 import SR_Stage35
 import Mathlib.Analysis.Complex.CauchyIntegral
 import Mathlib.Analysis.MellinTransform
+import Mathlib.NumberTheory.LSeries.MellinEqDirichlet
 
 namespace SR
 
@@ -56,6 +57,16 @@ theorem sr36_hasMellin_add {f g : ℝ → ℂ} {s : ℂ}
     (hg : HasMellin g s (mellin g s)) :
     HasMellin (fun t => f t + g t) s (mellin f s + mellin g s) := by
   exact hasMellin_add hf.1 hg.1
+
+theorem sr36_hasSum_mellin_dirichlet {ι : Type} [Countable ι]
+    {a : ι → ℂ} {p : ι → ℝ} {F : ℝ → ℂ} {s : ℂ}
+    (hp : ∀ i, a i = 0 ∨ 0 < p i) (hs : 0 < s.re)
+    (hF : ∀ t ∈ Set.Ioi 0,
+      HasSum (fun i => a i * Real.exp (-p i * t)) (F t))
+    (h_sum : Summable (fun i => ‖a i‖ / (p i) ^ s.re)) :
+    HasSum (fun i => Complex.Gamma s * a i / (p i) ^ s)
+      (mellin F s) :=
+  hasSum_mellin hp hs hF h_sum
 
 theorem sr36_zero_hasMellin (s : ℂ) :
     HasMellin (fun _ : ℝ => (0 : ℂ)) s 0 := by
