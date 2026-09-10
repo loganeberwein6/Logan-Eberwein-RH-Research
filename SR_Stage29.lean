@@ -9,7 +9,36 @@ theorem SR_finite_abel_identity {R M : Type*} [Ring R] [AddCommGroup M]
       f (n - 1) • ∑ i ∈ Finset.range n, g i -
         ∑ i ∈ Finset.range (n - 1),
           (f (i + 1) - f i) • ∑ j ∈ Finset.range (i + 1), g j := by
-  exact Finset.sum_range_by_parts f g n
+      exact Finset.sum_range_by_parts f g n
+
+/-! A finite product-fibre presentation of the interior divisor sum.  This
+    is deliberately defined without any analytic estimate: it is the exact
+    combinatorial object to which Abel summation can later be applied. -/
+noncomputable def SR_product_fibre_weight (X : Nat) (beta gamma : ℝ) (k : Nat) : ℝ :=
+  ∑ m ∈ (completeSupport X).toFinset,
+    ∑ n ∈ (completeSupport X).toFinset,
+      if m * n = k then SR_weil_term X beta gamma m n else 0
+
+noncomputable def SR_product_fibre_sum (X : Nat) (beta gamma : ℝ) : ℝ :=
+  ∑ k ∈ Finset.range (X * X + 1), SR_product_fibre_weight X beta gamma k
+
+theorem SR_product_fibre_sum_eq_double_sum (X : Nat) (beta gamma : ℝ) :
+    SR_product_fibre_sum X beta gamma =
+      ∑ m ∈ (completeSupport X).toFinset,
+        ∑ n ∈ (completeSupport X).toFinset, SR_weil_term X beta gamma m n := by
+  unfold SR_product_fibre_sum SR_product_fibre_weight
+  classical
+  rw [Finset.sum_comm]
+  apply Finset.sum_congr rfl
+  intro m hm
+  rw [Finset.sum_comm]
+  apply Finset.sum_congr rfl
+  intro n hn
+  have hmn : m * n < X * X + 1 := by
+    have hmX : m < X := by simpa [completeSupport] using hm
+    have hnX : n < X := by simpa [completeSupport] using hn
+    omega
+  simp [Finset.sum_ite_eq', hmn]
 
 noncomputable def SR_weil_form_real (X : Nat) (beta gamma : ℝ) : ℝ :=
   ∑ m ∈ (completeSupport X).toFinset,
