@@ -926,8 +926,10 @@ theorem X6_not_fixed_against_X30_archived_late_copy :
   unfold SR_flow_fixed_point_proxy_archived_late_copy at h
   simp [M_Rees_signature_X6, M_Rees_signature_X30, signatureIndexDenominator] at h
 
-theorem SR16_FIXED_POINT_OPEN : True := by
-  trivial
+theorem SR16_FIXED_POINT_OPEN :
+    ¬ SR_flow_fixed_point_proxy M_Rees_signature_X52 M_Rees_signature_X6 ∧
+    ¬ SR_flow_fixed_point_proxy M_Rees_signature_X6 M_Rees_signature_X30 := by
+  exact ⟨X52_not_fixed_against_X6, X6_not_fixed_against_X30⟩
 
 structure SRdBNBridgeScaffold where
   interiorProductsAsNearTerms : Prop
@@ -999,8 +1001,8 @@ theorem stage16_synthesis :
     (True ∧ True ∧ 0 < M_Rees_signature_X6.neg) ∧
     ¬ SR_flow_fixed_point_proxy M_Rees_signature_X52 M_Rees_signature_X6 ∧
     ¬ SR_flow_fixed_point_proxy M_Rees_signature_X6 M_Rees_signature_X30 ∧
-    True ∧
-    True := by
+    (¬ SR_flow_fixed_point_proxy M_Rees_signature_X52 M_Rees_signature_X6 ∧
+      ¬ SR_flow_fixed_point_proxy M_Rees_signature_X6 M_Rees_signature_X30) := by
   exact ⟨interiorProductCount_X52, interiorProductCount_X6,
     interiorProductCount_X30, M_Rees_signature_X52_val, M_Rees_signature_X6_val,
     M_Rees_signature_X30_val, q_monotone_hypothesis,
@@ -1012,7 +1014,7 @@ theorem stage16_synthesis :
     X30_reducedInertiaCertificate, dot30_eq_classMass_formula,
     SR16_SIGN_FROM_FLOW,
     X52_not_fixed_against_X6, X6_not_fixed_against_X30,
-    SR_dBN_conjecture_statement, SR16_FIXED_POINT_OPEN⟩
+    ⟨X52_not_fixed_against_X6, X6_not_fixed_against_X30⟩⟩
 
 theorem stage16_synthesis_enriched :
     Stage16FinitePackageComplete ∧
@@ -1020,14 +1022,13 @@ theorem stage16_synthesis_enriched :
     SRdBN_conjectural_bridge.signFlipAsHeatLocalization ∧
     SRdBN_conjectural_bridge.signatureTracksZeroCount ∧
     SRdBN_conjectural_bridge.limitArgumentStillOpen ∧
-    True ∧
-    True := by
+    (¬ SR_flow_fixed_point_proxy M_Rees_signature_X52 M_Rees_signature_X6 ∧
+      ¬ SR_flow_fixed_point_proxy M_Rees_signature_X6 M_Rees_signature_X30) := by
   exact ⟨stage16_finite_package_complete,
     SRdBN_conjectural_bridge_records_near_terms,
     SRdBN_conjectural_bridge_records_heat_localization,
     SRdBN_conjectural_bridge_records_zero_tracking_claim,
     SRdBN_conjectural_bridge_limit_open,
-    SR_dBN_conjecture_statement,
     SR16_FIXED_POINT_OPEN⟩
 
 #check SignatureSummary
