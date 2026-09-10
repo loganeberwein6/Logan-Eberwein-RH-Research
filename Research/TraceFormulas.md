@@ -135,3 +135,16 @@ These are numerical slopes, not asymptotic theorems.
 The diagonal cutoff is `m*m < X`. The unweighted sign sum is
 `D(X) = (X-2) - 2*(floor(sqrt(X-1))-1)`; values are D(6)=2, D(30)=20,
 D(100)=82, D(210)=182, and D(1000)=938. This differs from `reesTrace`.
+## Q oscillation and explicit-formula audit (Stage 36)
+
+For `beta=0.8, gamma=21.022`, direct evaluation gives:
+
+`X=30: Q=-19.4700`, `X=100: Q=29.8622`, `X=210: Q=1227.8586`,
+`X=500: Q=22676.6135`, `X=1000: Q=63591.7390`.
+
+The normalized values and explicit-formula prediction ratios do not stabilize.
+This supports oscillation but does not prove a zeta explicit-formula identity.
+
+Gram operator norms for `X=10,30,100` are approximately `6.9892, 25.8350,
+94.1158`; the ratios to `sqrt(X-2)` are `2.4710, 4.8824, 9.5071`.
+The proposed `sqrt(X)` operator-scale heuristic is therefore numerically false.

@@ -80,3 +80,21 @@ formally proved in `SR_Stage31.lean`.
 The diagonal uses the square-root cutoff `m*m < X`, not the half-wall cutoff
 used by `reesTrace`. Its unweighted sign sum is
 `(X-2) - 2*(floor(sqrt(X-1))-1)` for the tested support.
+
+## Stage 35 off-diagonal reformulation
+
+The ratio channel has a genuine Gram-type off-diagonal term. The proved
+trivial estimate is bounded by the square of the absolute weight sum, but
+this does not establish cancellation. At `X=210`, numerical values are
+`Q_total=1227.8586`, `Q_diag=3145.2677`, and `Q_offdiag=-1917.4090`.
+Euler–Maclaurin control, product-channel control, equidistribution, Weil
+identities, and RH implications remain conjectural and unproved.
+
+## Explicit Formula Connection (Stage 36)
+
+The exact numerical test does not validate a universal pointwise formula of
+the form `Q_X = C Re(X^(rho+1)/(rho+1))`: ratios vary strongly with `X`.
+The structural mechanism remains plausible through the product channel and
+its divisor-fiber reorganization, but the equality to a zeta explicit formula
+is not proved. Claims that critical-line frequencies force `X^(3/2)` growth,
+or that off-line frequencies force `X^(beta+1)` growth, are conjectures only.

@@ -24,3 +24,12 @@ For `X=10,30,100`, the largest Gram eigenvalue of `M^T M` is approximately
 The finite divisor-fiber identity, Perron/explicit-formula bridge, Weyl-type
 logarithmic equidistribution, and RH equivalence remain unproved. The current
 formal conjectures are deliberately not mathematical proofs of those claims.
+
+## Divisor-fiber proof boundary
+
+The attempted Lean sequence unfolded both sums and tried
+`Finset.sum_mul`/`Finset.mul_sum`. The remaining obligations are concrete:
+show every support product lies in `Finset.range (X^2)`, collapse the equality
+fiber with `Finset.sum_ite_eq'`, rewrite the Rees sign as the `k < X` sign, and
+prove the real-power and logarithm product identities. A temporary `sorry`
+was removed; no theorem is claimed for this unfinished equality.
