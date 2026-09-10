@@ -177,3 +177,8 @@ the exact maps-to-range bound for supported products and applies
 weight. This resolves the orientation issue by matching the theorem's
 left-hand side exactly. Equality with the complex pair-sum still requires a
 separate product-binder normalization step.
+
+The fiber theorem itself is verified by `lake env lean` with exit code 0.
+Its proof uses the supported-product range bound and the existing weighted
+fiber identity; the parameter `hX` is retained for consistency with the
+Stage 36 interfaces but is not needed by this purely finite regrouping.
