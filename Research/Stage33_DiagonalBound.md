@@ -38,6 +38,15 @@ The support-level version is also proved for `s > 0`:
 It follows by treating the support as a subset of `Finset.range X` and
 applying the positive power-sum theorem.
 
+The complete diagonal theorem is now proved for the branch `1/2 < beta`:
+
+```lean
+SR_ratio_diagonal_bound_pos
+```
+
+The proof reduces the signed diagonal to the support power sum and then uses
+the integral estimate with `s = 2 * beta - 1`.
+
 ## Actual proof attempts
 
 The first cutoff attempt was:

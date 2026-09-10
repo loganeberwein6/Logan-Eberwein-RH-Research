@@ -91,6 +91,30 @@ theorem sr33_support_rpow_bound_pos (X : Nat) (hX : 6 ≤ X) (s : ℝ) (hs : 0 <
       positivity
   exact hle.trans (sr33_sum_rpow_bound_pos X s hs)
 
+theorem SR_ratio_diagonal_bound_pos
+    (X : Nat) (hX : 6 ≤ X) (beta : ℝ) (hbeta : 1 / 2 < beta) :
+    |∑ m ∈ (completeSupport X).toFinset,
+      (reesEntryFromNat X m m : ℝ) * ((m : ℝ) ^ (2 * beta - 1))| ≤
+      (X : ℝ) ^ (2 * beta) / (2 * beta) := by
+  have hs : 0 < 2 * beta - 1 := by linarith
+  calc
+    |∑ m ∈ (completeSupport X).toFinset,
+        (reesEntryFromNat X m m : ℝ) * ((m : ℝ) ^ (2 * beta - 1))| ≤
+        ∑ m ∈ (completeSupport X).toFinset,
+          |(reesEntryFromNat X m m : ℝ) * ((m : ℝ) ^ (2 * beta - 1))| :=
+      Finset.abs_sum_le_sum_abs _ _
+    _ = ∑ m ∈ (completeSupport X).toFinset,
+        ((m : ℝ) ^ (2 * beta - 1)) := by
+      apply Finset.sum_congr rfl
+      intro m hm
+      have hre : |(reesEntryFromNat X m m : ℝ)| = 1 := by
+        rcases reesEntry_neg_or_pos X m m with h | h <;> simp [h]
+      rw [abs_mul, hre, one_mul,
+        abs_of_nonneg (Real.rpow_nonneg (by positivity) _)]
+    _ ≤ (X : ℝ) ^ ((2 * beta - 1) + 1) / ((2 * beta - 1) + 1) :=
+      sr33_support_rpow_bound_pos X hX (2 * beta - 1) hs
+    _ = (X : ℝ) ^ (2 * beta) / (2 * beta) := by ring_nf
+
 /-
 Stage 33 proof log.
 
@@ -141,6 +165,15 @@ The theorem `sr33_support_rpow_bound_pos` now compiles. An earlier shifted
 range comparison failed because its summand was indexed by `k + 2`, so it was
 not the same function on the ambient range; the direct support subset fixes
 that mismatch.
+
+Successful positive-beta assembly:
+  set `s = 2 * beta - 1` and prove `0 < s` by `linarith`;
+  apply `Finset.abs_sum_le_sum_abs`;
+  rewrite each term with `abs_mul`, the exact entry absolute value, and
+  `Real.rpow_nonneg`;
+  apply `sr33_support_rpow_bound_pos`;
+  close the exponent identity with `ring_nf`.
+The theorem `SR_ratio_diagonal_bound_pos` now compiles.
 
 Attempt 2 (power-sum induction): the proposed successor step would require
   n^(s+1)/(s+1) + (n+1)^s <= (n+1)^(s+1)/(s+1).
