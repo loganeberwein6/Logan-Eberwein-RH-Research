@@ -41,6 +41,12 @@ noncomputable def SR_signed_dirichlet_polynomial_deriv (X : Nat) (s : ℂ) : ℂ
     (SR_signed_divisor_coefficient X k : ℂ) *
       (-(Real.log k : ℂ) * Complex.exp (-s * (Real.log k : ℂ)))
 
+noncomputable def SR_signed_dirichlet_polynomial_second_deriv (X : Nat) (s : ℂ) : ℂ :=
+  ∑ k ∈ Finset.range (X ^ 2),
+    (SR_signed_divisor_coefficient X k : ℂ) *
+      ((Real.log k : ℂ) * (Real.log k : ℂ) *
+        Complex.exp (-s * (Real.log k : ℂ)))
+
 theorem sr36_signed_dirichlet_polynomial_hasDerivAt (X : Nat) (s : ℂ) :
     HasDerivAt (SR_signed_dirichlet_polynomial X)
       (SR_signed_dirichlet_polynomial_deriv X s) s := by
@@ -61,6 +67,24 @@ theorem sr36_signed_dirichlet_polynomial_deriv_eq_deriv (X : Nat) (s : ℂ) :
     deriv (SR_signed_dirichlet_polynomial X) s =
       SR_signed_dirichlet_polynomial_deriv X s :=
   (sr36_signed_dirichlet_polynomial_hasDerivAt X s).deriv
+
+theorem sr36_signed_dirichlet_polynomial_hasSecondDerivAt (X : Nat) (s : ℂ) :
+    HasDerivAt (SR_signed_dirichlet_polynomial_deriv X)
+      (SR_signed_dirichlet_polynomial_second_deriv X s) s := by
+  unfold SR_signed_dirichlet_polynomial_deriv
+    SR_signed_dirichlet_polynomial_second_deriv
+  apply HasDerivAt.fun_sum
+  intro k hk
+  let c : ℂ := (Real.log k : ℂ)
+  let a : ℂ := (SR_signed_divisor_coefficient X k : ℂ)
+  have hlin : HasDerivAt (fun y : ℂ => -y * c) (-c) s := by
+    simpa using (hasDerivAt_id s).neg.mul_const c
+  have hexp : HasDerivAt (fun y : ℂ => Complex.exp (-y * c))
+      (Complex.exp (-s * c) * (-c)) s := by
+    simpa using (Complex.hasDerivAt_exp (-s * c)).comp s hlin
+  have hinner := hexp.const_mul (-c)
+  have hterm := hinner.const_mul a
+  convert hterm using 1 <;> dsimp [a, c] <;> ring
 
 theorem sr36_signed_dirichlet_polynomial_deriv_differentiable (X : Nat) :
     Differentiable ℂ (SR_signed_dirichlet_polynomial_deriv X) := by
