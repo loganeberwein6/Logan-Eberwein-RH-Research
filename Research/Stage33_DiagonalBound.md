@@ -4,6 +4,11 @@
 
 The requested Lean theorem is open. No false proof was promoted.
 
+The special case `beta = 1/2` is now formally proved in
+`SR_Stage33.lean`. It uses the triangle inequality, the existing
+`reesEntry_neg_or_pos` lemma, an explicit nodup proof for the support, and
+the support cardinality `X - 2`; the resulting bound is `X - 2 ≤ X`.
+
 ## Actual proof attempts
 
 The first cutoff attempt was:
