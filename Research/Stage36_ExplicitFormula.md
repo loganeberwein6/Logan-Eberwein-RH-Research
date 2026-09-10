@@ -333,3 +333,11 @@ inversion theorem or theorem identifying the present signed divisor sum with a
 Mellin transform was found. Consequently, Mellin methods are a viable formal
 route, but they still require a new integrability/convergence development and
 an independently proved identification with the SR channel.
+
+The audit did find an exact reusable kernel: `hasMellin_one_Ioc` proves that
+the Mellin transform of `indicator (Ioc 0 1) 1` is `1 / s` when `Re(s) > 0`,
+and `hasMellin_cpow_Ioc` gives the powered form `1 / (s + a)`. A future SR
+transform construction can therefore be based on finite sums of scaled
+interval indicators. The missing obligations are the scaling identity, the
+step-function encoding of the signed divisor coefficients, and the convergence
+and inversion argument connecting that construction to the SR channel.
