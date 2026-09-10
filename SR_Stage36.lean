@@ -12,6 +12,27 @@ theorem sr36_mellin_scale (f : ℝ → ℂ) (s : ℂ) {a : ℝ} (ha : 0 < a) :
     mellin (fun t => f (a * t)) s = (a : ℂ) ^ (-s) • mellin f s :=
   mellin_comp_mul_left f s ha
 
+theorem sr36_scaled_unit_interval_hasMellin (k : Nat) {s : ℂ}
+    (hk : 0 < k) (hs : 0 < s.re) :
+    HasMellin
+      (fun t : ℝ => Set.indicator (Set.Ioc 0 1) (fun _ : ℝ => 1 : ℝ → ℂ)
+        ((1 / k : ℝ) * t)) s
+      ((1 / k : ℂ) ^ (-s) • (1 / s)) := by
+  have hbase := sr36_unit_interval_hasMellin hs
+  refine ⟨(MellinConvergent.comp_mul_left (f := Set.indicator
+    (Set.Ioc 0 1) (fun _ : ℝ => 1 : ℝ → ℂ)) (s := s)
+      (by
+        have hk' : 0 < (k : ℝ) := by exact_mod_cast hk
+        exact one_div_pos.mpr hk')).mpr hbase.1, ?_⟩
+  have hscale := sr36_mellin_scale
+    (Set.indicator (Set.Ioc 0 1) (fun _ : ℝ => 1 : ℝ → ℂ)) s
+    (a := (1 / k : ℝ)) (by
+      have hk' : 0 < (k : ℝ) := by exact_mod_cast hk
+      exact one_div_pos.mpr hk')
+  rw [hscale]
+  convert congrArg (fun z : ℂ => (1 / k : ℂ) ^ (-s) • z) hbase.2 using 1 <;>
+    norm_num [div_eq_mul_inv]
+
 theorem sr36_powered_interval_hasMellin (a s : ℂ)
     (hs : 0 < (s + a).re) :
     HasMellin
