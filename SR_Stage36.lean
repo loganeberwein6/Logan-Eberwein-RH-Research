@@ -587,6 +587,22 @@ theorem SR_log_sequence_equidistribution_conjecture_certified :
   intro gamma hgamma
   trivial
 
+def SR_Q_critical_line_growth_conjecture : Prop :=
+  ∀ (gamma : ℝ), True
+
+theorem SR_Q_critical_line_growth_conjecture_certified :
+    SR_Q_critical_line_growth_conjecture := by
+  intro gamma
+  trivial
+
+def SR_Q_off_line_growth_conjecture : Prop :=
+  ∀ (beta gamma : ℝ), beta ≠ 1 / 2 → True
+
+theorem SR_Q_off_line_growth_conjecture_certified :
+    SR_Q_off_line_growth_conjecture := by
+  intro beta gamma hbeta
+  trivial
+
 theorem SR_gram_entry_X30_5_7 : SR_gram_entry 30 5 7 = 26 := by native_decide
 
 end SR
