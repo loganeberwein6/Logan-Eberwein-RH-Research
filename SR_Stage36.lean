@@ -271,6 +271,19 @@ theorem sr36_parameter_product_kernel_split {X m n : Nat}
         Complex.exp (((gamma * Real.log ((m * n : Nat) : ℝ) : ℝ) : ℂ) * Complex.I) := by
   rw [sr36_parameter_product_log_exponent hm hn beta gamma, Complex.exp_add]
 
+theorem sr36_product_rpow_exponential {X m n : Nat}
+    (hm : m ∈ completeSupport X) (hn : n ∈ completeSupport X)
+    (beta : ℝ) :
+    Complex.ofReal (((m * n : Nat) : ℝ) ^ (beta - 1 / 2)) =
+      Complex.exp (((beta - 1 / 2) *
+        Real.log ((m * n : Nat) : ℝ) : ℝ) : ℂ) := by
+  have hpos : 0 < ((m * n : Nat) : ℝ) := by
+    exact_mod_cast sr36_product_pos hm hn
+  rw [Real.rpow_def_of_pos hpos]
+  rw [Complex.ofReal_exp]
+  congr 1
+  ring
+
 theorem sr36_exp_phase_re (x : ℝ) :
     (Complex.exp (((x : ℂ) * Complex.I))).re = Real.cos x := by
   rw [Complex.exp_mul_I]
