@@ -73,6 +73,20 @@ theorem sr36_smoothed_interval_hasMellin {s : ℂ} (hs : 0 < s.re) :
   refine ⟨hsub.1, ?_⟩
   rw [hsub.2, h1.2, h2.2]
 
+theorem sr36_smoothed_interval_transform_denominator {s : ℂ} (hs : 0 < s.re) :
+    1 / s - 1 / (s + 1) = 1 / (s * (s + 1)) := by
+  have hs0 : s ≠ 0 := by
+    intro h
+    rw [h] at hs
+    norm_num at hs
+  have hs1 : s + 1 ≠ 0 := by
+    intro h
+    have hr := congrArg Complex.re h
+    norm_num at hr
+    linarith
+  field_simp [hs0, hs1]
+  ring
+
 theorem sr36_hasMellin_add {f g : ℝ → ℂ} {s : ℂ}
     (hf : HasMellin f s (mellin f s))
     (hg : HasMellin g s (mellin g s)) :
