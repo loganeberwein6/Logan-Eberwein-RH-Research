@@ -1,5 +1,6 @@
 import SR_Stage31
 import Mathlib.Analysis.SumIntegralComparisons
+import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
 
 namespace SR
 
@@ -64,6 +65,19 @@ theorem SR_sqrt_cutoff_formula (X : Nat) (hX : 6 ≤ X) :
   have hroot : Nat.sqrt (X - 1) ≤ X - 1 := Nat.sqrt_le_self _
   omega
 
+theorem sr33_sum_rpow_bound_pos (N : Nat) (s : ℝ) (hs : 0 < s) :
+    ∑ k ∈ Finset.range N, ((k : ℝ) ^ s) ≤
+      (N : ℝ) ^ (s + 1) / (s + 1) := by
+  have hmono : MonotoneOn (fun x : ℝ => x ^ s) (Set.Icc 0 N) := by
+    intro a ha b hb hab
+    exact Real.rpow_le_rpow ha.1 hab hs.le
+  have hmono' : MonotoneOn (fun x : ℝ => x ^ s) (Set.Icc 0 (0 + (N : ℝ))) := by
+    simpa using hmono
+  have hsum := MonotoneOn.sum_le_integral (x₀ := (0 : ℝ)) (a := N) hmono'
+  rw [integral_rpow (Or.inl (by linarith : (-1 : ℝ) < s))] at hsum
+  rw [Real.zero_rpow (by linarith : 0 < s + 1).ne', sub_zero, zero_add] at hsum
+  simpa using hsum
+
 /-
 Stage 33 proof log.
 
@@ -95,6 +109,16 @@ Successful cutoff proof:
   use `Nat.le_sqrt` (in the reverse orientation) after converting `< X` to
   `≤ X - 1`; finish the range bound with `Nat.sqrt_le_self` and `omega`.
 The theorem `SR_sqrt_cutoff_formula` now compiles.
+
+Successful positive-exponent sum bound:
+  MonotoneOn.sum_le_integral (with x₀ = 0 and a = N)
+  rw [integral_rpow (Or.inl ...)]
+  rw [Real.zero_rpow ... .ne', sub_zero, zero_add]
+  simpa
+The theorem `sr33_sum_rpow_bound_pos` now compiles. The initial error was
+`Unknown identifier integral_rpow`; importing
+`Mathlib.Analysis.SpecialFunctions.Integrals.Basic` fixed it. The next error
+was a residual `0 ^ (s+1)`, fixed by the explicit zero-rpow rewrite.
 
 Attempt 2 (power-sum induction): the proposed successor step would require
   n^(s+1)/(s+1) + (n+1)^s <= (n+1)^(s+1)/(s+1).

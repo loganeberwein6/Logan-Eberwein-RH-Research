@@ -18,6 +18,16 @@ SR_sqrt_cutoff_count X = Nat.sqrt (X - 1) - 1
 The proof uses an induction for filtered ranges, `(Nat.le_sqrt).symm`, and
 `Nat.sqrt_le_self`.
 
+The positive-exponent power-sum lemma is now formally proved:
+
+```lean
+sr33_sum_rpow_bound_pos (N : Nat) (s : ℝ) (hs : 0 < s) :
+  ∑ k ∈ Finset.range N, ((k : ℝ) ^ s) ≤
+    (N : ℝ) ^ (s + 1) / (s + 1)
+```
+
+It uses `MonotoneOn.sum_le_integral` and `integral_rpow`.
+
 ## Actual proof attempts
 
 The first cutoff attempt was:
