@@ -35,6 +35,11 @@ noncomputable def SR_signed_dirichlet_polynomial (X : Nat) (s : ℂ) : ℂ :=
     (SR_signed_divisor_coefficient X k : ℂ) *
       Complex.exp (-s * (Real.log k : ℂ))
 
+theorem sr36_signed_dirichlet_polynomial_differentiable (X : Nat) :
+    Differentiable ℂ (SR_signed_dirichlet_polynomial X) := by
+  unfold SR_signed_dirichlet_polynomial
+  fun_prop
+
 noncomputable def SR_complex_parameter (beta gamma : ℝ) : ℂ :=
   (-(beta - 1 / 2) : ℂ) - (gamma : ℂ) * Complex.I
 
