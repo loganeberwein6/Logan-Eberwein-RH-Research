@@ -58,3 +58,25 @@ The proposed Conrey exponent `3/2 + (2/5)(beta - 1/2)` is not supported by
 the current Lean definition.  Direct enumeration disagrees with the earlier
 Stage 29 Q-table at X=6,30,110, so the apparent Conrey connection is
 **killed pending identification of the stale numerical normalization**.
+
+The replacement model is structural rather than asymptotic. With
+
+`w_beta,gamma(n) = n^(beta-1/2) cos(gamma log n)` and
+`I_X = sum_{mn<X} w(m) w(n)`, the exact implemented observable satisfies
+
+`Q_X = (sum_{2<=n<X} w(n))^2 - 2 I_X`.
+
+This identity explains the observed cancellation and is the correct starting
+point for any future asymptotic analysis. No universal power exponent has been
+established from the current data.
+## Two-Channel Decomposition (Stage 31)
+
+`cos(gamma log m) * cos(gamma log n)` equals one half of the ratio-frequency
+term plus one half of the product-frequency term. The decomposition is now
+formally proved in `SR_Stage31.lean`.
+
+## Correct Ratio-Channel Diagonal (Stage 32)
+
+The diagonal uses the square-root cutoff `m*m < X`, not the half-wall cutoff
+used by `reesTrace`. Its unweighted sign sum is
+`(X-2) - 2*(floor(sqrt(X-1))-1)` for the tested support.

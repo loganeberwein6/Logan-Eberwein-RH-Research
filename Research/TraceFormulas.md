@@ -93,3 +93,45 @@ two-point exponents from `X=1000` to `X=10000` are:
 Conclusion: the proposed `3/2 + (2/5)(beta-1/2)` law is refuted for the
 current exact SR definition at these cutoffs.  The discrepancy must be
 resolved before any Conrey interpretation is formalized.
+
+### Stage 30 diagonal/off-diagonal audit
+
+The objective's sample `Q_fast` uses `cos(gamma*log(m*n))`, which is not the
+implemented SR term. The exact term is
+`cos(gamma*log(m)) * cos(gamma*log(n))`. Repeating the requested split with
+the exact product and `|log(m/n)| < 0.1`, at beta `0.8`, gamma `21.022`, gives:
+
+| X | diagonal | off-diagonal | total | diagonal / X^1.3 |
+|---:|---:|---:|---:|---:|
+| 100 | 2139.012355 | -2109.150112 | 29.862242 | 5.372956 |
+| 500 | 168657.892304 | -145981.278800 | 22676.613504 | 52.281214 |
+| 1000 | 1018657.620342 | -955065.881300 | 63591.739042 | 128.241396 |
+
+The totals agree with the exact SR definition and show strong cancellation
+between the two regions. The product-of-cosines correction is therefore an
+independent reason not to infer an analytic growth law from the objective's
+sample pseudocode.
+## Two-Channel Data (Stage 31)
+
+For beta=0.8 and gamma=21.022, the exact corrected computation gives:
+
+| X | total | ratio | product |
+|---:|---:|---:|---:|
+| 30 | -19.470 | -2.734 | -16.736 |
+| 100 | 29.862 | 151.286 | -121.424 |
+| 500 | 22676.614 | 11999.991 | 10676.622 |
+| 1000 | 63591.739 | 70509.094 | -6917.355 |
+| 5000 | 15637.127 | 4668602.265 | -4652965.138 |
+
+At X=5000, the total is only about 0.00335 times the larger channel,
+showing severe cancellation. Finite-range slopes from X=1000 to X=10000
+for beta=0.5, 0.7, 0.9 are respectively total (2.414, 2.675, 3.034),
+ratio (2.022, 2.407, 2.802), and product (2.305, 3.044, 3.702).
+
+These are numerical slopes, not asymptotic theorems.
+
+## Correct Diagonal Sign Sum
+
+The diagonal cutoff is `m*m < X`. The unweighted sign sum is
+`D(X) = (X-2) - 2*(floor(sqrt(X-1))-1)`; values are D(6)=2, D(30)=20,
+D(100)=82, D(210)=182, and D(1000)=938. This differs from `reesTrace`.

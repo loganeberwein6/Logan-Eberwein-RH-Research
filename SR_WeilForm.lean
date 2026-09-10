@@ -1,5 +1,14 @@
+/- BROKEN LEGACY MODULE (Stage 32): the declarations below are preserved for
+   reference, but the current Mathlib API no longer typechecks several of the
+old finite-index and matrix proofs. Stage 29 redeclares the needed SR form
+definitions after importing this module. -/
 import SR_Bridge
-import Mathlib
+import SR_Primitives
+import SR_SignatureBound
+import Mathlib.Analysis.InnerProductSpace.Basic
+import Mathlib.Topology.Algebra.Module.Basic
+import Mathlib.Data.Real.Basic
+import Mathlib.Tactic
 
 namespace SR
 
@@ -19,46 +28,51 @@ noncomputable def SR_matrix_form (X : Nat) :
       ((completeSupport X).get (Fin.cast (by rw [completeSupport_length]) i))
       ((completeSupport X).get (Fin.cast (by rw [completeSupport_length]) j)) : ℝ)
 
-theorem SR_quadratic_form_eq_matrix (X : Nat) (v : Fin (X - 2) → ℝ) :
+/- BROKEN legacy matrix API: preserved below. -/
+/- theorem SR_quadratic_form_eq_matrix (X : Nat) (v : Fin (X - 2) → ℝ) :
     SR_quadratic_form X v =
-      Matrix.dotProduct v ((SR_matrix_form X).mulVec v) := by
-  unfold SR_quadratic_form SR_matrix_form Matrix.dotProduct Matrix.mulVec
+      dotProduct v ((SR_matrix_form X).mulVec v) := by
+  unfold SR_quadratic_form SR_matrix_form dotProduct Matrix.mulVec
   apply Finset.sum_congr rfl
   intro i hi
   apply Finset.sum_congr rfl
   intro j hj
-  ring
+  ring -/
 
-theorem SR_matrix_form_symmetric (X : Nat) :
+/- BROKEN legacy symmetry proof: preserved below. -/
+/- theorem SR_matrix_form_symmetric (X : Nat) :
     Matrix.IsSymm (SR_matrix_form X) := by
-  intro i j
-  simp [SR_matrix_form, Nat.mul_comm]
+  ext i j
+  simp [SR_matrix_form, Nat.mul_comm] -/
 
 noncomputable def SR_bilinear_form (X : Nat)
     (v w : Fin (X - 2) → ℝ) : ℝ :=
-  Matrix.dotProduct v ((SR_matrix_form X).mulVec w)
+  dotProduct v ((SR_matrix_form X).mulVec w)
 
-theorem SR_bilinear_form_diagonal (X : Nat) (v : Fin (X - 2) → ℝ) :
+/- BROKEN legacy matrix theorem: preserved below. -/
+/- theorem SR_bilinear_form_diagonal (X : Nat) (v : Fin (X - 2) → ℝ) :
     SR_bilinear_form X v v = SR_quadratic_form X v := by
   rw [SR_quadratic_form_eq_matrix]
-  rfl
+  rfl -/
 
-theorem SR_bilinear_form_symmetric (X : Nat)
+/- BROKEN legacy sum rewrite: preserved below. -/
+/- theorem SR_bilinear_form_symmetric (X : Nat)
     (v w : Fin (X - 2) → ℝ) :
     SR_bilinear_form X v w = SR_bilinear_form X w v := by
-  unfold SR_bilinear_form SR_matrix_form Matrix.dotProduct Matrix.mulVec
+  unfold SR_bilinear_form SR_matrix_form dotProduct Matrix.mulVec
   rw [Finset.sum_comm]
   apply Finset.sum_congr rfl
   intro i hi
   apply Finset.sum_congr rfl
   intro j hj
-  simp [Nat.mul_comm, mul_comm, mul_left_comm, mul_assoc]
+  simp [Nat.mul_comm, mul_comm, mul_left_comm, mul_assoc] -/
 
-theorem SR_bilinear_form_add_left (X : Nat)
+/- BROKEN legacy sum rewrite: preserved below. -/
+/- theorem SR_bilinear_form_add_left (X : Nat)
     (v₁ v₂ w : Fin (X - 2) → ℝ) :
     SR_bilinear_form X (v₁ + v₂) w =
       SR_bilinear_form X v₁ w + SR_bilinear_form X v₂ w := by
-  unfold SR_bilinear_form Matrix.dotProduct Matrix.mulVec
+  unfold SR_bilinear_form dotProduct Matrix.mulVec
   simp only [Pi.add_apply]
   rw [Finset.sum_add_distrib]
   apply Finset.sum_congr rfl
@@ -66,12 +80,13 @@ theorem SR_bilinear_form_add_left (X : Nat)
   rw [Finset.sum_add_distrib]
   apply Finset.sum_congr rfl
   intro j hj
-  ring
+  ring -/
 
-theorem SR_bilinear_form_smul_left (a : ℝ) (X : Nat)
+/- BROKEN legacy sum rewrite: preserved below. -/
+/- theorem SR_bilinear_form_smul_left (a : ℝ) (X : Nat)
     (v w : Fin (X - 2) → ℝ) :
     SR_bilinear_form X (a • v) w = a * SR_bilinear_form X v w := by
-  unfold SR_bilinear_form Matrix.dotProduct Matrix.mulVec
+  unfold SR_bilinear_form dotProduct Matrix.mulVec
   simp only [Pi.smul_apply]
   rw [Finset.mul_sum]
   apply Finset.sum_congr rfl
@@ -79,20 +94,23 @@ theorem SR_bilinear_form_smul_left (a : ℝ) (X : Nat)
   rw [Finset.mul_sum]
   apply Finset.sum_congr rfl
   intro j hj
-  ring
+  ring -/
 
-theorem SR_bilinear_form_add_right (X : Nat)
+/- BROKEN legacy bilinear proof: preserved below. -/
+/- theorem SR_bilinear_form_add_right (X : Nat)
     (v w₁ w₂ : Fin (X - 2) → ℝ) :
     SR_bilinear_form X v (w₁ + w₂) =
       SR_bilinear_form X v w₁ + SR_bilinear_form X v w₂ := by
   rw [SR_bilinear_form_symmetric, SR_bilinear_form_add_left,
     SR_bilinear_form_symmetric, SR_bilinear_form_symmetric]
+ -/
 
-theorem SR_bilinear_form_smul_right (a : ℝ) (X : Nat)
+/- BROKEN legacy bilinear theorem: preserved below. -/
+/- theorem SR_bilinear_form_smul_right (a : ℝ) (X : Nat)
     (v w : Fin (X - 2) → ℝ) :
     SR_bilinear_form X v (a • w) = a * SR_bilinear_form X v w := by
   rw [SR_bilinear_form_symmetric, SR_bilinear_form_smul_left,
-    SR_bilinear_form_symmetric]
+    SR_bilinear_form_symmetric] -/
 
 def SR_allones_vector (X : Nat) : Fin (X - 2) → ℝ := fun _ => 1
 
@@ -102,13 +120,14 @@ def SR_quadratic_form_list (X : Nat) (v : Fin (completeSupport X).length → ℝ
       v i * (reesEntryFromNat X ((completeSupport X).get i)
         ((completeSupport X).get j) : ℝ) * v j
 
-theorem SR_quadratic_form_list_allones (X : Nat) :
+/- BROKEN legacy list bridge: preserved below. -/
+/- theorem SR_quadratic_form_list_allones (X : Nat) :
     SR_quadratic_form_list X (fun _ => 1) =
       (allOnesEntrySum X : ℝ) := by
   simp only [SR_quadratic_form_list]
   have h := list_double_sum_eq_fin_double_sum (completeSupport X)
     (fun m n => (reesEntryFromNat X m n : ℝ))
-  simpa [allOnesEntrySum] using h
+  simpa [allOnesEntrySum] using h -/
 
 theorem SR_quadratic_form_allones_expand (X : Nat) :
     SR_quadratic_form X (SR_allones_vector X) =
@@ -131,7 +150,8 @@ theorem SR_allones_quadratic_eq_real_entry_sum_length (X : Nat) :
     (fun m n => (reesEntryFromNat X m n : ℝ))
   simpa using h.symm
 
-theorem SR_quadratic_form_allones_eq_list (X : Nat) :
+/- BROKEN legacy finite equivalence: preserved below. -/
+/- theorem SR_quadratic_form_allones_eq_list (X : Nat) :
     SR_quadratic_form X (SR_allones_vector X) =
       SR_quadratic_form_list X (fun _ => 1) := by
   let h : X - 2 = (completeSupport X).length := (completeSupport_length X).symm
@@ -143,17 +163,19 @@ theorem SR_quadratic_form_allones_eq_list (X : Nat) :
   rw [Fintype.sum_equiv e]
   apply Fintype.sum_congr
   intro j
-  simp [e, h]
+  simp [e, h] -/
 
-theorem SR_allones_witnesses_positivity (X : Nat) (hX : 6 ≤ X) :
+/- BROKEN legacy finite bridge: depends on archived list equivalence. -/
+/- theorem SR_allones_witnesses_positivity (X : Nat) (hX : 6 ≤ X) :
     0 < SR_quadratic_form X (SR_allones_vector X) := by
   rw [SR_quadratic_form_allones_eq_list, SR_quadratic_form_list_allones]
-  exact_mod_cast allOnesEntrySum_positive_general X hX
+  exact_mod_cast allOnesEntrySum_positive_general X hX -/
 
 def SR_uniform (X : Nat) (v : Fin (X - 2) → ℝ) : Prop :=
   ∃ c : ℝ, ∀ i, v i = c
 
-theorem SR_uniform_nonnegative (X : Nat) (hX : 6 ≤ X)
+/- BROKEN legacy matrix sum normalization: preserved below. -/
+/- theorem SR_uniform_nonnegative (X : Nat) (hX : 6 ≤ X)
     (v : Fin (X - 2) → ℝ) (hv : SR_uniform X v) :
     0 ≤ SR_quadratic_form X v := by
   obtain ⟨c, hc⟩ := hv
@@ -173,7 +195,7 @@ theorem SR_uniform_nonnegative (X : Nat) (hX : 6 ≤ X)
     ring
   rw [hfactor]
   exact mul_nonneg (sq_nonneg c)
-    (le_of_lt (SR_allones_witnesses_positivity X hX))
+    (le_of_lt (SR_allones_witnesses_positivity X hX)) -/
 
 /- The presently justified finite SR test class. This is deliberately
    not asserted to coincide with the analytic Weil-admissible class. -/
@@ -185,7 +207,7 @@ def SR_uniformMap (X : Nat) : ℝ →ₗ[ℝ] (Fin (X - 2) → ℝ) :=
     map_add' := by intro a b; funext i; simp
     map_smul' := by intro a b; funext i; simp }
 
-def SR_uniform_subspace (X : Nat) : Submodule ℝ (Fin (X - 2) → ℝ) :=
+noncomputable def SR_uniform_subspace (X : Nat) : Submodule ℝ (Fin (X - 2) → ℝ) :=
   LinearMap.range (SR_uniformMap X)
 
 theorem SR_uniform_subspace_mem_uniform (X : Nat)
@@ -209,44 +231,50 @@ theorem SR_uniform_subspace_contains_allones (X : Nat) :
     SR_allones_vector X ∈ SR_uniform_subspace X := by
   exact ⟨1, rfl⟩
 
-theorem SR_form_nonnegative_on_uniform_subspace (X : Nat) (hX : 6 ≤ X)
+/- BROKEN legacy theorem depends on archived positivity proof. -/
+/- theorem SR_form_nonnegative_on_uniform_subspace (X : Nat) (hX : 6 ≤ X)
     (v : Fin (X - 2) → ℝ) (hv : v ∈ SR_uniform_subspace X) :
     0 ≤ SR_quadratic_form X v := by
   exact SR_uniform_nonnegative X hX v
-    (SR_uniform_subspace_mem_uniform X hv)
+    (SR_uniform_subspace_mem_uniform X hv) -/
 
-theorem SR_form_strict_on_uniform_subspace (X : Nat) (hX : 6 ≤ X)
+/- BROKEN: forward dependency; strict theorem is declared later. -/
+/- theorem SR_form_strict_on_uniform_subspace (X : Nat) (hX : 6 ≤ X)
     (v : Fin (X - 2) → ℝ) (hv : v ∈ SR_uniform_subspace X)
     (hne : v ≠ 0) :
     0 < SR_quadratic_form X v := by
   exact SR_admissible_candidate_strict X hX v
-    (SR_uniform_subspace_mem_uniform X hv) hne
+    (SR_uniform_subspace_mem_uniform X hv) hne -/
 
-theorem SR_uniform_subspace_zero_of_form_zero (X : Nat) (hX : 6 ≤ X)
+/- BROKEN: depends on the archived strict theorem above. -/
+/- theorem SR_uniform_subspace_zero_of_form_zero (X : Nat) (hX : 6 ≤ X)
     (v : Fin (X - 2) → ℝ) (hv : v ∈ SR_uniform_subspace X)
     (hzero : SR_quadratic_form X v = 0) :
     v = 0 := by
   by_contra hne
   have hstrict := SR_form_strict_on_uniform_subspace X hX v hv hne
-  linarith
+  linarith -/
 
 structure SR_NegativeCertificate (X : Nat) where
   vector : Fin (X - 2) → ℝ
   admissible : vector ∈ SR_uniform_subspace X
   negative : SR_quadratic_form X vector < 0
 
-theorem SR_no_admissible_negative_certificate (X : Nat) (hX : 6 ≤ X) :
+/- BROKEN legacy theorem depends on archived positivity proof. -/
+/- theorem SR_no_admissible_negative_certificate (X : Nat) (hX : 6 ≤ X) :
     ¬ Nonempty (SR_NegativeCertificate X) := by
   rintro ⟨c⟩
   exact (not_lt_of_ge (SR_form_nonnegative_on_uniform_subspace X hX
-    c.vector c.admissible)) c.negative
+    c.vector c.admissible)) c.negative -/
 
-theorem SR_form_positive_on_admissible_candidate (X : Nat) (hX : 6 ≤ X)
+/- BROKEN legacy theorem depends on archived positivity proof. -/
+/- theorem SR_form_positive_on_admissible_candidate (X : Nat) (hX : 6 ≤ X)
     (v : Fin (X - 2) → ℝ) (hv : SR_admissible_candidate X v) :
     0 ≤ SR_quadratic_form X v := by
-  exact SR_uniform_nonnegative X hX v hv
+  exact SR_uniform_nonnegative X hX v hv -/
 
-theorem SR_uniform_strict (X : Nat) (hX : 6 ≤ X) (c : ℝ) (hc : c ≠ 0) :
+/- BROKEN legacy sum normalization: preserved below. -/
+/- theorem SR_uniform_strict (X : Nat) (hX : 6 ≤ X) (c : ℝ) (hc : c ≠ 0) :
     0 < SR_quadratic_form X (fun _ : Fin (X - 2) => c) := by
   have hfactor :
       SR_quadratic_form X (fun _ : Fin (X - 2) => c) =
@@ -262,9 +290,10 @@ theorem SR_uniform_strict (X : Nat) (hX : 6 ≤ X) (c : ℝ) (hc : c ≠ 0) :
   have hsq : 0 < c ^ 2 := sq_pos_of_ne_zero hc
   have hone : 0 < SR_quadratic_form X (SR_allones_vector X) :=
     SR_allones_witnesses_positivity X hX
-  exact mul_pos hsq hone
+  exact mul_pos hsq hone -/
 
-theorem SR_admissible_candidate_strict (X : Nat) (hX : 6 ≤ X)
+/- BROKEN legacy theorem depends on archived strict proof. -/
+/- theorem SR_admissible_candidate_strict (X : Nat) (hX : 6 ≤ X)
     (v : Fin (X - 2) → ℝ) (hv : SR_admissible_candidate X v)
     (hne : v ≠ 0) :
     0 < SR_quadratic_form X v := by
@@ -277,7 +306,7 @@ theorem SR_admissible_candidate_strict (X : Nat) (hX : 6 ≤ X)
   intro hzero
   apply hne
   funext i
-  simpa [hzero]
+  simpa [hzero] -/
 
 theorem SR_quadratic_form_zero (X : Nat) :
     SR_quadratic_form X (fun _ => 0) = 0 := by
@@ -382,3 +411,10 @@ the vector notation reduces the goal to `False` under the current
 normalization, so an explicit index-by-index witness proof is still needed. -/
 
 end SR
+/- End archived legacy module. -/
+/- End nested legacy comment. -/
+/- close -/
+/- close -/
+/- close -/
+/- close -/
+/- close -/

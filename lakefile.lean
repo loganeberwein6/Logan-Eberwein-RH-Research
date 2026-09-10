@@ -100,5 +100,23 @@ lean_lib SR_Bridge where
 lean_lib SR_Stage27 where
   roots := #[`SR_Stage27]
 
+lean_lib SR_Stage28 where
+  roots := #[`SR_Stage28]
+
+lean_lib SR_WeilForm where
+  roots := #[`SR_WeilForm]
+
 lean_lib SR_WEntropy where
   roots := #[`SR_WEntropy]
+
+lean_lib SR_Stage29 where
+  roots := #[`SR_Stage29]
+
+lean_lib SR_Stage30_Bound where
+  roots := #[`SR_Stage30_Bound]
+
+lean_lib SR_Stage30 where
+  roots := #[`SR_Stage30]
+
+lean_lib SR_Stage31 where
+  roots := #[`SR_Stage31]

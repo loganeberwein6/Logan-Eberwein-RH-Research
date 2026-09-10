@@ -26,3 +26,10 @@ theorems.  None of the entries below is used as a proof of another claim.
 | Stage-14 external-sign motivation | External motivation is recorded, but no mathematical implication is formalized. | CONJECTURED | State the external sign condition and prove its relation to the SR signature. |
 | Stage-15 reduction audit | The reduction data are recorded, but the complete audit proposition remains open. | OPEN | State each reduction invariant and verify it from the finite matrices. |
 | Bridge sign obstruction | The proposed bridge cannot currently transfer finite sign data to the asymptotic analytic claim. | OPEN | Identify a sign-preserving analytic map or prove the obstruction is unavoidable. |
+| SR26 entropy/RH convergence bridge | The file records assumptions `W_SR_RH_bridge` and `W_SR_converges`, but the prior declaration derived no mathematical conclusion. | CONJECTURED | Define the limiting entropy invariant and prove the RH bridge implies the advertised convergence/sign result. |
+## SR Growth Law Conjecture (Stage 32)
+
+Large values of `|Q_X|` may occur when many pairs near the diagonal have
+`mn` near X while the ratio phase `gamma*log(m/n)` is close to a multiple of
+`2*pi`. This is conjectural; pair-count and phase scans show only moderate
+correlation, so no theorem or universal growth law is claimed.

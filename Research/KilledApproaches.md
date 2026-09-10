@@ -30,3 +30,17 @@ current Lean definition.  More fundamentally, the earlier Stage 29 Q-table
 does not reproduce by direct finite enumeration at X=6,30,110.  Any growth
 claim based on that table is suspended until the implementation discrepancy
 is identified.
+
+## Conrey 2/5 exponent as SR growth law — KILLED (Stage 31)
+
+The proposed exponent `3/2 + (2/5)(beta-1/2)` is numerically refuted for
+the exact implementation. The earlier computation used `cos(gamma log(mn))`,
+while Lean uses `cos(gamma log m) * cos(gamma log n)`, which splits into ratio
+and product channels. At beta=0.8, gamma=21.022, the observed total slope is
+2.850 rather than the predicted 1.620.
+
+## Diagonal equals reesTrace — KILLED (Stage 31)
+
+`reesTrace` uses the cutoff `2m < X`, while the ratio-channel diagonal uses
+`m*m < X`. They differ: at X=30 the diagonal sign sum is 20 while
+`reesTrace 30 = 2`.
