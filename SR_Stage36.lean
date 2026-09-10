@@ -761,6 +761,14 @@ theorem sr36_signed_polynomial_deriv_at_zero (X : Nat) :
   rw [sr36_signed_dirichlet_polynomial_deriv_eq_deriv]
   simp [SR_signed_dirichlet_polynomial_deriv]
 
+theorem sr36_signed_polynomial_second_deriv_at_zero (X : Nat) :
+    deriv (SR_signed_dirichlet_polynomial_deriv X) 0 =
+      ∑ k ∈ Finset.range (X ^ 2),
+        (SR_signed_divisor_coefficient X k : ℂ) *
+          ((Real.log k : ℂ) * (Real.log k : ℂ)) := by
+  rw [(sr36_signed_dirichlet_polynomial_hasSecondDerivAt X 0).deriv]
+  simp [SR_signed_dirichlet_polynomial_second_deriv]
+
 theorem sr36_signed_polynomial_at_neutral_parameter_re (X : Nat) :
     (SR_signed_dirichlet_polynomial X (SR_complex_parameter (1 / 2) 0)).re =
       ∑ k ∈ Finset.range (X ^ 2), (SR_signed_divisor_coefficient X k : ℝ) := by
