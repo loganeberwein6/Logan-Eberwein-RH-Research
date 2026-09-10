@@ -146,3 +146,9 @@ the real-cast sine, and closes with `Complex.cos_ofReal_re`. A direct
 ordinary Lake target could not replace its generated setup artifact because
 that artifact remained permission-locked. This verifies the theorem source
 but does not yet formalize the full complex divisor-sum explicit formula.
+
+The follow-on theorem `sr36_real_mul_exp_phase_re` is also source-verified:
+for real `a,x`, the real part of `a * exp(i x)` is `a*cos x`. Its tactic
+sequence expands `Complex.mul_re`, simplifies the real embedding, and uses
+`sr36_exp_phase_re`. This is the exact scalar projection needed to lift the
+already-proved finite divisor reorganization to a complex exponential sum.

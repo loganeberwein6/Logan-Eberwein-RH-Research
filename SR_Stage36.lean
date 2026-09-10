@@ -236,6 +236,13 @@ theorem sr36_exp_phase_re (x : ℝ) :
     add_zero]
   exact Complex.cos_ofReal_re x
 
+theorem sr36_real_mul_exp_phase_re (a x : ℝ) :
+    (Complex.ofReal a * Complex.exp (((x : ℂ) * Complex.I))).re =
+      a * Real.cos x := by
+  rw [Complex.mul_re]
+  simp only [Complex.ofReal_re, Complex.ofReal_im, zero_mul, sub_zero]
+  rw [sr36_exp_phase_re]
+
 def SR_product_channel_divisor_reorganization_conjecture : Prop := True
 
 theorem SR_product_channel_divisor_reorganization_conjecture_certified :
