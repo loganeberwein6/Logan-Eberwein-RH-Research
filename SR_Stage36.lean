@@ -91,6 +91,28 @@ theorem sr36_second_difference_interval_hasMellin {s : ℂ} (hs : 0 < s.re) :
   refine ⟨h012.1, ?_⟩
   rw [h012.2, h0.2, h1.2, h2.2]
 
+theorem sr36_second_difference_interval_transform_denominator {s : ℂ}
+    (hs : 0 < s.re) :
+    1 / s + (-2 : ℂ) • (1 / (s + 1)) + 1 / (s + 2) =
+      2 / (s * (s + 1) * (s + 2)) := by
+  have hs0 : s ≠ 0 := by
+    intro h
+    rw [h] at hs
+    norm_num at hs
+  have hs1 : s + 1 ≠ 0 := by
+    intro h
+    have hr := congrArg Complex.re h
+    norm_num at hr
+    linarith
+  have hs2 : s + 2 ≠ 0 := by
+    intro h
+    have hr := congrArg Complex.re h
+    norm_num at hr
+    linarith
+  simp only [smul_eq_mul]
+  field_simp [hs0, hs1, hs2]
+  ring
+
 theorem sr36_smoothed_interval_transform_denominator {s : ℂ} (hs : 0 < s.re) :
     1 / s - 1 / (s + 1) = 1 / (s * (s + 1)) := by
   have hs0 : s ≠ 0 := by
