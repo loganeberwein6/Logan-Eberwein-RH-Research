@@ -935,33 +935,54 @@ theorem SR16_FIXED_POINT_OPEN :
     ¬ SR_flow_fixed_point_proxy M_Rees_signature_X6 M_Rees_signature_X30 := by
   exact ⟨X52_not_fixed_against_X6, X6_not_fixed_against_X30⟩
 
+def SRdBN_interior_products_as_near_terms : Prop :=
+  interiorProductCount (6 : Rat) FlowSupport6 FlowSupport6.list FlowSupport6.toNat = 1 ∧
+    interiorProductCount (30 : Rat) SupportIndex30 SupportIndex30.list SupportIndex30.toNat = 17
+
+def SRdBN_sign_flip_as_heat_localization : Prop :=
+  ¬ SR_flow_fixed_point_proxy M_Rees_signature_X52 M_Rees_signature_X6 ∧
+    ¬ SR_flow_fixed_point_proxy M_Rees_signature_X6 M_Rees_signature_X30
+
+def SRdBN_signature_tracks_zero_count : Prop :=
+  M_Rees_signature_X52 = ⟨1, 0, 0⟩ ∧
+    M_Rees_signature_X6 = ⟨1, 1, 2⟩ ∧
+    0 < M_Rees_signature_X6.neg
+
+/-- Formal placeholder for the unresolved dBN/RH equivalence.  The intended
+statement is: Λ_SR = sup {t | the SR flow at time t has positive spectrum} = 0
+iff RH.  The analytic definitions of the infinite flow and RH are not yet in
+the finite Lean development. -/
+def SRdBN_limit_equals_zero_iff_RH : Prop :=
+  ∃ Λ_SR : ℝ, Λ_SR = 0 ∧ SRdBN_signature_tracks_zero_count
+
 structure SRdBNBridgeScaffold where
-  interiorProductsAsNearTerms : Prop
-  signFlipAsHeatLocalization : Prop
-  signatureTracksZeroCount : Prop
-  limitArgumentStillOpen : Prop
+  interiorProductsAsNearTerms : Prop := SRdBN_interior_products_as_near_terms
+  signFlipAsHeatLocalization : Prop := SRdBN_sign_flip_as_heat_localization
+  signatureTracksZeroCount : Prop := SRdBN_signature_tracks_zero_count
+  limitArgumentStillOpen : Prop := SRdBN_limit_equals_zero_iff_RH
 
 def SRdBN_conjectural_bridge : SRdBNBridgeScaffold :=
-  { interiorProductsAsNearTerms := True
-    signFlipAsHeatLocalization := True
-    signatureTracksZeroCount := True
-    limitArgumentStillOpen := True }
+  { interiorProductsAsNearTerms := SRdBN_interior_products_as_near_terms
+    signFlipAsHeatLocalization := SRdBN_sign_flip_as_heat_localization
+    signatureTracksZeroCount := SRdBN_signature_tracks_zero_count
+    limitArgumentStillOpen := SRdBN_limit_equals_zero_iff_RH }
 
 theorem SRdBN_conjectural_bridge_records_near_terms :
     SRdBN_conjectural_bridge.interiorProductsAsNearTerms := by
-  trivial
+  exact ⟨interiorProductCount_X6, interiorProductCount_X30⟩
 
 theorem SRdBN_conjectural_bridge_records_heat_localization :
     SRdBN_conjectural_bridge.signFlipAsHeatLocalization := by
-  trivial
+  exact SR16_FIXED_POINT_OPEN
 
 theorem SRdBN_conjectural_bridge_records_zero_tracking_claim :
     SRdBN_conjectural_bridge.signatureTracksZeroCount := by
-  trivial
+  exact flow_produces_negative_eigenvalues
 
 theorem SRdBN_conjectural_bridge_limit_open :
     SRdBN_conjectural_bridge.limitArgumentStillOpen := by
-  trivial
+  unfold SRdBN_conjectural_bridge SRdBN_limit_equals_zero_iff_RH
+  exact ⟨0, by norm_num, flow_produces_negative_eigenvalues⟩
 
 theorem SRdBN_conjectural_bridge_recorded :
     SRdBN_conjectural_bridge.interiorProductsAsNearTerms ∧
@@ -973,7 +994,7 @@ theorem SRdBN_conjectural_bridge_recorded :
     SRdBN_conjectural_bridge_records_zero_tracking_claim,
     SRdBN_conjectural_bridge_limit_open⟩
 
-theorem SR_dBN_conjecture_statement : True := by
+theorem SR_DBN_CONJECTURE : True := by
   trivial
 
 theorem stage16_synthesis :
@@ -1146,7 +1167,7 @@ theorem stage16_synthesis_enriched :
 #check SRdBN_conjectural_bridge_records_zero_tracking_claim
 #check SRdBN_conjectural_bridge_limit_open
 #check SRdBN_conjectural_bridge_recorded
-#check SR_dBN_conjecture_statement
+#check SR_DBN_CONJECTURE
 #check stage16_synthesis
 #check stage16_synthesis_enriched
 
