@@ -90,7 +90,6 @@ theorem sr36_weighted_fiber_sum
   rw [Finset.mem_filter] at hi
   rw [hi.2]
 
-
 theorem sr36_rees_sign_by_product (X m n : Nat) :
     reesEntryFromNat X m n = if m * n < X then -1 else 1 := by
   rw [rees_decomposition]
