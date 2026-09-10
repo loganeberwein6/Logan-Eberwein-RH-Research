@@ -655,6 +655,15 @@ theorem sr36_channel_product_at_neutral_parameter (X : Nat) :
 theorem sr36_divisorMultiplicity_X6_4 : SR_divisorMultiplicity 6 4 = 1 := by
   native_decide
 
+theorem sr36_signed_coefficient_sum_X6 :
+    ∑ k ∈ Finset.range (6 ^ 2), SR_signed_divisor_coefficient 6 k = 14 := by
+  native_decide
+
+theorem sr36_channel_product_neutral_X6 :
+    SR_channel_product 6 (1 / 2) 0 = 14 := by
+  rw [sr36_channel_product_at_neutral_parameter]
+  norm_cast
+
 theorem sr36_complex_divisor_re (X : Nat) (hX : 6 ≤ X) (beta gamma : ℝ) :
     (SR_product_channel_complex_divisor X beta gamma).re =
       SR_channel_product X beta gamma := by
