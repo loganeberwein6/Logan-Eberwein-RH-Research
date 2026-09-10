@@ -232,3 +232,10 @@ the fiber regrouping, sign normalization, and complex real-part theorem to
 show directly that the real part of the complex divisor-fiber object equals
 `SR_channel_product`. This closes the finite algebraic map in one theorem;
 the remaining gap begins at the analytic Dirichlet-series identification.
+# Stage 36 parameter-kernel bridge (verified)
+
+`SR_Stage36.lean` now proves the exact exponent decomposition
+
+`-SR_complex_parameter beta gamma * (x : ℂ) = ((beta - 1 / 2) : ℂ) * (x : ℂ) + ((gamma * x : ℝ) : ℂ) * Complex.I`.
+
+The proof is fully checked by Lean using `unfold SR_complex_parameter`, `push_cast`, and `ring`. This is an algebraic parameterization identity only; it does not prove convergence, a Perron formula, an explicit formula, zero detection, or the RH equivalence.
