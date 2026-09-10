@@ -33,6 +33,17 @@ theorem sr36_scaled_unit_interval_hasMellin (k : Nat) {s : ℂ}
   convert congrArg (fun z : ℂ => (1 / k : ℂ) ^ (-s) • z) hbase.2 using 1 <;>
     norm_num [div_eq_mul_inv]
 
+theorem sr36_scaled_coefficient_hasMellin (k : Nat) {s : ℂ}
+    (hk : 0 < k) (hs : 0 < s.re) (c : ℂ) :
+    HasMellin
+      (fun t : ℝ => c • Set.indicator (Set.Ioc 0 1)
+        (fun _ : ℝ => 1 : ℝ → ℂ) ((1 / k : ℝ) * t)) s
+      (c • ((1 / k : ℂ) ^ (-s) • (1 / s))) := by
+  have hscaled := sr36_scaled_unit_interval_hasMellin k hk hs
+  have hweighted := hasMellin_const_smul hscaled.1 c
+  rw [hscaled.2] at hweighted
+  exact hweighted
+
 theorem sr36_powered_interval_hasMellin (a s : ℂ)
     (hs : 0 < (s + a).re) :
     HasMellin
