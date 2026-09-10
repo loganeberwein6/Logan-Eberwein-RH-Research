@@ -1,10 +1,18 @@
 import SR_Stage35
 import Mathlib.Analysis.Complex.CauchyIntegral
 import Mathlib.Analysis.MellinTransform
+import Mathlib.Analysis.MellinInversion
 import Mathlib.NumberTheory.LSeries.MellinEqDirichlet
 import Mathlib.NumberTheory.LSeries.Dirichlet
 
 namespace SR
+
+theorem sr36_mellin_inversion (σ : ℝ) (f : ℝ → ℂ) {x : ℝ} (hx : 0 < x)
+    (hf : MellinConvergent f σ)
+    (hFf : Complex.VerticalIntegrable (mellin f) σ)
+    (hfx : ContinuousAt f x) :
+    mellinInv σ (mellin f) x = f x :=
+  mellinInv_mellin_eq σ f hx hf hFf hfx
 
 theorem sr36_unit_interval_hasMellin {s : ℂ} (hs : 0 < s.re) :
     HasMellin (Set.indicator (Set.Ioc 0 1) (fun _ : ℝ => 1 : ℝ → ℂ)) s (1 / s) :=
@@ -681,10 +689,10 @@ theorem sr36_signed_polynomial_zero_term_removed (X : Nat) (s : ℂ) :
 
 theorem sr36_zeta_dirichlet_series {s : ℂ} (hs : 1 < s.re) :
     LSeriesHasSum (↑ζ) s (riemannZeta s) :=
-  LSeriesHasSum_zeta hs
+  ArithmeticFunction.LSeriesHasSum_zeta hs
 
 theorem sr36_zeta_partial_sums_tendsto {s : ℂ} (hs : 1 < s.re) :
-    Tendsto
+    Filter.Tendsto
       (fun N : ℕ => ∑ n ∈ Finset.range N, LSeries.term (↑ζ) s n)
       Filter.atTop (𝓝 (riemannZeta s)) := by
   exact (sr36_zeta_dirichlet_series hs).tendsto_sum_nat
@@ -701,7 +709,8 @@ theorem sr36_signed_polynomial_as_LSeries_sum (X : Nat) (s : ℂ) :
     simp [sr36_zero_divisor_coefficient]
   · rw [LSeries.term_def₀ (by simp [sr36_zero_divisor_coefficient])]
     rw [Complex.cpow_def_of_ne_zero]
-    · rw [Complex.ofReal_log (by positivity)]
+    · rw [show (↑(↑k : ℝ) : ℂ) = (k : ℂ) by norm_num]
+      rw [Complex.ofReal_log (by positivity)]
       congr 1
       ring
     · exact_mod_cast hzero
