@@ -280,6 +280,8 @@ The stronger complex theorem `sr36_signed_polynomial_parameter_complex` is now v
 
 The current source, including this full complex endpoint, was reverified by `ELAN_HOME=C:\\Users\\ljoe6\\.elan lake -Kjobs=1 build SR_Stage36`: build completed successfully in 3336 jobs with exit code 0. A separate auxiliary numerical invocation produced no output, so no unverified Gram values were added.
 
+The source now also contains `sr36_signed_polynomial_parameter_re_from_complex`, a dependency-clean proof of the real-part channel identity. It rewrites by the full complex equality and closes with `sr36_complex_product_re`, making explicit that the real theorem is a consequence of the stronger complex endpoint rather than a separate normalization argument.
+
 The formal placeholder layer now names the two remaining growth claims required by the objective: `SR_Q_critical_line_growth_conjecture` and `SR_Q_off_line_growth_conjecture`, each with a corresponding `..._certified` theorem. Their bodies are intentionally `True`, so these declarations certify only the existence of explicit conjecture interfaces; they do not prove the stated analytic growth laws. The existing divisor-reorganization, explicit-formula, and logarithmic-equidistribution wrappers remain similarly marked as conjectural interfaces.
 
 The placeholder layer now also names `SR_Q_zeta_nonvanishing_growth_conjecture` and its certification theorem, representing the proposed implication for parameters with `beta > 1/2`. It is deliberately vacuous (`True`) and therefore records the research claim without asserting a zeta theorem or an RH equivalence.

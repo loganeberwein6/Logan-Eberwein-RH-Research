@@ -559,6 +559,13 @@ theorem sr36_signed_polynomial_parameter_complex
     _ = SR_product_channel_complex X beta gamma :=
       sr36_complex_divisor_pair_normalization X beta gamma
 
+theorem sr36_signed_polynomial_parameter_re_from_complex
+    (X : Nat) (beta gamma : ℝ) :
+    (SR_signed_dirichlet_polynomial X (SR_complex_parameter beta gamma)).re =
+      SR_channel_product X beta gamma := by
+  rw [sr36_signed_polynomial_parameter_complex]
+  exact sr36_complex_product_re X beta gamma
+
 theorem sr36_complex_divisor_re (X : Nat) (hX : 6 ≤ X) (beta gamma : ℝ) :
     (SR_product_channel_complex_divisor X beta gamma).re =
       SR_channel_product X beta gamma := by
