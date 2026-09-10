@@ -24,6 +24,12 @@ theorem sr36_completeSupport_sum_toFinset
       ∑ m ∈ (completeSupport X).toFinset, f m := by
   rw [List.sum_toFinset f (sr36_completeSupport_nodup X)]
 
+theorem sr36_completeSupport_int_sum_cast (X : Nat) (f : Nat → ℤ) :
+    (((completeSupport X).map f).sum : ℝ) =
+      ∑ m ∈ (completeSupport X).toFinset, (f m : ℝ) := by
+  rw [sr36_completeSupport_sum_toFinset X f]
+  norm_cast
+
 noncomputable def SR_signed_dirichlet_polynomial (X : Nat) (s : ℂ) : ℂ :=
   ∑ k ∈ Finset.range (X ^ 2),
     (SR_signed_divisor_coefficient X k : ℂ) *
@@ -674,6 +680,28 @@ theorem sr36_signed_coefficient_sum_as_product_sign (X : Nat) :
   rw [← sr36_channel_product_at_neutral_parameter]
   unfold SR_channel_product
   simp [sr36_rees_sign_by_product, Finset.sum_product]
+
+theorem sr36_product_sign_sum_nested (X : Nat) :
+    (∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset,
+      (if p.1 * p.2 < X then (-1 : ℝ) else 1)) =
+      ∑ m ∈ (completeSupport X).toFinset,
+        ∑ n ∈ (completeSupport X).toFinset,
+          (if m * n < X then (-1 : ℝ) else 1) := by
+  simpa using (Finset.sum_product
+    (completeSupport X).toFinset (completeSupport X).toFinset
+    (fun p : Nat × Nat => if p.1 * p.2 < X then (-1 : ℝ) else 1))
+
+theorem sr36_signed_coefficient_sum_eq_allOnes (X : Nat) :
+    ∑ k ∈ Finset.range (X ^ 2), (SR_signed_divisor_coefficient X k : ℝ) =
+      allOnesEntrySum X := by
+  rw [sr36_signed_coefficient_sum_as_product_sign]
+  unfold allOnesEntrySum
+  rw [sr36_completeSupport_int_sum_cast X]
+  rw [sr36_product_sign_sum_nested]
+  apply Finset.sum_congr rfl
+  intro m hm
+  rw [sr36_completeSupport_int_sum_cast X]
+  norm_cast
 
 theorem sr36_divisorMultiplicity_X6_4 : SR_divisorMultiplicity 6 4 = 1 := by
   native_decide
