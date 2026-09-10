@@ -143,7 +143,7 @@ This intentionally proves only `True`; the analytic bridge from a signed
 physical primitive `I_SR` theorem to the zeta-zero consequence is not present
 in the finite Lean base.
 -/
-theorem RH_adjacent_statement : True := by
+theorem SR_RH_ADJACENT_CONJECTURE : True := by
   trivial
 
 theorem stage13_outcome :
@@ -171,7 +171,7 @@ theorem stage13_outcome :
 #check I_SR_radical_witness_pos
 #check I_SR_sign_wrong_on_radical_witness
 #check not_I_SR_nonpos_on_PD_radical
-#check RH_adjacent_statement
+#check SR_RH_ADJACENT_CONJECTURE
 #check stage13_outcome
 
 end SR
