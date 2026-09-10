@@ -40,6 +40,10 @@ theorem sr36_signed_dirichlet_polynomial_differentiable (X : Nat) :
   unfold SR_signed_dirichlet_polynomial
   fun_prop
 
+theorem sr36_signed_dirichlet_polynomial_continuous (X : Nat) :
+    Continuous (SR_signed_dirichlet_polynomial X) :=
+  (sr36_signed_dirichlet_polynomial_differentiable X).continuous
+
 noncomputable def SR_complex_parameter (beta gamma : ℝ) : ℂ :=
   (-(beta - 1 / 2) : ℂ) - (gamma : ℂ) * Complex.I
 
