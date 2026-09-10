@@ -14,8 +14,7 @@ noncomputable def stage30_weil_form (X : Nat) (beta gamma : ℝ) : ℝ :=
     ∑ n ∈ (completeSupport X).toFinset,
       stage30_weil_term X beta gamma m n
 
-theorem stage30_term_abs_le_weight (X : Nat) (beta gamma : ℝ) (m n : Nat)
-    (hm : m ∈ completeSupport X) (hn : n ∈ completeSupport X) :
+theorem stage30_term_abs_le_weight (X : Nat) (beta gamma : ℝ) (m n : Nat) :
     |stage30_weil_term X beta gamma m n| ≤
       |(m : ℝ) ^ (beta - 1 / 2)| * |(n : ℝ) ^ (beta - 1 / 2)| := by
   unfold stage30_weil_term
@@ -23,7 +22,7 @@ theorem stage30_term_abs_le_weight (X : Nat) (beta gamma : ℝ) (m n : Nat)
   have hre : |(reesEntryFromNat X m n : ℝ)| = 1 := by
     rcases reesEntry_neg_or_pos X m n with h | h <;> simp [h]
   rw [hre]
-  simp only [one_mul, mul_one]
+  simp only [mul_one]
   have hmcos : |Real.cos (gamma * Real.log m)| ≤ 1 :=
     Real.abs_cos_le_one _
   have hncos : |Real.cos (gamma * Real.log n)| ≤ 1 :=
@@ -73,7 +72,6 @@ theorem stage30_bound_trivial (X : Nat) (beta gamma : ℝ) :
       apply Finset.sum_le_sum
       intro n hn
       exact stage30_term_abs_le_weight X beta gamma m n
-        (by simpa using hm) (by simpa using hn)
     _ = (∑ m ∈ (completeSupport X).toFinset,
         |(m : ℝ) ^ (beta - 1 / 2)|) ^ 2 := by
       simp only [pow_two]
