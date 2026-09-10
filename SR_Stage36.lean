@@ -323,6 +323,13 @@ theorem sr36_complex_divisor_pair_normalization
           (Complex.ofReal (((p.1 : ℝ) * p.2) ^ (beta - 1 / 2)) *
             Complex.exp (((gamma * (Real.log p.1 + Real.log p.2) : ℝ) : ℂ) * Complex.I))))
 
+theorem sr36_complex_divisor_re (X : Nat) (hX : 6 ≤ X) (beta gamma : ℝ) :
+    (SR_product_channel_complex_divisor X beta gamma).re =
+      SR_channel_product X beta gamma := by
+  rw [sr36_complex_divisor_fiber_sum X hX beta gamma,
+    sr36_complex_divisor_pair_normalization X beta gamma]
+  exact sr36_complex_product_re X beta gamma
+
 def SR_product_channel_divisor_reorganization_conjecture : Prop := True
 
 theorem SR_product_channel_divisor_reorganization_conjecture_certified :

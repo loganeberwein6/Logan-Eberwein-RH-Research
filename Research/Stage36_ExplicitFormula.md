@@ -201,3 +201,9 @@ The direct Lean check passes for the complete finite bridge. Together,
 sum with the original nested complex product-channel sum. The remaining
 gap is analytic rather than finite algebraic: no ζ Dirichlet-series or
 Perron identity has yet been proved.
+
+The endpoint theorem `sr36_complex_divisor_re` is now verified. It composes
+the fiber regrouping, sign normalization, and complex real-part theorem to
+show directly that the real part of the complex divisor-fiber object equals
+`SR_channel_product`. This closes the finite algebraic map in one theorem;
+the remaining gap begins at the analytic Dirichlet-series identification.
