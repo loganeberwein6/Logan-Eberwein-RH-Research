@@ -374,6 +374,26 @@ theorem sr36_signed_polynomial_zero_term_removed (X : Nat) (s : ℂ) :
     simp [sr36_zero_divisor_coefficient]
   · simp [hzero]
 
+theorem sr36_small_divisor_coefficient (X k : Nat) (hk : k < 4) :
+    SR_signed_divisor_coefficient X k = 0 := by
+  unfold SR_signed_divisor_coefficient SR_divisorMultiplicity
+  have hempty :
+      ((completeSupport X).toFinset.product (completeSupport X).toFinset).filter
+          (fun p => p.1 * p.2 = k) = ∅ := by
+    ext p
+    constructor
+    · intro hp
+      rw [Finset.mem_filter] at hp
+      rcases Finset.mem_product.mp hp.1 with ⟨hpm, hpn⟩
+      have hmb := completeSupport_mem_bounds (by simpa using hpm)
+      have hnb := completeSupport_mem_bounds (by simpa using hpn)
+      have hprod : 2 * 2 ≤ p.1 * p.2 := Nat.mul_le_mul hmb.1 hnb.1
+      omega
+    · intro hp
+      simp at hp
+  rw [hempty]
+  simp
+
 theorem sr36_log_product_additive {X m n : Nat}
     (hm : m ∈ completeSupport X) (hn : n ∈ completeSupport X) :
     Real.log ((m * n : Nat) : ℝ) = Real.log m + Real.log n := by
