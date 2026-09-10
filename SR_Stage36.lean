@@ -73,6 +73,29 @@ theorem sr36_hasSum_of_finset_support {ι : Type}
     HasSum f (∑ i ∈ u, f i) := by
   simpa using hasSum_sum_of_ne_finset_zero hzero
 
+theorem sr36_finite_dirichlet_mellin {ι : Type} [Countable ι]
+    (u : Finset ι) (a : ι → ℂ) (p : ι → ℝ) {s : ℂ}
+    (hzero : ∀ i ∉ u, a i = 0) (hpos : ∀ i ∈ u, 0 < p i)
+    (hs : 0 < s.re) :
+    HasSum (fun i => Complex.Gamma s * a i / (p i) ^ s)
+      (mellin (fun t => ∑ i ∈ u, a i * Real.exp (-p i * t)) s) := by
+  apply sr36_hasSum_mellin_dirichlet (a := a) (p := p)
+  · intro i
+    by_cases hi : i ∈ u
+    · exact Or.inr (hpos i hi)
+    · exact Or.inl (hzero i hi)
+  · exact hs
+  · intro t ht
+    apply sr36_hasSum_of_finset_support u
+    intro i hi
+    simp [hzero i hi]
+  · have hfin : HasSum (fun i => ‖a i‖ / (p i) ^ s.re)
+        (∑ i ∈ u, ‖a i‖ / (p i) ^ s.re) :=
+      hasSum_sum_of_ne_finset_zero (s := u) (f := fun i => ‖a i‖ / (p i) ^ s.re) (by
+        intro i hi
+        simp [hzero i hi])
+    exact hfin.summable
+
 theorem sr36_zero_hasMellin (s : ℂ) :
     HasMellin (fun _ : ℝ => (0 : ℂ)) s 0 := by
   constructor
