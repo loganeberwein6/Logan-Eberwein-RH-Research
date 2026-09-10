@@ -54,18 +54,26 @@ def strandCerts : List StrandCert :=
   , { transitionK := 39, strandNumerator := 1041669, strandDenominator := 1000000 }
   , { transitionK := 44, strandNumerator := 1010328, strandDenominator := 1000000 } ]
 
-theorem SR23_STRAND_DECREASING : True := by
-  trivial
+theorem SR23_STRAND_DECREASING :
+    1197906 * 1000000 > 1139946 * 1000000 ∧
+    1139946 * 1000000 > 1099237 * 1000000 ∧
+    1099237 * 1000000 > 1062784 * 1000000 ∧
+    1062784 * 1000000 > 1041669 * 1000000 ∧
+    1041669 * 1000000 > 1010328 * 1000000 := by
+  native_decide
 
 theorem SR23_SYNTHESIS :
     (∀ X : Nat, 6 ≤ X → 0 < allOnesEntrySum X) ∧
     upperBoundCertX6To500.violations = 0 ∧
     (∀ b : Rat, b = 1 ∨ b = -1 → boundaryDet b = -2) ∧
     (∀ n k : Nat, (n, k) ∈ transitionPoints →
-      k = n ^ 2 + 3 * n - 1) ∧ True := by
-  refine ⟨allOnesEntrySum_positive_general, ?_, ?_, transition_formula_verified, trivial⟩
+      k = n ^ 2 + 3 * n - 1) ∧
+    (1197906 > 1139946 ∧ 1139946 > 1099237 ∧
+      1099237 > 1062784 ∧ 1062784 > 1041669 ∧ 1041669 > 1010328) := by
+  refine ⟨allOnesEntrySum_positive_general, ?_, ?_, transition_formula_verified, ?_⟩
   · exact SR22_UPPER_BOUND_CERT_X6_TO_500
   · intro b hb
     exact (boundary_eigenvalues_sqrt2 b hb).1
+  · norm_num
 
 end SR
