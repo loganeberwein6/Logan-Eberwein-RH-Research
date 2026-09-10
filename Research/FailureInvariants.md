@@ -79,3 +79,28 @@ simplification-depth limits on dependent indexing. This is archived; use an
 existing List/Fin equivalence or a nondependent `getD` representation.
 
 2026-09-09 — The List-to-Fin sum bridge is available as Fin.sum_univ_fun_getElem; direct rw leaves proof-dependent index terms, but simpa using the symmetric theorem resolves proof irrelevance.
+## Stage 29 growth-law lower-bound invariant
+
+The proposed two-sided conjecture requires
+`C * X^(3 beta - epsilon) ≤ |Q_X|` for every sufficiently large `X`
+with the same positive `C`. The computed normalized values oscillate and
+the unnormalized form changes sign; a cosine-phase model necessarily has
+arbitrarily small amplitudes near its zeros. Therefore this lower bound is
+too strong as stated. A viable formulation must use an upper envelope,
+limsup/liminf on subsequences, or an averaged absolute square rather than
+a pointwise positive lower bound for all `X`.
+## 2026-09-09 — SR_WeilForm source rebuild obstruction
+
+The first source-level failure when rebuilding Stage 29 is `Unknown constant Matrix.dotProduct` in `SR_WeilForm.lean`. Subsequent failures include missing `Fin.castIso`, invalid finite-index transports, and unresolved local theorem references. The cached `.olean` had masked this draft-source incompatibility. The invariant is that the current untracked SR_WeilForm draft targets an older Mathlib API and must be reconstructed as a compatibility module before source-clean builds can resume.
+
+## 2026-09-09 — Stage 29 target build artifact lock
+
+The new finite product-fibre aggregation theorem type-checks with a direct
+source invocation (`lake env lean -R . SR_Stage29.lean`).  The authoritative
+Lake target cannot currently emit its generated Mathlib artifact:
+`failed to write ... .lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Tactic/Linter/DirectoryDependency.olean`.
+This is a generated-artifact permission/lock failure, not a Lean source
+failure.  No source deletion or overwrite was attempted.
+| Goal | First failed line | Missing input |
+|---|---|---|
+| Verify `Q_X_bound_trivial` in `SR_Stage29.lean` | `import SR_WeilForm` never emitted `SR_WeilForm.olean` during repeated `lake -Kjobs=1 build SR_WeilForm.lean` runs. | Isolate `SR_WeilForm` from the broad `SR_Bridge`/umbrella-mathlib import graph, or complete the cold dependency build; no Lean theorem error was reached. |
