@@ -28,6 +28,16 @@ sr33_sum_rpow_bound_pos (N : Nat) (s : ℝ) (hs : 0 < s) :
 
 It uses `MonotoneOn.sum_le_integral` and `integral_rpow`.
 
+The support-level version is also proved for `s > 0`:
+
+```lean
+∑ m ∈ (completeSupport X).toFinset, ((m : ℝ) ^ s) ≤
+  (X : ℝ) ^ (s + 1) / (s + 1)
+```
+
+It follows by treating the support as a subset of `Finset.range X` and
+applying the positive power-sum theorem.
+
 ## Actual proof attempts
 
 The first cutoff attempt was:

@@ -78,6 +78,19 @@ theorem sr33_sum_rpow_bound_pos (N : Nat) (s : ℝ) (hs : 0 < s) :
   rw [Real.zero_rpow (by linarith : 0 < s + 1).ne', sub_zero, zero_add] at hsum
   simpa using hsum
 
+theorem sr33_support_rpow_bound_pos (X : Nat) (hX : 6 ≤ X) (s : ℝ) (hs : 0 < s) :
+    ∑ m ∈ (completeSupport X).toFinset, ((m : ℝ) ^ s) ≤
+      (X : ℝ) ^ (s + 1) / (s + 1) := by
+  have hle : ∑ m ∈ (completeSupport X).toFinset, ((m : ℝ) ^ s) ≤
+      ∑ k ∈ Finset.range X, ((k : ℝ) ^ s) := by
+    apply Finset.sum_le_sum_of_subset_of_nonneg
+    · intro k hk
+      simpa [Finset.mem_range] using
+        (completeSupport_mem_bounds (by simpa using hk)).2
+    · intro k hk hnot
+      positivity
+  exact hle.trans (sr33_sum_rpow_bound_pos X s hs)
+
 /-
 Stage 33 proof log.
 
@@ -119,6 +132,15 @@ The theorem `sr33_sum_rpow_bound_pos` now compiles. The initial error was
 `Unknown identifier integral_rpow`; importing
 `Mathlib.Analysis.SpecialFunctions.Integrals.Basic` fixed it. The next error
 was a residual `0 ^ (s+1)`, fixed by the explicit zero-rpow rewrite.
+
+Successful support assembly:
+  use `Finset.sum_le_sum_of_subset_of_nonneg` with
+  `completeSupport X ⊆ Finset.range X` via `completeSupport_mem_bounds`;
+  apply `sr33_sum_rpow_bound_pos X s hs`.
+The theorem `sr33_support_rpow_bound_pos` now compiles. An earlier shifted
+range comparison failed because its summand was indexed by `k + 2`, so it was
+not the same function on the ambient range; the direct support subset fixes
+that mismatch.
 
 Attempt 2 (power-sum induction): the proposed successor step would require
   n^(s+1)/(s+1) + (n+1)^s <= (n+1)^(s+1)/(s+1).
