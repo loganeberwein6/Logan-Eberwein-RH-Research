@@ -2,6 +2,20 @@ import SR_Stage35
 
 namespace SR
 
+theorem sr36_nested_eq_filtered_product
+    {α β γ M : Type} [AddCommMonoid M] [DecidableEq γ]
+    (s : Finset α) (t : Finset β) (g : α × β → γ) (k : γ) (a : M) :
+    (∑ x ∈ s, ∑ y ∈ t, if g (x, y) = k then a else 0) =
+      ∑ p ∈ s.product t with g p = k, a := by
+  calc
+    (∑ x ∈ s, ∑ y ∈ t, if g (x, y) = k then a else 0) =
+        ∑ p ∈ s.product t, if g p = k then a else 0 := by
+          simpa using (Finset.sum_product s t
+            (fun p : α × β => if g p = k then a else 0)).symm
+    _ = ∑ p ∈ s.product t with g p = k, a := by
+          simp only [Finset.sum_filter]
+
+
 theorem sr36_weighted_fiber_sum
     {ι κ M : Type} [CommSemiring M] [DecidableEq κ]
     {s : Finset ι} {t : Finset κ} {g : ι → κ}
@@ -52,6 +66,51 @@ noncomputable def SR_product_channel_fiber_sum
       (reesEntryFromNat X p.1 p.2 : ℝ) *
         ((p.1 : ℝ) * p.2) ^ (beta - 1 / 2) *
         Real.cos (gamma * (Real.log p.1 + Real.log p.2))
+
+/-
+theorem SR_product_channel_divisor_as_product_sum
+    (X : Nat) (hX : 6 ≤ X) (beta gamma : ℝ) :
+    SR_product_channel_as_divisor_sum X beta gamma =
+      ∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset,
+        (if p.1 * p.2 < X then (-1 : ℝ) else 1) *
+          ((p.1 : ℝ) * p.2) ^ (beta - 1 / 2) *
+          Real.cos (gamma * Real.log ((p.1 : ℝ) * p.2)) := by
+  classical
+  unfold SR_product_channel_as_divisor_sum
+  have hmap : ∀ p ∈ (completeSupport X).toFinset.product
+      (completeSupport X).toFinset, p.1 * p.2 ∈ Finset.range (X ^ 2) := by
+    intro p hp
+    rcases Finset.mem_product.mp hp with ⟨hpm, hpn⟩
+    have hpm' : p.1 ∈ completeSupport X := by simpa using hpm
+    have hpn' : p.2 ∈ completeSupport X := by simpa using hpn
+    have hmb := completeSupport_mem_bounds hpm'
+    have hnb := completeSupport_mem_bounds hpn'
+    have h1 : p.1 * p.2 < p.1 * X :=
+      Nat.mul_lt_mul_of_pos_left hnb.2 (by omega)
+    have h2 : p.1 * X < X * X :=
+      Nat.mul_lt_mul_of_pos_right hmb.2 (by omega)
+    exact Finset.mem_range.mpr (h1.trans (by simpa [pow_two] using h2))
+  have hinner (k : Nat) :
+      (∑ m ∈ (completeSupport X).toFinset,
+        ∑ n ∈ (completeSupport X).toFinset,
+          if m * n = k then
+            (k : ℝ) ^ (beta - 1 / 2) * Real.cos (gamma * Real.log k)
+          else 0) =
+        ∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset
+          with p.1 * p.2 = k,
+          ((p.1 : ℝ) * p.2) ^ (beta - 1 / 2) *
+            Real.cos (gamma * Real.log ((p.1 : ℝ) * p.2)) := by
+    simpa using sr36_nested_eq_filtered_product
+      (completeSupport X).toFinset (completeSupport X).toFinset
+      (fun p : Nat × Nat => p.1 * p.2) k
+      ((k : ℝ) ^ (beta - 1 / 2) * Real.cos (gamma * Real.log k))
+  simp_rw [hinner]
+  exact sr36_weighted_fiber_sum hmap
+    (fun k : Nat => (if k < X then (-1 : ℝ) else 1))
+    (fun p : Nat × Nat =>
+      ((p.1 : ℝ) * p.2) ^ (beta - 1 / 2) *
+        Real.cos (gamma * Real.log ((p.1 : ℝ) * p.2)))
+ -/
 
 theorem SR_product_channel_fiber_identity
     (X : Nat) (hX : 6 ≤ X) (beta gamma : ℝ) :

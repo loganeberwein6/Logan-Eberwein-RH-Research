@@ -45,3 +45,9 @@ case. It distributes the outer weight, applies
 `Finset.sum_fiberwise_of_maps_to`, and rewrites the fiber equality pointwise.
 The remaining application-specific work is expanding the nested conditional
 sum into a filtered Cartesian-product sum.
+
+The application attempt failed when a constant fiber value was supplied:
+Lean correctly produced a fiber-cardinality factor. Replacing it with the
+product-dependent summand exposed the required pointwise `k = m*n` rewrite;
+that incomplete application was removed, while the generic lemma remains
+verified.
