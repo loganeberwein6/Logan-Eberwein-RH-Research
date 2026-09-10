@@ -302,6 +302,12 @@ theorem sr36_complex_divisor_fiber_sum
           Complex.ofReal (((p.1 : ℝ) * p.2) ^ (beta - 1 / 2)) *
             Complex.exp (((gamma * (Real.log p.1 + Real.log p.2) : ℝ) : ℂ) * Complex.I)))
 
+theorem sr36_rees_sign_real_cast (X m n : Nat) :
+    Complex.ofReal (if m * n < X then (-1 : ℝ) else 1) =
+      Complex.ofReal (reesEntryFromNat X m n : ℝ) := by
+  rw [sr36_rees_sign_by_product]
+  split_ifs <;> norm_num
+
 def SR_product_channel_divisor_reorganization_conjecture : Prop := True
 
 theorem SR_product_channel_divisor_reorganization_conjecture_certified :

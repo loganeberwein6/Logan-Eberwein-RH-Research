@@ -182,3 +182,10 @@ The fiber theorem itself is verified by `lake env lean` with exit code 0.
 Its proof uses the supported-product range bound and the existing weighted
 fiber identity; the parameter `hX` is retained for consistency with the
 Stage 36 interfaces but is not needed by this purely finite regrouping.
+
+The coercion boundary is now isolated in `sr36_rees_sign_real_cast`.
+After rewriting with `sr36_rees_sign_by_product`, `rfl` failed because
+real-to-complex and integer-to-real-to-complex casts are not definitionally
+identical. Splitting the threshold cases and using `norm_num` proves both
+branches. This supplies the missing pointwise normalization for the final
+complex pair-sum theorem.
