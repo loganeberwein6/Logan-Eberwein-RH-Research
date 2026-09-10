@@ -323,3 +323,13 @@ certified differentiable and analytic on all of `ℂ`.
 
 This closes the finite calculus layer only; Perron inversion, infinite-series
 convergence, and the zeta explicit formula remain open.
+
+## Perron/Mellin API audit
+
+The local Mathlib source search found substantial Mellin-transform
+infrastructure, including `mellin`, `HasMellin`, convergence lemmas, and the
+`StrongFEPair`/`WeakFEPair` functional-equation framework. No direct Perron
+inversion theorem or theorem identifying the present signed divisor sum with a
+Mellin transform was found. Consequently, Mellin methods are a viable formal
+route, but they still require a new integrability/convergence development and
+an independently proved identification with the SR channel.
