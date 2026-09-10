@@ -2,6 +2,15 @@ import SR_Stage35
 
 namespace SR
 
+theorem sr36_product_weight_normalization
+    (m n : Nat) (hm : 0 < m) (hn : 0 < n) (beta gamma : ℝ) :
+    ((m : ℝ) * n) ^ (beta - 1 / 2) *
+        Real.cos (gamma * Real.log ((m : ℝ) * n)) =
+      (m : ℝ) ^ (beta - 1 / 2) * (n : ℝ) ^ (beta - 1 / 2) *
+        Real.cos (gamma * (Real.log m + Real.log n)) := by
+  rw [Real.mul_rpow (by positivity) (by positivity)]
+  rw [Real.log_mul (by positivity) (by positivity)]
+
 noncomputable def SR_product_channel_as_divisor_sum
     (X : Nat) (beta gamma : ℝ) : ℝ :=
   ∑ k ∈ Finset.range (X ^ 2),
