@@ -9,6 +9,15 @@ def SR_divisorMultiplicity (X k : Nat) : Nat :=
 def SR_signed_divisor_coefficient (X k : Nat) : ℤ :=
   (if k < X then -1 else 1) * SR_divisorMultiplicity X k
 
+theorem sr36_completeSupport_nodup (X : Nat) :
+    (completeSupport X).Nodup := by
+  unfold completeSupport
+  apply List.Nodup.map
+  · intro a b hab
+    dsimp at hab
+    omega
+  · exact List.nodup_range
+
 noncomputable def SR_signed_dirichlet_polynomial (X : Nat) (s : ℂ) : ℂ :=
   ∑ k ∈ Finset.range (X ^ 2),
     (SR_signed_divisor_coefficient X k : ℂ) *
