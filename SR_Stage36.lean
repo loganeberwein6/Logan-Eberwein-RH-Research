@@ -113,6 +113,16 @@ theorem sr36_second_difference_interval_transform_denominator {s : ℂ}
   field_simp [hs0, hs1, hs2]
   ring
 
+/- Stage 37 obstruction audit: the currently proved trivial envelope cannot
+   contradict a hypothetical off-line contribution of order X^(β+1). -/
+theorem sr37_off_line_exponent_is_below_trivial_envelope {β : ℝ}
+    (hβ : 0 < β) : β + 1 ≤ 2 * β + 1 := by
+  linarith
+
+theorem sr37_off_line_exponent_exceeds_critical_exponent {β : ℝ}
+    (hβ : (1 : ℝ) / 2 < β) : (3 : ℝ) / 2 < β + 1 := by
+  linarith
+
 theorem sr36_smoothed_interval_transform_denominator {s : ℂ} (hs : 0 < s.re) :
     1 / s - 1 / (s + 1) = 1 / (s * (s + 1)) := by
   have hs0 : s ≠ 0 := by
