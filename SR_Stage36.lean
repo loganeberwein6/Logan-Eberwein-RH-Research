@@ -1,7 +1,12 @@
 import SR_Stage35
 import Mathlib.Analysis.Complex.CauchyIntegral
+import Mathlib.Analysis.MellinTransform
 
 namespace SR
+
+theorem sr36_unit_interval_hasMellin {s : ℂ} (hs : 0 < s.re) :
+    HasMellin (Set.indicator (Set.Ioc 0 1) (fun _ : ℝ => 1 : ℝ → ℂ)) s (1 / s) :=
+  hasMellin_one_Ioc hs
 
 def SR_divisorMultiplicity (X k : Nat) : Nat :=
   ((completeSupport X).toFinset.product (completeSupport X).toFinset).filter
