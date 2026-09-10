@@ -23,3 +23,10 @@ scalar analytic mollifier with the required zero-density interpretation.
 The interior matrix `A_X` is not positive semidefinite for all cutoffs, so the
 proposed Weyl shortcut does not apply universally.
 The earlier planning note claiming `N_int(30)=60` is inconsistent with the current definition `2 ≤ m,n < X` and `m*n < X`; direct enumeration gives `N_int(30)=46`. Any asymptotic inference based on the value 60 is discarded.
+## Stage 30 Conrey exponent and stale numerical baseline
+
+The proposed Conrey exponent is not supported by recomputation from the
+current Lean definition.  More fundamentally, the earlier Stage 29 Q-table
+does not reproduce by direct finite enumeration at X=6,30,110.  Any growth
+claim based on that table is suspended until the implementation discrepancy
+is identified.

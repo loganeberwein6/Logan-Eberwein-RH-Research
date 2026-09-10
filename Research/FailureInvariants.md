@@ -104,3 +104,6 @@ failure.  No source deletion or overwrite was attempted.
 | Goal | First failed line | Missing input |
 |---|---|---|
 | Verify `Q_X_bound_trivial` in `SR_Stage29.lean` | `import SR_WeilForm` never emitted `SR_WeilForm.olean` during repeated `lake -Kjobs=1 build SR_WeilForm.lean` runs. | Isolate `SR_WeilForm` from the broad `SR_Bridge`/umbrella-mathlib import graph, or complete the cold dependency build; no Lean theorem error was reached. |
+| Goal | First failed line | Missing input |
+|---|---|---|
+| Validate Stage 30 Conrey exponent | Exact enumeration of `SR_weil_form_real` disagrees with the Stage 29 baseline already at X=6. | Identify which prior implementation or normalization produced the stale Q-table before fitting any asymptotic exponent. |

@@ -65,3 +65,31 @@ be retained in any exact asymptotic formula.
 2026-09-09 — Two-frequency least-squares fit of Q/X^(3β) against cos(γ log X), sin(γ log X), cos(2γ log X), sin(2γ log X), and a constant gives residual norms 0.0169, 0.0081, 0.0039, 0.0018, 0.0008 for β=.5,.6,.7,.8,.9. The decreasing residual supports a finite phase-channel model, but does not establish an asymptotic theorem.
 2026-09-09 — Computed the normalized square-weight envelope `(Σ_{2≤m<X} m^(β−1/2))² / X^(2β+1)`: for β=.5 it approaches 1 (0.871, 0.964, 0.981, 0.992 at X=30,110,210,500); for β=.8 it approaches ≈0.59. This confirms the unconditional square envelope has leading scale X^(2β+1), so any X^(3β) law must come from cancellation.
 | `N_int(X)`, `N_int/X`, `N_int/(X log X)`, `N_int/X^(3/2)` | X=30: 46, 1.533333, 0.450822, 0.279947; X=100: 276, 2.760000, 0.599326, 0.276000; X=210: 733, 3.490476, 0.652778, 0.240865; X=500: 2181, 4.362000, 0.701895, 0.195075; X=1000: 5056, 5.056000, 0.731931, 0.159885; X=2310: 13615, 5.893939, 0.761 - exact 0.760999, 0.122631 | The ratio to `X log X` increases over this finite range, while `N_int/X^(3/2)` decreases. | No asymptotic conclusion; finite data only. |
+## Stage 30 exact-definition audit
+
+The Stage 30 pseudocode was recomputed from the Lean definition
+`SR_weil_form_real`, namely weights
+`m^(beta-1/2) cos(gamma log m)` and `n^(beta-1/2) cos(gamma log n)` with
+the Rees sign `+1` for `m*n >= X` and `-1` otherwise.  Direct enumeration
+gives, for `(beta,gamma)=(0.8,21.022)`,
+`Q(6)=10.600956`, `Q(30)=-19.469985`, and `Q(110)=612.406629`.
+These disagree with the earlier Stage 29 table (`2.556842`, `49.286536`,
+`646.722121`), so that table is not evidence for the current Lean form.
+
+Using the exact definition and the `O(X log X)` interior split, the
+two-point exponents from `X=1000` to `X=10000` are:
+
+| gamma | beta | Q(1000) | Q(10000) | observed exponent | Conrey prediction |
+|---:|---:|---:|---:|---:|---:|
+| 21.022 | 0.5 | 717.931313 | 186378.154151 | 2.414312 | 1.500000 |
+| 21.022 | 0.6 | 3474.729276 | 1152162.054696 | 2.520593 | 1.540000 |
+| 21.022 | 0.7 | 15188.421635 | 7185316.641419 | 2.674933 | 1.580000 |
+| 21.022 | 0.8 | 63591.739042 | 44972922.716686 | 2.849550 | 1.620000 |
+| 21.022 | 0.9 | 260886.152699 | 281894241.510647 | 3.033635 | 1.660000 |
+| 14.134 | 0.5 | 600.450290 | 498988.517166 | 2.919613 | 1.500000 |
+| 14.134 | 0.6 | 2210.257569 | 3116925.006924 | 3.149283 | 1.540000 |
+| 14.134 | 0.8 | 34151.115496 | 123420250.243447 | 3.557982 | 1.620000 |
+
+Conclusion: the proposed `3/2 + (2/5)(beta-1/2)` law is refuted for the
+current exact SR definition at these cutoffs.  The discrepancy must be
+resolved before any Conrey interpretation is formalized.
