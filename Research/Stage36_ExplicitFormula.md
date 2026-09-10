@@ -282,6 +282,16 @@ The current source, including this full complex endpoint, was reverified by `ELA
 
 ## Analytic API re-audit
 
+## Original Stage 36 gate recheck
+
+The objective's stated build gate, `lake -Kjobs=1 build SR_Stage35`, was rerun
+after the completion audit and exited 0 (`Build completed successfully`, 3335
+jobs). The current Stage 36 source was independently checked with
+`lake env lean SR_Stage36.lean` and also exited 0. A source-only scan found no
+`sorry`, `admit`, `axiom`, or `unsafe` declarations in `SR_Stage36.lean`; the
+same words appearing in the audit document are checklist terminology, not
+Lean declarations. Existing linter warnings remain non-fatal.
+
 The local Mathlib source exposes `riemannZeta`, its continuation and critical-line zero framework, and the naive Dirichlet-series identity `riemannZeta_eq_tsum` (under the stated real-part hypothesis). The audit found no Perron inversion theorem and no theorem identifying the SR signed divisor polynomial with `riemannZeta` or a zeta product. Therefore the finite equality proved here is a genuine precursor to, but not an imported proof of, the explicit formula.
 
 The finite edge case `sr36_zero_divisor_coefficient` is now proved: the signed coefficient at `k = 0` vanishes because every supported product is positive. The first extensionality attempt failed when `hp` remained a quotient-wrapped membership proof; adding `rw [Finset.mem_filter] at hp` exposed the product witnesses and allowed `sr36_product_pos` followed by `omega` to close the contradiction. This makes the `log 0` term in the range-based finite polynomial harmless at the coefficient level.
