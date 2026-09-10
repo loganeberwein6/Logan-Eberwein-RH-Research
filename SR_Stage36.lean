@@ -48,6 +48,16 @@ theorem sr36_signed_coefficient_complex_as_fiber_sum (X k : Nat) :
   rw [sr36_signed_coefficient_as_fiber_sum]
   norm_cast
 
+theorem sr36_signed_polynomial_as_fiber_sum (X : Nat) (s : ℂ) :
+    SR_signed_dirichlet_polynomial X s =
+      ∑ k ∈ Finset.range (X ^ 2),
+        (∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset
+          with p.1 * p.2 = k,
+          (if k < X then (-1 : ℂ) else 1)) *
+          Complex.exp (-s * (Real.log k : ℂ)) := by
+  unfold SR_signed_dirichlet_polynomial
+  simp_rw [sr36_signed_coefficient_complex_as_fiber_sum]
+
 
 theorem sr36_nested_eq_filtered_product
     {α β γ M : Type} [AddCommMonoid M] [DecidableEq γ]
