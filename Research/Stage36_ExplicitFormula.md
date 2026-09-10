@@ -311,3 +311,15 @@ The placeholder layer now also names `SR_Q_zeta_nonvanishing_growth_conjecture` 
 ## Reproducible script execution
 
 The prescribed numerical script was rerun successfully with `C:\\Users\\ljoe6\\AppData\\Local\\Python\\bin\\python.exe Research/Stage36_numeric_test.py` (exit code 0). It reproduced the complete explicit-formula table, mixed critical-line scaling table, zero-frequency growth table, and Gram results: the key ratios remain unstable (`1.5606, 0.3217, 0.7497, 5.0177, 0.6264` for the critical model and `1.2393, -0.1891, 2.2201, 25.1030, 6.9930` for the off-line model). These remain numerical evidence, not proofs.
+
+## Finite calculus completion
+
+The finite signed Dirichlet polynomial now has an explicit derivative
+certificate. The proof applies `HasDerivAt.fun_sum` to the finite kernel,
+composes `Complex.hasDerivAt_exp` with the derivative of `fun y => -y * log k`,
+then applies `const_mul` and normalizes with `ring`. The derivative certificate
+is identified with Lean's `deriv` operator, and the derivative polynomial is
+certified differentiable and analytic on all of `ℂ`.
+
+This closes the finite calculus layer only; Perron inversion, infinite-series
+convergence, and the zeta explicit formula remain open.
