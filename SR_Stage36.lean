@@ -12,6 +12,55 @@ noncomputable def SR_product_channel_as_divisor_sum
             (k : ℝ) ^ (beta - 1 / 2) * Real.cos (gamma * Real.log k)
           else 0
 
+noncomputable def SR_product_channel_fiber_sum
+    (X : Nat) (beta gamma : ℝ) : ℝ :=
+  ∑ k ∈ Finset.range (X ^ 2),
+    ∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset
+      with p.1 * p.2 = k,
+      (reesEntryFromNat X p.1 p.2 : ℝ) *
+        ((p.1 : ℝ) * p.2) ^ (beta - 1 / 2) *
+        Real.cos (gamma * (Real.log p.1 + Real.log p.2))
+
+theorem SR_product_channel_fiber_identity
+    (X : Nat) (hX : 6 ≤ X) (beta gamma : ℝ) :
+    SR_product_channel_fiber_sum X beta gamma =
+      SR_channel_product X beta gamma := by
+  classical
+  unfold SR_product_channel_fiber_sum SR_channel_product
+  have hprod :
+      (∑ m ∈ (completeSupport X).toFinset,
+        ∑ n ∈ (completeSupport X).toFinset,
+          (reesEntryFromNat X m n : ℝ) *
+            ((m : ℝ) * n) ^ (beta - 1 / 2) *
+            Real.cos (gamma * (Real.log m + Real.log n))) =
+        ∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset,
+          (reesEntryFromNat X p.1 p.2 : ℝ) *
+            ((p.1 : ℝ) * p.2) ^ (beta - 1 / 2) *
+            Real.cos (gamma * (Real.log p.1 + Real.log p.2)) := by
+    simpa using (Finset.sum_product (completeSupport X).toFinset
+      (completeSupport X).toFinset (fun p : Nat × Nat =>
+        (reesEntryFromNat X p.1 p.2 : ℝ) *
+          ((p.1 : ℝ) * p.2) ^ (beta - 1 / 2) *
+          Real.cos (gamma * (Real.log p.1 + Real.log p.2)))).symm
+  rw [hprod]
+  refine Finset.sum_fiberwise_of_maps_to ?_ (fun p : Nat × Nat =>
+    (reesEntryFromNat X p.1 p.2 : ℝ) *
+      ((p.1 : ℝ) * p.2) ^ (beta - 1 / 2) *
+      Real.cos (gamma * (Real.log p.1 + Real.log p.2)))
+  intro p hp
+  rcases (Finset.mem_product.mp hp) with ⟨hpm, hpn⟩
+  have hpm' : p.1 ∈ completeSupport X := by simpa using hpm
+  have hpn' : p.2 ∈ completeSupport X := by simpa using hpn
+  have hmb := completeSupport_mem_bounds hpm'
+  have hnb := completeSupport_mem_bounds hpn'
+  have hm := hmb.2
+  have hn := hnb.2
+  have h1 : p.1 * p.2 < p.1 * X :=
+    Nat.mul_lt_mul_of_pos_left hn (by omega)
+  have h2 : p.1 * X < X * X :=
+    Nat.mul_lt_mul_of_pos_right hm (by omega)
+  exact Finset.mem_range.mpr (h1.trans (by simpa [pow_two] using h2))
+
 def SR_product_channel_divisor_reorganization_conjecture : Prop := True
 
 theorem SR_product_channel_divisor_reorganization_conjecture_certified :
