@@ -249,3 +249,7 @@ The follow-on theorem `sr36_parameter_product_kernel_split` is also source-verif
 The theorem `sr36_product_rpow_exponential` now closes the finite notation gap: positivity from the support permits `Real.rpow_def_of_pos`, `Complex.ofReal_exp` transfers the real exponential into `ℂ`, and exponent commutativity is normalized by the final congruence/ring step. The first post-rewrite attempt left only the reversed multiplication order; the corrected source check exits successfully (with the existing linter diagnostics).
 
 Finally, `sr36_product_kernel_matches_pair_phase` combines the rpow identity with `sr36_log_product_additive` and proves that the product-index kernel is exactly the pair-index kernel used by `SR_product_channel_complex`. Its checked proof is the two rewrites `sr36_product_rpow_exponential` and `sr36_log_product_additive`; no analytic assumptions are introduced.
+
+## Standard build verification
+
+The authorized command `ELAN_HOME=C:\\Users\\ljoe6\\.elan lake -Kjobs=1 build SR_Stage36` completed successfully on the current source, building `SR_Stage36` in 3336 jobs with exit code 0. The prior generated-setup permission failure did not recur. Linter warnings remain, but there are no compilation errors.
