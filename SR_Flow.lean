@@ -909,12 +909,10 @@ theorem flow_produces_negative_eigenvalues :
   · decide
 
 theorem SR16_SIGN_FROM_FLOW :
-    True ∧ True ∧ 0 < M_Rees_signature_X6.neg := by
-  constructor
-  · trivial
-  constructor
-  · trivial
-  · decide
+    M_Rees_signature_X52 = ⟨1, 0, 0⟩ ∧
+      M_Rees_signature_X6 = ⟨1, 1, 2⟩ ∧
+      0 < M_Rees_signature_X6.neg := by
+  exact flow_produces_negative_eigenvalues
 
 def SR_flow_fixed_point_proxy_archived_late_copy (current future : SignatureSummary) : Prop :=
   current.neg * signatureIndexDenominator future =
@@ -1004,7 +1002,9 @@ theorem stage16_synthesis :
         X30_reducedMatrixInt.det =
           X30_reducedCongruencePivots.prod * X30_reducedFinalBlock.det) ∧
     (∀ i x, dot30 i x = X30_dotFromMass i (X30_classMass x)) ∧
-    (True ∧ True ∧ 0 < M_Rees_signature_X6.neg) ∧
+                                        (M_Rees_signature_X52 = ⟨1, 0, 0⟩ ∧
+                                          M_Rees_signature_X6 = ⟨1, 1, 2⟩ ∧
+                                          0 < M_Rees_signature_X6.neg) ∧
     ¬ SR_flow_fixed_point_proxy M_Rees_signature_X52 M_Rees_signature_X6 ∧
     ¬ SR_flow_fixed_point_proxy M_Rees_signature_X6 M_Rees_signature_X30 ∧
     (¬ SR_flow_fixed_point_proxy M_Rees_signature_X52 M_Rees_signature_X6 ∧
