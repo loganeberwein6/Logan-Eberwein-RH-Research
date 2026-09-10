@@ -1,0 +1,21 @@
+# Open claims register
+
+This file separates empirical or proposed mathematics from certified Lean
+theorems.  None of the entries below is used as a proof of another claim.
+
+| CLAIM | EVIDENCE | STATUS | PROOF PATH |
+|---|---|---|---|
+| RH is equivalent to the precisely defined adjacent signed-spectrum condition in `SR_ISR.lean`. | No analytic implication has been formalized. | OPEN | Define the spectrum and prove both implications from the explicit formula. |
+| The recorded primorial cutoffs have balanced positive and negative signatures. | Lean theorem `SR19_CONJ_PRIMORIAL_BALANCE`; four explicit records. | CERTIFIED | Completed by finite reduction. |
+| The primorial zeta-spectrum is governed by the nontrivial zeta zeros. | Only numerical motivation is recorded. | CONJECTURED | Define the spectral transform and compare its residues with the explicit formula. |
+| The Stage-16 logarithmic SR sum converges along primorial cutoffs. | Finite values only; no limit estimate. | OPEN | Establish uniform tail bounds for the weighted divisor sum. |
+| The signature bound `pos(M_Rees_X) ≤ neg(M_Rees_X)+1` holds for every `X ≥ 6`. | Finite certificates and counter-pressure from the bridge audit. | OPEN | Prove a pairing/involution on nonzero signature vectors. |
+| The SR density strand values are decreasing for the recorded parameter sequence. | Recorded decimals in `SR_Density.lean`. | CERTIFIED (recorded data only) | Replace decimal certificates by exact rational values and `native_decide`. |
+| The Conrey-style density observable is connected to RH. | Heuristic comparison only. | CONJECTURED | State the limiting density and derive it from zero statistics. |
+| The SR fixed point exists and is unique in the proposed flow domain. | Current flow file contains only a placeholder proposition. | OPEN | Define the operator and prove contraction or compactness plus uniqueness. |
+| The dBN flow cutoff is zero iff RH. | Proposed statement in `SR_Flow.lean`; no bridge theorem. | CONJECTURED | Relate the flow spectrum to the explicit formula. |
+| The logarithm-weighted Rees sum is strictly positive for all `X ≥ 6`. | Positivity is proved only for selected finite records. | OPEN | Apply the general below-half-support counting lemma with positive log weights. |
+| The half-weighted SR sum is strictly positive for all `X ≥ 6`. | Finite exploratory evidence. | OPEN | Establish a sign-preserving decomposition of the weighted fibers. |
+| The SR upper-bound observable satisfies the advertised `X^(3β+ε)` estimate. | Empirical tests through `X=10000` for one parameter pair; no asymptotic proof. | CONJECTURED | Prove the required cancellation of the total and interior terms. |
+| The exact SR form has a bounded `X^(3β)` envelope for fixed `(β,γ)`. | Accelerated computation at `β=.8, γ=21.022` remains bounded through `X=10000`. | CONJECTURED | Retain both sum- and difference-frequency channels in an exponential-sum estimate. |
+
