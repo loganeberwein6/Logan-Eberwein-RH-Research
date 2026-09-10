@@ -283,3 +283,7 @@ The current source, including this full complex endpoint, was reverified by `ELA
 The formal placeholder layer now names the two remaining growth claims required by the objective: `SR_Q_critical_line_growth_conjecture` and `SR_Q_off_line_growth_conjecture`, each with a corresponding `..._certified` theorem. Their bodies are intentionally `True`, so these declarations certify only the existence of explicit conjecture interfaces; they do not prove the stated analytic growth laws. The existing divisor-reorganization, explicit-formula, and logarithmic-equidistribution wrappers remain similarly marked as conjectural interfaces.
 
 The placeholder layer now also names `SR_Q_zeta_nonvanishing_growth_conjecture` and its certification theorem, representing the proposed implication for parameters with `beta > 1/2`. It is deliberately vacuous (`True`) and therefore records the research claim without asserting a zeta theorem or an RH equivalence.
+
+## Reproducible script execution
+
+The prescribed numerical script was rerun successfully with `C:\\Users\\ljoe6\\AppData\\Local\\Python\\bin\\python.exe Research/Stage36_numeric_test.py` (exit code 0). It reproduced the complete explicit-formula table, mixed critical-line scaling table, zero-frequency growth table, and Gram results: the key ratios remain unstable (`1.5606, 0.3217, 0.7497, 5.0177, 0.6264` for the critical model and `1.2393, -0.1891, 2.2201, 25.1030, 6.9930` for the off-line model). These remain numerical evidence, not proofs.
