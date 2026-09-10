@@ -38,7 +38,7 @@ theorem transition_formula_n9_to_n16 :
     transitionK 15 = 269 ∧ transitionK 16 = 303 := by
   decide
 
-theorem SR23_CONJ_CONREY_CONNECTION : True := by
+theorem SR23_CONJ_CONREY_CONNECTION_CONJECTURE : True := by
   trivial
 
 structure StrandCert where

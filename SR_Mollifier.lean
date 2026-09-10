@@ -59,10 +59,10 @@ noncomputable def SR_HalfWeightedSum (X : Nat) : ℝ :=
 noncomputable def SR_kappa (X : Nat) : ℝ :=
   (SR_HalfWeightedSum X) ^ 2 / (SR_S2 X * SR_S3 X)
 
-theorem logWeightedReesSum_X6_open : True := by
+theorem SR24_LOG_WEIGHTED_X6_OPEN : True := by
   trivial
 
-theorem SR_HalfWeightedSum_X6_open : True := by
+theorem SR24_HALF_WEIGHTED_X6_OPEN : True := by
   trivial
 
 def srProportionCerts : List SRProportionCert :=
