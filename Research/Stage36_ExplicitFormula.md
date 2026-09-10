@@ -67,3 +67,18 @@ Lean correctly produced a fiber-cardinality factor. Replacing it with the
 product-dependent summand exposed the required pointwise `k = m*n` rewrite;
 that incomplete application was removed, while the generic lemma remains
 verified.
+# Stage 36 proof-audit update
+
+The finite divisor regrouping is proved in `SR_Stage36.lean`, including the
+support-to-`range (X^2)` map, the product-fiber identity, and the exact Rees
+sign split. A further attempted interface used a complex finite sum with
+`(k : ℂ) ^ (beta - 1/2 + Complex.I * gamma)` and tried to prove that its real
+part equals the real cosine divisor sum. After unfolding, the available
+Mathlib simplifier did not expose the required real-part formula for complex
+powers, so this theorem was removed rather than admitted. This is an API/proof
+gap, not evidence for the analytic conjecture.
+
+The verification command initially failed with `couldn't find value of
+ELAN_HOME`; setting `ELAN_HOME=C:\\Users\\ljoe6\\.elan` allowed the complete
+`SR_Stage35 SR_Stage36` build to succeed (3337 jobs). Existing unrelated
+worktree changes were preserved.
