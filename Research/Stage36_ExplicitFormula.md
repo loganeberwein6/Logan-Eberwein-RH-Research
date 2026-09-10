@@ -78,6 +78,17 @@ Mathlib simplifier did not expose the required real-part formula for complex
 powers, so this theorem was removed rather than admitted. This is an API/proof
 gap, not evidence for the analytic conjecture.
 
+Additional proof search this cycle tested the more useful exponential
+interface
+`(k : ℝ)^(beta - 1/2) * Complex.exp ((gamma * Real.log k : ℝ) * I)`.
+The actual Lean failures were progressively narrowed: first `HPow ℂ ℝ`
+from an incorrectly parsed cast; then an invalid `sum_congr` level because
+the outer summand was a product; then an unreduced complex sign conditional;
+finally the remaining goal required `Complex.ofReal_log` under a positivity
+proof for `k`. The positivity is available from the support witnesses and
+the equality `m*n=k`, but was not completed in this cycle. The experiment was
+removed, and the source was rebuilt successfully afterward (3336 jobs).
+
 The verification command initially failed with `couldn't find value of
 ELAN_HOME`; setting `ELAN_HOME=C:\\Users\\ljoe6\\.elan` allowed the complete
 `SR_Stage35 SR_Stage36` build to succeed (3337 jobs). Existing unrelated
