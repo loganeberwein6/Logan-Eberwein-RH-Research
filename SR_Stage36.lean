@@ -102,6 +102,63 @@ theorem sr36_filtered_sum_mul_right
   intro x hx
   by_cases h : p x <;> simp [h, mul_comm]
 
+theorem sr36_signed_polynomial_as_product_sum (X : Nat) (s : ℂ) :
+    SR_signed_dirichlet_polynomial X s =
+      ∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset,
+        (if p.1 * p.2 < X then (-1 : ℂ) else 1) *
+          Complex.exp (-s * (Real.log (p.1 * p.2) : ℂ)) := by
+  classical
+  have hmap : ∀ p ∈ (completeSupport X).toFinset.product
+      (completeSupport X).toFinset, p.1 * p.2 ∈ Finset.range (X ^ 2) := by
+    intro p hp
+    rcases Finset.mem_product.mp hp with ⟨hpm, hpn⟩
+    have hpm' : p.1 ∈ completeSupport X := by simpa using hpm
+    have hpn' : p.2 ∈ completeSupport X := by simpa using hpn
+    have hmb := completeSupport_mem_bounds hpm'
+    have hnb := completeSupport_mem_bounds hpn'
+    have h1 : p.1 * p.2 < p.1 * X :=
+      Nat.mul_lt_mul_of_pos_left hnb.2 (by omega)
+    have h2 : p.1 * X < X * X :=
+      Nat.mul_lt_mul_of_pos_right hmb.2 (by omega)
+    exact Finset.mem_range.mpr (h1.trans (by simpa [pow_two] using h2))
+  have hsign (k : Nat) :
+      (∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset
+        with p.1 * p.2 = k, (if k < X then (-1 : ℂ) else 1)) =
+      ∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset
+        with p.1 * p.2 = k, (if p.1 * p.2 < X then (-1 : ℂ) else 1) := by
+    apply Finset.sum_congr rfl
+    intro p hp
+    rw [Finset.mem_filter] at hp
+    rw [← hp.2]
+  rw [sr36_signed_polynomial_as_fiber_sum]
+  calc
+    (∑ k ∈ Finset.range (X ^ 2),
+        (∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset
+          with p.1 * p.2 = k, (if k < X then (-1 : ℂ) else 1)) *
+          Complex.exp (-s * (Real.log k : ℂ))) =
+      ∑ k ∈ Finset.range (X ^ 2),
+        Complex.exp (-s * (Real.log k : ℂ)) *
+          (∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset
+            with p.1 * p.2 = k, (if p.1 * p.2 < X then (-1 : ℂ) else 1)) := by
+      apply Finset.sum_congr rfl
+      intro k hk
+      rw [← sr36_filtered_sum_mul_right]
+      rw [hsign]
+      rw [sr36_filtered_sum_mul_right]
+      exact mul_comm _ _
+    _ = ∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset,
+        Complex.exp (-s * (Real.log (p.1 * p.2) : ℂ)) *
+          (if p.1 * p.2 < X then (-1 : ℂ) else 1) := by
+      simpa using (sr36_weighted_fiber_sum hmap
+        (fun k : Nat => Complex.exp (-s * (Real.log k : ℂ)))
+        (fun p : Nat × Nat => if p.1 * p.2 < X then (-1 : ℂ) else 1))
+    _ = ∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset,
+        (if p.1 * p.2 < X then (-1 : ℂ) else 1) *
+          Complex.exp (-s * (Real.log (p.1 * p.2) : ℂ)) := by
+      apply Finset.sum_congr rfl
+      intro p hp
+      exact mul_comm _ _
+
 theorem sr36_rees_sign_by_product (X m n : Nat) :
     reesEntryFromNat X m n = if m * n < X then -1 else 1 := by
   rw [rees_decomposition]
