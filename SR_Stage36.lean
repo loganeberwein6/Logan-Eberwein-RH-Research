@@ -246,6 +246,13 @@ theorem sr36_product_pos {X m n : Nat}
     0 < m * n := by
   exact Nat.mul_pos (sr36_support_pos hm) (sr36_support_pos hn)
 
+theorem sr36_log_product_additive {X m n : Nat}
+    (hm : m ∈ completeSupport X) (hn : n ∈ completeSupport X) :
+    Real.log ((m * n : Nat) : ℝ) = Real.log m + Real.log n := by
+  have hmpos : 0 < (m : ℝ) := by exact_mod_cast sr36_support_pos hm
+  have hnpos : 0 < (n : ℝ) := by exact_mod_cast sr36_support_pos hn
+  rw [Nat.cast_mul, Real.log_mul hmpos.ne' hnpos.ne']
+
 theorem sr36_exp_phase_re (x : ℝ) :
     (Complex.exp (((x : ℂ) * Complex.I))).re = Real.cos x := by
   rw [Complex.exp_mul_I]
