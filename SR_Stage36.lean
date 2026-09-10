@@ -61,6 +61,18 @@ theorem sr36_powered_interval_hasMellin (a s : ℂ)
       (1 / (s + a)) :=
   hasMellin_cpow_Ioc a hs
 
+theorem sr36_smoothed_interval_hasMellin {s : ℂ} (hs : 0 < s.re) :
+    HasMellin
+      (fun t : ℝ => Set.indicator (Set.Ioc 0 1)
+        (fun _ : ℝ => 1 : ℝ → ℂ) t -
+        Set.indicator (Set.Ioc 0 1) (fun x : ℝ => (x : ℂ) ^ (1 : ℂ)) t) s
+      (1 / s - 1 / (s + 1)) := by
+  have h1 := sr36_unit_interval_hasMellin hs
+  have h2 := sr36_powered_interval_hasMellin 1 s (by linarith)
+  have hsub := hasMellin_sub h1.1 h2.1
+  refine ⟨hsub.1, ?_⟩
+  rw [hsub.2, h1.2, h2.2]
+
 theorem sr36_hasMellin_add {f g : ℝ → ℂ} {s : ℂ}
     (hf : HasMellin f s (mellin f s))
     (hg : HasMellin g s (mellin g s)) :
