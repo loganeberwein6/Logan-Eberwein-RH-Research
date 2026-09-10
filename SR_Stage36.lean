@@ -683,6 +683,12 @@ theorem sr36_zeta_dirichlet_series {s : ℂ} (hs : 1 < s.re) :
     LSeriesHasSum (↑ζ) s (riemannZeta s) :=
   LSeriesHasSum_zeta hs
 
+theorem sr36_zeta_partial_sums_tendsto {s : ℂ} (hs : 1 < s.re) :
+    Tendsto
+      (fun N : ℕ => ∑ n ∈ Finset.range N, LSeries.term (↑ζ) s n)
+      Filter.atTop (𝓝 (riemannZeta s)) := by
+  exact (sr36_zeta_dirichlet_series hs).tendsto_sum_nat
+
 theorem sr36_signed_polynomial_as_LSeries_sum (X : Nat) (s : ℂ) :
     SR_signed_dirichlet_polynomial X s =
       ∑ k ∈ Finset.range (X ^ 2),
