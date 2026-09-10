@@ -652,6 +652,14 @@ theorem sr36_channel_product_at_neutral_parameter (X : Nat) :
   rw [← sr36_signed_polynomial_at_neutral_parameter_re]
   exact (sr36_signed_polynomial_parameter_re_from_complex X (1 / 2) 0).symm
 
+theorem sr36_signed_coefficient_sum_as_product_sign (X : Nat) :
+    ∑ k ∈ Finset.range (X ^ 2), (SR_signed_divisor_coefficient X k : ℝ) =
+      ∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset,
+        (if p.1 * p.2 < X then (-1 : ℝ) else 1) := by
+  rw [← sr36_channel_product_at_neutral_parameter]
+  unfold SR_channel_product
+  simp [sr36_rees_sign_by_product, Finset.sum_product]
+
 theorem sr36_divisorMultiplicity_X6_4 : SR_divisorMultiplicity 6 4 = 1 := by
   native_decide
 
