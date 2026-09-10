@@ -91,3 +91,10 @@ for `s > 0`, it is increasing. A valid Lean proof must handle all three cases.
 
 The Euler–Maclaurin/zeta connection remains a conjectural research note,
 not evidence for the Lean inequality.
+
+## Formal completion of the diagonal bound
+
+The negative branch `0 < beta < 1/2` is now proved with the antitone
+sum–integral comparison. The exact support reindexing is handled by
+`Finset.sum_nbij'`. Combining the negative, equality, and positive cases
+proves the requested theorem `SR_ratio_diagonal_bound` for every `0 < beta`.
