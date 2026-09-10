@@ -2,8 +2,13 @@ import SR_Stage35
 import Mathlib.Analysis.Complex.CauchyIntegral
 import Mathlib.Analysis.MellinTransform
 import Mathlib.NumberTheory.LSeries.MellinEqDirichlet
+import Mathlib.NumberTheory.LSeries.Dirichlet
 
 namespace SR
+
+theorem sr36_zeta_dirichlet_series {s : ℂ} (hs : 1 < s.re) :
+    LSeriesHasSum (↑ζ) s (riemannZeta s) :=
+  LSeriesHasSum_zeta hs
 
 theorem sr36_unit_interval_hasMellin {s : ℂ} (hs : 0 < s.re) :
     HasMellin (Set.indicator (Set.Ioc 0 1) (fun _ : ℝ => 1 : ℝ → ℂ)) s (1 / s) :=
