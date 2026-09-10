@@ -659,6 +659,11 @@ theorem sr36_signed_coefficient_sum_X6 :
     ∑ k ∈ Finset.range (6 ^ 2), SR_signed_divisor_coefficient 6 k = 14 := by
   native_decide
 
+theorem sr36_signed_coefficient_sum_matches_allOnes_X6 :
+    ∑ k ∈ Finset.range (6 ^ 2), SR_signed_divisor_coefficient 6 k =
+      allOnesEntrySum 6 := by
+  rw [sr36_signed_coefficient_sum_X6, allOnesEntrySum_X6]
+
 theorem sr36_channel_product_neutral_X6 :
     SR_channel_product 6 (1 / 2) 0 = 14 := by
   rw [sr36_channel_product_at_neutral_parameter]
