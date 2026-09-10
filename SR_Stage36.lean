@@ -262,6 +262,15 @@ theorem sr36_complex_product_re (X : Nat) (beta gamma : ℝ) :
   intro n hn
   rw [sr36_real_mul_exp_phase_re]
 
+noncomputable def SR_product_channel_complex_divisor
+    (X : Nat) (beta gamma : ℝ) : ℂ :=
+  ∑ k ∈ Finset.range (X ^ 2),
+    Complex.ofReal (if k < X then (-1 : ℝ) else 1) *
+      ∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset
+        with p.1 * p.2 = k,
+        Complex.ofReal (((p.1 : ℝ) * p.2) ^ (beta - 1 / 2)) *
+          Complex.exp (((gamma * (Real.log p.1 + Real.log p.2) : ℝ) : ℂ) * Complex.I)
+
 def SR_product_channel_divisor_reorganization_conjecture : Prop := True
 
 theorem SR_product_channel_divisor_reorganization_conjecture_certified :

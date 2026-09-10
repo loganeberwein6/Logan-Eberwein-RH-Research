@@ -161,3 +161,12 @@ through that generic rewrite. Replacing it with Mathlib's `Complex.re_sum`
 at both sum levels, followed by `sr36_real_mul_exp_phase_re`, closed the
 theorem. This is a genuine finite complex representation of the product
 channel; the analytic ζ/Perron connection remains open.
+
+An additional complex divisor-fiber definition was introduced, but its
+reorganization theorem was not retained because the first proof attempt
+failed. The exact failures were: reversed orientation of
+`sr36_weighted_fiber_sum`, a coercion mismatch between `Complex.ofReal` and
+the inferred cast of the sign, and `Finset.sum_product` not matching the
+nested binder target. The unproven theorem was removed, leaving the source
+compilable; the existing real divisor theorem and complex pair-sum theorem
+remain proved.
