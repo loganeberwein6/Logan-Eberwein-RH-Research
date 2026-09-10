@@ -403,6 +403,16 @@ theorem sr36_parameter_kernel_matches_pair_phase {X m n : Nat}
   push_cast
   ring
 
+theorem sr36_signed_polynomial_parameter_product_sum
+    (X : Nat) (beta gamma : ℝ) :
+    SR_signed_dirichlet_polynomial X (SR_complex_parameter beta gamma) =
+      ∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset,
+        (if p.1 * p.2 < X then (-1 : ℂ) else 1) *
+          Complex.exp (-SR_complex_parameter beta gamma *
+            (Real.log (p.1 * p.2) : ℂ)) := by
+  exact sr36_signed_polynomial_as_product_sum X
+    (SR_complex_parameter beta gamma)
+
 theorem sr36_exp_phase_re (x : ℝ) :
     (Complex.exp (((x : ℂ) * Complex.I))).re = Real.cos x := by
   rw [Complex.exp_mul_I]
