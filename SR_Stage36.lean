@@ -2,6 +2,17 @@ import SR_Stage35
 
 namespace SR
 
+def SR_divisorMultiplicity (X k : Nat) : Nat :=
+  ((completeSupport X).toFinset.product (completeSupport X).toFinset).filter
+    (fun p => p.1 * p.2 = k) |>.card
+
+theorem sr36_filtered_const_sum
+    {α M : Type} [AddCommMonoid M]
+    (s : Finset α) (p : α → Prop) [DecidablePred p] (a : M) :
+    (∑ x ∈ s with p x, a) = (s.filter p).card • a := by
+  simp [Finset.sum_filter, Finset.sum_const]
+
+
 theorem sr36_nested_eq_filtered_product
     {α β γ M : Type} [AddCommMonoid M] [DecidableEq γ]
     (s : Finset α) (t : Finset β) (g : α × β → γ) (k : γ) (a : M) :

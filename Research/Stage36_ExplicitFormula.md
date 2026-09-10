@@ -34,6 +34,11 @@ the conditional-to-filtered-product lemma, the weighted-fiber lemma, the exact
 Rees sign identity, explicit natural-to-real cast normalization, and
 `Real.log_mul`.
 
+The arithmetic coefficient layer now defines `SR_divisorMultiplicity` and
+proves `sr36_filtered_const_sum`, identifying each finite product fiber with
+its cardinality times the common fiber value. This is the finite analogue of
+the divisor-function coefficient appearing in a Dirichlet series.
+
 Local mathlib search found the Riemann-zeta infrastructure in
 `Mathlib.NumberTheory.LSeries.RiemannZeta`, including `riemannZeta`, its
 continuation and critical-line zero framework. No existing theorem connects
