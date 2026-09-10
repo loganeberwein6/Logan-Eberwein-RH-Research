@@ -429,6 +429,33 @@ theorem sr36_real_mul_exp_phase_re (a x : ℝ) :
   simp only [Complex.ofReal_re, Complex.ofReal_im, zero_mul, sub_zero]
   rw [sr36_exp_phase_re]
 
+theorem sr36_signed_polynomial_parameter_re
+    (X : Nat) (hX : 6 ≤ X) (beta gamma : ℝ) :
+    (SR_signed_dirichlet_polynomial X (SR_complex_parameter beta gamma)).re =
+      SR_channel_product X beta gamma := by
+  rw [sr36_signed_polynomial_parameter_product_sum]
+  rw [Complex.re_sum]
+  rw [SR_product_channel_divisor_form X hX beta gamma]
+  rw [SR_product_channel_divisor_as_product_sum X hX beta gamma]
+  apply Finset.sum_congr rfl
+  intro p hp
+  have hpm : p.1 ∈ completeSupport X := by
+    simpa using (Finset.mem_product.mp hp).1
+  have hpn : p.2 ∈ completeSupport X := by
+    simpa using (Finset.mem_product.mp hp).2
+  rw [← Nat.cast_mul]
+  rw [sr36_parameter_kernel_matches_pair_phase hpm hpn beta gamma]
+  split_ifs <;> norm_num
+  all_goals
+    left
+    have hphase := sr36_exp_phase_re
+      (gamma * (Real.log p.1 + Real.log p.2))
+    convert hphase using 1
+    · push_cast
+      ring
+    · rw [← Nat.cast_mul]
+      rw [sr36_log_product_additive hpm hpn]
+
 noncomputable def SR_product_channel_complex (X : Nat) (beta gamma : ℝ) : ℂ :=
   ∑ m ∈ (completeSupport X).toFinset,
     ∑ n ∈ (completeSupport X).toFinset,
