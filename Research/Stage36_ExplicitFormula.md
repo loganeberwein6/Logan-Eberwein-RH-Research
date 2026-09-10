@@ -34,6 +34,12 @@ the conditional-to-filtered-product lemma, the weighted-fiber lemma, the exact
 Rees sign identity, explicit natural-to-real cast normalization, and
 `Real.log_mul`.
 
+Local mathlib search found the Riemann-zeta infrastructure in
+`Mathlib.NumberTheory.LSeries.RiemannZeta`, including `riemannZeta`, its
+continuation and critical-line zero framework. No existing theorem connects
+this finite SR divisor sum to that analytic function; that bridge remains a
+new theorem rather than an importable fact.
+
 The attempted sign-normalized fiber theorem also showed that an outer `k`
 summand must be rewritten explicitly using the filtered-fiber equality
 `p.1 * p.2 = k`; Lean will not perform that dependent rewrite automatically.
