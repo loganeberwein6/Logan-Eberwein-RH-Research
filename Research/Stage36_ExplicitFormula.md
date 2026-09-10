@@ -202,6 +202,15 @@ sum with the original nested complex product-channel sum. The remaining
 gap is analytic rather than finite algebraic: no ζ Dirichlet-series or
 Perron identity has yet been proved.
 
+## Finite Dirichlet-polynomial interface
+
+`SR_Stage36.lean` now defines the signed divisor coefficient
+`SR_signed_divisor_coefficient X k` and the finite complex polynomial
+`SR_signed_dirichlet_polynomial X s`. Its coefficients are the exact Rees
+threshold sign times the proved divisor multiplicity, and its kernel is
+`exp(-s * log k)`. This is a concrete finite Dirichlet object; convergence,
+continuation, and identification with classical ζ remain unproved.
+
 ## Analytic-library capability audit
 
 A local search of the available Mathlib sources found special Riemann-zeta

@@ -6,6 +6,14 @@ def SR_divisorMultiplicity (X k : Nat) : Nat :=
   ((completeSupport X).toFinset.product (completeSupport X).toFinset).filter
     (fun p => p.1 * p.2 = k) |>.card
 
+def SR_signed_divisor_coefficient (X k : Nat) : ℤ :=
+  (if k < X then -1 else 1) * SR_divisorMultiplicity X k
+
+noncomputable def SR_signed_dirichlet_polynomial (X : Nat) (s : ℂ) : ℂ :=
+  ∑ k ∈ Finset.range (X ^ 2),
+    (SR_signed_divisor_coefficient X k : ℂ) *
+      Complex.exp (-s * (Real.log k : ℂ))
+
 theorem sr36_filtered_const_sum
     {α M : Type} [AddCommMonoid M]
     (s : Finset α) (p : α → Prop) [DecidablePred p] (a : M) :
