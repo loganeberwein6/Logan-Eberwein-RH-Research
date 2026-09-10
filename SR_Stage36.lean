@@ -676,10 +676,15 @@ theorem sr36_complex_divisor_re (X : Nat) (hX : 6 ≤ X) (beta gamma : ℝ) :
     sr36_complex_divisor_pair_normalization X beta gamma]
   exact sr36_complex_product_re X beta gamma
 
-def SR_product_channel_divisor_reorganization_conjecture : Prop := True
+def SR_product_channel_divisor_reorganization_conjecture : Prop :=
+  ∀ (X : Nat), 6 ≤ X → ∀ (beta gamma : ℝ),
+    SR_channel_product X beta gamma =
+      SR_product_channel_as_divisor_sum X beta gamma
 
 theorem SR_product_channel_divisor_reorganization_conjecture_certified :
-    SR_product_channel_divisor_reorganization_conjecture := by trivial
+    SR_product_channel_divisor_reorganization_conjecture := by
+  intro X hX beta gamma
+  exact SR_product_channel_divisor_form X hX beta gamma
 
 def SR_product_channel_explicit_formula_conjecture : Prop :=
   ∀ (beta gamma : ℝ), True
