@@ -1,4 +1,5 @@
 import SR_Stage35
+import Mathlib.Analysis.Complex.CauchyIntegral
 
 namespace SR
 
@@ -43,6 +44,11 @@ theorem sr36_signed_dirichlet_polynomial_differentiable (X : Nat) :
 theorem sr36_signed_dirichlet_polynomial_continuous (X : Nat) :
     Continuous (SR_signed_dirichlet_polynomial X) :=
   (sr36_signed_dirichlet_polynomial_differentiable X).continuous
+
+theorem sr36_signed_dirichlet_polynomial_analytic (X : Nat) :
+    AnalyticOnNhd ℂ (SR_signed_dirichlet_polynomial X) Set.univ := by
+  exact Complex.analyticOnNhd_univ_iff_differentiable.mpr
+    (sr36_signed_dirichlet_polynomial_differentiable X)
 
 noncomputable def SR_complex_parameter (beta gamma : ℝ) : ℂ :=
   (-(beta - 1 / 2) : ℂ) - (gamma : ℂ) * Complex.I
