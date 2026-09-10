@@ -341,6 +341,25 @@ theorem sr36_product_pos {X m n : Nat}
     0 < m * n := by
   exact Nat.mul_pos (sr36_support_pos hm) (sr36_support_pos hn)
 
+theorem sr36_zero_divisor_coefficient (X : Nat) :
+    SR_signed_divisor_coefficient X 0 = 0 := by
+  unfold SR_signed_divisor_coefficient SR_divisorMultiplicity
+  have hempty :
+      ((completeSupport X).toFinset.product (completeSupport X).toFinset).filter
+          (fun p => p.1 * p.2 = 0) = ∅ := by
+    ext p
+    constructor
+    · intro hp
+      rw [Finset.mem_filter] at hp
+      rcases Finset.mem_product.mp hp.1 with ⟨hpm, hpn⟩
+      have hpos := sr36_product_pos (X := X) (m := p.1) (n := p.2)
+        (by simpa using hpm) (by simpa using hpn)
+      omega
+    · intro hp
+      simp at hp
+  rw [hempty]
+  simp
+
 theorem sr36_log_product_additive {X m n : Nat}
     (hm : m ∈ completeSupport X) (hn : n ∈ completeSupport X) :
     Real.log ((m * n : Nat) : ℝ) = Real.log m + Real.log n := by
