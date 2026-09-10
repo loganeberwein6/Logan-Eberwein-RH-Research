@@ -12,6 +12,13 @@ theorem sr36_mellin_scale (f : ℝ → ℂ) (s : ℂ) {a : ℝ} (ha : 0 < a) :
     mellin (fun t => f (a * t)) s = (a : ℂ) ^ (-s) • mellin f s :=
   mellin_comp_mul_left f s ha
 
+theorem sr36_powered_interval_hasMellin (a s : ℂ)
+    (hs : 0 < (s + a).re) :
+    HasMellin
+      (Set.indicator (Set.Ioc 0 1) (fun t : ℝ => (t : ℂ) ^ a)) s
+      (1 / (s + a)) :=
+  hasMellin_cpow_Ioc a hs
+
 def SR_divisorMultiplicity (X k : Nat) : Nat :=
   ((completeSupport X).toFinset.product (completeSupport X).toFinset).filter
     (fun p => p.1 * p.2 = k) |>.card
