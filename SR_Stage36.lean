@@ -360,6 +360,20 @@ theorem sr36_zero_divisor_coefficient (X : Nat) :
   rw [hempty]
   simp
 
+theorem sr36_signed_polynomial_zero_term_removed (X : Nat) (s : ℂ) :
+    SR_signed_dirichlet_polynomial X s =
+      ∑ k ∈ Finset.range (X ^ 2),
+        if k = 0 then 0 else
+          (SR_signed_divisor_coefficient X k : ℂ) *
+            Complex.exp (-s * (Real.log k : ℂ)) := by
+  unfold SR_signed_dirichlet_polynomial
+  apply Finset.sum_congr rfl
+  intro k hk
+  by_cases hzero : k = 0
+  · subst k
+    simp [sr36_zero_divisor_coefficient]
+  · simp [hzero]
+
 theorem sr36_log_product_additive {X m n : Nat}
     (hm : m ∈ completeSupport X) (hn : n ∈ completeSupport X) :
     Real.log ((m * n : Nat) : ℝ) = Real.log m + Real.log n := by
