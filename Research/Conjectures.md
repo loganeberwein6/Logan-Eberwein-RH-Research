@@ -16,6 +16,6 @@ theorems.  None of the entries below is used as a proof of another claim.
 | The dBN flow cutoff is zero iff RH. | Proposed statement in `SR_Flow.lean`; no bridge theorem. | CONJECTURED | Relate the flow spectrum to the explicit formula. |
 | The logarithm-weighted Rees sum is strictly positive for all `X ≥ 6`. | Positivity is proved only for selected finite records. | OPEN | Apply the general below-half-support counting lemma with positive log weights. |
 | The half-weighted SR sum is strictly positive for all `X ≥ 6`. | Finite exploratory evidence. | OPEN | Establish a sign-preserving decomposition of the weighted fibers. |
+| Finite X=6 logarithmic positivity can be reduced by kernel normalization to an explicit polynomial inequality in `log 2`, `log 3`, and `log 5`. | Two Lean attempts reached opaque `List.range.loop` terms; no false numerical inequality was found. | OPEN | Prove a reusable `List.range`/`foldr` evaluation lemma, then apply positivity of logarithms. |
 | The SR upper-bound observable satisfies the advertised `X^(3β+ε)` estimate. | Empirical tests through `X=10000` for one parameter pair; no asymptotic proof. | CONJECTURED | Prove the required cancellation of the total and interior terms. |
 | The exact SR form has a bounded `X^(3β)` envelope for fixed `(β,γ)`. | Accelerated computation at `β=.8, γ=21.022` remains bounded through `X=10000`. | CONJECTURED | Retain both sum- and difference-frequency channels in an exponential-sum estimate. |
-
