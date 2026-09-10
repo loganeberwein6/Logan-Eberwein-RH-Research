@@ -271,6 +271,37 @@ noncomputable def SR_product_channel_complex_divisor
         Complex.ofReal (((p.1 : ℝ) * p.2) ^ (beta - 1 / 2)) *
           Complex.exp (((gamma * (Real.log p.1 + Real.log p.2) : ℝ) : ℂ) * Complex.I)
 
+theorem sr36_complex_divisor_fiber_sum
+    (X : Nat) (hX : 6 ≤ X) (beta gamma : ℝ) :
+    SR_product_channel_complex_divisor X beta gamma =
+      ∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset,
+        Complex.ofReal (if p.1 * p.2 < X then (-1 : ℝ) else 1) *
+          (Complex.ofReal (((p.1 : ℝ) * p.2) ^ (beta - 1 / 2)) *
+            Complex.exp (((gamma * (Real.log p.1 + Real.log p.2) : ℝ) : ℂ) * Complex.I)) := by
+  classical
+  unfold SR_product_channel_complex_divisor
+  have hmap : ∀ p ∈ (completeSupport X).toFinset.product
+      (completeSupport X).toFinset, p.1 * p.2 ∈ Finset.range (X ^ 2) := by
+    intro p hp
+    rcases Finset.mem_product.mp hp with ⟨hpm, hpn⟩
+    have hpm' : p.1 ∈ completeSupport X := by simpa using hpm
+    have hpn' : p.2 ∈ completeSupport X := by simpa using hpn
+    have hmb := completeSupport_mem_bounds hpm'
+    have hnb := completeSupport_mem_bounds hpn'
+    have h1 : p.1 * p.2 < p.1 * X := Nat.mul_lt_mul_of_pos_left hnb.2 (by omega)
+    have h2 : p.1 * X < X * X := Nat.mul_lt_mul_of_pos_right hmb.2 (by omega)
+    exact Finset.mem_range.mpr (h1.trans (by simpa [pow_two] using h2))
+  calc
+    _ = ∑ p ∈ (completeSupport X).toFinset.product (completeSupport X).toFinset,
+        Complex.ofReal (if p.1 * p.2 < X then (-1 : ℝ) else 1) *
+          (Complex.ofReal (((p.1 : ℝ) * p.2) ^ (beta - 1 / 2)) *
+            Complex.exp (((gamma * (Real.log p.1 + Real.log p.2) : ℝ) : ℂ) * Complex.I)) := by
+      simpa using (sr36_weighted_fiber_sum hmap
+        (fun k : Nat => Complex.ofReal (if k < X then (-1 : ℝ) else 1))
+        (fun p : Nat × Nat =>
+          Complex.ofReal (((p.1 : ℝ) * p.2) ^ (beta - 1 / 2)) *
+            Complex.exp (((gamma * (Real.log p.1 + Real.log p.2) : ℝ) : ℂ) * Complex.I)))
+
 def SR_product_channel_divisor_reorganization_conjecture : Prop := True
 
 theorem SR_product_channel_divisor_reorganization_conjecture_certified :

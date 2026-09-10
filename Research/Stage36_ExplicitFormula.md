@@ -170,3 +170,10 @@ the inferred cast of the sign, and `Finset.sum_product` not matching the
 nested binder target. The unproven theorem was removed, leaving the source
 compilable; the existing real divisor theorem and complex pair-sum theorem
 remain proved.
+
+The isolated theorem `sr36_complex_divisor_fiber_sum` is now proved. It uses
+the exact maps-to-range bound for supported products and applies
+`sr36_weighted_fiber_sum` with the complex exponential factor as the fiber
+weight. This resolves the orientation issue by matching the theorem's
+left-hand side exactly. Equality with the complex pair-sum still requires a
+separate product-binder normalization step.
