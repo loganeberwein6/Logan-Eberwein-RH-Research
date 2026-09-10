@@ -2,6 +2,24 @@ import SR_Stage35
 
 namespace SR
 
+theorem sr36_weighted_fiber_sum
+    {ι κ M : Type} [CommSemiring M] [DecidableEq κ]
+    {s : Finset ι} {t : Finset κ} {g : ι → κ}
+    (hmap : ∀ i ∈ s, g i ∈ t) (w : κ → M) (f : ι → M) :
+    (∑ k ∈ t, w k * ∑ i ∈ s with g i = k, f i) =
+      ∑ i ∈ s, w (g i) * f i := by
+  classical
+  simp_rw [Finset.mul_sum]
+  convert Finset.sum_fiberwise_of_maps_to hmap
+    (fun i => w (g i) * f i) using 1
+  apply Finset.sum_congr rfl
+  intro j hj
+  apply Finset.sum_congr rfl
+  intro i hi
+  rw [Finset.mem_filter] at hi
+  rw [hi.2]
+
+
 theorem sr36_rees_sign_by_product (X m n : Nat) :
     reesEntryFromNat X m n = if m * n < X then -1 else 1 := by
   rw [rees_decomposition]

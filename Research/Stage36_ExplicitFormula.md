@@ -39,3 +39,9 @@ route explicitly formed the Cartesian product and applied
 `range (X^2)`. The remaining `k=mn` target still requires collapsing the
 conditional fiber, rewriting the Rees sign as the `k < X` sign, and proving
 the real-power and logarithm normalizations. No temporary placeholder remains.
+
+The reusable lemma `sr36_weighted_fiber_sum` now resolves the general weighted
+case. It distributes the outer weight, applies
+`Finset.sum_fiberwise_of_maps_to`, and rewrites the fiber equality pointwise.
+The remaining application-specific work is expanding the nested conditional
+sum into a filtered Cartesian-product sum.
