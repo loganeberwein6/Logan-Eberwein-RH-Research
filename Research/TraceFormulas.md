@@ -320,3 +320,47 @@ This explains the observed pattern without invoking Λ, μ, or a multiplicative
 Dirichlet coefficient. Any eventual appearance of `ζ'/ζ` must come from a
 nontrivial limiting operation, weighting, or differentiation of the cutoff
 family; it is not present in the raw finite coefficient sequence.
+
+### Unweighted cutoff-limit obstruction
+
+The raw SR family has a stronger limiting description in the half-plane of
+absolute convergence. Put
+
+```text
+S_X(s) = Σ_{2≤m<X} m^(-s),
+D_X(s) = Σ_{2≤m,n<X} sign(mn<X) (mn)^(-s).
+```
+
+For `Re(s)>1`, each fixed pair `(m,n)` is eventually interior as `X→∞`, and
+the summands are dominated by the absolutely summable product
+`m^(-Re(s)) n^(-Re(s))`. Dominated convergence therefore gives the formal
+analytic limit
+
+```text
+lim_{X→∞} D_X(s)
+  = - Σ_{m,n≥2} (mn)^(-s)
+  = -(ζ(s)-1)^2.
+```
+
+This is not a pole-producing logarithmic derivative. It is a square of a
+zeta-derived Dirichlet series, and at a zero of ζ it is regular rather than
+singular. Thus the unweighted raw cutoff limit cannot realize the proposed
+`ζ'/ζ` pole mechanism. A successful SR transform must introduce an additional
+operation—such as a logarithmic weight, a derivative with respect to a
+parameter, or a different signed kernel—before taking the limit.
+
+Numerical checks agree with the limit in the safer half-plane:
+
+```text
+s=3+0.2i, target=-(ζ(s)-1)^2
+X=10  error=0.019025976
+X=20  error=0.006656938
+X=40  error=0.002046380
+X=80  error=0.00061228796
+X=160 error=0.00017885648
+```
+
+At `Re(s)=2` and `1.5`, convergence is visibly slower, as expected from the
+weaker tail bounds, but the data are consistent with the same structural
+limit. The dominated-convergence argument itself is currently a research
+result, not yet a Lean theorem in `SR_Stage37_Clean.lean`.
