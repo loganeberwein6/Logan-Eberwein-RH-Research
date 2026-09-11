@@ -1,7 +1,24 @@
 import SR_Stage31
 import Mathlib.LinearAlgebra.Matrix.Rank
+import Mathlib.LinearAlgebra.Matrix.Block
 
 namespace SR
+
+def SR_prefix_matrix (k : Nat) : Matrix (Fin k) (Fin k) ℚ :=
+  fun i j => if j ≤ i then 1 else 0
+
+theorem SR_prefix_matrix_det (k : Nat) : (SR_prefix_matrix k).det = 1 := by
+  apply Matrix.det_of_lowerTriangular
+  intro i j hij
+  simp only [SR_prefix_matrix]
+  by_cases hji : j ≤ i
+  · have : ¬ i < j := by omega
+    exact False.elim (this hij)
+  · simp [hji]
+
+theorem SR_prefix_matrix_linearIndependent (k : Nat) :
+    LinearIndependent ℚ (SR_prefix_matrix k).row := by
+  exact (Matrix.det_ne_zero_iff.mp (by simp [SR_prefix_matrix_det k])).linearIndependent_rows
 
 def SR_quotient_count (X : Nat) : Nat :=
   ((completeSupport X).toFinset.image (fun m => (X - 1) / m)).card
