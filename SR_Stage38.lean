@@ -1,8 +1,13 @@
 import SR_Stage31
 import Mathlib.LinearAlgebra.Matrix.Rank
 import Mathlib.LinearAlgebra.Matrix.Block
+import Mathlib.Data.Finset.Sort
 
 namespace SR
+
+theorem SR_finset_orderEmbOfFin_strictMono (s : Finset Nat) :
+    StrictMono (s.orderEmbOfFin (rfl : s.card = s.card)) := by
+  exact (s.orderEmbOfFin (rfl : s.card = s.card)).strictMono
 
 def SR_prefix_matrix (k : Nat) : Matrix (Fin k) (Fin k) ℚ :=
   fun i j => if j ≤ i then 1 else 0
