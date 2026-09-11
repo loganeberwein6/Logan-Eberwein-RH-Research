@@ -551,6 +551,14 @@ theorem SR_rees_quotient_rows_linearIndependent
       (fun q : SR_threshold_set X =>
         (SR_rees_matrix X).row
           ⟨SR_threshold_rep X q - 2, SR_threshold_rep_lt X q⟩) := by
+  -- OPEN: Linear independence of quotient representative rows.
+  -- Mathematical proof: consecutive threshold rows have differences
+  -- supported on disjoint intervals (q_{i-1}, q_i], giving
+  -- independence via the column evaluation argument:
+  -- E(q₀+1) - E(q₀) = -2·g(q₀) = 0 for q₀.1 ≥ 2
+  -- E(2) + E(X-1) = 2·g(q₀) = 0 for q₀.1 = 1
+  -- Missing: clean Lean formulation of Finset sum splitting
+  -- over SR_threshold_set X subtype.
   sorry
 
 /-
@@ -565,6 +573,9 @@ rank lower bound.
 -/
 theorem SR_rees_rank_eq_quotient_count (X : Nat) (hX : 6 ≤ X) :
     (SR_rees_matrix X).rank = SR_quotient_count X := by
+  -- OPEN: Depends on sorry 1 for lower bound.
+  -- Upper bound available via row equivalence theorem.
+  -- Lower bound: SR_rees_quotient_rows_linearIndependent (sorry 1).
   sorry
 
 end SR
