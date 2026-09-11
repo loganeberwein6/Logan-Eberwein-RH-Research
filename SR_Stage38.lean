@@ -9,6 +9,25 @@ def SR_quotient_count (X : Nat) : Nat :=
 def SR_rees_matrix (X : Nat) : Matrix (Fin (X - 2)) (Fin (X - 2)) ℚ :=
   fun i j => if (i.1 + 2) * (j.1 + 2) < X then -1 else 1
 
+theorem SR_rees_matrix_entry_threshold (X : Nat) (i j : Fin (X - 2)) :
+    SR_rees_matrix X i j =
+      if j.1 + 2 ≤ (X - 1) / (i.1 + 2) then (-1 : ℚ) else 1 := by
+  unfold SR_rees_matrix
+  by_cases h : (i.1 + 2) * (j.1 + 2) < X
+  · have hle : (i.1 + 2) * (j.1 + 2) ≤ X - 1 := by omega
+    have hq : j.1 + 2 ≤ (X - 1) / (i.1 + 2) := by
+      apply (Nat.le_div_iff_mul_le (by omega : 0 < i.1 + 2)).2
+      simpa [Nat.mul_comm] using hle
+    simp [h, hq]
+  · have hle : X ≤ (i.1 + 2) * (j.1 + 2) := by omega
+    have hq : ¬ j.1 + 2 ≤ (X - 1) / (i.1 + 2) := by
+      intro hq
+      have hprod : (i.1 + 2) * (j.1 + 2) ≤ X - 1 := by
+        have := (Nat.le_div_iff_mul_le (by omega : 0 < i.1 + 2)).1 hq
+        simpa [Nat.mul_comm] using this
+      omega
+    simp [h, hq]
+
 theorem SR_rees_matrix_X7_entries :
     SR_rees_matrix 7 = !![ -1, -1, 1, 1, 1;
                             -1, 1, 1, 1, 1;
