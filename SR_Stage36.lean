@@ -22,6 +22,12 @@ theorem sr37_vonMangoldt_lseries_is_negative_zeta_log_derivative
       - deriv riemannZeta s / riemannZeta s := by
   simpa using LSeries_vonMangoldt_eq_deriv_riemannZeta_div hs
 
+theorem sr37_lseries_of_dirichlet_convolution_eq_product
+    {f g : ℕ → ℂ} {s : ℂ}
+    (hf : LSeriesSummable f s) (hg : LSeriesSummable g s) :
+    LSeries (LSeries.convolution f g) s = LSeries f s * LSeries g s := by
+  exact LSeries_convolution' hf hg
+
 theorem sr36_mellin_inversion (σ : ℝ) (f : ℝ → ℂ) {x : ℝ} (hx : 0 < x)
     (hf : MellinConvergent f σ)
     (hFf : Complex.VerticalIntegrable (mellin f) σ)
