@@ -88,20 +88,43 @@ theorem SR_signed_threshold_row_relation {n : Nat} (t : Fin (n + 1) → Nat)
   · have h1 : t j ≤ t i.castSucc := ht.monotone hji
     have h2 : t i.castSucc < t i.succ := ht Fin.castSucc_lt_succ
     have hjs : t j ≤ t i.succ := h1.trans h2.le
+    have hnot : ¬t i.castSucc < t j := not_lt_of_ge h1
     have hne : i.succ ≠ j := by
       intro heq
       subst j
       exact (not_le_of_gt Fin.castSucc_lt_succ) hji
-    simp [SR_signed_threshold_matrix, SR_signed_threshold_base, hjs, hne]
+    simp [SR_signed_threshold_matrix, SR_signed_threshold_base, hjs, hne, hnot]
   · have hsucc := SR_fin_succ_le_of_not_le i j hji
+    have h2 : t i.castSucc < t i.succ := ht Fin.castSucc_lt_succ
     by_cases heq : j = i.succ
     · subst j
-      have h2 : t i.castSucc < t i.succ := ht Fin.castSucc_lt_succ
       simp [SR_signed_threshold_matrix, SR_signed_threshold_base,
         Nat.not_le_of_gt h2]
+      norm_num
     · have hlt : t i.succ < t j := ht (lt_of_le_of_ne hsucc (Ne.symm heq))
+      have hprev : ¬t j ≤ t i.castSucc := by
+        exact Nat.not_le_of_gt (h2.trans hlt)
+      have hne : i.succ ≠ j := fun h => heq h.symm
       simp [SR_signed_threshold_matrix, SR_signed_threshold_base,
-        Nat.not_le_of_gt hlt, hsucc, heq]
+        Nat.not_le_of_gt hlt, hprev, hne]
+
+theorem SR_signed_threshold_matrix_det {n : Nat} (t : Fin (n + 1) → Nat)
+    (ht : StrictMono t) :
+    (SR_signed_threshold_matrix t).det = (-1 : ℚ) * (-2) ^ n := by
+  rw [Matrix.det_eq_of_forall_row_eq_smul_add_pred (fun _ : Fin n => 1)]
+  · exact SR_signed_threshold_base_det n
+  · intro j
+    refine Fin.cases ?_ (fun j => ?_) j
+    · simp [SR_signed_threshold_matrix, SR_signed_threshold_base]
+    · have hpos : (0 : Fin (n + 1)) < j.succ := by
+        apply Fin.mk_lt_mk.mpr
+        change 0 < j.1 + 1
+        omega
+      have hlt : t 0 < t j.succ := ht hpos
+      simp [SR_signed_threshold_matrix, SR_signed_threshold_base,
+        Nat.not_le_of_gt hlt]
+  · intro i j
+    simpa using SR_signed_threshold_row_relation t ht i j
 
 def SR_quotient_count (X : Nat) : Nat :=
   ((completeSupport X).toFinset.image (fun m => (X - 1) / m)).card
