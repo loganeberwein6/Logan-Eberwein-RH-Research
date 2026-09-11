@@ -82,6 +82,27 @@ theorem sr37_support_convolution_coefficient_explicit (X k : Nat) :
         sr37_support_indicator X p.1 * sr37_support_indicator X p.2 := by
   rw [LSeries.convolution_def]
 
+theorem sr37_support_convolution_eq_zero_of_ge {X k : Nat}
+    (hk : X ^ 2 ≤ k) :
+    LSeries.convolution (sr37_support_indicator X) (sr37_support_indicator X) k = 0 := by
+  rw [sr37_support_convolution_coefficient_explicit]
+  apply Finset.sum_eq_zero
+  intro p hp
+  by_cases hpm : p.1 ∈ (completeSupport X).toFinset
+  · by_cases hpn : p.2 ∈ (completeSupport X).toFinset
+    · have hmb := completeSupport_mem_bounds (Finset.mem_toFinset.mp hpm)
+      have hnb := completeSupport_mem_bounds (Finset.mem_toFinset.mp hpn)
+      have h1 : p.1 * p.2 < p.1 * X :=
+        Nat.mul_lt_mul_of_pos_left hnb.2 (by omega)
+      have h2 : p.1 * X < X * X :=
+        Nat.mul_lt_mul_of_pos_right hmb.2 (by omega)
+      have hprod : p.1 * p.2 < k := by
+        exact h1.trans (h2.trans_le (by simpa [pow_two] using hk))
+      have heq := (mem_divisorsAntidiagonal.mp hp).1
+      simp [sr37_support_indicator, hpm, hpn, heq, Nat.not_lt_of_ge hk] at hprod
+    · simp [sr37_support_indicator, hpm, hpn]
+  · simp [sr37_support_indicator, hpm]
+
 theorem sr37_support_convolution_norm_le_divisor_fiber_card (X k : Nat) :
     ‖LSeries.convolution (sr37_support_indicator X) (sr37_support_indicator X) k‖ ≤
       (k.divisorsAntidiagonal.card : ℝ) := by
