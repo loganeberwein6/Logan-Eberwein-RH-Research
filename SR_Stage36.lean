@@ -109,6 +109,20 @@ theorem sr37_divisors_antidiagonal_card_le_self {k : Nat} (hk : 0 < k) :
       (Nat.card_divisors_le_self k)
   exact_mod_cast hcard
 
+theorem sr37_support_convolution_summable {X : Nat} {s : ℂ}
+    (hs : 2 < s.re) :
+    LSeriesSummable
+      (LSeries.convolution (sr37_support_indicator X) (sr37_support_indicator X)) s := by
+  apply LSeriesSummable_of_le_const_mul_rpow hs
+  refine ⟨1, ?_⟩
+  intro k hk
+  calc
+    ‖LSeries.convolution (sr37_support_indicator X) (sr37_support_indicator X) k‖ ≤
+        (k.divisorsAntidiagonal.card : ℝ) :=
+      sr37_support_convolution_norm_le_divisor_fiber_card X k
+    _ ≤ (k : ℝ) := sr37_divisors_antidiagonal_card_le_self (Nat.pos_iff_ne_zero.mp hk)
+    _ = (1 : ℝ) * (k : ℝ) ^ ((2 : ℝ) - 1) := by norm_num
+
 theorem sr37_unrestricted_pair_convolution_lseries_eq_zeta_sq
     {s : ℂ} (hs : 1 < s.re) :
     LSeries (LSeries.convolution (fun _ : Nat => (1 : ℂ))
