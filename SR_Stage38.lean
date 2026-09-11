@@ -8,7 +8,8 @@ def SR_prefix_matrix (k : Nat) : Matrix (Fin k) (Fin k) ℚ :=
   fun i j => if j ≤ i then 1 else 0
 
 theorem SR_prefix_matrix_det (k : Nat) : (SR_prefix_matrix k).det = 1 := by
-  apply Matrix.det_of_lowerTriangular
+  rw [Matrix.det_of_lowerTriangular (SR_prefix_matrix k)]
+  · simp [SR_prefix_matrix]
   intro i j hij
   simp only [SR_prefix_matrix]
   by_cases hji : j ≤ i
@@ -18,14 +19,18 @@ theorem SR_prefix_matrix_det (k : Nat) : (SR_prefix_matrix k).det = 1 := by
 
 theorem SR_prefix_matrix_linearIndependent (k : Nat) :
     LinearIndependent ℚ (SR_prefix_matrix k).row := by
-  exact (Matrix.det_ne_zero_iff.mp (by simp [SR_prefix_matrix_det k])).linearIndependent_rows
+  change LinearIndependent ℚ (fun i => SR_prefix_matrix k i)
+  exact Matrix.linearIndependent_rows_of_det_ne_zero (by
+    rw [SR_prefix_matrix_det k]
+    norm_num)
 
 def SR_threshold_matrix {k : Nat} (t : Fin k → Nat) : Matrix (Fin k) (Fin k) ℚ :=
   fun i j => if t j ≤ t i then 1 else 0
 
 theorem SR_threshold_matrix_det {k : Nat} (t : Fin k → Nat)
     (ht : StrictMono t) : (SR_threshold_matrix t).det = 1 := by
-  apply Matrix.det_of_lowerTriangular
+  rw [Matrix.det_of_lowerTriangular (SR_threshold_matrix t)]
+  · simp [SR_threshold_matrix]
   intro i j hij
   simp only [SR_threshold_matrix]
   have hlt : t i < t j := ht hij
@@ -34,7 +39,11 @@ theorem SR_threshold_matrix_det {k : Nat} (t : Fin k → Nat)
 theorem SR_threshold_matrix_linearIndependent {k : Nat} (t : Fin k → Nat)
     (ht : StrictMono t) :
     LinearIndependent ℚ (SR_threshold_matrix t).row := by
-  exact (Matrix.det_ne_zero_iff.mp (by simp [SR_threshold_matrix_det t ht])).linearIndependent_rows
+  change LinearIndependent ℚ (fun i => SR_threshold_matrix t i)
+  exact Matrix.linearIndependent_rows_of_det_ne_zero (by
+    rw [SR_threshold_matrix_det t ht]
+    norm_num)
+
 
 def SR_quotient_count (X : Nat) : Nat :=
   ((completeSupport X).toFinset.image (fun m => (X - 1) / m)).card
