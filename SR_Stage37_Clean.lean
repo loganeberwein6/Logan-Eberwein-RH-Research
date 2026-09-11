@@ -189,6 +189,22 @@ theorem sr37_clean_support_convolution_lseries_eq_finite_sum
   simp [LSeries.term_def,
     sr37_clean_support_convolution_eq_zero_of_ge hge]
 
+theorem sr37_clean_unrestricted_pair_convolution_lseries_eq_zeta_sq
+    {s : ℂ} (hs : 1 < s.re) :
+    LSeries (LSeries.convolution (fun _ : Nat => (1 : ℂ))
+      (fun _ : Nat => (1 : ℂ))) s = riemannZeta s * riemannZeta s := by
+  calc
+    LSeries (LSeries.convolution (fun _ : Nat => (1 : ℂ))
+        (fun _ : Nat => (1 : ℂ))) s =
+        LSeries (fun _ : Nat => (1 : ℂ)) s *
+          LSeries (fun _ : Nat => (1 : ℂ)) s := by
+            exact LSeries_convolution'
+              (LSeriesSummable_one_iff.mpr hs)
+              (LSeriesSummable_one_iff.mpr hs)
+    _ = riemannZeta s * riemannZeta s := by
+      simpa using congrArg (fun z : ℂ => z * z)
+        (LSeries_one_eq_riemannZeta hs)
+
 theorem sr37_clean_SR_dirichlet_contains_log_deriv : True := by
   trivial
 
