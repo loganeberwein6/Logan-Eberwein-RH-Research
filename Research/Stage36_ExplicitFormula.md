@@ -314,6 +314,22 @@ The prescribed numerical script was rerun successfully with `C:\\Users\\ljoe6\\A
 
 ## Finite calculus completion
 
+## Stage 37 pole-mechanism correction
+
+The proposed contradiction must distinguish a zero from a pole. A zero of
+`ζ(s)` does not by itself create a pole in an expression containing `ζ(s)^2`;
+that factor vanishes at the zero. Poles at nontrivial zeros arise in a
+logarithmic-derivative factor such as `ζ'(s)/ζ(s)`, subject to the exact
+quotient and multiplicity hypotheses of the contour integrand. Consequently,
+the Stage 37 residue claim remains conjectural until the SR Dirichlet series,
+its Perron kernel, and the quotient structure are all identified formally.
+
+The Lean theorem `sr37_off_line_exponent_exceeds_diagonal_exponent` records the
+separate exponent fact that `β < 1` implies `2β < β+1`. Together with the
+previous envelope lemma, this shows the hypothetical off-line term exceeds
+the diagonal scale while remaining below the current trivial total bound; no
+contradiction follows without a stronger cancellation estimate.
+
 The finite signed Dirichlet polynomial now has an explicit derivative
 certificate. The proof applies `HasDerivAt.fun_sum` to the finite kernel,
 composes `Complex.hasDerivAt_exp` with the derivative of `fun y => -y * log k`,

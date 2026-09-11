@@ -123,6 +123,10 @@ theorem sr37_off_line_exponent_exceeds_critical_exponent {β : ℝ}
     (hβ : (1 : ℝ) / 2 < β) : (3 : ℝ) / 2 < β + 1 := by
   linarith
 
+theorem sr37_off_line_exponent_exceeds_diagonal_exponent {β : ℝ}
+    (hβ : β < 1) : 2 * β < β + 1 := by
+  linarith
+
 theorem sr36_smoothed_interval_transform_denominator {s : ℂ} (hs : 0 < s.re) :
     1 / s - 1 / (s + 1) = 1 / (s * (s + 1)) := by
   have hs0 : s ≠ 0 := by
