@@ -31,6 +31,15 @@ theorem sr37_lseries_of_dirichlet_convolution_eq_product
 noncomputable def sr37_support_indicator (X : Nat) : Nat → ℂ :=
   fun n => if n ∈ (completeSupport X).toFinset then 1 else 0
 
+theorem sr37_support_eventual_membership {X m : Nat}
+    (hm : 2 ≤ m) (hmX : m < X) : m ∈ completeSupport X := by
+  unfold completeSupport
+  apply List.mem_map.mpr
+  refine ⟨m - 2, ?_, ?_⟩
+  · simp
+    omega
+  · omega
+
 theorem sr37_support_convolution_coefficient_explicit (X k : Nat) :
     LSeries.convolution (sr37_support_indicator X) (sr37_support_indicator X) k =
       ∑ p ∈ k.divisorsAntidiagonal,
