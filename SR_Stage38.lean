@@ -142,6 +142,20 @@ theorem SR_signed_threshold_matrix_linearIndependent {n : Nat}
 def SR_quotient_count (X : Nat) : Nat :=
   ((completeSupport X).toFinset.image (fun m => (X - 1) / m)).card
 
+def SR_threshold_set (X : Nat) : Finset Nat :=
+  (completeSupport X).toFinset.image (fun m => (X - 1) / m)
+
+theorem SR_threshold_set_card (X : Nat) :
+    (SR_threshold_set X).card = SR_quotient_count X := by
+  rfl
+
+theorem SR_threshold_set_ordered_range (X : Nat) :
+    Set.range ((SR_threshold_set X).orderEmbOfFin
+      (rfl : (SR_threshold_set X).card = (SR_threshold_set X).card)) =
+      (SR_threshold_set X : Set Nat) := by
+  simpa using (Finset.range_orderEmbOfFin (SR_threshold_set X)
+    (rfl : (SR_threshold_set X).card = (SR_threshold_set X).card))
+
 def SR_rees_matrix (X : Nat) : Matrix (Fin (X - 2)) (Fin (X - 2)) ℚ :=
   fun i j => if (i.1 + 2) * (j.1 + 2) < X then -1 else 1
 
