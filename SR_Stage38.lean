@@ -75,6 +75,34 @@ lemma SR_fin_succ_le_of_not_le {n : Nat} (i : Fin n) (j : Fin (n + 1))
   change i.1 + 1 ≤ j.1
   omega
 
+def SR_signed_threshold_matrix {k : Nat} (t : Fin k → Nat) :
+    Matrix (Fin k) (Fin k) ℚ :=
+  fun i j => if t j ≤ t i then -1 else 1
+
+theorem SR_signed_threshold_row_relation {n : Nat} (t : Fin (n + 1) → Nat)
+    (ht : StrictMono t) (i : Fin n) (j : Fin (n + 1)) :
+    SR_signed_threshold_matrix t i.succ j =
+      SR_signed_threshold_base i.succ j +
+        SR_signed_threshold_matrix t i.castSucc j := by
+  by_cases hji : j ≤ i.castSucc
+  · have h1 : t j ≤ t i.castSucc := ht.monotone hji
+    have h2 : t i.castSucc < t i.succ := ht Fin.castSucc_lt_succ
+    have hjs : t j ≤ t i.succ := h1.trans h2.le
+    have hne : i.succ ≠ j := by
+      intro heq
+      subst j
+      exact (not_le_of_gt Fin.castSucc_lt_succ) hji
+    simp [SR_signed_threshold_matrix, SR_signed_threshold_base, hjs, hne]
+  · have hsucc := SR_fin_succ_le_of_not_le i j hji
+    by_cases heq : j = i.succ
+    · subst j
+      have h2 : t i.castSucc < t i.succ := ht Fin.castSucc_lt_succ
+      simp [SR_signed_threshold_matrix, SR_signed_threshold_base,
+        Nat.not_le_of_gt h2]
+    · have hlt : t i.succ < t j := ht (lt_of_le_of_ne hsucc (Ne.symm heq))
+      simp [SR_signed_threshold_matrix, SR_signed_threshold_base,
+        Nat.not_le_of_gt hlt, hsucc, heq]
+
 def SR_quotient_count (X : Nat) : Nat :=
   ((completeSupport X).toFinset.image (fun m => (X - 1) / m)).card
 
