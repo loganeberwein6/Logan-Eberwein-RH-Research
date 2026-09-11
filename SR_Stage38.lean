@@ -502,4 +502,69 @@ theorem SR_quotient_count_X10 : SR_quotient_count 10 = 4 := by
 theorem SR_quotient_count_X30 : SR_quotient_count 30 = 8 := by
   native_decide
 
+def SR_rees_threshold_row (X q : Nat) : Fin (X - 2) → ℚ :=
+  fun j => if j.1 + 2 ≤ q then (-1 : ℚ) else 1
+
+lemma SR_rees_threshold_row_diff
+    (X q₁ q₂ : Nat) (hq : q₁ < q₂) (j : Fin (X - 2)) :
+    SR_rees_threshold_row X q₂ j - SR_rees_threshold_row X q₁ j =
+    if q₁ < j.1 + 2 ∧ j.1 + 2 ≤ q₂ then (-2 : ℚ) else 0 := by
+  by_cases h₁ : j.1 + 2 ≤ q₁
+  · have h₂ : j.1 + 2 ≤ q₂ := le_trans h₁ hq.le
+    simp [SR_rees_threshold_row, h₁, h₂]
+  · by_cases h₂ : j.1 + 2 ≤ q₂
+    · have h₁' : q₁ < j.1 + 2 := Nat.lt_of_not_ge h₁
+      simp [SR_rees_threshold_row, h₁, h₂, h₁']; norm_num
+    · simp [SR_rees_threshold_row, h₁, h₂]
+
+lemma SR_rees_row_eq_threshold_row (X : Nat) (hX : 6 ≤ X)
+    (m : Fin (X - 2)) :
+    (SR_rees_matrix X).row m =
+      SR_rees_threshold_row X ((X - 1) / (m.1 + 2)) := by
+  funext n
+  show SR_rees_matrix X m n = SR_rees_threshold_row X ((X - 1) / (m.1 + 2)) n
+  rw [SR_rees_matrix_entry_threshold]
+  rfl
+
+lemma SR_threshold_rep_mem (X : Nat) (q : SR_threshold_set X) :
+    SR_threshold_rep X q ∈ completeSupport X :=
+  List.mem_toFinset.mp (Classical.choose_spec (Finset.mem_image.mp q.property)).1
+
+lemma SR_threshold_rep_lt (X : Nat) (q : SR_threshold_set X) :
+    SR_threshold_rep X q - 2 < X - 2 := by
+  have hm := completeSupport_mem_bounds (SR_threshold_rep_mem X q)
+  omega
+
+/-
+The intended proof of the next theorem is the nested-threshold argument:
+the quotient representatives are pairwise distinct threshold values, and
+successive row differences have disjoint supports.  One convenient final
+step is to package the rows into a square threshold matrix and apply
+`Matrix.linearIndependent_rows_of_det_ne_zero`; the remaining missing
+lemma is the corresponding determinant computation for the non-uniform
+quotient thresholds (equivalently, the unitriangular form obtained from
+the base row together with the successive difference rows).
+-/
+theorem SR_rees_quotient_rows_linearIndependent
+    (X : Nat) (hX : 6 ≤ X) :
+    LinearIndependent ℚ
+      (fun q : SR_threshold_set X =>
+        (SR_rees_matrix X).row
+          ⟨SR_threshold_rep X q - 2, SR_threshold_rep_lt X q⟩) := by
+  sorry
+
+/-
+For the upper bound, the already-proved row-equivalence theorem
+`SR_rees_matrix_row_eq_iff_quotient_eq` shows that every row belongs to
+one of the quotient classes represented by `SR_threshold_rep`.  The lower
+bound is the cardinality/rank consequence of
+`SR_rees_quotient_rows_linearIndependent`; once the corresponding span
+bound is supplied, `LinearIndependent.rank_matrix` is the Mathlib theorem
+that converts the independent representative-row family into the required
+rank lower bound.
+-/
+theorem SR_rees_rank_eq_quotient_count (X : Nat) (hX : 6 ≤ X) :
+    (SR_rees_matrix X).rank = SR_quotient_count X := by
+  sorry
+
 end SR
