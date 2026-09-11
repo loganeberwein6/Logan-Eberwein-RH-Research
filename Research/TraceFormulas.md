@@ -271,3 +271,52 @@ is a finite, cutoff-dependent Dirichlet polynomial. It is not presently of the
 form `F(s) · (-ζ'/ζ)(s)` with a cutoff-independent explicit `F`. A valid pole
 mechanism would require a new theorem identifying an asymptotic transform of
 the family `D_SR,X`, not merely identifying its finite coefficient function.
+
+### Exact coefficient structure extracted from the scan
+
+Define
+
+```text
+A_X(k) = #{(m,n) : m n = k and 2 ≤ m,n < X}.
+```
+
+Then the finite definition gives
+
+```text
+c_X(k) = -A_X(k)  when k < X,
+c_X(k) = +A_X(k)  when k ≥ X.
+```
+
+For `4 ≤ k < X`, both factors are automatically below `X`, so
+
+```text
+A_X(k) = d(k) - 2,
+c_X(k) = -(d(k) - 2).
+```
+
+The `-2` removes the two trivial ordered factor pairs `(1,k)` and `(k,1)`.
+At `k=X`, the coefficient is `d(X)-2`; for `k>X`, the restricted factor
+count remains cutoff-dependent.
+
+Independent checks gave:
+
+```text
+X=6:  checked 2 values below X, mismatches=[]
+X=7:  checked 3 values below X, mismatches=[]
+X=10: checked 6 values below X, mismatches=[]
+X=30: checked 26 values below X, mismatches=[]
+X=50: checked 46 values below X, mismatches=[]
+
+Boundary: c_6(6)=2, c_7(7)=0, c_10(10)=2,
+          c_30(30)=6, c_50(50)=4.
+
+For k ≥ X and k < X², all tested coefficients were nonnegative:
+X=6:  range 0..2
+X=10: range 0..4
+X=30: range 0..8
+```
+
+This explains the observed pattern without invoking Λ, μ, or a multiplicative
+Dirichlet coefficient. Any eventual appearance of `ζ'/ζ` must come from a
+nontrivial limiting operation, weighting, or differentiation of the cutoff
+family; it is not present in the raw finite coefficient sequence.
