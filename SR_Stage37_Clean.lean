@@ -205,6 +205,12 @@ theorem sr37_clean_unrestricted_pair_convolution_lseries_eq_zeta_sq
       simpa using congrArg (fun z : ℂ => z * z)
         (LSeries_one_eq_riemannZeta hs)
 
+theorem sr37_clean_vonMangoldt_lseries_eq_negative_zeta_log_deriv
+    {s : ℂ} (hs : 1 < s.re) :
+    LSeries (fun n : Nat => (ArithmeticFunction.vonMangoldt n : ℂ)) s =
+      - deriv riemannZeta s / riemannZeta s := by
+  simpa using ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div hs
+
 theorem sr37_clean_SR_dirichlet_contains_log_deriv : True := by
   trivial
 
