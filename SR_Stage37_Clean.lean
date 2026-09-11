@@ -83,6 +83,27 @@ theorem sr37_clean_support_convolution_eq_zero_of_ge {X k : Nat}
     · simp [sr37_clean_support_indicator, hpm, hpn]
   · simp [sr37_clean_support_indicator, hpm]
 
+theorem sr37_clean_support_convolution_lseries_summable {X : Nat} (s : ℂ) :
+    LSeriesSummable
+      (LSeries.convolution (sr37_clean_support_indicator X)
+        (sr37_clean_support_indicator X)) s := by
+  unfold LSeriesSummable
+  apply summable_of_hasFiniteSupport
+  refine (Set.finite_Iio (X ^ 2)).subset ?_
+  intro k hk
+  change LSeries.term
+      (LSeries.convolution (sr37_clean_support_indicator X)
+        (sr37_clean_support_indicator X)) s k ≠ 0 at hk
+  by_contra hnot
+  have hge : X ^ 2 ≤ k := by
+    exact Nat.le_of_not_gt (by simpa using hnot)
+  have hz := sr37_clean_support_convolution_eq_zero_of_ge hge
+  apply hk
+  rw [LSeries.term_def]
+  split_ifs with hk0
+  · simp
+  · simp [hz]
+
 theorem sr37_clean_SR_dirichlet_contains_log_deriv : True := by
   trivial
 
