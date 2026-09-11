@@ -1,11 +1,20 @@
 import SR_Stage35
 import Mathlib.Analysis.Complex.CauchyIntegral
+import Mathlib.Analysis.Calculus.LogDeriv
 import Mathlib.Analysis.MellinTransform
 import Mathlib.Analysis.MellinInversion
 import Mathlib.NumberTheory.LSeries.MellinEqDirichlet
 import Mathlib.NumberTheory.LSeries.Dirichlet
 
 namespace SR
+
+theorem sr37_simple_zero_log_derivative_residue
+    {f : ℂ → ℂ} {ρ : ℂ}
+    (hf : AnalyticAt ℂ f ρ) (hzero : f ρ = 0)
+    (hderiv : deriv f ρ ≠ 0) :
+    Filter.Tendsto (fun s : ℂ => (s - ρ) * logDeriv f s)
+      (𝓝[≠] ρ) (𝓝 1) :=
+  hf.tendsto_mul_logDeriv_simple_zero hzero hderiv
 
 theorem sr36_mellin_inversion (σ : ℝ) (f : ℝ → ℂ) {x : ℝ} (hx : 0 < x)
     (hf : MellinConvergent f σ)
