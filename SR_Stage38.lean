@@ -126,6 +126,14 @@ theorem SR_signed_threshold_matrix_det {n : Nat} (t : Fin (n + 1) → Nat)
   · intro i j
     simpa using SR_signed_threshold_row_relation t ht i j
 
+theorem SR_signed_threshold_matrix_linearIndependent {n : Nat}
+    (t : Fin (n + 1) → Nat) (ht : StrictMono t) :
+    LinearIndependent ℚ (SR_signed_threshold_matrix t).row := by
+  change LinearIndependent ℚ (fun i => SR_signed_threshold_matrix t i)
+  apply Matrix.linearIndependent_rows_of_det_ne_zero
+  rw [SR_signed_threshold_matrix_det t ht]
+  norm_num
+
 def SR_quotient_count (X : Nat) : Nat :=
   ((completeSupport X).toFinset.image (fun m => (X - 1) / m)).card
 
