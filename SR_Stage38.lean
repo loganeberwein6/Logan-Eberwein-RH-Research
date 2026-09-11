@@ -20,6 +20,22 @@ theorem SR_prefix_matrix_linearIndependent (k : Nat) :
     LinearIndependent ℚ (SR_prefix_matrix k).row := by
   exact (Matrix.det_ne_zero_iff.mp (by simp [SR_prefix_matrix_det k])).linearIndependent_rows
 
+def SR_threshold_matrix {k : Nat} (t : Fin k → Nat) : Matrix (Fin k) (Fin k) ℚ :=
+  fun i j => if t j ≤ t i then 1 else 0
+
+theorem SR_threshold_matrix_det {k : Nat} (t : Fin k → Nat)
+    (ht : StrictMono t) : (SR_threshold_matrix t).det = 1 := by
+  apply Matrix.det_of_lowerTriangular
+  intro i j hij
+  simp only [SR_threshold_matrix]
+  have hlt : t i < t j := ht hij
+  simp [Nat.not_le_of_gt hlt]
+
+theorem SR_threshold_matrix_linearIndependent {k : Nat} (t : Fin k → Nat)
+    (ht : StrictMono t) :
+    LinearIndependent ℚ (SR_threshold_matrix t).row := by
+  exact (Matrix.det_ne_zero_iff.mp (by simp [SR_threshold_matrix_det t ht])).linearIndependent_rows
+
 def SR_quotient_count (X : Nat) : Nat :=
   ((completeSupport X).toFinset.image (fun m => (X - 1) / m)).card
 
