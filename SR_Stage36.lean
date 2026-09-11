@@ -90,6 +90,18 @@ theorem sr37_support_convolution_norm_le_divisor_fiber_card (X k : Nat) :
       exact sr37_support_pair_indicator_norm_le_one X p.1 p.2
     _ = (k.divisorsAntidiagonal.card : ℝ) := by simp
 
+theorem sr37_divisors_antidiagonal_card_le_divisors_card (k : Nat) :
+    k.divisorsAntidiagonal.card ≤ k.divisors.card := by
+  apply Finset.card_le_card_of_injOn Prod.fst
+  · intro p hp
+    exact fst_mem_divisors_of_mem_antidiagonal hp
+  · intro p hp q hq hpq
+    apply Prod.ext hpq
+    have hp' := (mem_divisorsAntidiagonal.mp hp).1
+    have hq' := (mem_divisorsAntidiagonal.mp hq).1
+    exact Nat.eq_of_mul_eq_mul_left (left_ne_zero_of_mem_divisorsAntidiagonal hp)
+      (hp'.trans hq'.symm)
+
 theorem sr37_unrestricted_pair_convolution_lseries_eq_zeta_sq
     {s : ℂ} (hs : 1 < s.re) :
     LSeries (LSeries.convolution (fun _ : Nat => (1 : ℂ))
