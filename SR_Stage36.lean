@@ -37,6 +37,14 @@ theorem sr37_support_convolution_coefficient_explicit (X k : Nat) :
         sr37_support_indicator X p.1 * sr37_support_indicator X p.2 := by
   rw [LSeries.convolution_def]
 
+theorem sr37_unrestricted_pair_convolution_lseries_eq_zeta_sq
+    {s : ℂ} (hs : 1 < s.re) :
+    LSeries (LSeries.convolution (fun _ : Nat => (1 : ℂ))
+      (fun _ : Nat => (1 : ℂ))) s = riemannZeta s * riemannZeta s := by
+  rw [LSeries_convolution' (LSeriesSummable_one_iff.mpr hs)
+    (LSeriesSummable_one_iff.mpr hs)]
+  rw [LSeries_one_eq_riemannZeta hs, LSeries_one_eq_riemannZeta hs]
+
 theorem sr36_mellin_inversion (σ : ℝ) (f : ℝ → ℂ) {x : ℝ} (hx : 0 < x)
     (hf : MellinConvergent f σ)
     (hFf : Complex.VerticalIntegrable (mellin f) σ)
