@@ -103,6 +103,22 @@ theorem sr37_support_convolution_eq_zero_of_ge {X k : Nat}
     · simp [sr37_support_indicator, hpm, hpn]
   · simp [sr37_support_indicator, hpm]
 
+theorem sr37_support_convolution_lseries_summable {X : Nat} (s : ℂ) :
+    LSeriesSummable
+      (LSeries.convolution (sr37_support_indicator X) (sr37_support_indicator X)) s := by
+  unfold LSeriesSummable
+  apply summable_of_hasFiniteSupport
+  refine (Set.finite_Iio (X ^ 2)).subset ?_
+  intro k hk
+  change LSeries.term
+      (LSeries.convolution (sr37_support_indicator X) (sr37_support_indicator X)) s k ≠ 0 at hk
+  by_contra hnot
+  have hz := sr37_support_convolution_eq_zero_of_ge hnot
+  rw [LSeries.term_def]
+  split_ifs with hk0
+  · simp
+  · simp [hz]
+
 theorem sr37_support_convolution_norm_le_divisor_fiber_card (X k : Nat) :
     ‖LSeries.convolution (sr37_support_indicator X) (sr37_support_indicator X) k‖ ≤
       (k.divisorsAntidiagonal.card : ℝ) := by
