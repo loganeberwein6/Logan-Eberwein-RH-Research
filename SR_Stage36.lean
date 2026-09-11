@@ -62,6 +62,14 @@ theorem sr37_support_indicator_norm_le_one (X m : Nat) :
   unfold sr37_support_indicator
   split_ifs <;> norm_num
 
+theorem sr37_support_indicator_eq_zero_of_ge {X m : Nat}
+    (hmX : X ≤ m) : sr37_support_indicator X m = 0 := by
+  unfold sr37_support_indicator
+  rw [if_neg]
+  intro hm
+  have hbounds := completeSupport_mem_bounds (Finset.mem_toFinset.mp hm)
+  omega
+
 theorem sr37_support_pair_indicator_norm_le_one (X m n : Nat) :
     ‖sr37_support_indicator X m * sr37_support_indicator X n‖ ≤ 1 := by
   rw [norm_mul]
