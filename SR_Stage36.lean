@@ -40,6 +40,15 @@ theorem sr37_support_eventual_membership {X m : Nat}
     omega
   · omega
 
+theorem sr37_support_indicator_tendsto_one {m : Nat} (hm : 2 ≤ m) :
+    Filter.Tendsto (fun X : Nat => sr37_support_indicator X m)
+      Filter.atTop (𝓝 1) := by
+  apply Filter.Tendsto.eventuallyEq_nhds
+  filter_upwards [eventually_gt_atTop m] with X hX
+  simp only [sr37_support_indicator]
+  rw [if_pos]
+  exact Finset.mem_toFinset.mpr (sr37_support_eventual_membership hm hX)
+
 theorem sr37_support_convolution_coefficient_explicit (X k : Nat) :
     LSeries.convolution (sr37_support_indicator X) (sr37_support_indicator X) k =
       ∑ p ∈ k.divisorsAntidiagonal,
