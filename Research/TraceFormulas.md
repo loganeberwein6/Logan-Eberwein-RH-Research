@@ -148,3 +148,126 @@ This supports oscillation but does not prove a zeta explicit-formula identity.
 Gram operator norms for `X=10,30,100` are approximately `6.9892, 25.8350,
 94.1158`; the ratios to `sqrt(X-2)` are `2.4710, 4.8824, 9.5071`.
 The proposed `sqrt(X)` operator-scale heuristic is therefore numerically false.
+## Stage 37 clean extraction and coefficient scan (2026-09-10)
+
+### Clean Lean target
+
+`SR_Stage37_Clean.lean` was created without modifying the failing
+`SR_Stage36.lean` scratchpad. It is registered in `lakefile.lean` as
+`SR_Stage37_Clean` and builds successfully with:
+
+```text
+lake -Kjobs=1 build SR_Stage37_Clean
+Build completed successfully (3506 jobs).
+```
+
+The clean file contains verified declarations for:
+
+- the simple-zero logarithmic-derivative limit;
+- the three exponent comparisons;
+- the support indicator and eventual support membership;
+- the indicator norm and cutoff vanishing;
+- the divisor-antidiagonal convolution formula;
+- convolution vanishing for `X^2 ≤ k`;
+- the corrected singularity interface
+  `sr37_clean_SR_dirichlet_contains_log_deriv : True`.
+
+The final interface is intentionally a placeholder: it records the corrected
+mechanism (`ζ'/ζ`, not `ζ²`) without asserting an unproved SR-to-zeta identity.
+
+### Exact coefficient experiment at X = 30
+
+The following computation used the current finite definition: `2 ≤ m,n < X`,
+with sign `-1` for `mn < X` and `+1` otherwise.
+
+```text
+k | SR_coeff | Lambda(k) | d(k) | mu(k) | ratio SR/Lambda
+  4 |    -1.00 |     0.693 |    3 |    0 | -1.4426950408889634
+  5 |     0.00 |     1.609 |    2 |   -1 | 0.0
+  6 |    -2.00 |     0.000 |    4 |    1 | N/A
+  7 |     0.00 |     1.946 |    2 |   -1 | 0.0
+  8 |    -2.00 |     0.693 |    4 |    0 | -2.8853900817779268
+  9 |    -1.00 |     1.099 |    3 |    0 | -0.9102392266268373
+ 10 |    -2.00 |     0.000 |    4 |    1 | N/A
+ 11 |     0.00 |     2.398 |    2 |   -1 | 0.0
+ 12 |    -4.00 |     0.000 |    6 |    0 | N/A
+ 13 |     0.00 |     2.565 |    2 |   -1 | 0.0
+ 14 |    -2.00 |     0.000 |    4 |    1 | N/A
+ 15 |    -2.00 |     0.000 |    4 |    1 | N/A
+ 16 |    -3.00 |     0.693 |    5 |    0 | -4.328085122666891
+ 17 |     0.00 |     2.833 |    2 |   -1 | 0.0
+ 18 |    -4.00 |     0.000 |    6 |    0 | N/A
+ 19 |     0.00 |     2.944 |    2 |   -1 | 0.0
+ 20 |    -4.00 |     0.000 |    6 |    0 | N/A
+ 21 |    -2.00 |     0.000 |    4 |    1 | N/A
+ 22 |    -2.00 |     0.000 |    4 |    1 | N/A
+ 23 |     0.00 |     3.135 |    2 |   -1 | 0.0
+ 24 |    -6.00 |     0.000 |    8 |    0 | N/A
+ 25 |    -1.00 |     1.609 |    3 |    0 | -0.6213349345596119
+ 26 |    -2.00 |     0.000 |    4 |    1 | N/A
+ 27 |    -2.00 |     1.099 |    4 |    0 | -1.8204784532536746
+ 28 |    -4.00 |     0.000 |    6 |    0 | N/A
+ 29 |     0.00 |     3.367 |    2 |   -1 | 0.0
+ 30 |     6.00 |     0.000 |    8 |   -1 | N/A
+ 31 |     0.00 |     3.434 |    2 |   -1 | 0.0
+ 32 |     4.00 |     0.693 |    6 |    0 | 5.7707801635558535
+ 33 |     2.00 |     0.000 |    4 |    1 | N/A
+ 34 |     2.00 |     0.000 |    4 |    1 | N/A
+ 35 |     2.00 |     0.000 |    4 |    1 | N/A
+ 36 |     7.00 |     0.000 |    9 |    0 | N/A
+ 37 |     0.00 |     3.611 |    2 |   -1 | 0.0
+ 38 |     2.00 |     0.000 |    4 |    1 | N/A
+ 39 |     2.00 |     0.000 |    4 |    1 | N/A
+ 40 |     6.00 |     0.000 |    8 |    0 | N/A
+ 41 |     0.00 |     3.714 |    2 |   -1 | 0.0
+ 42 |     6.00 |     0.000 |    8 |   -1 | N/A
+ 43 |     0.00 |     3.761 |    2 |   -1 | 0.0
+ 44 |     4.00 |     0.000 |    6 |    0 | N/A
+ 45 |     4.00 |     0.000 |    6 |    0 | N/A
+ 46 |     2.00 |     0.000 |    4 |    1 | N/A
+ 47 |     0.00 |     3.850 |    2 |   -1 | 0.0
+ 48 |     8.00 |     0.000 |   10 |    0 | N/A
+ 49 |     1.00 |     1.946 |     3 |    0 | 0.5138983423697507
+```
+
+For all `1 ≤ k ≤ 900`:
+
+```text
+nonzero coefficients: 285
+positive coefficients: 267
+negative coefficients: 18
+zero coefficients: 615
+coefficient range: -6 8
+max absolute coefficient: 8
+sum coefficients: 692
+matches Lambda exactly: False
+matches divisor count exactly: False
+matches Mobius exactly: False
+```
+
+### F(s) identification result
+
+The proposed cutoff-independent candidates are ruled out by the data. More
+strongly, the coefficient is intrinsically cutoff-dependent:
+
+```text
+c_X(k) = Σ_{m n = k, 2 ≤ m,n < X} sign_X(mn).
+```
+
+For `k < X`, every supported factor pair has `mn < X`, so `c_X(k)` is the
+negative number of ordered factor pairs with both factors in `[2,X)`. For
+`k ≥ X`, exterior pairs contribute with the opposite sign and the set of
+available pairs changes with `X`. Therefore no fixed arithmetic function
+`f(k)` can represent the full coefficient family without retaining the cutoff
+kernel `g(X,k)`.
+
+The corrected conclusion is:
+
+```text
+D_SR,X(s) = Σ_k c_X(k) k^(-s)
+```
+
+is a finite, cutoff-dependent Dirichlet polynomial. It is not presently of the
+form `F(s) · (-ζ'/ζ)(s)` with a cutoff-independent explicit `F`. A valid pole
+mechanism would require a new theorem identifying an asymptotic transform of
+the family `D_SR,X`, not merely identifying its finite coefficient function.
