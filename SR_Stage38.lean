@@ -64,6 +64,16 @@ theorem SR_signed_threshold_base_det (n : Nat) :
     subst i
     exact (lt_irrefl _ hij).elim
 
+lemma SR_fin_succ_le_of_not_le {n : Nat} (i : Fin n) (j : Fin (n + 1))
+    (h : ¬ j ≤ i.castSucc) : i.succ ≤ j := by
+  apply Fin.le_iff_val_le_val.mpr
+  have h' : ¬ j.1 ≤ i.1 := by
+    intro hj
+    apply h
+    exact Fin.le_iff_val_le_val.mpr hj
+  have hlt : i.1 < j.1 := Nat.lt_of_not_ge h'
+  change i.1 + 1 ≤ j.1
+  omega
 
 def SR_quotient_count (X : Nat) : Nat :=
   ((completeSupport X).toFinset.image (fun m => (X - 1) / m)).card
