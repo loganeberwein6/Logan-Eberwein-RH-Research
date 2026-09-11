@@ -49,6 +49,14 @@ theorem sr37_support_indicator_tendsto_one {m : Nat} (hm : 2 ≤ m) :
   rw [if_pos]
   exact Finset.mem_toFinset.mpr (sr37_support_eventual_membership hm hX)
 
+theorem sr37_support_pair_indicator_tendsto_one {m n : Nat}
+    (hm : 2 ≤ m) (hn : 2 ≤ n) :
+    Filter.Tendsto
+      (fun X : Nat => sr37_support_indicator X m * sr37_support_indicator X n)
+      Filter.atTop (𝓝 (1 : ℂ)) := by
+  simpa using (sr37_support_indicator_tendsto_one hm).mul
+    (sr37_support_indicator_tendsto_one hn)
+
 theorem sr37_support_convolution_coefficient_explicit (X k : Nat) :
     LSeries.convolution (sr37_support_indicator X) (sr37_support_indicator X) k =
       ∑ p ∈ k.divisorsAntidiagonal,
