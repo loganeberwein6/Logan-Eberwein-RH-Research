@@ -57,6 +57,17 @@ theorem sr37_support_pair_indicator_tendsto_one {m n : Nat}
   simpa using (sr37_support_indicator_tendsto_one hm).mul
     (sr37_support_indicator_tendsto_one hn)
 
+theorem sr37_support_indicator_norm_le_one (X m : Nat) :
+    ‖sr37_support_indicator X m‖ ≤ 1 := by
+  unfold sr37_support_indicator
+  split_ifs <;> norm_num
+
+theorem sr37_support_pair_indicator_norm_le_one (X m n : Nat) :
+    ‖sr37_support_indicator X m * sr37_support_indicator X n‖ ≤ 1 := by
+  rw [norm_mul]
+  exact mul_le_one (norm_nonneg _) (sr37_support_indicator_norm_le_one X m)
+    (sr37_support_indicator_norm_le_one X n)
+
 theorem sr37_support_convolution_coefficient_explicit (X k : Nat) :
     LSeries.convolution (sr37_support_indicator X) (sr37_support_indicator X) k =
       ∑ p ∈ k.divisorsAntidiagonal,
