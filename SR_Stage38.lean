@@ -44,6 +44,26 @@ theorem SR_threshold_matrix_linearIndependent {k : Nat} (t : Fin k → Nat)
     rw [SR_threshold_matrix_det t ht]
     norm_num)
 
+def SR_signed_threshold_base {n : Nat} : Matrix (Fin (n + 1)) (Fin (n + 1)) ℚ :=
+  fun i j => if i = 0 then if j = 0 then -1 else 1 else if i = j then -2 else 0
+
+theorem SR_signed_threshold_base_det (n : Nat) :
+    (SR_signed_threshold_base : Matrix (Fin (n + 1)) (Fin (n + 1)) ℚ).det =
+      (-1 : ℚ) * (-2) ^ n := by
+  rw [Matrix.det_of_upperTriangular]
+  · rw [Fin.prod_univ_succ]
+    simp [SR_signed_threshold_base]
+  intro i j hij
+  simp only [SR_signed_threshold_base]
+  by_cases hi : i = 0
+  · subst i
+    have hfalse : ¬j.1 < 0 := Nat.not_lt_zero _
+    exact (hfalse hij).elim
+  · simp [hi]
+    intro heq
+    subst i
+    exact (lt_irrefl _ hij).elim
+
 
 def SR_quotient_count (X : Nat) : Nat :=
   ((completeSupport X).toFinset.image (fun m => (X - 1) / m)).card
