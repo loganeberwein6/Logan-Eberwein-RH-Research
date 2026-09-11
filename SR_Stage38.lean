@@ -84,6 +84,211 @@ def SR_signed_threshold_matrix {k : Nat} (t : Fin k → Nat) :
     Matrix (Fin k) (Fin k) ℚ :=
   fun i j => if t j ≤ t i then -1 else 1
 
+/-!
+Stage 38: intrinsic structure of the signed threshold matrix.
+
+IMPORTANT:
+These theorems concern `SR_signed_threshold_matrix`, the ordered
+threshold representative matrix.
+They do NOT assert the same identity for `SR_rees_matrix`.
+-/
+
+theorem SR_threshold_matrix_sym_add_self
+    (n : Nat)
+    (t : Fin (n + 1) → Nat)
+    (ht : StrictMono t) :
+    SR_signed_threshold_matrix t +
+        (SR_signed_threshold_matrix t).transpose
+      =
+      (-2 : ℚ) • (1 : Matrix (Fin (n + 1)) (Fin (n + 1)) ℚ) := by
+  ext i j
+  simp only [
+    SR_signed_threshold_matrix,
+    Matrix.add_apply,
+    Matrix.transpose_apply,
+    Matrix.smul_apply,
+    Matrix.one_apply,
+  ]
+  by_cases hij : i = j
+  · subst hij
+    simp; norm_num
+  · have hneq : t i ≠ t j := by
+      intro hEq
+      apply hij
+      exact ht.injective hEq
+    by_cases hji : t j ≤ t i
+    · have hij_lt : t j < t i := lt_of_le_of_ne hji (Ne.symm hneq)
+      have h_not : ¬ t i ≤ t j := not_le_of_gt hij_lt
+      simp [hji, h_not, hij]
+    · have hij_lt : t i < t j := Nat.lt_of_not_ge hji
+      have h_ij : t i ≤ t j := Nat.le_of_lt hij_lt
+      simp [hji, h_ij, hij]
+
+theorem SR_threshold_matrix_symm_part
+    (n : Nat)
+    (t : Fin (n + 1) → Nat)
+    (ht : StrictMono t) :
+    ((1 / 2 : ℚ) •
+        (SR_signed_threshold_matrix t +
+          (SR_signed_threshold_matrix t).transpose))
+      =
+      (-1 : ℚ) •
+        (1 : Matrix (Fin (n + 1)) (Fin (n + 1)) ℚ) := by
+  rw [SR_threshold_matrix_sym_add_self n t ht]
+  module
+
+def SR_threshold_matrix_skew
+    {n : Nat}
+    (t : Fin (n + 1) → Nat) :
+    Matrix (Fin (n + 1)) (Fin (n + 1)) ℚ :=
+  (1 / 2 : ℚ) •
+    (SR_signed_threshold_matrix t -
+      (SR_signed_threshold_matrix t).transpose)
+
+theorem SR_threshold_matrix_skew_transpose
+    (n : Nat)
+    (t : Fin (n + 1) → Nat) :
+    (SR_threshold_matrix_skew t).transpose
+      =
+      - SR_threshold_matrix_skew t := by
+  simp [SR_threshold_matrix_skew, Matrix.transpose_sub]
+  module
+
+theorem SR_threshold_matrix_eq_neg_one_add_skew
+    (n : Nat)
+    (t : Fin (n + 1) → Nat)
+    (ht : StrictMono t) :
+    SR_signed_threshold_matrix t
+      =
+      (-1 : ℚ) •
+        (1 : Matrix (Fin (n + 1)) (Fin (n + 1)) ℚ)
+      +
+      SR_threshold_matrix_skew t := by
+  ext i j
+  simp only [SR_threshold_matrix_skew, SR_signed_threshold_matrix,
+             Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply,
+             Matrix.one_apply, Matrix.transpose_apply]
+  by_cases hij : i = j
+  · subst hij; simp
+  · by_cases hji : t j ≤ t i
+    · have hlt : t j < t i :=
+        lt_of_le_of_ne hji (Ne.symm (fun h => hij (ht.injective h)))
+      have h_not : ¬ t i ≤ t j := not_le_of_gt hlt
+      simp [hji, h_not, hij]; norm_num
+    · have h_ij : t i ≤ t j := Nat.le_of_lt (Nat.lt_of_not_ge hji)
+      simp [hji, h_ij, hij]; norm_num
+
+theorem SR_threshold_matrix_quadratic_form
+    (n : Nat)
+    (t : Fin (n + 1) → Nat)
+    (ht : StrictMono t)
+    (x : Fin (n + 1) → ℚ) :
+    ∑ i : Fin (n + 1), x i * ∑ j : Fin (n + 1),
+        SR_signed_threshold_matrix t i j * x j
+      = - Finset.univ.sum (fun i => x i ^ 2) := by
+  have hentry : ∀ i j : Fin (n + 1),
+      SR_signed_threshold_matrix t i j + SR_signed_threshold_matrix t j i =
+      if i = j then (-2 : ℚ) else 0 := by
+    intro i j
+    have h : (SR_signed_threshold_matrix t + (SR_signed_threshold_matrix t).transpose) i j =
+             ((-2 : ℚ) • (1 : Matrix _ _ ℚ)) i j :=
+      congrFun (congrFun (SR_threshold_matrix_sym_add_self n t ht) i) j
+    simp only [Matrix.add_apply, Matrix.transpose_apply, Matrix.smul_apply,
+               Matrix.one_apply] at h
+    by_cases hij : i = j
+    · simp [hij] at h ⊢; linarith
+    · simp [hij] at h ⊢; linarith
+  have hQ : ∑ i : Fin (n + 1), x i * ∑ j, SR_signed_threshold_matrix t i j * x j
+      = ∑ i : Fin (n + 1), ∑ j : Fin (n + 1),
+            x i * SR_signed_threshold_matrix t i j * x j := by
+    apply Finset.sum_congr rfl; intro i _
+    rw [Finset.mul_sum]
+    apply Finset.sum_congr rfl; intro j _; ring
+  rw [hQ]
+  have hswap : ∑ i : Fin (n + 1), ∑ j : Fin (n + 1),
+          x i * SR_signed_threshold_matrix t i j * x j
+      = ∑ i : Fin (n + 1), ∑ j : Fin (n + 1),
+            x j * SR_signed_threshold_matrix t j i * x i := by
+    rw [Finset.sum_comm]
+  have h2Q : 2 * ∑ i : Fin (n + 1), ∑ j : Fin (n + 1),
+          x i * SR_signed_threshold_matrix t i j * x j
+      = -2 * Finset.univ.sum (fun i => x i ^ 2) :=
+    calc 2 * ∑ i : Fin (n + 1), ∑ j : Fin (n + 1),
+              x i * SR_signed_threshold_matrix t i j * x j
+        = ∑ i : Fin (n + 1), ∑ j : Fin (n + 1),
+              x i * SR_signed_threshold_matrix t i j * x j +
+          ∑ i : Fin (n + 1), ∑ j : Fin (n + 1),
+              x j * SR_signed_threshold_matrix t j i * x i := by linarith [hswap]
+      _ = ∑ i : Fin (n + 1), ∑ j : Fin (n + 1),
+              (x i * SR_signed_threshold_matrix t i j * x j +
+               x j * SR_signed_threshold_matrix t j i * x i) := by
+              simp_rw [← Finset.sum_add_distrib]
+      _ = ∑ i : Fin (n + 1), ∑ j : Fin (n + 1),
+              x i * x j * (SR_signed_threshold_matrix t i j +
+                            SR_signed_threshold_matrix t j i) := by
+              congr 1; ext i; congr 1; ext j; ring
+      _ = ∑ i : Fin (n + 1), ∑ j : Fin (n + 1),
+              x i * x j * if i = j then (-2 : ℚ) else 0 := by
+              simp_rw [hentry]
+      _ = -2 * Finset.univ.sum (fun i => x i ^ 2) := by
+              simp_rw [mul_ite, mul_zero]
+              simp only [Finset.sum_ite_eq, Finset.mem_univ, if_true]
+              simp_rw [show ∀ i : Fin (n + 1),
+                  x i * x i * (-2 : ℚ) = (-2 : ℚ) * x i ^ 2 from fun i => by ring]
+              rw [← Finset.mul_sum]
+  linarith
+
+theorem SR_threshold_matrix_mulVec_eq_zero
+    (n : Nat)
+    (t : Fin (n + 1) → Nat)
+    (ht : StrictMono t)
+    (x : Fin (n + 1) → ℚ)
+    (hx : Matrix.mulVec (SR_signed_threshold_matrix t) x = 0) :
+    x = 0 := by
+  have hall : ∀ i : Fin (n + 1),
+      ∑ j : Fin (n + 1), SR_signed_threshold_matrix t i j * x j = 0 := by
+    intro i
+    have := congrFun hx i
+    simp only [Matrix.mulVec, Pi.zero_apply] at this
+    exact this
+  have hq := SR_threshold_matrix_quadratic_form n t ht x
+  have hzero_q : ∑ i : Fin (n + 1), x i *
+      ∑ j : Fin (n + 1), SR_signed_threshold_matrix t i j * x j = 0 := by
+    apply Finset.sum_eq_zero; intro i _; rw [hall i, mul_zero]
+  rw [hzero_q] at hq
+  have hsquares : Finset.univ.sum (fun i => x i ^ 2) = 0 := by linarith
+  apply funext; intro i
+  have hxi : x i ^ 2 = 0 := by
+    have hle : x i ^ 2 ≤ Finset.univ.sum (fun j => x j ^ 2) :=
+      Finset.single_le_sum (fun j _ => sq_nonneg (x j)) (Finset.mem_univ i)
+    linarith [sq_nonneg (x i)]
+  exact sq_eq_zero_iff.mp hxi
+
+theorem SR_threshold_matrix_mulVec_injective
+    (n : Nat)
+    (t : Fin (n + 1) → Nat)
+    (ht : StrictMono t) :
+    Function.Injective
+      (Matrix.mulVec (SR_signed_threshold_matrix t)) := by
+  intro x y hxy
+  rw [← sub_eq_zero]
+  apply SR_threshold_matrix_mulVec_eq_zero n t ht (x - y)
+  funext i
+  have hi := congrFun hxy i
+  show ∑ j : Fin (n + 1), SR_signed_threshold_matrix t i j * (x j - y j) = 0
+  calc ∑ j : Fin (n + 1), SR_signed_threshold_matrix t i j * (x j - y j)
+      = ∑ j : Fin (n + 1), (SR_signed_threshold_matrix t i j * x j -
+                             SR_signed_threshold_matrix t i j * y j) := by
+          congr 1; ext j; ring
+    _ = ∑ j : Fin (n + 1), SR_signed_threshold_matrix t i j * x j -
+        ∑ j : Fin (n + 1), SR_signed_threshold_matrix t i j * y j := by
+          rw [Finset.sum_sub_distrib]
+    _ = 0 := by
+          have heq : ∑ j : Fin (n + 1), SR_signed_threshold_matrix t i j * x j =
+                     ∑ j : Fin (n + 1), SR_signed_threshold_matrix t i j * y j :=
+            congrFun hxy i
+          linarith
+
 theorem SR_signed_threshold_row_relation {n : Nat} (t : Fin (n + 1) → Nat)
     (ht : StrictMono t) (i : Fin n) (j : Fin (n + 1)) :
     SR_signed_threshold_matrix t i.succ j =
@@ -155,6 +360,13 @@ theorem SR_threshold_set_ordered_range (X : Nat) :
       (SR_threshold_set X : Set Nat) := by
   simpa using (Finset.range_orderEmbOfFin (SR_threshold_set X)
     (rfl : (SR_threshold_set X).card = (SR_threshold_set X).card))
+
+noncomputable def SR_threshold_rep (X : Nat) (q : SR_threshold_set X) : Nat :=
+  Classical.choose (Finset.mem_image.mp q.property)
+
+theorem SR_threshold_rep_quotient (X : Nat) (q : SR_threshold_set X) :
+    (X - 1) / SR_threshold_rep X q = q.1 := by
+  exact (Classical.choose_spec (Finset.mem_image.mp q.property)).2
 
 def SR_rees_matrix (X : Nat) : Matrix (Fin (X - 2)) (Fin (X - 2)) ℚ :=
   fun i j => if (i.1 + 2) * (j.1 + 2) < X then -1 else 1
