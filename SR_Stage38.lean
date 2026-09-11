@@ -91,6 +91,14 @@ theorem SR_rees_matrix_quotient_eq_of_row_eq
     simp [qi, qj, hgt] at hi
     norm_num at hi
 
+theorem SR_rees_matrix_row_eq_iff_quotient_eq
+    (X : Nat) (hX : 6 ≤ X) (i j : Fin (X - 2)) :
+    SR_rees_matrix X i = SR_rees_matrix X j ↔
+      (X - 1) / (i.1 + 2) = (X - 1) / (j.1 + 2) := by
+  constructor
+  · exact SR_rees_matrix_quotient_eq_of_row_eq X hX i j
+  · exact SR_rees_matrix_row_eq_of_quotient_eq X i j
+
 theorem SR_rees_matrix_X7_entries :
     SR_rees_matrix 7 = !![ -1, -1, 1, 1, 1;
                             -1, 1, 1, 1, 1;
