@@ -19,6 +19,7 @@ theorem SR_rees_matrix_entry_threshold (X : Nat) (i j : Fin (X - 2)) :
       apply (Nat.le_div_iff_mul_le (by omega : 0 < i.1 + 2)).2
       simpa [Nat.mul_comm] using hle
     simp [h, hq]
+
   · have hle : X ≤ (i.1 + 2) * (j.1 + 2) := by omega
     have hq : ¬ j.1 + 2 ≤ (X - 1) / (i.1 + 2) := by
       intro hq
@@ -27,6 +28,13 @@ theorem SR_rees_matrix_entry_threshold (X : Nat) (i j : Fin (X - 2)) :
         simpa [Nat.mul_comm] using this
       omega
     simp [h, hq]
+
+theorem SR_rees_matrix_row_eq_of_quotient_eq
+    (X : Nat) (i j : Fin (X - 2))
+    (h : (X - 1) / (i.1 + 2) = (X - 1) / (j.1 + 2)) :
+    SR_rees_matrix X i = SR_rees_matrix X j := by
+  funext k
+  rw [SR_rees_matrix_entry_threshold, SR_rees_matrix_entry_threshold, h]
 
 theorem SR_rees_matrix_X7_entries :
     SR_rees_matrix 7 = !![ -1, -1, 1, 1, 1;
