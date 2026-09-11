@@ -28,6 +28,15 @@ theorem sr37_lseries_of_dirichlet_convolution_eq_product
     LSeries (LSeries.convolution f g) s = LSeries f s * LSeries g s := by
   exact LSeries_convolution' hf hg
 
+noncomputable def sr37_support_indicator (X : Nat) : Nat → ℂ :=
+  fun n => if n ∈ (completeSupport X).toFinset then 1 else 0
+
+theorem sr37_support_convolution_coefficient_explicit (X k : Nat) :
+    LSeries.convolution (sr37_support_indicator X) (sr37_support_indicator X) k =
+      ∑ p ∈ k.divisorsAntidiagonal,
+        sr37_support_indicator X p.1 * sr37_support_indicator X p.2 := by
+  rw [LSeries.convolution_def]
+
 theorem sr36_mellin_inversion (σ : ℝ) (f : ℝ → ℂ) {x : ℝ} (hx : 0 < x)
     (hf : MellinConvergent f σ)
     (hFf : Complex.VerticalIntegrable (mellin f) σ)
