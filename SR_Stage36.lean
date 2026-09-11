@@ -74,6 +74,22 @@ theorem sr37_support_convolution_coefficient_explicit (X k : Nat) :
         sr37_support_indicator X p.1 * sr37_support_indicator X p.2 := by
   rw [LSeries.convolution_def]
 
+theorem sr37_support_convolution_norm_le_divisor_fiber_card (X k : Nat) :
+    ‖LSeries.convolution (sr37_support_indicator X) (sr37_support_indicator X) k‖ ≤
+      (k.divisorsAntidiagonal.card : ℝ) := by
+  rw [sr37_support_convolution_coefficient_explicit]
+  calc
+    ‖∑ p ∈ k.divisorsAntidiagonal,
+        sr37_support_indicator X p.1 * sr37_support_indicator X p.2‖ ≤
+        ∑ p ∈ k.divisorsAntidiagonal,
+          ‖sr37_support_indicator X p.1 * sr37_support_indicator X p.2‖ := by
+      exact norm_sum_le _ _
+    _ ≤ ∑ _p ∈ k.divisorsAntidiagonal, (1 : ℝ) := by
+      apply Finset.sum_le_sum
+      intro p hp
+      exact sr37_support_pair_indicator_norm_le_one X p.1 p.2
+    _ = (k.divisorsAntidiagonal.card : ℝ) := by simp
+
 theorem sr37_unrestricted_pair_convolution_lseries_eq_zeta_sq
     {s : ℂ} (hs : 1 < s.re) :
     LSeries (LSeries.convolution (fun _ : Nat => (1 : ℂ))
