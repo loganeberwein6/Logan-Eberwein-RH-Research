@@ -101,6 +101,17 @@ or that off-line frequencies force `X^(beta+1)` growth, are conjectures only.
 
 ## Stage 38 — quotient-count rank correction
 
+### Correction to the literal `floor(X/m)` formulation
+
+The literal quotient count using `floor(X/m)` over `m = 2, ..., X - 1`
+is not the matrix rank in general.  Exhaustive exact computation for
+`3 <= X <= 150` gives counterexamples including `X=6`: the matrix rank is
+`2`, while the literal `X/m` image has cardinality `3`.
+
+The strict condition `m*n < X` gives the threshold
+`floor((X-1)/m)`, and this is the quotient used by the Lean definition and
+the proofs below.  The two quotient counts must not be conflated.
+
 The row of the threshold matrix indexed by `m` is determined by
 
 ```text
