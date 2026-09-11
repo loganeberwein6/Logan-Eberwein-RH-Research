@@ -18,6 +18,23 @@ theorem SR_rees_matrix_X7_entries :
   funext i j
   fin_cases i <;> fin_cases j <;> norm_num [SR_rees_matrix]
 
+def SR_x7_core : Matrix (Fin 3) (Fin 5) ℚ :=
+  !![ -1, -1, 1, 1, 1;
+      -1, 1, 1, 1, 1;
+       1, 1, 1, 1, 1 ]
+
+theorem SR_x7_core_rows_linearIndependent :
+    LinearIndependent ℚ SR_x7_core.row := by
+  rw [Fintype.linearIndependent_iff]
+  intro g hg
+  intro i
+  have h0 := congrFun hg (0 : Fin 5)
+  have h1 := congrFun hg (1 : Fin 5)
+  have h2 := congrFun hg (2 : Fin 5)
+  fin_cases i <;>
+    simp [SR_x7_core, Fin.sum_univ_succ] at h0 h1 h2 ⊢ <;>
+    linarith
+
 theorem SR_quotient_count_X6 : SR_quotient_count 6 = 2 := by
   native_decide
 
