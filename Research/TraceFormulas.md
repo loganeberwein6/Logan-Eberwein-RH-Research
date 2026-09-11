@@ -446,3 +446,33 @@ is exactly the classical ζ'/ζ and whose finite-to-infinite passage is proved.
 
 The current clean Lean target records the pole mechanism only as a placeholder;
 this augmented-support construction is not yet formalized there.
+
+### Prime-factorization mismatch
+
+The classical source of the pole is more specific than merely taking a
+logarithmic derivative. In `Re(s)>1`, the Euler product gives
+
+```text
+log ζ(s) = Σ_p Σ_{r≥1} p^(-r s)/r,
+-ζ'(s)/ζ(s) = Σ_{p,r≥1} (log p) p^(-r s)
+             = Σ_{n≥1} Λ(n) n^(-s).
+```
+
+Thus the required operation is an Euler-product logarithm, which converts
+divisor multiplication into prime-power weights. The SR coefficient scan has
+instead produced truncated ordered-divisor counts `±A_X(k)`. No current SR
+theorem supplies the prime-power logarithmic weight `Λ(k)` or an exact
+Euler-product factorization of the SR determinant.
+
+This is the sharp algebraic diagnosis of the unknown `F(s)`:
+
+```text
+F(s) is not determined by the present raw SR convolution;
+the missing map is a prime-factorization/Euler-product transform.
+```
+
+The augmented `−ζ²` candidate can recover `ζ'/ζ` only after taking a
+logarithm of an analytically identified product. Establishing that product as
+an SR object, with the correct prime-power weights and a finite-to-infinite
+theorem, is new mathematics rather than a consequence of the existing finite
+signature or divisor-fiber results.
