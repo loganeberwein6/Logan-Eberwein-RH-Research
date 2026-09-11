@@ -98,3 +98,52 @@ The structural mechanism remains plausible through the product channel and
 its divisor-fiber reorganization, but the equality to a zeta explicit formula
 is not proved. Claims that critical-line frequencies force `X^(3/2)` growth,
 or that off-line frequencies force `X^(beta+1)` growth, are conjectures only.
+
+## Stage 38 — quotient-count rank correction
+
+The row of the threshold matrix indexed by `m` is determined by
+
+```text
+{n : 2 ≤ n < X and m*n < X}
+  = {n : 2 ≤ n ≤ floor((X-1)/m)}.
+```
+
+Accordingly, the relevant quotient is `floor((X-1)/m)`, not
+`floor(X/m)`. The Lean target `SR_Stage38.lean` defines
+`SR_quotient_count X` as the cardinality of the image of this quotient over
+`completeSupport X`, and verifies:
+
+```text
+SR_quotient_count 6  = 2
+SR_quotient_count 7  = 3
+SR_quotient_count 10 = 4
+SR_quotient_count 30 = 8
+```
+
+The universal equality between matrix rank and this quotient count is not yet
+formalized. It must additionally prove that the distinct threshold rows are
+linearly independent; equality of row patterns alone is insufficient for a
+general matrix rank theorem.
+
+The original formula `rank = 2 * SR_sqrt_cutoff_count` is false: at `X=7`
+the matrix rank is `3` while the right-hand side is `2`.
+
+## Stage 38 — spectral probe
+
+Using the exact threshold matrix and the objective's cutoff `|lambda| > 0.01`,
+the nonzero-eigenvalue spacing mean-ratios were:
+
+```text
+X=10:  r=0.6792
+X=20:  r=0.2838
+X=30:  r=0.3130
+X=50:  r=0.4380
+X=100: r=0.5418
+X=200: r=0.5481
+```
+
+The dominant positive eigenvalue is a large outlier. For example, at `X=200`
+the normalized spacing range is approximately `0.015` to `19.467`.
+The finite samples do not establish GUE universality. The observed spectrum
+has strong edge structure and a low-rank threshold pattern; the comparison is
+descriptive evidence only, not a zeta-zero theorem.
