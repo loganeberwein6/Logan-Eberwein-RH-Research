@@ -404,3 +404,45 @@ s=2+0.7i:
 ```
 
 This rules out the simplest “differentiate the raw cutoff limit” repair.
+
+### Augmented-support candidate and its exact boundary
+
+There is one nearby construction that does produce the desired logarithmic
+derivative at the level of a limiting Dirichlet object. Add the omitted index
+`1` and define the full-support cutoff family
+
+```text
+ẐD_X(s) = Σ_{1≤m,n<X} sign(mn<X) (mn)^(-s).
+```
+
+For `Re(s)>1`, dominated convergence gives
+
+```text
+lim_X ẐD_X(s) = -ζ(s)^2.
+```
+
+Where the limiting function is nonzero,
+
+```text
+(ẐD_∞)'(s) / ẐD_∞(s) = 2ζ'(s)/ζ(s).
+```
+
+Thus the augmented object has the correct formal pole mechanism. This does
+not solve the SR problem for two independent reasons:
+
+1. the original SR support starts at `2`, so its limit is
+   `-(ζ(s)-1)^2`, not `-ζ(s)^2`;
+2. passing from a finite quadratic form to the logarithmic derivative of its
+   limiting Dirichlet object is a new nonlinear operation. It is not a
+   Perron formula for the original `Q_X`, and no theorem currently connects
+   its residues back to the SR signature or quadratic form.
+
+The candidate therefore identifies the missing object more precisely:
+
+```text
+an SR-compatible augmented determinant/product whose logarithmic derivative
+is exactly the classical ζ'/ζ and whose finite-to-infinite passage is proved.
+```
+
+The current clean Lean target records the pole mechanism only as a placeholder;
+this augmented-support construction is not yet formalized there.
