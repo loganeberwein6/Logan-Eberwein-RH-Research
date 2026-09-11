@@ -222,3 +222,32 @@ identification is impossible for the current SR coefficients.
 - `SR_CompletionAudit.md`
 - `SR_Stage27.lean` through `SR_Stage36.lean`
 
+## Completion-record coverage audit
+
+The repository does not contain one separate completion file for every stage.
+The authoritative consolidated record is `SR_CompletionAudit.md`; the later
+stage-specific records are listed below. This is the coverage used for the
+failure scan.
+
+| RECORD | SCOPE READ | RELEVANT FAILURE/STATUS RESULT |
+|---|---|---|
+| `SR_CompletionAudit.md` | Stages 0–23, including stages 8–23 appendices | Finite foundations and certificates exist; universal signature, analytic bridge, and RH remain open |
+| `Research/DefinitionFixes.md` | Stages 25–26 | Definitions and B3 denominator dependencies repaired or isolated; no RH implication |
+| `Research/NewEquivalences.md` | Stages 26–35 | W-SR, Abel, Rees-growth, exact-definition, and off-diagonal proposals separated into open claims and failures |
+| `Research/Stage29_Counterexample.md` | Stage 29 | Zero-frequency obstruction; prior growth baseline cannot be trusted |
+| `Research/Stage29_SolutionMap.md` | Stage 29 | Candidate routes mapped; exact cancellation and asymptotics missing |
+| `Research/Stage33_DiagonalBound.md` | Stage 33 | Diagonal estimate certified; it does not control the full form |
+| `Research/Stage34_OffDiagonal.md` | Stage 34 | Proposed pointwise off-diagonal route fails; only coarse bounds survive |
+| `Research/Stage35_OffDiagonal.md` | Stage 35 | Correct absolute-value structure identified; cancellation remains unproved |
+| `Research/Stage36_CompletionAudit.md` | Stage 36 | Finite divisor/Mellin/parameter work verified; continuation, Perron, residues, and RH equivalence open |
+| `Research/Stage36_DeclarationMap.md` | Stage 36 | Declaration-by-declaration distinction between proved endpoints and conjectural interfaces |
+| `Research/Stage36_ExplicitFormula.md` | Stages 36–37 | Explicit-formula route, build history, coefficient bridge, and pole-mechanism correction |
+| `Research/Stage36_X210_Attempt.md` | Stage 36 | Finite X=210 benchmark does not establish an asymptotic theorem |
+| `Research/KilledApproaches.md` | Stages 29–35 | Enumerated false baselines, invalid row bounds, stale exponent fits, and support counterexamples |
+| `Research/FailureInvariants.md` | Stages 27–37 | Reusable obstructions: sign mismatch, convergence/domain errors, source/build compatibility, and weak envelopes |
+| `Research/Conjectures.md` | Stages 16–37 | Open claims register; none is promoted as proof input |
+
+The external Watkins reference used for the common-error taxonomy is Matthew
+Watkins’s public collection of RH attempts and the accompanying survey links;
+the taxonomy is treated as historical context, not as a proof authority:
+[Watkins collection](https://empslocal.ex.ac.uk/people/staff/mrwatkin/zeta/).
