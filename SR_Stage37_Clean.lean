@@ -173,6 +173,22 @@ theorem sr37_clean_support_convolution_summable {X : Nat} {s : ℂ}
         (Nat.pos_of_ne_zero hk)
     _ = (1 : ℝ) * (k : ℝ) ^ ((2 : ℝ) - 1) := by norm_num
 
+theorem sr37_clean_support_convolution_lseries_eq_finite_sum
+    {X : Nat} (s : ℂ) :
+    LSeries
+        (LSeries.convolution (sr37_clean_support_indicator X)
+          (sr37_clean_support_indicator X)) s =
+      ∑ k ∈ Finset.range (X ^ 2),
+        LSeries.term
+          (LSeries.convolution (sr37_clean_support_indicator X)
+            (sr37_clean_support_indicator X)) s k := by
+  rw [LSeries]
+  rw [tsum_eq_sum (s := Finset.range (X ^ 2))]
+  intro k hk
+  have hge : X ^ 2 ≤ k := Nat.le_of_not_gt (by simpa using hk)
+  simp [LSeries.term_def,
+    sr37_clean_support_convolution_eq_zero_of_ge hge]
+
 theorem sr37_clean_SR_dirichlet_contains_log_deriv : True := by
   trivial
 
