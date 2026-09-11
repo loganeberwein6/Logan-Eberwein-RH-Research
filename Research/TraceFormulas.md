@@ -364,3 +364,43 @@ At `Re(s)=2` and `1.5`, convergence is visibly slower, as expected from the
 weaker tail bounds, but the data are consistent with the same structural
 limit. The dominated-convergence argument itself is currently a research
 result, not yet a Lean theorem in `SR_Stage37_Clean.lean`.
+
+### Differentiation does not repair the pole mechanism
+
+A natural next idea is to differentiate the limiting transform. But
+
+```text
+D_∞(s) = -(ζ(s)-1)^2
+```
+
+would give
+
+```text
+-D_∞'(s) / D_∞(s) = 2ζ'(s)/(ζ(s)-1),
+```
+
+not
+
+```text
+ζ'(s)/ζ(s).
+```
+
+The denominator is shifted by the omitted `m=1` term, and the factor 2 comes
+from the square. Thus ordinary differentiation or logarithmic differentiation
+of the raw SR limit still does not create poles at the zeros of ζ. A new
+normalization would have to restore the full Dirichlet object, including the
+`1` term, and remove the square in a mathematically justified way.
+
+Numerically:
+
+```text
+s=3+0.2i:
+  2ζ'/(ζ-1) = -1.951337862454005 + 0.08903504359264707i
+  ζ'/ζ       = -0.1604414349985608 + 0.03398019168856294i
+
+s=2+0.7i:
+  2ζ'/(ζ-1) = -2.251714323838272 + 0.8993186723127633i
+  ζ'/ζ       = -0.253048550193579 + 0.3906798672090958i
+```
+
+This rules out the simplest “differentiate the raw cutoff limit” repair.
