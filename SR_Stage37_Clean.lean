@@ -211,6 +211,13 @@ theorem sr37_clean_vonMangoldt_lseries_eq_negative_zeta_log_deriv
       - deriv riemannZeta s / riemannZeta s := by
   simpa using ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div hs
 
+theorem sr37_clean_vonMangoldt_convolution_one_eq_complex_log :
+    LSeries.convolution
+        (fun n : Nat => (ArithmeticFunction.vonMangoldt n : ℂ))
+        (fun _ : Nat => (1 : ℂ)) =
+      (fun n : Nat => Complex.log n) := by
+  simpa using ArithmeticFunction.convolution_vonMangoldt_const_one
+
 theorem sr37_clean_SR_dirichlet_contains_log_deriv : True := by
   trivial
 
