@@ -1237,4 +1237,14 @@ theorem SR_Q_zeta_nonvanishing_growth_conjecture_certified :
 
 theorem SR_gram_entry_X30_5_7 : SR_gram_entry 30 5 7 = 26 := by native_decide
 
+theorem sr37_signed_coefficient_not_vonMangoldt_X6_4 :
+    (SR_signed_divisor_coefficient 6 4 : ℝ) ≠
+      ArithmeticFunction.vonMangoldt 4 := by
+  have hc : SR_signed_divisor_coefficient 6 4 = -1 := by
+    native_decide
+  rw [hc]
+  rw [ArithmeticFunction.vonMangoldt_apply]
+  norm_num [Nat.isPrimePow_iff]
+  exact ne_of_gt (Real.log_pos (by norm_num))
+
 end SR
