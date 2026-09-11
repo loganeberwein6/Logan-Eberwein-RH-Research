@@ -16,6 +16,12 @@ theorem sr37_simple_zero_log_derivative_residue
       (𝓝[≠] ρ) (𝓝 1) :=
   hf.tendsto_mul_logDeriv_simple_zero hzero hderiv
 
+theorem sr37_vonMangoldt_lseries_is_negative_zeta_log_derivative
+    {s : ℂ} (hs : 1 < s.re) :
+    LSeries.term (↑ArithmeticFunction.vonMangoldt) s 0 =
+      - deriv riemannZeta s / riemannZeta s := by
+  simpa using LSeries_vonMangoldt_eq_deriv_riemannZeta_div hs
+
 theorem sr36_mellin_inversion (σ : ℝ) (f : ℝ → ℂ) {x : ℝ} (hx : 0 < x)
     (hf : MellinConvergent f σ)
     (hFf : Complex.VerticalIntegrable (mellin f) σ)
