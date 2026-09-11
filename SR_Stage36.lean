@@ -102,6 +102,13 @@ theorem sr37_divisors_antidiagonal_card_le_divisors_card (k : Nat) :
     exact Nat.eq_of_mul_eq_mul_left (left_ne_zero_of_mem_divisorsAntidiagonal hp)
       (hp'.trans hq'.symm)
 
+theorem sr37_divisors_antidiagonal_card_le_self {k : Nat} (hk : 0 < k) :
+    (k.divisorsAntidiagonal.card : ℝ) ≤ k := by
+  have hcard : k.divisorsAntidiagonal.card ≤ k :=
+    (sr37_divisors_antidiagonal_card_le_divisors_card k).trans
+      (Nat.card_divisors_le_self k)
+  exact_mod_cast hcard
+
 theorem sr37_unrestricted_pair_convolution_lseries_eq_zeta_sq
     {s : ℂ} (hs : 1 < s.re) :
     LSeries (LSeries.convolution (fun _ : Nat => (1 : ℂ))
