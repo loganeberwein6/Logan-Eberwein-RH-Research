@@ -104,6 +104,57 @@ theorem sr37_clean_support_convolution_lseries_summable {X : Nat} (s : ℂ) :
   · simp
   · simp [hz]
 
+theorem sr37_clean_support_convolution_norm_le_divisor_fiber_card (X k : Nat) :
+    ‖LSeries.convolution (sr37_clean_support_indicator X)
+      (sr37_clean_support_indicator X) k‖ ≤
+      (k.divisorsAntidiagonal.card : ℝ) := by
+  rw [sr37_clean_support_convolution_coefficient_explicit]
+  calc
+    ‖∑ p ∈ k.divisorsAntidiagonal,
+        sr37_clean_support_indicator X p.1 *
+          sr37_clean_support_indicator X p.2‖ ≤
+        ∑ p ∈ k.divisorsAntidiagonal,
+          ‖sr37_clean_support_indicator X p.1 *
+            sr37_clean_support_indicator X p.2‖ := by
+      exact norm_sum_le _ _
+    _ ≤ ∑ _p ∈ k.divisorsAntidiagonal, (1 : ℝ) := by
+      apply Finset.sum_le_sum
+      intro p hp
+      rw [norm_mul]
+      calc
+        ‖sr37_clean_support_indicator X p.1‖ *
+            ‖sr37_clean_support_indicator X p.2‖ ≤
+            1 * ‖sr37_clean_support_indicator X p.2‖ := by
+              exact mul_le_mul_of_nonneg_right
+                (sr37_clean_support_indicator_norm_le_one X p.1)
+                (norm_nonneg _)
+        _ ≤ 1 * 1 := by
+              exact mul_le_mul_of_nonneg_left
+                (sr37_clean_support_indicator_norm_le_one X p.2) (by norm_num)
+        _ = 1 := by norm_num
+    _ = (k.divisorsAntidiagonal.card : ℝ) := by simp
+
+theorem sr37_clean_divisors_antidiagonal_card_le_divisors_card (k : Nat) :
+    k.divisorsAntidiagonal.card ≤ k.divisors.card := by
+  apply Finset.card_le_card_of_injOn Prod.fst
+  · intro p hp
+    exact Nat.fst_mem_divisors_of_mem_antidiagonal hp
+  · intro p hp q hq hpq
+    apply Prod.ext hpq
+    have hp' := (Nat.mem_divisorsAntidiagonal.mp hp).1
+    have hq' := (Nat.mem_divisorsAntidiagonal.mp hq).1
+    exact Nat.eq_of_mul_eq_mul_left
+      (Nat.pos_of_ne_zero (Nat.left_ne_zero_of_mem_divisorsAntidiagonal hp))
+      (by simpa [hpq] using hp'.trans hq'.symm)
+
+theorem sr37_clean_divisors_antidiagonal_card_le_self {k : Nat}
+    (hk : 0 < k) :
+    (k.divisorsAntidiagonal.card : ℝ) ≤ k := by
+  have hcard : k.divisorsAntidiagonal.card ≤ k :=
+    (sr37_clean_divisors_antidiagonal_card_le_divisors_card k).trans
+      (Nat.card_divisors_le_self k)
+  exact_mod_cast hcard
+
 theorem sr37_clean_SR_dirichlet_contains_log_deriv : True := by
   trivial
 
