@@ -117,6 +117,9 @@ theorem SR_x7_core_rows_linearIndependent :
     simp [SR_x7_core, Fin.sum_univ_succ] at h0 h1 h2 ⊢ <;>
     linarith
 
+theorem SR_x7_core_rank : SR_x7_core.rank = 3 := by
+  exact SR_x7_core_rows_linearIndependent.rank_matrix
+
 theorem SR_quotient_count_X6 : SR_quotient_count 6 = 2 := by
   native_decide
 
