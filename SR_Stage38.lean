@@ -36,6 +36,61 @@ theorem SR_rees_matrix_row_eq_of_quotient_eq
   funext k
   rw [SR_rees_matrix_entry_threshold, SR_rees_matrix_entry_threshold, h]
 
+theorem SR_rees_matrix_quotient_eq_of_row_eq
+    (X : Nat) (hX : 6 ≤ X) (i j : Fin (X - 2))
+    (h : SR_rees_matrix X i = SR_rees_matrix X j) :
+    (X - 1) / (i.1 + 2) = (X - 1) / (j.1 + 2) := by
+  let qi := (X - 1) / (i.1 + 2)
+  let qj := (X - 1) / (j.1 + 2)
+  by_contra hne
+  rcases lt_or_gt_of_ne hne with hlt | hgt
+  · let k : Fin (X - 2) := ⟨qi - 1, by
+      have hqi : 1 ≤ qi := by
+        dsimp [qi]
+        apply (Nat.le_div_iff_mul_le (by omega : 0 < i.1 + 2)).2
+        have hi : i.1 + 2 ≤ X - 1 := by omega
+        simpa [Nat.mul_comm] using hi
+      have hqj : qj ≤ X - 1 := by
+        dsimp [qj]
+        exact Nat.div_le_self _ _
+      have hqilt : qi < X - 1 := lt_of_lt_of_le hlt hqj
+      omega⟩
+    have hk : k.1 + 2 = qi + 1 := by
+      dsimp [k]
+      have hqi : 1 ≤ qi := by
+        dsimp [qi]
+        apply (Nat.le_div_iff_mul_le (by omega : 0 < i.1 + 2)).2
+        have hi : i.1 + 2 ≤ X - 1 := by omega
+        simpa [Nat.mul_comm] using hi
+      omega
+    have hi := congrFun h k
+    rw [SR_rees_matrix_entry_threshold, SR_rees_matrix_entry_threshold, hk] at hi
+    simp [qi, qj, hlt] at hi
+    norm_num at hi
+  · let k : Fin (X - 2) := ⟨qj - 1, by
+      have hqj1 : 1 ≤ qj := by
+        dsimp [qj]
+        apply (Nat.le_div_iff_mul_le (by omega : 0 < j.1 + 2)).2
+        have hj : j.1 + 2 ≤ X - 1 := by omega
+        simpa [Nat.mul_comm] using hj
+      have hqilt : qi ≤ X - 1 := by
+        dsimp [qi]
+        exact Nat.div_le_self _ _
+      have hqjlt : qj < X - 1 := lt_of_lt_of_le hgt hqilt
+      omega⟩
+    have hk : k.1 + 2 = qj + 1 := by
+      dsimp [k]
+      have hqj1 : 1 ≤ qj := by
+        dsimp [qj]
+        apply (Nat.le_div_iff_mul_le (by omega : 0 < j.1 + 2)).2
+        have hj : j.1 + 2 ≤ X - 1 := by omega
+        simpa [Nat.mul_comm] using hj
+      omega
+    have hi := congrFun h k
+    rw [SR_rees_matrix_entry_threshold, SR_rees_matrix_entry_threshold, hk] at hi
+    simp [qi, qj, hgt] at hi
+    norm_num at hi
+
 theorem SR_rees_matrix_X7_entries :
     SR_rees_matrix 7 = !![ -1, -1, 1, 1, 1;
                             -1, 1, 1, 1, 1;
