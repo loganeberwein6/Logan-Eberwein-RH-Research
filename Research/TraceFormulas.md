@@ -515,6 +515,37 @@ universal positivity claim, nor does the skew-symmetrized identity by itself
 provide the missing analytic bridge to the von Mangoldt/explicit-formula
 framework required for a Riemann-hypothesis argument.
 
+### Arithmetic reduction of full-support positivity — 2026-09-12
+
+Put (N=X-1). The full-support sum has the exact elementary decomposition
+
+\[
+ A_X = N^2 - 2B_N,
+ \qquad
+ B_N = \#\{(m,n):1\le m,n\le N,;mn\le N\}.
+\]
+
+Counting the second coordinate for each (m) gives
+
+\[
+ B_N = \sum_{m=1}^{N}\left\lfloor\frac{N}{m}\right\rfloor
+      = \sum_{d=1}^{N} \tau(d),
+\]
+
+the summatory divisor function. Thus the universal full-support positivity
+claim is exactly the elementary divisor-sum inequality
+
+\[
+ 2\sum_{m=1}^{N}\left\lfloor\frac{N}{m}\right\rfloor < N^2
+ \quad (N\ge5).
+\]
+
+This reduction is stronger than a numerical observation: it identifies the
+remaining finite-support theorem independently of the Rees matrix. It also
+shows why the full-support values are smaller than the original-support
+values: adding the index `1` adds many interior pairs, changing the divisor
+sum by the row and column contributions involving `1`.
+
 ### Full-support bridge audit — 2026-09-12
 
 The exact finite identity survives at the threshold-representative level.
