@@ -943,6 +943,38 @@ theorem SR_rees_rank_eq_quotient_count
       _ = R.rank := hRli.rank_matrix.symm
       _ ≤ (SR_rees_matrix X).rank := hrank_ge
 
+/-! Full-support audit: this includes the index `1`, unlike `completeSupport`.
+The definition is independent of the actual Rees matrix so that the
+full-support numerical question is represented exactly in Lean. -/
+def SR_full_support_all_ones_sum (X : Nat) : Int :=
+  ∑ m in List.range (X - 1),
+    ∑ n in List.range (X - 1),
+      if (m + 1) * (n + 1) < X then (-1 : Int) else 1
+
+theorem SR_full_support_all_ones_sum_X6 :
+    SR_full_support_all_ones_sum 6 = 5 := by
+  native_decide
+
+theorem SR_full_support_all_ones_sum_X10 :
+    SR_full_support_all_ones_sum 10 = 35 := by
+  native_decide
+
+theorem SR_full_support_all_ones_sum_X30 :
+    SR_full_support_all_ones_sum 30 = 635 := by
+  native_decide
+
+theorem SR_full_support_all_ones_sum_X100 :
+    SR_full_support_all_ones_sum 100 = 8855 := by
+  native_decide
+
+theorem SR_full_support_all_ones_sum_X210 :
+    SR_full_support_all_ones_sum 210 = 41381 := by
+  native_decide
+
+theorem SR_full_support_all_ones_sum_X2310 :
+    SR_full_support_all_ones_sum 2310 = 5295017 := by
+  native_decide
+
 /--
 No-go result: the abstract strictly-monotone threshold negative-definiteness
 theorem (proved for `SR_signed_threshold_matrix`) cannot be transferred
