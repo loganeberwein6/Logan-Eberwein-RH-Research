@@ -208,6 +208,24 @@ confirmed as roundoff artifacts.  This validates finite lower-boundedness,
 but still gives no uniform-in-`lambda,N` estimate and no proof that the
 limiting lower bound is zero.
 
+## High-precision perturbed roots
+
+For `lambda=2`, the finite perturbed scaling roots computed with 50-digit
+arithmetic are:
+
+```text
+N=2: [15.2182364482437343, 41.0291251413423176]
+N=4: [14.1347331334482307, 21.0757020194876264,
+      27.5408001507746831, 83.757096730377551]
+N=6: [14.1347251866513842, 21.0220577410477662,
+      25.0114447936540026, 30.7878166388223597,
+      42.4608534163468343, 125.56362388796151]
+```
+
+The first two roots at `N=6` are within roughly `1e-5` of the first two known
+zeta ordinates. Higher roots require larger truncations and exhibit the
+non-monotone ordering already documented above.
+
 ## Next concrete work
 
 The next repository task is to reproduce the finite Weil-form matrix from the
