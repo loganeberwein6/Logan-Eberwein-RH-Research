@@ -102,6 +102,26 @@ falling into the previously eliminated classes. It does not yet satisfy all
 six properties because determinant convergence and the simple-even
 eigenvector theorem are missing.
 
+## Independent finite reproduction
+
+The repository script `candidate_q_reproduce.py` evaluates the exact formulas
+for the rank-two `W_{0,2}` term, the finite von-Mangoldt sum, and the
+archimedean integral.  Its raw output is:
+
+```text
+lambda=2 N=2: symerr=0.000e+00 min=9.74021556e-07 max=0.390032358 even_err=4.321e-13
+lambda=2 N=4: symerr=0.000e+00 min=1.6995362e-09 max=1.81093587 even_err=4.438e-11
+lambda=3 N=2: symerr=0.000e+00 min=4.92092193e-09 max=0.210198345 even_err=3.489e-11
+lambda=3 N=4: symerr=0.000e+00 min=1.65761291e-13 max=0.415552901 even_err=5.329e-08
+lambda=4 N=2: symerr=0.000e+00 min=1.00909317e-09 max=0.171437752 even_err=3.768e-11
+lambda=4 N=4: symerr=0.000e+00 min=2.47095352e-15 max=0.346483713 even_err=1.297e-06
+```
+
+Here `symerr` is the maximum entrywise failure of symmetry and `even_err` is
+the relative distance of the smallest-eigenvalue vector from its reversal.
+The finite matrix and simple-even behavior therefore reproduce successfully.
+The output does not establish determinant convergence or the RH implication.
+
 ## Next concrete work
 
 The next repository task is to reproduce the finite Weil-form matrix from the
