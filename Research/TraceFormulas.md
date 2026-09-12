@@ -682,3 +682,26 @@ the unrestricted positive integers. The natural analytic target for this
 finite object would be a separately defined half-weighted convolution, with
 its own Perron formula. No such formula or zero-detection theorem is currently
 proved.
+
+### Infinite half-weighted Dirichlet limit — 2026-09-12
+
+For `Re(s)>1/2`, the uncut half-weighted series is explicitly computable:
+
+\[
+ F(s)=\sum_{n\ge2}\frac{\log n}{n^{s+1/2}}
+     =-\zeta'(s+1/2).
+\]
+
+As the cutoff (X\to\infty), every fixed pair eventually lies in the
+interior, so the signed quadratic Dirichlet object tends formally to
+
+\[
+ -F(s)^2=-\zeta'(s+1/2)^2.
+\]
+
+This has a pole at the shifted pole (s=1/2), but zeta zeros are zeros of the
+function rather than poles of this observable. Differentiating or taking a
+logarithmic derivative could create a ratio involving (zeta''/\zeta'), but
+that is again a new nonlinear operation, not the Perron transform of the
+finite Rees quadratic form. Thus the half-weighted repair still does not
+provide the required simple poles at the nontrivial zeros.
