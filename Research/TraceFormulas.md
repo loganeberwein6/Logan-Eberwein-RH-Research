@@ -546,6 +546,29 @@ shows why the full-support values are smaller than the original-support
 values: adding the index `1` adds many interior pairs, changing the divisor
 sum by the row and column contributions involving `1`.
 
+### Elementary universal-positivity route
+
+The divisor-sum inequality admits a simple hyperbola proof. Let
+
+```text
+r = floor(sqrt(N)).
+```
+
+Pairs with `m ≤ r` contribute at most `r*N`; pairs with `m > r` have
+`n < sqrt(N)` and contribute fewer than `N*r`. Hence
+
+```text
+B_N < 2*N*sqrt(N).
+```
+
+For `N ≥ 17`, `4*N*sqrt(N) < N^2`, so `2*B_N < N^2` and the full-support
+sum is positive. The remaining cases `5 ≤ N ≤ 16` are a finite computation.
+This supplies a complete elementary proof strategy for universal positivity;
+the remaining work is only formalizing the square-root inequalities and the
+finite boundary cases in Lean. It does not repair the separate analytic
+failure: positivity of the all-ones direction still gives no uniform bound
+for the indefinite actual Rees quadratic form.
+
 ### Full-support bridge audit — 2026-09-12
 
 The exact finite identity survives at the threshold-representative level.
