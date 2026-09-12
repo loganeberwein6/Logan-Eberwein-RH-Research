@@ -66,16 +66,32 @@ def weil_matrix(lam, N):
     return T, inds
 
 
-for lam in [2.0, 3.0, 4.0]:
-    for N in [2, 4]:
-        T, inds = weil_matrix(lam, N)
-        eigvals, eigvecs = np.linalg.eigh(T)
-        v = eigvecs[:, 0]
-        parity = np.linalg.norm(v - v[::-1]) / np.linalg.norm(v)
-        print(
-            f"lambda={lam:g} N={N}: "
-            f"symerr={np.max(np.abs(T-T.T)):.3e} "
-            f"min={eigvals[0]:.9g} "
-            f"max={eigvals[-1]:.9g} "
-            f"even_err={parity:.3e}"
-        )
+def perturbed_scaled_spectrum(lam, N):
+    T, inds = weil_matrix(lam, N)
+    _, vectors = np.linalg.eigh(T)
+    xi = vectors[:, 0]
+    eta = np.ones(len(inds))
+    xi = xi / (eta @ xi)
+    D = np.diag(np.asarray(inds, dtype=float))
+    perturbed = D - np.outer(D @ xi, eta)
+    values = np.linalg.eigvals(perturbed)
+    positive = np.sort(
+        values.real[(np.abs(values.imag) < 1e-7) & (values.real > 1e-6)]
+    )
+    return positive * (2.0 * np.pi / (2.0 * np.log(lam)))
+
+
+if __name__ == "__main__":
+    for lam in [2.0, 3.0, 4.0]:
+        for N in [2, 4]:
+            T, inds = weil_matrix(lam, N)
+            eigvals, eigvecs = np.linalg.eigh(T)
+            v = eigvecs[:, 0]
+            parity = np.linalg.norm(v - v[::-1]) / np.linalg.norm(v)
+            print(
+                f"lambda={lam:g} N={N}: "
+                f"symerr={np.max(np.abs(T-T.T)):.3e} "
+                f"min={eigvals[0]:.9g} "
+                f"max={eigvals[-1]:.9g} "
+                f"even_err={parity:.3e}"
+            )

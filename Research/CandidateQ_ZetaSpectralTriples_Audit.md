@@ -122,6 +122,39 @@ the relative distance of the smallest-eigenvalue vector from its reversal.
 The finite matrix and simple-even behavior therefore reproduce successfully.
 The output does not establish determinant convergence or the RH implication.
 
+## Perturbed scaling spectrum
+
+Using the smallest eigenvector `xi`, normalizing it by the Dirichlet vector,
+and forming the finite rank-one perturbation
+
+\[
+ D' = D-|D\xi\rangle\langle\delta_N|,
+ \qquad D_{nn}=n,
+\]
+
+gives the following positive eigenvalues after the natural scale
+`2*pi/L`, with `L=2 log(lambda)`:
+
+```text
+lambda=2, N=8:
+  [14.134725, 21.022041, 25.010888, 30.427179, 32.946781,
+   37.685232, 51.037873, 151.988727]
+
+lambda=3, N=8:
+  [14.134725, 19.402663, 21.022026, 25.010774, 30.829461,
+   36.748308, 58.272734, 200.396619]
+
+lambda=4, N=8:
+  [1.496582, 14.134725, 21.022816, 24.578023, 29.886584,
+   33.126154, 53.030288, 132.909069]
+```
+
+For `lambda=2`, the first five values agree closely with the first five zeta
+zero ordinates.  This is finite-dimensional numerical evidence only.  The
+construction assumes the simple-even minimizing vector and does not prove
+that the finite spectra or regularized determinants converge as `lambda,N`
+tend to infinity.
+
 ## Next concrete work
 
 The next repository task is to reproduce the finite Weil-form matrix from the
