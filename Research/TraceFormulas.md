@@ -705,3 +705,35 @@ logarithmic derivative could create a ratio involving (zeta''/\zeta'), but
 that is again a new nonlinear operation, not the Perron transform of the
 finite Rees quadratic form. Thus the half-weighted repair still does not
 provide the required simple poles at the nontrivial zeros.
+
+### Correct analytic object exists abstractly — 2026-09-12
+
+`SR_Stage37_Clean.lean` was rebuilt successfully. It verifies, for
+
+```text
+Re(s) > 1,
+```
+
+the standard identity
+
+```text
+LSeries (vonMangoldt) s = -ζ'(s) / ζ(s),
+```
+
+and the L-series product law for Dirichlet convolution. This is the correct
+zero-detecting analytic object: its poles occur at zeros of ζ.
+
+The remaining map is now sharply isolated:
+
+```text
+finite Rees/Lambda observable
+  → a Dirichlet-convolution coefficient sequence
+  → the von-Mangoldt L-series
+  → -ζ'/ζ.
+```
+
+The first arrow is not proved. Existing Rees observables are finite signed
+quadratic sums with cutoff and square-root/logarithmic weights; existing
+L-series theorems concern unrestricted coefficient sequences. No theorem yet
+identifies a Rees cutoff limit, determinant, or logarithmic derivative with the
+von-Mangoldt L-series. This is the exact analytic bridge still missing.
