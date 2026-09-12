@@ -245,6 +245,21 @@ The minimizing vector is therefore simple and even in these finite tests. The
 gap shrinks rapidly with truncation, so proving a uniform nonzero gap or
 proving simplicity for all parameters remains open.
 
+Additional 50-digit checks at `N=4`:
+
+```text
+lambda=3: even=1.660243920691773269836942e-13
+          odd =5.100956101727336529800658e-11
+          gap =5.0843536625204188e-11
+
+lambda=4: even=9.204351772685069089406271e-16
+          odd =7.755679824934110121004055e-13
+          gap =7.746475473161425e-13
+```
+
+The gap remains positive in these tests but rapidly approaches the numerical
+conditioning limit.
+
 ## Next concrete work
 
 The next repository task is to reproduce the finite Weil-form matrix from the
