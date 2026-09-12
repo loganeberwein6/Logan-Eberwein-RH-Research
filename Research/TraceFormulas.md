@@ -514,3 +514,59 @@ This remains finite computational evidence only. It is not a proof of the
 universal positivity claim, nor does the skew-symmetrized identity by itself
 provide the missing analytic bridge to the von Mangoldt/explicit-formula
 framework required for a Riemann-hypothesis argument.
+
+### Full-support bridge audit — 2026-09-12
+
+The exact finite identity survives at the threshold-representative level.
+For distinct ordered thresholds (t_i), the signed matrix entry is
+
+```text
+S[i,j] = -1  if t_j ≤ t_i,
+          1  otherwise.
+```
+
+For (i=j) the symmetric sum is `-2`; for (i≠j), strict ordering makes
+exactly one of `t_j ≤ t_i` and `t_i ≤ t_j` true, so the two entries sum to
+zero. Hence `S + Sᵀ = -2 I` is structural and remains true when the index
+`1` is included, provided one is still working with distinct threshold
+representatives.
+
+This does **not** imply the same identity or global nonpositivity for the
+actual Rees matrix. The verified Lean theorem
+`SR_rees_matrix_global_nonpositive_false` gives the counterexample at `X=6`:
+the all-ones vector has quadratic value `14 > 0`. Thus the proposed route
+
+```text
+threshold coercivity + all-ones positivity ⇒ |Q_full(X)| = O(X^(3/2))
+```
+
+has no proved premise for the actual Rees quadratic form. Positivity in one
+direction also cannot by itself bound an indefinite quadratic form in all
+directions.
+
+The analytic candidate has a separate obstruction. The full-support limiting
+Dirichlet object is `D_full(s) = -ζ(s)^2` in its half-plane of convergence.
+At a zero `ρ` of ζ, `D_full` has a zero, not a pole; therefore shifting a
+Perron contour for `D_full(s) X^s/s` produces no residue at `ρ`. This object
+cannot detect off-line zeros. Differentiating its logarithm formally produces
+`2ζ'(s)/ζ(s)`, but that is a new nonlinear operation and is not the Perron
+transform of the original quadratic sum.
+
+The correct observable must introduce von Mangoldt weights:
+
+```text
+Q_Λ(X) = Σ_{m,n} Λ(m) Λ(n) Rees(m,n) / √(mn),
+```
+
+whose convolution is connected to the explicit formula for
+
+```text
+ψ₂(X) = Σ_{mn≤X} Λ(m)Λ(n)
+       = X²/2 - Σ_ρ X^(ρ+1)/(ρ+1) + lower-order terms.
+```
+
+The missing theorem is an exact, quantitative Perron bridge from `Q_Λ` to
+`ψ₂`, together with a uniform `O(X^(3/2))` bound for `Q_Λ` derived from the
+actual Rees form. Neither statement is currently proved in Lean or in the
+research files. Consequently the RH implication remains an unproved program,
+not a completed proof.
