@@ -985,6 +985,15 @@ theorem SR_full_support_all_ones_sum_positive_boundary_X6_to_X17 :
       0 < SR_full_support_all_ones_sum (k + 6)) = true := by
   native_decide
 
+theorem SR_four_mul_sqrt_lt_of_ge_seventeen {N : Nat} (hN : 17 ≤ N) :
+    4 * N * N.sqrt < N * N := by
+  have hs : N.sqrt * N.sqrt ≤ N := Nat.sqrt_le N
+  have hfour : 4 * N.sqrt < N := by
+    by_contra h
+    have hle : N ≤ 4 * N.sqrt := Nat.le_of_not_gt h
+    nlinarith
+  nlinarith
+
 /--
 No-go result: the abstract strictly-monotone threshold negative-definiteness
 theorem (proved for `SR_signed_threshold_matrix`) cannot be transferred
