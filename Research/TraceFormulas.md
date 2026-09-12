@@ -706,6 +706,47 @@ that is again a new nonlinear operation, not the Perron transform of the
 finite Rees quadratic form. Thus the half-weighted repair still does not
 provide the required simple poles at the nontrivial zeros.
 
+### Abel-bridge computation — 2026-09-12
+
+The new Stage 39 objective's proposed relation
+
+```text
+S_int,log(X) / T_log(X) ≈ ψ₂(X) / ψ(X)^2
+```
+
+was evaluated with exact von Mangoldt support (using floating-point logs for
+the displayed numerical audit):
+
+```text
+X      S_int/T       ψ₂/ψ²
+30     0.140754      0.049001
+100    0.130479      0.029470
+210    0.103692      0.015948
+500    0.080411      0.008012
+1000   0.066966      0.004808
+2310   0.051341      0.002422
+```
+
+The proposed Abel bridge is therefore not numerically valid: the ratios are
+not close, and neither is approaching (1/2) in these tests. The scaling
+diagnosis is direct. Under the PNT heuristic,
+
+```text
+T_log(X) ≈ (Σ_{n<X} Λ(n)/sqrt(n))² ≈ 4X,
+```
+
+whereas the hyperbolic integral for the interior sum is of order
+
+```text
+S_int,log(X) ≈ sqrt(X) * log(X).
+```
+
+Thus `S_int/T` is expected to decay like `log(X)/sqrt(X)`, not converge to
+`1/2`. The claimed approximation `S_int ≈ 2 ψ₂(X)/sqrt(X)` has the wrong
+scale: its right-hand side is order (X^{3/2}), while the left-hand side is
+only order (sqrt Xlog X). This closes the proposed Abel bridge by a
+specific counterexample and an independent scaling calculation.
+
 ### Correct analytic object exists abstractly — 2026-09-12
 
 `SR_Stage37_Clean.lean` was rebuilt successfully. It verifies, for
