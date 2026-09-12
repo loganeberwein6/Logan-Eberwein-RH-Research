@@ -496,3 +496,21 @@ the original-support values. Explicit full-support threshold matrices at
 `X=6, 10, 30` all satisfy `S + Sᵀ = -2 I`. This is finite numerical evidence
 only; it does not establish the analytic Perron bridge or RH. The correct
 analytic observable still requires von Mangoldt weighting.
+
+### Exhaustive finite-support check — 2026-09-12
+
+An exhaustive integer computation over every `X=2,...,1000` gives the
+following audit of the full support `{1,...,X-1}`:
+
+- the all-ones quadratic sum has counterexamples only at `X=2,3,4,5`, and is
+  therefore positive for every tested `X≥6`;
+- the matrix built from the distinct thresholds `(X-1)//m` satisfies
+  `S + Sᵀ = -2 I` for every tested `X=2,...,1000`, with no counterexamples.
+
+Selected exact values `(X, full-support sum)` are
+`(6,5), (10,35), (30,635), (100,8855), (210,41381), (2310,5295017)`.
+
+This remains finite computational evidence only. It is not a proof of the
+universal positivity claim, nor does the skew-symmetrized identity by itself
+provide the missing analytic bridge to the von Mangoldt/explicit-formula
+framework required for a Riemann-hypothesis argument.
