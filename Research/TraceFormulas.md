@@ -763,3 +763,22 @@ the limit of a separable quadratic product. Reaching it requires a genuinely
 nonlinear operation (Euler-product logarithm, determinant logarithmic
 derivative, or an equivalent prime-factorization transform) absent from the
 current Rees form.
+
+### Determinant escape-hatch audit — 2026-09-12
+
+The only remaining structural way around separability would be a determinant
+or logarithmic determinant whose expansion is non-linear in the matrix entries.
+The repository contains no Rees determinant, characteristic polynomial,
+spectral zeta function, Fredholm determinant, or trace-log construction. The
+verified determinant results concern only the abstract ordered threshold
+matrices; for example, the signed threshold base has determinant
+
+```text
+(-1) * (-2)^n.
+```
+
+That determinant depends only on the threshold ordering and dimension. It has
+no prime-factorization or von-Mangoldt coefficients, so its logarithmic
+derivative cannot supply `-ζ'/ζ`. A determinant-based RH bridge would thus be
+a genuinely new construction, not an omitted lemma about the existing Rees
+matrix.
