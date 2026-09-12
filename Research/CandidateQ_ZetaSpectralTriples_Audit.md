@@ -155,6 +155,24 @@ construction assumes the simple-even minimizing vector and does not prove
 that the finite spectra or regularized determinants converge as `lambda,N`
 tend to infinity.
 
+## N-convergence scan
+
+Comparing the first five positive scaled eigenvalues with the first five known
+ordinates gives a non-monotone two-parameter pattern:
+
+```text
+lambda=2 N=8:  [14.134725, 21.022041, 25.010888, 30.427179, 32.946781] maxerr=0.0117193
+lambda=2 N=12: [14.134725, 21.022040, 25.010871, 30.425857, 32.939827] maxerr=0.00476497
+lambda=3 N=8:  [14.134725, 19.402663, 21.022026, 25.010774, 30.829461] maxerr=5.4141
+lambda=3 N=12: [4.606783, 8.577455, 14.134725, 21.022040, 25.010858] maxerr=12.4446
+lambda=4 N=8:  [1.496582, 14.134725, 21.022816, 24.578023, 29.886584] maxerr=12.6381
+lambda=4 N=12: [1.890083, 6.508996, 14.134725, 19.099625, 21.022040] maxerr=14.513
+```
+
+Extra low-frequency eigenvalues appear for larger lambda in this
+implementation. Therefore ordering, normalization, and the joint lambda,N
+limit are part of the proof obligation.
+
 ## Next concrete work
 
 The next repository task is to reproduce the finite Weil-form matrix from the
