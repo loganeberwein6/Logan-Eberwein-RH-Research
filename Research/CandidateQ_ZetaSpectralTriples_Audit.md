@@ -173,6 +173,25 @@ Extra low-frequency eigenvalues appear for larger lambda in this
 implementation. Therefore ordering, normalization, and the joint lambda,N
 limit are part of the proof obligation.
 
+## Lower-bound diagnostic
+
+The finite smallest eigenvalue `mu_N(lambda)` rapidly reaches double-precision
+noise:
+
+```text
+N=4: lambda=1.5 -> 2.204086e-04, 2 -> 1.699536e-09,
+     3 -> 1.657613e-13, 5 -> -6.784407e-16, 10 -> 2.105594e-15
+N=6: lambda=1.5 -> 1.811870e-04, 2 -> 2.143147e-11,
+     3 -> -2.422306e-16, 5 -> -1.436925e-15, 10 -> -5.123770e-15
+N=8: lambda=1.5 -> 1.625386e-04, 2 -> 2.754578e-12,
+     3 -> -2.184752e-16, 5 -> -1.832975e-15, 10 -> -1.724981e-15
+```
+
+The sign changes at larger lambda are roundoff artifacts at this precision,
+not evidence that the limiting Weil lower bound is negative. High-precision
+arithmetic and a condition-number/error analysis are required before finite
+`mu_N` values can support the analytic implication `mu_lambda -> 0`.
+
 ## Next concrete work
 
 The next repository task is to reproduce the finite Weil-form matrix from the
