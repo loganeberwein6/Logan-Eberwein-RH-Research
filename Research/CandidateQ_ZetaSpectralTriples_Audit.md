@@ -31,6 +31,31 @@ It uses a nonseparable Weil quadratic form and obtains self-adjointness from a
 rank-one perturbation plus a changed inner product. It is therefore in the
 remaining open class identified in Stage 40.
 
+## Exact finite form
+
+For `lambda>1`, the semilocal form is
+
+\[
+ QW_\lambda(f,f)=
+ \int_{\mathbb R}|\widehat f(t)|^2\frac{2\theta'(t)}{2\pi}\,dt
+ +2\Re\left(\widehat f(i/2)\overline{\widehat f(-i/2)}\right)
+ -\sum_{1<n\le\lambda^2}\Lambda(n)\langle f,T(n)f\rangle,
+\]
+
+where
+
+\[
+ \langle f,T(n)g\rangle=n^{-1/2}
+ \left((f^* * g)(n)+(f^* * g)(n^{-1})\right).
+\]
+
+The finite Fourier space `E_N` is spanned by the `2N+1` lowest-frequency
+eigenfunctions of the logarithmic scaling operator on
+`[lambda^(-1),lambda]`.  The paper assumes that the smallest eigenvalue of
+the restricted form is simple and that its eigenvector is inversion-even.  A
+rank-one perturbation then makes the scaling operator self-adjoint in the
+modified Weil-form inner product.
+
 ## P1--P6 audit
 
 | property | result | evidence/status |
@@ -51,6 +76,12 @@ The source explicitly leaves two central steps open:
 2. prove that the selected finite eigenvector converges sufficiently to the
    limiting vector so that its Fourier transform converges to Riemann's
    Xi function.
+
+The source also states that the Weil zero sum is only conditionally convergent
+in general; absolute convergence is obtained for the compactly supported
+convolution test functions used in the finite construction.  Passing from
+those finite forms to the global determinant therefore requires a genuine
+uniform limit estimate, not merely finite-dimensional self-adjointness.
 
 Without those steps, this is not a proof of RH. The source itself states that
 establishing the convergence would amount to proving RH.
