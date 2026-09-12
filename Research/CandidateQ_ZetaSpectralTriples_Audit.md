@@ -226,6 +226,25 @@ The first two roots at `N=6` are within roughly `1e-5` of the first two known
 zeta ordinates. Higher roots require larger truncations and exhibit the
 non-monotone ordering already documented above.
 
+## Simple-even finite check
+
+The exact reversal symmetry splits the high-precision matrix into even and odd
+blocks. For `lambda=2`, the lowest eigenvalues of the two blocks are:
+
+```text
+N=2: even=0.000000974021554983189682308277
+     odd =0.00006467756106934426860042115
+     gap =0.000063703539514361078918
+
+N=4: even=0.000000001699535649045167714580966
+     odd =0.0000003034007543117166196854123
+     gap =0.00000030170121866267145197
+```
+
+The minimizing vector is therefore simple and even in these finite tests. The
+gap shrinks rapidly with truncation, so proving a uniform nonzero gap or
+proving simplicity for all parameters remains open.
+
 ## Next concrete work
 
 The next repository task is to reproduce the finite Weil-form matrix from the
