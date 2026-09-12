@@ -980,6 +980,11 @@ theorem SR_full_support_all_ones_sum_positive_X6_to_X1000 :
       0 < SR_full_support_all_ones_sum (k + 6)) = true := by
   native_decide
 
+theorem SR_full_support_all_ones_sum_positive_boundary_X6_to_X17 :
+    ((List.range 12).all fun k =>
+      0 < SR_full_support_all_ones_sum (k + 6)) = true := by
+  native_decide
+
 /--
 No-go result: the abstract strictly-monotone threshold negative-definiteness
 theorem (proved for `SR_signed_threshold_matrix`) cannot be transferred
