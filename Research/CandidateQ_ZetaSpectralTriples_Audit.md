@@ -192,6 +192,22 @@ not evidence that the limiting Weil lower bound is negative. High-precision
 arithmetic and a condition-number/error analysis are required before finite
 `mu_N` values can support the analytic implication `mu_lambda -> 0`.
 
+## High-precision correction
+
+Using 50-digit arithmetic and the same explicit formulas gives positive
+finite minima:
+
+```text
+lambda=2, N=2: mu_N=0.000000974021554983189682308277035847
+lambda=2, N=4: mu_N=0.000000001699535649045167714580965751
+lambda=3, N=4: mu_N=0.000000000000166024392069177336983597
+```
+
+The negative double-precision values at larger parameters are therefore
+confirmed as roundoff artifacts.  This validates finite lower-boundedness,
+but still gives no uniform-in-`lambda,N` estimate and no proof that the
+limiting lower bound is zero.
+
 ## Next concrete work
 
 The next repository task is to reproduce the finite Weil-form matrix from the
