@@ -737,3 +737,29 @@ quadratic sums with cutoff and square-root/logarithmic weights; existing
 L-series theorems concern unrestricted coefficient sequences. No theorem yet
 identifies a Rees cutoff limit, determinant, or logarithmic derivative with the
 von-Mangoldt L-series. This is the exact analytic bridge still missing.
+
+### Separability no-go principle — 2026-09-12
+
+There is a general structural obstruction behind the repeated failures. For
+any separable weight (a_m(s)a_n(s)), the signed Rees cutoff has the form
+
+```text
+Σ_{m,n} sign(mn < X) a_m(s) a_n(s).
+```
+
+For each fixed pair, `sign(mn<X)` eventually becomes `-1`; whenever the
+limiting one-variable series converges absolutely, dominated convergence gives
+
+```text
+lim[X→∞] Σ_{m,n} sign(mn<X) a_m(s)a_n(s)
+  = -(Σ_m a_m(s))^2.
+```
+
+Thus the limiting object is necessarily a product of one-variable Dirichlet
+series. This explains the observed limits `-ζ(s)^2` and
+`-ζ'(s+1/2)^2`. By contrast, `-ζ'(s)/ζ(s)` comes from the logarithm of an
+Euler product and carries additive prime-power coefficients `Λ(n)`; it is not
+the limit of a separable quadratic product. Reaching it requires a genuinely
+nonlinear operation (Euler-product logarithm, determinant logarithmic
+derivative, or an equivalent prime-factorization transform) absent from the
+current Rees form.
