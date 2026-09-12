@@ -624,3 +624,25 @@ The missing theorem is an exact, quantitative Perron bridge from `Q_Λ` to
 actual Rees form. Neither statement is currently proved in Lean or in the
 research files. Consequently the RH implication remains an unproved program,
 not a completed proof.
+
+### Λ-weighted bridge audit — 2026-09-12
+
+The existing B3 machinery was checked against the required bridge and fails at
+the finite algebraic level, before any analytic continuation:
+
+1. The signed Rees sum is `S_ext - S_int`, whereas the proposed unsigned
+   quantity is `S_ext + S_int`; the claimed equality is false in general.
+2. The proposed Cauchy–Schwarz comparison mixes literal `log n` weights with
+   von Mangoldt weights `Λ(n)`. These coincide only on primes, not on the full
+   support, so the stated inequality does not apply to the existing objects.
+3. Even with consistent weights, Cauchy–Schwarz gives
+   `A_int^2 ≤ S2_int * ψ2`, an upper bound for `A_int`, while the proposed B3
+   bridge requires a lower bound for `ψ2`. The inequality orientation is
+   insufficient.
+4. The recorded `X=6` data give `SR_kappa≈0.7625775751` but
+   `ψ2(6)/6^2≈0.0133459171`; taking `c=3/4` directly contradicts the proposed
+   implication `SR_kappa X > c → ψ2(X)/X^2 > (1-c)/2`.
+
+Thus the Λ-weighted route currently lacks both a correct finite identity and
+the required analytic Perron theorem. This is a verified obstruction, not a
+mere missing implementation step.
