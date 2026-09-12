@@ -476,3 +476,23 @@ logarithm of an analytically identified product. Establishing that product as
 an SR object, with the correct prime-power weights and a finite-to-infinite
 theorem, is new mathematics rather than a consequence of the existing finite
 signature or divisor-fiber results.
+
+## Stage 38 full-support computation — 2026-09-12
+
+The full-support experiment was evaluated for `{1, ..., X-1}` using
+`a_full(X) = sum_{m,n=1}^{X-1} (-1 if m*n < X else 1)`.
+
+```text
+X=6:    full=5,       original=14,       delta=-9
+X=10:   full=35,      original=52,       delta=-17
+X=30:   full=635,     original=692,       delta=-57
+X=100:  full=8855,    original=9052,      delta=-197
+X=210:  full=41381,   original=41798,     delta=-417
+X=2310: full=5295017, original=5299634,  delta=-4617
+```
+
+The full-support values are positive in every tested case, but smaller than
+the original-support values. Explicit full-support threshold matrices at
+`X=6, 10, 30` all satisfy `S + Sᵀ = -2 I`. This is finite numerical evidence
+only; it does not establish the analytic Perron bridge or RH. The correct
+analytic observable still requires von Mangoldt weighting.
