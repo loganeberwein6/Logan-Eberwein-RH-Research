@@ -951,6 +951,23 @@ def SR_full_support_all_ones_sum (X : Nat) : Int :=
     ∑ n in List.range (X - 1),
       if (m + 1) * (n + 1) < X then (-1 : Int) else 1
 
+def SR_full_support_bad_pair_count (X : Nat) : Int :=
+  ∑ m in List.range (X - 1),
+    ∑ n in List.range (X - 1),
+      if (m + 1) * (n + 1) < X then (1 : Int) else 0
+
+theorem SR_full_support_sum_eq_square_sub_bad_pairs (X : Nat) :
+    SR_full_support_all_ones_sum X =
+      ((X - 1) * (X - 1) : Int) -
+        2 * SR_full_support_bad_pair_count X := by
+  simp only [SR_full_support_all_ones_sum, SR_full_support_bad_pair_count]
+  simp_rw [show ∀ p : Prop, (if p then (-1 : Int) else 1) =
+    1 - 2 * (if p then (1 : Int) else 0) by
+      intro p
+      by_cases hp : p <;> simp [hp]]
+  simp [List.sum_sub_distrib, List.sum_add_distrib]
+  ring
+
 theorem SR_full_support_all_ones_sum_X6 :
     SR_full_support_all_ones_sum 6 = 5 := by
   native_decide
