@@ -805,6 +805,70 @@ nonlinear operation (Euler-product logarithm, determinant logarithmic
 derivative, or an equivalent prime-factorization transform) absent from the
 current Rees form.
 
+### Stage 39 seven-piece audit — 2026-09-12
+
+For the logarithmic (Lambda)-weighted sums, the prime number theorem gives
+
+\[
+ \sum_{n<X}\frac{\Lambda(n)}{\sqrt n}\sim2\sqrt X.
+\]
+
+Consequently
+
+\[
+ T_{\log}(X)=\left(\sum_{n<X}\frac{\Lambda(n)}{\sqrt n}\right)^2
+ \sim4X,
+\]
+
+so (C'=4). The hyperbolic interior integral is
+
+\[
+ \int_{uv<X}\frac{du\,dv}{\sqrt{uv}}
+ =2\sqrt X\log X+O(\sqrt X),
+\]
+
+so (S_{\mathrm{int},\log}(X)\sim2\sqrt X\log X), giving (C=2).
+
+Thus (S_{\mathrm{int},\log}/T_{\log}\sim(\log X)/(2\sqrt X)\to0).
+The inequality
+
+```text
+S_int/T ≤ (1 - sqrt κ)/2
+```
+
+then gives no new information: a ratio tending to zero only forces the
+right-hand side to have nonnegative liminf, already implied by
+`0≤κ≤1`; it does not force (kappa\to1).
+
+At ((\beta,\gamma)=(1/2,0)), `SR_weil_form_real` is exactly the original
+all-ones Rees sum. Direct values are
+
+```text
+X      SR_weil_form_real      value / X^(3/2)
+30              692                  4.2114
+100            9052                  9.0520
+210           41798                 13.7349
+500          243642                 21.7920
+1000         985892                 31.1766
+2310        5299634                 47.7340
+```
+
+This observable grows like (X^2), not (X^{3/2}); its (X^{3/2})-normalized
+value grows. Including index `1` changes the unweighted all-ones sum and keeps
+it positive for (X\ge6), but it does not change the logarithmic
+(Lambda)-weighted sums because (Lambda(1)=0). The `Sint/T` asymptotic is
+therefore unchanged.
+
+Finally,
+
+```text
+ζ'(s)/ζ(s) = -Σ_{k≥1} Λ(k) k^(-s),
+```
+
+so the requested coefficient is (f(k)=-\Lambda(k)). A Rees sign matrix or
+any separable support weighting cannot derive this additive prime-power
+coefficient sequence; it can only insert (Lambda) as an external weight.
+
 ### Determinant escape-hatch audit — 2026-09-12
 
 The only remaining structural way around separability would be a determinant
