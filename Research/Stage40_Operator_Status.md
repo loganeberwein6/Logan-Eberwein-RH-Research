@@ -21,6 +21,7 @@ been proved.
 | 11 | Rees--Lambda candidate | negative eigenvalue persists; determinant near 1 | dead |
 | 12 | positive Lambda Gram | positive but independent of `Im(s)` and not trace class for `Re(s)<=1` | dead |
 | 13 | phase-preserving Lambda Gram | frequency returns, but positivity disappears and only `Lambda^2` occurs | dead |
+| 14 | prime-branch transfer | determinant is `1 - sum_p p^{-s}`, mixing primes instead of forming independent Euler loops | dead |
 
 ## Proved class-level result
 
@@ -86,3 +87,18 @@ The original six-property goal remains open.  Stage 40 has produced a
 class-level impossibility theorem and eliminated the listed candidate family,
 but has not constructed the required operator or proved impossibility for the
 remaining nonseparable transfer-operator class.
+
+## Formal verification status
+
+After setting the installed toolchain variable `ELAN_HOME` to
+`C:\Users\ljoe6\.elan`, these files compiled successfully with no reported
+errors:
+
+```text
+SR_Stage27.lean
+SR_Stage36.lean
+SR_Stage37_Clean.lean
+```
+
+The earlier inability to run these checks was an environment-variable issue,
+not a Lean theorem failure.  No Lean files were changed during that check.
