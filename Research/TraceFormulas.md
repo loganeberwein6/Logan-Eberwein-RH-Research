@@ -666,3 +666,19 @@ and `SR_kappa_log_in_01` applies it for `X≥6`. This bound is not, however, a
 Perron/explicit-formula statement: no current theorem connects the resulting
 finite observable to `ψ₂`, and the earlier unsigned/B3 implication remains
 disproved.
+
+The exact finite identity that is available is instead
+
+```text
+SR_HalfWeightedSum(X)
+  = S_ext,log(X) - S_int,log(X)
+  = S_unsigned,log(X) - 2*S_int,log(X).
+```
+
+The interior term has the weight
+`log(m) log(n) / sqrt(m*n)`. It is therefore not the classical
+`ψ₂(X)=Σ_{mn≤X} Λ(m)Λ(n)`, which has no square-root denominator and includes
+the unrestricted positive integers. The natural analytic target for this
+finite object would be a separately defined half-weighted convolution, with
+its own Perron formula. No such formula or zero-detection theorem is currently
+proved.
