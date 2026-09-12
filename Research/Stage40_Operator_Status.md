@@ -24,6 +24,7 @@ been proved.
 | 14 | prime-branch transfer | determinant is `1 - sum_p p^{-s}`, mixing primes instead of forming independent Euler loops | dead |
 | 16 | Gaussian-damped reflected primes | nuclear for fixed damping, but damping changes every Euler factor | dead |
 | 17 | scalar completed-xi control | reproduces zeros by inserting `xi(s)` directly; circular benchmark only | control |
+| 18 | Weil spectral triples | finite Weil matrix and rank-one scaling spectrum reproduced; high-precision simple-even gaps verified, global convergence open | promising/incomplete |
 
 ## Proved class-level result
 
