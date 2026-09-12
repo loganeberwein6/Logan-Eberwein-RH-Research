@@ -649,18 +649,20 @@ mere missing implementation step.
 
 ### Corrected finite observable dependency map — 2026-09-12
 
-The repository does contain a consistent finite object in `SR_Stage27.lean`:
+The repository contains a consistent finite object in `SR_Stage27.lean`:
 `SR_HalfWeightedSum` uses one common logarithmic weight family and is proved to
-equal `S_ext - S_int`. The downstream theorem
-`SR_kappa_log_le_one_of_signed_cauchy` is also Lean-verified, but only under
-the explicit hypothesis
+equal `S_ext - S_int`. The file also proves `SR_cauchy_unsigned` and the
+downstream theorem `SR_kappa_log_in_01`, so the previously suspected finite
+Cauchy gap is closed for the typed logarithmic observable. The underlying
+conditional algebraic theorem
+`SR_kappa_log_le_one_of_signed_cauchy` has the explicit hypothesis
 
 ```text
 SR_HalfWeightedSum(X)^2 ≤ SR_S2_log_typed(X) * SR_S3_log_typed(X).
 ```
 
-This isolates the exact remaining finite gap. The theorem is not a bound from
-the Rees sign identity; it is a conditional algebraic consequence once the
-same-weight Cauchy inequality is supplied. No current theorem derives that
-hypothesis from the actual Rees matrix, and no theorem connects the resulting
-finite observable to the explicit formula for `ψ₂`.
+The verified `SR_cauchy_unsigned` supplies the needed same-weight inequality
+and `SR_kappa_log_in_01` applies it for `X≥6`. This bound is not, however, a
+Perron/explicit-formula statement: no current theorem connects the resulting
+finite observable to `ψ₂`, and the earlier unsigned/B3 implication remains
+disproved.
