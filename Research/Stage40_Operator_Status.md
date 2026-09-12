@@ -22,6 +22,8 @@ been proved.
 | 12 | positive Lambda Gram | positive but independent of `Im(s)` and not trace class for `Re(s)<=1` | dead |
 | 13 | phase-preserving Lambda Gram | frequency returns, but positivity disappears and only `Lambda^2` occurs | dead |
 | 14 | prime-branch transfer | determinant is `1 - sum_p p^{-s}`, mixing primes instead of forming independent Euler loops | dead |
+| 16 | Gaussian-damped reflected primes | nuclear for fixed damping, but damping changes every Euler factor | dead |
+| 17 | scalar completed-xi control | reproduces zeros by inserting `xi(s)` directly; circular benchmark only | control |
 
 ## Proved class-level result
 
