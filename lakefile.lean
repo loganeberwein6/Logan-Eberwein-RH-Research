@@ -10,6 +10,24 @@ package «CodexRH» where
 lean_lib SR_Primitives where
   roots := #[`SR_Primitives]
 
+lean_lib SR_TransferLemma where
+  roots := #[`SR_TransferLemma]
+
+lean_lib SR_MultiChannel where
+  roots := #[`SR_MultiChannel]
+
+lean_lib SR_ThetaKernel where
+  roots := #[`SR_ThetaKernel]
+
+lean_lib SR_ZeroTransfer where
+  roots := #[`SR_ZeroTransfer]
+
+lean_lib SR_SpectralBridge where
+  roots := #[`SR_SpectralBridge]
+
+lean_lib SR_Correlation where
+  roots := #[`SR_Correlation]
+
 lean_lib SR_KnowledgeBank where
   roots := #[`SR_KnowledgeBank]
 
@@ -85,9 +103,6 @@ lean_lib SR_UpperBound where
 lean_lib SR_Density where
   roots := #[`SR_Density]
 
-lean_lib SR_SpectralBridge where
-  roots := #[`SR_SpectralBridge]
-
 lean_lib SR_Boundary where
   roots := #[`SR_Boundary]
 
@@ -138,3 +153,9 @@ lean_lib SR_Stage37_Clean where
 
 lean_lib SR_Stage38 where
   roots := #[`SR_Stage38]
+
+lean_lib RH_Summary where
+  roots := #[`RH_Summary]
+
+lean_lib RH_Operator_Criteria where
+  roots := #[`RH_Operator_Criteria]
