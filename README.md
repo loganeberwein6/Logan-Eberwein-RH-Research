@@ -1,1 +1,41 @@
-This is my research project I started in my freshman year of high school. I have always been eager to learn math, especially complex math, but I haven't reached the complexity required for a firm grasp on number theory. Around 2025, I began to use tools such as Claude to start a company as well as explore AI uses. AI has been a big interest of mine recently, which is why I decided to use it to make attempts at the Riemann Hypothesis. I have always watched interesting videos from YouTube channels like Veritasium and 3Blue1Brown, and have gone down many interesting math rabbit holes on YouTube and Google, eventually learning about the Millenium Prize problems and the Riemann Hypothesis. With my Instagram feed perfectly tuned to AI prompt engineering and tips on how to use ChatGPT and Claude, I started to develop my own ideas, eventually (according to Claude) rediscovering existing metamathematical methods, such as iterative looping on failures and repeatedly creating mathematical systems to bypass obstructions. I would also like to note that I could have written this more professionally, but I wanted a human element among all of these AI theorems and code and generated text. I was maybe not clear enough with my prompting in the beginning, leading to some Lean compilation workarounds where the AIs defined some conjectures as True, but I'm leaving all of these files and my work up to the mathematical community, as I can only get so far with my limited knowledge and a few LLMs. I hope that my work proves useful, and if anyone with connections to an AI company reads this, some usage credits or a plan upgrade so I can continue my work would be nice.
+# CodexRH
+
+This is Logan Eberwein's research project, begun during his freshman year of
+high school, exploring arithmetic, finite-matrix, and spectral constructions
+related to the Riemann Hypothesis with the help of Lean and AI tools.
+
+## Contents
+
+The repository contains:
+
+- Lean definitions, lemmas, and finite verification results.
+- Arithmetic and matrix experiments.
+- Research notes, audits, and negative results.
+- Explicit records of conjectural steps that are not currently proved.
+
+The repository does not contain a proof of the Riemann Hypothesis.
+
+## Verification
+
+The Lean project is built with Lake. From the repository root, run:
+
+```text
+lake build
+```
+
+Individual modules can be checked with their Lake target or directly through
+the project environment when investigating a particular file.
+
+## Standards
+
+Formal compilation is not treated as evidence for an unstated mathematical
+claim. Definitions, finite identities, library applications, conjectures,
+and unresolved analytic bridges are kept distinct. Known issues and previous
+overstatements are recorded in `CORRECTIONS.md`.
+
+## Repository status
+
+This is a research workspace. Some modules are exploratory or legacy code,
+and the directory organization is being cleaned up incrementally. Claims
+should be read together with their hypotheses and the surrounding research
+notes.
