@@ -48,7 +48,8 @@ theorem sr37_clean_support_indicator_eq_zero_of_ge {X m : Nat}
   unfold sr37_clean_support_indicator
   rw [if_neg]
   intro hm
-  have hm' : m ∈ completeSupport X := by simpa using hm
+  have hm' : m ∈ completeSupport X := by
+    simpa using hm
   have hbounds := completeSupport_mem_bounds hm'
   omega
 
@@ -130,7 +131,8 @@ theorem sr37_clean_support_convolution_norm_le_divisor_fiber_card (X k : Nat) :
                 (norm_nonneg _)
         _ ≤ 1 * 1 := by
               exact mul_le_mul_of_nonneg_left
-                (sr37_clean_support_indicator_norm_le_one X p.2) (by norm_num)
+                (sr37_clean_support_indicator_norm_le_one X p.2)
+                (by norm_num)
         _ = 1 := by norm_num
     _ = (k.divisorsAntidiagonal.card : ℝ) := by simp
 
@@ -168,16 +170,17 @@ theorem sr37_clean_support_convolution_summable {X : Nat} {s : ℂ}
         (sr37_clean_support_indicator X) k‖ ≤
         (k.divisorsAntidiagonal.card : ℝ) :=
       sr37_clean_support_convolution_norm_le_divisor_fiber_card X k
-    _ ≤ (k : ℝ) := by
-      exact sr37_clean_divisors_antidiagonal_card_le_self
+    _ ≤ (k : ℝ) :=
+      sr37_clean_divisors_antidiagonal_card_le_self
         (Nat.pos_of_ne_zero hk)
-    _ = (1 : ℝ) * (k : ℝ) ^ ((2 : ℝ) - 1) := by norm_num
+    _ = (1 : ℝ) * (k : ℝ) ^ ((2 : ℝ) - 1) := by
+      norm_num
 
 theorem sr37_clean_support_convolution_lseries_eq_finite_sum
     {X : Nat} (s : ℂ) :
     LSeries
-        (LSeries.convolution (sr37_clean_support_indicator X)
-          (sr37_clean_support_indicator X)) s =
+      (LSeries.convolution (sr37_clean_support_indicator X)
+        (sr37_clean_support_indicator X)) s =
       ∑ k ∈ Finset.range (X ^ 2),
         LSeries.term
           (LSeries.convolution (sr37_clean_support_indicator X)
@@ -192,7 +195,8 @@ theorem sr37_clean_support_convolution_lseries_eq_finite_sum
 theorem sr37_clean_unrestricted_pair_convolution_lseries_eq_zeta_sq
     {s : ℂ} (hs : 1 < s.re) :
     LSeries (LSeries.convolution (fun _ : Nat => (1 : ℂ))
-      (fun _ : Nat => (1 : ℂ))) s = riemannZeta s * riemannZeta s := by
+      (fun _ : Nat => (1 : ℂ))) s =
+      riemannZeta s * riemannZeta s := by
   calc
     LSeries (LSeries.convolution (fun _ : Nat => (1 : ℂ))
         (fun _ : Nat => (1 : ℂ))) s =
@@ -209,37 +213,39 @@ theorem sr37_clean_vonMangoldt_lseries_eq_negative_zeta_log_deriv
     {s : ℂ} (hs : 1 < s.re) :
     LSeries (fun n : Nat => (ArithmeticFunction.vonMangoldt n : ℂ)) s =
       - deriv riemannZeta s / riemannZeta s := by
-  simpa using ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div hs
+  simpa using
+    ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div hs
 
 theorem sr37_clean_vonMangoldt_convolution_one_eq_complex_log :
     LSeries.convolution
         (fun n : Nat => (ArithmeticFunction.vonMangoldt n : ℂ))
         (fun _ : Nat => (1 : ℂ)) =
-      (fun n : Nat => Complex.log n) := by
+      (fun n : Nat => Complex.log (n : ℂ)) := by
   simpa using ArithmeticFunction.convolution_vonMangoldt_const_one
 
 theorem sr37_clean_vonMangoldt_convolution_one_lseries_eq_neg_deriv_zeta
     {s : ℂ} (hs : 1 < s.re) :
-    LSeries (LSeries.convolution
-      (fun n : Nat => (ArithmeticFunction.vonMangoldt n : ℂ))
-      (fun _ : Nat => (1 : ℂ))) s = - deriv riemannZeta s := by
-  calc
-    LSeries (LSeries.convolution
+    LSeries
+      (LSeries.convolution
         (fun n : Nat => (ArithmeticFunction.vonMangoldt n : ℂ))
         (fun _ : Nat => (1 : ℂ))) s =
+      - deriv riemannZeta s := by
+  calc
+    LSeries
+        (LSeries.convolution
+          (fun n : Nat => (ArithmeticFunction.vonMangoldt n : ℂ))
+          (fun _ : Nat => (1 : ℂ))) s =
         LSeries (fun n : Nat => (ArithmeticFunction.vonMangoldt n : ℂ)) s *
           LSeries (fun _ : Nat => (1 : ℂ)) s := by
-            exact LSeries_convolution'
-              (ArithmeticFunction.LSeriesSummable_vonMangoldt hs)
-              (LSeriesSummable_one_iff.mpr hs)
+      exact LSeries_convolution'
+        (ArithmeticFunction.LSeriesSummable_vonMangoldt hs)
+        (LSeriesSummable_one_iff.mpr hs)
     _ = (- deriv riemannZeta s / riemannZeta s) * riemannZeta s := by
-      have hL : LSeries (fun _ : Nat => (1 : ℂ)) s = riemannZeta s :=
+      have hL : LSeries (fun _ : Nat => (1 : ℂ)) s =
+          riemannZeta s :=
         LSeries_one_eq_riemannZeta hs
       rw [sr37_clean_vonMangoldt_lseries_eq_negative_zeta_log_deriv hs, hL]
     _ = - deriv riemannZeta s := by
       field_simp [riemannZeta_ne_zero_of_one_lt_re hs]
-
-theorem sr37_clean_SR_dirichlet_contains_log_deriv : True := by
-  trivial
 
 end SR

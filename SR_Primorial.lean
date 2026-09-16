@@ -3,12 +3,11 @@ import Mathlib.Tactic.NormNum.Basic
 namespace SR
 
 /-
-Stage 19: primorial balance conjecture.
+Stage 19: finite primorial balance evidence.
 
-The large complete-support computations are recorded as finite certificates,
-not as native Lean eigenspectrum computations.  This keeps the Lean layer honest:
-the conjecture is stated as an open scaffold, while checked numerical outcomes
-are promoted only as explicit recorded data.
+The complete-support signatures below are recorded as finite certificates.
+The file proves exactly those finite identities and does not assert a zeta-spectrum
+interpretation or a primorial asymptotic limit.
 -/
 
 def firstPrimesForPrimorial : List Nat :=
@@ -29,8 +28,8 @@ theorem primorial_seq :
   decide
 
 /--
-Open conjectural scaffold: complete-support Rees signatures appear balanced at
-primorial cutoffs.  This is not proved here and is not an RH theorem.
+Finite recorded primorial signatures. Their balance is proved below from the
+recorded data; no zeta-spectrum claim is encoded here.
 -/
 structure RecordedCompleteSignature where
   cutoff : Nat
@@ -141,20 +140,17 @@ theorem active_dimension_primorial_records :
   norm_num [activeDimension, completeSig6, completeSig30, completeSig210,
     completeSig2310]
 
-/--
-Open analytic scaffold: the intended zeta-spectrum/RH bridge should explain
-the primorial balance records and the mixed non-primorial behavior.  This is a
-named conjectural target only.
--/
-theorem SR19_CONJ_ZETA_PRIMORIAL_SPECTRUM : True := by
-  trivial
-
-/--
-Open asymptotic scaffold for the Stage 16 log-weighted sum along primorials.
-No limit theorem or RH implication is proved here.
--/
-theorem SR19_CONJ_S_PRIMORIAL_CONVERGES : True := by
-  trivial
+theorem SR19_PRIMORIAL_FINITE_EVIDENCE :
+    completeSig6.balanced ∧
+    completeSig30.balanced ∧
+    completeSig210.balanced ∧
+    completeSig2310.balanced ∧
+    ¬ completeSig35.balanced ∧
+    completeSig42.balanced ∧
+    completeSig70.balanced := by
+  exact ⟨completeSig6_balanced, completeSig30_balanced,
+    completeSig210_balanced, completeSig2310_balanced,
+    completeSig35_imbalanced, completeSig42_balanced, completeSig70_balanced⟩
 
 theorem SR19_SYNTHESIS :
     completeSig6.balanced ∧
@@ -187,8 +183,6 @@ theorem SR19_SYNTHESIS :
 #check SR19_NONPRIMORIAL_IMBALANCE_FALSE
 #check SR19_COMPLETE_SUPPORT_MIXED_NONPRIMORIALS
 #check active_dimension_primorial_records
-#check SR19_CONJ_ZETA_PRIMORIAL_SPECTRUM
-#check SR19_CONJ_S_PRIMORIAL_CONVERGES
 #check SR19_SYNTHESIS
 
 end SR

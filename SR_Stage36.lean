@@ -13,14 +13,14 @@ theorem sr37_simple_zero_log_derivative_residue
     (hf : AnalyticAt ℂ f ρ) (hzero : f ρ = 0)
     (hderiv : deriv f ρ ≠ 0) :
     Filter.Tendsto (fun s : ℂ => (s - ρ) * logDeriv f s)
-      (𝓝[≠] ρ) (𝓝 1) :=
+      (nhdsWithin ρ ({ρ} : Set ℂ)ᶜ) (nhds 1) :=
   hf.tendsto_mul_logDeriv_simple_zero hzero hderiv
 
 theorem sr37_vonMangoldt_lseries_is_negative_zeta_log_derivative
     {s : ℂ} (hs : 1 < s.re) :
-    LSeries.term (↑ArithmeticFunction.vonMangoldt) s 0 =
-      - deriv riemannZeta s / riemannZeta s := by
-  simpa using LSeries_vonMangoldt_eq_deriv_riemannZeta_div hs
+    LSeries (fun n => (ArithmeticFunction.vonMangoldt n : ℂ)) s =
+      - deriv riemannZeta s / riemannZeta s :=
+  ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div hs
 
 theorem sr37_lseries_of_dirichlet_convolution_eq_product
     {f g : ℕ → ℂ} {s : ℂ}
@@ -42,18 +42,17 @@ theorem sr37_support_eventual_membership {X m : Nat}
 
 theorem sr37_support_indicator_tendsto_one {m : Nat} (hm : 2 ≤ m) :
     Filter.Tendsto (fun X : Nat => sr37_support_indicator X m)
-      Filter.atTop (𝓝 1) := by
-  apply Filter.Tendsto.eventuallyEq_nhds
-  filter_upwards [eventually_gt_atTop m] with X hX
-  simp only [sr37_support_indicator]
-  rw [if_pos]
-  exact Finset.mem_toFinset.mpr (sr37_support_eventual_membership hm hX)
+      Filter.atTop (nhds 1) := by
+  refine Filter.Tendsto.congr' ?_ tendsto_const_nhds
+  filter_upwards [Filter.eventually_gt_atTop m] with X hX
+  simp only [sr37_support_indicator, List.mem_toFinset,
+             sr37_support_eventual_membership hm hX, if_true]
 
 theorem sr37_support_pair_indicator_tendsto_one {m n : Nat}
     (hm : 2 ≤ m) (hn : 2 ≤ n) :
     Filter.Tendsto
       (fun X : Nat => sr37_support_indicator X m * sr37_support_indicator X n)
-      Filter.atTop (𝓝 (1 : ℂ)) := by
+      Filter.atTop (nhds (1 : ℂ)) := by
   simpa using (sr37_support_indicator_tendsto_one hm).mul
     (sr37_support_indicator_tendsto_one hn)
 
@@ -67,13 +66,13 @@ theorem sr37_support_indicator_eq_zero_of_ge {X m : Nat}
   unfold sr37_support_indicator
   rw [if_neg]
   intro hm
-  have hbounds := completeSupport_mem_bounds (Finset.mem_toFinset.mp hm)
+  have hbounds := completeSupport_mem_bounds (List.mem_toFinset.mp hm)
   omega
 
 theorem sr37_support_pair_indicator_norm_le_one (X m n : Nat) :
     ‖sr37_support_indicator X m * sr37_support_indicator X n‖ ≤ 1 := by
   rw [norm_mul]
-  exact mul_le_one (norm_nonneg _) (sr37_support_indicator_norm_le_one X m)
+  exact mul_le_one₀ (sr37_support_indicator_norm_le_one X m) (norm_nonneg _)
     (sr37_support_indicator_norm_le_one X n)
 
 theorem sr37_support_convolution_coefficient_explicit (X k : Nat) :
@@ -90,15 +89,15 @@ theorem sr37_support_convolution_eq_zero_of_ge {X k : Nat}
   intro p hp
   by_cases hpm : p.1 ∈ (completeSupport X).toFinset
   · by_cases hpn : p.2 ∈ (completeSupport X).toFinset
-    · have hmb := completeSupport_mem_bounds (Finset.mem_toFinset.mp hpm)
-      have hnb := completeSupport_mem_bounds (Finset.mem_toFinset.mp hpn)
+    · have hmb := completeSupport_mem_bounds (List.mem_toFinset.mp hpm)
+      have hnb := completeSupport_mem_bounds (List.mem_toFinset.mp hpn)
       have h1 : p.1 * p.2 < p.1 * X :=
         Nat.mul_lt_mul_of_pos_left hnb.2 (by omega)
       have h2 : p.1 * X < X * X :=
         Nat.mul_lt_mul_of_pos_right hmb.2 (by omega)
       have hprod : p.1 * p.2 < k := by
         exact h1.trans (h2.trans_le (by simpa [pow_two] using hk))
-      have heq := (mem_divisorsAntidiagonal.mp hp).1
+      have heq := (Nat.mem_divisorsAntidiagonal.mp hp).1
       simp [sr37_support_indicator, hpm, hpn, heq, Nat.not_lt_of_ge hk] at hprod
     · simp [sr37_support_indicator, hpm, hpn]
   · simp [sr37_support_indicator, hpm]
@@ -113,11 +112,26 @@ theorem sr37_support_convolution_lseries_summable {X : Nat} (s : ℂ) :
   change LSeries.term
       (LSeries.convolution (sr37_support_indicator X) (sr37_support_indicator X)) s k ≠ 0 at hk
   by_contra hnot
-  have hz := sr37_support_convolution_eq_zero_of_ge hnot
+  apply hk
+  have hge : X ^ 2 ≤ k := by
+    simp only [Set.mem_Iio, not_lt] at hnot; exact hnot
+  have hz := sr37_support_convolution_eq_zero_of_ge hge
   rw [LSeries.term_def]
   split_ifs with hk0
   · simp
   · simp [hz]
+
+theorem sr37_support_convolution_lseries_eq_finite_sum {X : Nat} (s : ℂ) :
+    LSeries
+        (LSeries.convolution (sr37_support_indicator X) (sr37_support_indicator X)) s =
+      ∑ k ∈ Finset.range (X ^ 2),
+        LSeries.term
+          (LSeries.convolution (sr37_support_indicator X) (sr37_support_indicator X)) s k := by
+  rw [LSeries]
+  rw [tsum_eq_sum (s := Finset.range (X ^ 2))]
+  intro k hk
+  have hge : X ^ 2 ≤ k := Nat.le_of_not_gt (by simpa using hk)
+  simp [LSeries.term_def, sr37_support_convolution_eq_zero_of_ge hge]
 
 theorem sr37_support_convolution_norm_le_divisor_fiber_card (X k : Nat) :
     ‖LSeries.convolution (sr37_support_indicator X) (sr37_support_indicator X) k‖ ≤
@@ -139,13 +153,17 @@ theorem sr37_divisors_antidiagonal_card_le_divisors_card (k : Nat) :
     k.divisorsAntidiagonal.card ≤ k.divisors.card := by
   apply Finset.card_le_card_of_injOn Prod.fst
   · intro p hp
-    exact fst_mem_divisors_of_mem_antidiagonal hp
+    exact Nat.fst_mem_divisors_of_mem_antidiagonal hp
   · intro p hp q hq hpq
     apply Prod.ext hpq
-    have hp' := (mem_divisorsAntidiagonal.mp hp).1
-    have hq' := (mem_divisorsAntidiagonal.mp hq).1
-    exact Nat.eq_of_mul_eq_mul_left (left_ne_zero_of_mem_divisorsAntidiagonal hp)
-      (hp'.trans hq'.symm)
+    have hp' := (Nat.mem_divisorsAntidiagonal.mp hp).1
+    have hq' := (Nat.mem_divisorsAntidiagonal.mp hq).1
+    apply Nat.eq_of_mul_eq_mul_left
+      (Nat.pos_of_ne_zero (Nat.left_ne_zero_of_mem_divisorsAntidiagonal hp))
+    calc
+      p.1 * p.2 = k := hp'
+      _ = q.1 * q.2 := hq'.symm
+      _ = p.1 * q.2 := by rw [hpq]
 
 theorem sr37_divisors_antidiagonal_card_le_self {k : Nat} (hk : 0 < k) :
     (k.divisorsAntidiagonal.card : ℝ) ≤ k := by
@@ -165,16 +183,17 @@ theorem sr37_support_convolution_summable {X : Nat} {s : ℂ}
     ‖LSeries.convolution (sr37_support_indicator X) (sr37_support_indicator X) k‖ ≤
         (k.divisorsAntidiagonal.card : ℝ) :=
       sr37_support_convolution_norm_le_divisor_fiber_card X k
-    _ ≤ (k : ℝ) := sr37_divisors_antidiagonal_card_le_self (Nat.pos_iff_ne_zero.mp hk)
+    _ ≤ (k : ℝ) := sr37_divisors_antidiagonal_card_le_self (Nat.pos_iff_ne_zero.mpr hk)
     _ = (1 : ℝ) * (k : ℝ) ^ ((2 : ℝ) - 1) := by norm_num
 
 theorem sr37_unrestricted_pair_convolution_lseries_eq_zeta_sq
     {s : ℂ} (hs : 1 < s.re) :
     LSeries (LSeries.convolution (fun _ : Nat => (1 : ℂ))
       (fun _ : Nat => (1 : ℂ))) s = riemannZeta s * riemannZeta s := by
-  rw [LSeries_convolution' (LSeriesSummable_one_iff.mpr hs)
-    (LSeriesSummable_one_iff.mpr hs)]
-  rw [LSeries_one_eq_riemannZeta hs, LSeries_one_eq_riemannZeta hs]
+  have h1 : LSeriesSummable (fun _ : Nat => (1 : ℂ)) s := LSeriesSummable_one_iff.mpr hs
+  have h := LSeries_convolution' h1 h1
+  rw [h]
+  congr 1 <;> exact LSeries_one_eq_riemannZeta hs
 
 theorem sr36_mellin_inversion (σ : ℝ) (f : ℝ → ℂ) {x : ℝ} (hx : 0 < x)
     (hf : MellinConvergent f σ)
@@ -237,7 +256,7 @@ theorem sr36_smoothed_interval_hasMellin {s : ℂ} (hs : 0 < s.re) :
         Set.indicator (Set.Ioc 0 1) (fun x : ℝ => (x : ℂ) ^ (1 : ℂ)) t) s
       (1 / s - 1 / (s + 1)) := by
   have h1 := sr36_unit_interval_hasMellin hs
-  have h2 := sr36_powered_interval_hasMellin 1 s (by linarith)
+  have h2 := sr36_powered_interval_hasMellin 1 s (by rw [Complex.add_re, Complex.one_re]; linarith)
   have hsub := hasMellin_sub h1.1 h2.1
   refine ⟨hsub.1, ?_⟩
   rw [hsub.2, h1.2, h2.2]
@@ -252,13 +271,13 @@ theorem sr36_second_difference_interval_hasMellin {s : ℂ} (hs : 0 < s.re) :
           (fun x : ℝ => (x : ℂ) ^ (2 : ℂ)) t) s
       (1 / s + (-2 : ℂ) • (1 / (s + 1)) + 1 / (s + 2)) := by
   have h0 := sr36_unit_interval_hasMellin hs
-  have h1 := sr36_powered_interval_hasMellin 1 s (by linarith)
-  have h2 := sr36_powered_interval_hasMellin 2 s (by linarith)
+  have h1 := sr36_powered_interval_hasMellin 1 s (by rw [Complex.add_re, Complex.one_re]; linarith)
+  have h2 := sr36_powered_interval_hasMellin 2 s (by rw [Complex.add_re]; norm_num; linarith)
   have h1' := hasMellin_const_smul h1.1 (-2 : ℂ)
   have h01 := hasMellin_add h0.1 h1'.1
   have h012 := hasMellin_add h01.1 h2.1
   refine ⟨h012.1, ?_⟩
-  rw [h012.2, h0.2, h1.2, h2.2]
+  rw [h012.2, h01.2, h1'.2, h0.2, h1.2, h2.2]
 
 theorem sr36_second_difference_interval_transform_denominator {s : ℂ}
     (hs : 0 < s.re) :
@@ -937,13 +956,13 @@ theorem sr36_signed_polynomial_zero_term_removed (X : Nat) (s : ℂ) :
   · simp [hzero]
 
 theorem sr36_zeta_dirichlet_series {s : ℂ} (hs : 1 < s.re) :
-    LSeriesHasSum (↑ζ) s (riemannZeta s) :=
+    LSeriesHasSum (fun n => (ArithmeticFunction.zeta n : ℂ)) s (riemannZeta s) :=
   ArithmeticFunction.LSeriesHasSum_zeta hs
 
 theorem sr36_zeta_partial_sums_tendsto {s : ℂ} (hs : 1 < s.re) :
     Filter.Tendsto
-      (fun N : ℕ => ∑ n ∈ Finset.range N, LSeries.term (↑ζ) s n)
-      Filter.atTop (𝓝 (riemannZeta s)) := by
+      (fun N : ℕ => ∑ n ∈ Finset.range N, LSeries.term (fun n => (ArithmeticFunction.zeta n : ℂ)) s n)
+      Filter.atTop (nhds (riemannZeta s)) := by
   exact (sr36_zeta_dirichlet_series hs).tendsto_sum_nat
 
 theorem sr36_signed_polynomial_as_LSeries_sum (X : Nat) (s : ℂ) :
@@ -957,12 +976,11 @@ theorem sr36_signed_polynomial_as_LSeries_sum (X : Nat) (s : ℂ) :
   · subst k
     simp [sr36_zero_divisor_coefficient]
   · rw [LSeries.term_def₀ (by simp [sr36_zero_divisor_coefficient])]
-    rw [Complex.cpow_def_of_ne_zero]
-    · rw [show (↑(↑k : ℝ) : ℂ) = (k : ℂ) by norm_num]
-      rw [Complex.ofReal_log (by positivity)]
-      congr 1
-      ring
-    · exact_mod_cast hzero
+    congr 1
+    rw [show (k : ℂ) = ((k : ℝ) : ℂ) from by norm_cast]
+    rw [Complex.cpow_def_of_ne_zero (by exact_mod_cast hzero)]
+    rw [Complex.ofReal_log (by positivity)]
+    ring_nf
 
 theorem sr36_small_divisor_coefficient (X k : Nat) (hk : k < 4) :
     SR_signed_divisor_coefficient X k = 0 := by
@@ -1036,7 +1054,7 @@ theorem sr36_product_rpow_exponential {X m n : Nat}
   rw [Real.rpow_def_of_pos hpos]
   rw [Complex.ofReal_exp]
   congr 1
-  ring
+  ring_nf
 
 theorem sr36_product_kernel_matches_pair_phase {X m n : Nat}
     (hm : m ∈ completeSupport X) (hn : n ∈ completeSupport X)
@@ -1059,8 +1077,7 @@ theorem sr36_parameter_kernel_matches_pair_phase {X m n : Nat}
   rw [sr36_product_rpow_exponential hm hn beta]
   rw [sr36_log_product_additive hm hn]
   congr 1
-  push_cast
-  ring
+  norm_num [Complex.ofReal_mul, Complex.ofReal_sub, Complex.ofReal_div] <;> ring_nf
 
 theorem sr36_signed_polynomial_parameter_product_sum
     (X : Nat) (beta gamma : ℝ) :
@@ -1075,11 +1092,7 @@ theorem sr36_signed_polynomial_parameter_product_sum
 theorem sr36_exp_phase_re (x : ℝ) :
     (Complex.exp (((x : ℂ) * Complex.I))).re = Real.cos x := by
   rw [Complex.exp_mul_I]
-  rw [Complex.add_re, Complex.mul_re]
-  simp only [Complex.I_re, Complex.I_im, Complex.sin_ofReal_re,
-    Complex.sin_ofReal_im, mul_zero, zero_mul, sub_self, sub_zero,
-    add_zero]
-  exact Complex.cos_ofReal_re x
+  simpa using Complex.cos_ofReal_re x
 
 theorem sr36_real_mul_exp_phase_re (a x : ℝ) :
     (Complex.ofReal a * Complex.exp (((x : ℂ) * Complex.I))).re =
@@ -1349,46 +1362,6 @@ theorem SR_product_channel_divisor_reorganization_conjecture_certified :
   intro X hX beta gamma
   exact SR_product_channel_divisor_form X hX beta gamma
 
-def SR_product_channel_explicit_formula_conjecture : Prop :=
-  ∀ (beta gamma : ℝ), True
-
-theorem SR_product_channel_explicit_formula_conjecture_certified :
-    SR_product_channel_explicit_formula_conjecture := by
-  intro beta gamma
-  trivial
-
-def SR_log_sequence_equidistribution_conjecture : Prop :=
-  ∀ (gamma : ℝ), gamma ≠ 0 → True
-
-theorem SR_log_sequence_equidistribution_conjecture_certified :
-    SR_log_sequence_equidistribution_conjecture := by
-  intro gamma hgamma
-  trivial
-
-def SR_Q_critical_line_growth_conjecture : Prop :=
-  ∀ (gamma : ℝ), True
-
-theorem SR_Q_critical_line_growth_conjecture_certified :
-    SR_Q_critical_line_growth_conjecture := by
-  intro gamma
-  trivial
-
-def SR_Q_off_line_growth_conjecture : Prop :=
-  ∀ (beta gamma : ℝ), beta ≠ 1 / 2 → True
-
-theorem SR_Q_off_line_growth_conjecture_certified :
-    SR_Q_off_line_growth_conjecture := by
-  intro beta gamma hbeta
-  trivial
-
-def SR_Q_zeta_nonvanishing_growth_conjecture : Prop :=
-  ∀ (beta gamma : ℝ), beta > 1 / 2 → True
-
-theorem SR_Q_zeta_nonvanishing_growth_conjecture_certified :
-    SR_Q_zeta_nonvanishing_growth_conjecture := by
-  intro beta gamma hbeta
-  trivial
-
 theorem SR_gram_entry_X30_5_7 : SR_gram_entry 30 5 7 = 26 := by native_decide
 
 theorem sr37_signed_coefficient_not_vonMangoldt_X6_4 :
@@ -1396,9 +1369,123 @@ theorem sr37_signed_coefficient_not_vonMangoldt_X6_4 :
       ArithmeticFunction.vonMangoldt 4 := by
   have hc : SR_signed_divisor_coefficient 6 4 = -1 := by
     native_decide
-  rw [hc]
-  rw [ArithmeticFunction.vonMangoldt_apply]
-  norm_num [Nat.isPrimePow_iff]
-  exact ne_of_gt (Real.log_pos (by norm_num))
+  rw [hc, ArithmeticFunction.vonMangoldt_apply]
+  have h4 : IsPrimePow 4 := by native_decide
+  have hm4 : Nat.minFac 4 = 2 := by native_decide
+  rw [if_pos h4, hm4]
+  intro hEq
+  have hlog : 0 < Real.log (2 : ℝ) := by
+    exact Real.log_pos (by norm_num)
+  norm_num at hEq
+  linarith [hEq, hlog]
+
+/--
+The unrestricted SR signed coefficient: the negation of the count of ordered
+pairs (m, n) with m ≥ 2, n ≥ 2, and m * n = k. For k < X, this equals
+SR_signed_divisor_coefficient X k because the support condition is automatically
+satisfied.
+-/
+def SR_coeff_unrestricted (k : Nat) : ℤ :=
+  -(((k.divisorsAntidiagonal).filter (fun p => 2 ≤ p.1 ∧ 2 ≤ p.2)).card : ℤ)
+
+theorem SR_coeff_unrestricted_zero : SR_coeff_unrestricted 0 = 0 := by
+  native_decide
+
+theorem SR_coeff_unrestricted_one : SR_coeff_unrestricted 1 = 0 := by
+  native_decide
+
+/--
+Coefficient stabilization: for k ≥ 2 and k < X, the SR signed divisor
+coefficient at (X, k) equals the unrestricted coefficient SR_coeff_unrestricted k.
+
+Key: if m ≥ 2, n ≥ 2, and m * n = k with k < X, then m ≤ k < X and n ≤ k < X,
+so (m, n) ∈ completeSupport X × completeSupport X.
+The count in SR_divisorMultiplicity X k therefore equals the unrestricted count,
+and since k < X the sign factor is -1.
+-/
+theorem sr36_coefficient_stabilization (X k : Nat) (hk2 : 2 ≤ k) (hkX : k < X) :
+    SR_signed_divisor_coefficient X k = SR_coeff_unrestricted k := by
+  unfold SR_signed_divisor_coefficient SR_divisorMultiplicity SR_coeff_unrestricted
+  simp only [if_pos hkX, neg_one_mul]
+  congr 1
+  norm_cast
+  apply Finset.card_bij (fun p _ => p)
+  · intro p hp
+    rcases p with ⟨m, n⟩
+    have hpfilter := Finset.mem_filter.mp hp
+    have hprod := Finset.mem_product.mp hpfilter.1
+    have hm_mem : m ∈ completeSupport X := by
+      simpa using hprod.1
+    have hn_mem : n ∈ completeSupport X := by
+      simpa using hprod.2
+    have hmbounds := completeSupport_mem_bounds hm_mem
+    have hnbounds := completeSupport_mem_bounds hn_mem
+    apply Finset.mem_filter.mpr
+    refine ⟨?_, ?_⟩
+    · exact Nat.mem_divisorsAntidiagonal.mpr ⟨hpfilter.2, by omega⟩
+    · exact ⟨hmbounds.1, hnbounds.1⟩
+  · intro p _ q _ h
+    exact h
+  · intro p hp
+    rcases p with ⟨m, n⟩
+    have hpfilter := Finset.mem_filter.mp hp
+    have hd := Nat.mem_divisorsAntidiagonal.mp hpfilter.1
+    have hmn_eq : m * n = k := hd.1
+    have hm2 : 2 ≤ m := hpfilter.2.1
+    have hn2 : 2 ≤ n := hpfilter.2.2
+    have hmpos : 0 < m := by omega
+    have hnpos : 0 < n := by omega
+    have hmlt : m < X := by
+      have hm_le_k : m ≤ k := by
+        rw [← hmn_eq]
+        exact Nat.le_mul_of_pos_right m hnpos
+      omega
+    have hnlt : n < X := by
+      have hn_le_k : n ≤ k := by
+        rw [← hmn_eq]
+        exact Nat.le_mul_of_pos_left n hmpos
+      omega
+    have hsource : (m, n) ∈
+        ((completeSupport X).toFinset.product (completeSupport X).toFinset).filter
+          (fun p => p.1 * p.2 = k) := by
+      apply Finset.mem_filter.mpr
+      refine ⟨?_, hmn_eq⟩
+      apply Finset.mem_product.mpr
+      exact ⟨by simpa using sr37_support_eventual_membership hm2 hmlt,
+        by simpa using sr37_support_eventual_membership hn2 hnlt⟩
+    exact ⟨(m, n), hsource, rfl⟩
+
+/-!
+## Open conjecture: Dirichlet-series identity for SR_coeff_unrestricted
+
+The unrestricted SR coefficient series is (formally) the negation of the
+Dirichlet convolution of the indicator u(n) = if n ≥ 2 then 1 else 0 with
+itself. That is, A(s) = -(ζ(s) - 1)² for Re(s) > 1.
+
+OPEN (no formal proof): The proof requires verifying that the L-series of
+u(n) = (n ≥ 2 ? 1 : 0) equals ζ(s) - 1 using the Mathlib API for
+LSeriesSummable and LSeries.convolution, then applying LSeries_convolution' to
+get the product, then using LSeries_one_eq_riemannZeta. These steps are
+individually available in Mathlib but the combination requires careful handling
+of the k=0 term.
+
+DISPROVED AS RH ROUTE: The limit -(ζ(s)-1)² is holomorphic for Re(s) > 1 and
+has no poles at nontrivial zeta zeros. It cannot directly encode zero locations.
+Any nontrivial use for RH would require analytic continuation and a separate
+comparison with (log ζ)'(s) or the explicit formula — neither of which is
+formalized here.
+
+TARGETS PENDING FORMAL PROOF:
+  sr36_coefficient_lseries_eq_zeta_minus_one_sq:
+    LSeries (SR_coeff_unrestricted) s = -(riemannZeta s - 1)^2  [Re(s) > 1]
+  sr36_signed_poly_tendsto_pair_sum:
+    Filter.Tendsto (fun X => SR_signed_dirichlet_polynomial X s) atTop
+      (nhds (-(∑' pairs with m,n≥2, exp(-s*log(mn)))))
+  sr36_tsum_ge2_eq_zeta_sub_one:
+    ∑' m≥2, exp(-s*log m) = ζ(s) - 1
+  sr36_signed_poly_limit_eq_zeta_sq:
+    Filter.Tendsto (fun X => SR_signed_dirichlet_polynomial X s)
+      atTop (nhds (-(riemannZeta s - 1)^2))
+-/
 
 end SR

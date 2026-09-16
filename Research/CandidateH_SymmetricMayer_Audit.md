@@ -57,3 +57,15 @@ the first zeta ordinates grow rather than converge to zero.
 This rules out the minimal “symmetrize Mayer” repair.  A successful repair
 must alter the transfer weights or orbit coding while preserving nuclearity;
 adding a second copy is insufficient.
+
+## General direct-sum obstruction
+
+Any finite direct sum of copies `L_(a_j s+b_j)` has determinant
+
+`product_j zeta(2*a_j*s+2*b_j-1) / zeta(2*a_j*s+2*b_j)`.
+
+Its divisor set is only a finite union of affine images of the divisor sets
+already present in the Mayer quotients. Reflection or permutation of finitely
+many copies cannot turn this family into a determinant whose zeros are exactly
+the points `s=rho` without an additional nontrivial factor identity. Therefore
+finite functional-equation symmetrization is structurally insufficient.

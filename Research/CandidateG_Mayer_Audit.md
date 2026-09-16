@@ -64,3 +64,15 @@ The remaining gap is therefore not the absence of a Gauss-map operator.  It is
 the missing arithmetic deformation that changes the Mayer orbit determinant
 to a zeta logarithmic derivative while preserving nuclearity, functional
 symmetry, and a positivity mechanism.
+
+## Literal SR insertion has a domain contradiction
+
+The proposed factor `Rees(floor(x),n)` cannot be an intrinsic factor of the
+standard Mayer map on a single natural domain. If the Mayer operator acts on
+`x in [0,1]`, then `floor(x)=0` everywhere and the Rees support is never the
+intended integer support `{2,...}`. If one instead takes `x>=1` so that
+`floor(x)` carries arithmetic information, every image
+`1/(x+n)` lies in `(0,1/2]`, leaving the domain on the next iterate. A
+piecewise extension or a choice of return map is therefore required, and each
+choice defines a different operator. This is a structural construction gap,
+not a numerical tuning issue.

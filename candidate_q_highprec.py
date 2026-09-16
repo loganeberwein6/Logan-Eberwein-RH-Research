@@ -59,10 +59,11 @@ def weil_matrix(lam, N):
     return matrix
 
 
-for lam, N in [(2, 2), (2, 4), (3, 4)]:
-    eigenvalues, _ = mp.eigsy(weil_matrix(mp.mpf(lam), N))
-    print(
-        f"lambda={lam}, N={N}: "
-        f"mu_N={mp.nstr(eigenvalues[0], 30)} "
-        f"gap={mp.nstr(eigenvalues[1] - eigenvalues[0], 20)}"
-    )
+if __name__ == "__main__":
+    for lam, N in [(2, 2), (2, 4), (3, 4)]:
+        eigenvalues, _ = mp.eigsy(weil_matrix(mp.mpf(lam), N))
+        print(
+            f"lambda={lam}, N={N}: "
+            f"mu_N={mp.nstr(eigenvalues[0], 30)} "
+            f"gap={mp.nstr(eigenvalues[1] - eigenvalues[0], 20)}"
+        )

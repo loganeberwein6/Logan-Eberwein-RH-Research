@@ -38,9 +38,6 @@ theorem transition_formula_n9_to_n16 :
     transitionK 15 = 269 ∧ transitionK 16 = 303 := by
   decide
 
-theorem SR23_CONJ_CONREY_CONNECTION_CONJECTURE : True := by
-  trivial
-
 structure StrandCert where
   transitionK : Nat
   strandNumerator : Nat
@@ -62,6 +59,10 @@ theorem SR23_STRAND_DECREASING :
     1041669 * 1000000 > 1010328 * 1000000 := by
   native_decide
 
+/--
+Finite Stage-23 evidence only. This theorem deliberately does not include
+the Conrey-connection conjecture, which is analytic/open.
+-/
 theorem SR23_SYNTHESIS :
     (∀ X : Nat, 6 ≤ X → 0 < allOnesEntrySum X) ∧
     upperBoundCertX6To500.violations = 0 ∧

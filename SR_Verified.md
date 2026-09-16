@@ -1437,3 +1437,48 @@ Stage 21 support-pair count backbone: supportPairCountRows counts all ordered co
 - Proof strategy used: executable finite certificate checked by `native_decide`.
 - Mathlib/Lean tools used: `native_decide`.
 - Date: 2026-09-08
+## Revised Stage 28: explicit negative SR quadratic direction
+
+- Theorem: `SR_X6_negative_basis_witness` proves
+  `SR_quadratic_form 6 (fun i : Fin 4 => if i = 0 then 1 else 0) < 0`.
+- Strategy: expand the finite sums and evaluate the `(2,2)` diagonal entry,
+  whose Rees sign is negative because `2 * 2 < 6`.
+- Status: Lean-verified with `lake -Kjobs=1 build SR_WeilForm`.
+- Date: 2026-09-09
+## Revised Stage 28: uniform negative direction
+
+- Theorem: `SR_form_has_negative_direction` proves that for every `X ≥ 6`
+  there exists a vector with strictly negative `SR_quadratic_form` value.
+- Proof: use the coordinate vector at index zero; all other finite-sum terms
+  vanish, and the `(2,2)` diagonal entry is `-1` because `4 < X`.
+- Status: Lean-verified by `lake -Kjobs=1 build SR_WeilForm`.
+- Date: 2026-09-09
+## Revised Stage 28: indefinite-form packaging
+
+- Theorem: `SR_form_is_indefinite_of_positive` packages a supplied positive
+  direction together with the unconditional negative direction for every
+  `X ≥ 6`.
+- This keeps the positive-direction identification explicit and proves that
+  no global PSD claim is being made.
+- Status: Lean-verified by `lake -Kjobs=1 build SR_WeilForm`.
+- Date: 2026-09-09
+## Revised Stage 28: exact X=6 all-ones value
+
+- Theorem: `SR_allones_quadratic_X6` proves
+  `SR_quadratic_form 6 (SR_allones_vector 6) = 14`.
+- Strategy: finite sum expansion and exact arithmetic normalization.
+- Status: Lean-verified by `lake -Kjobs=1 build SR_WeilForm`.
+- Date: 2026-09-09
+### SR.28.X6.INDEFINITE
+
+Theorem `SR_X6_indefinite` verifies both a positive and a negative direction
+for the Stage 28 quadratic form at X = 6. The positive witness is the
+all-ones vector (value 14); the negative witness is the first basis vector.
+Verified by `lake -Kjobs=1 build SR_WeilForm`.
+### SR.28.UNIFORM.COERCIVITY
+
+`SR_quadratic_form_allones_eq_list` closes the `Fin (X-2)`/list-index
+transport using `Fin.castIso` and `Fintype.sum_equiv`. Consequently,
+`SR_allones_witnesses_positivity` proves positivity of the all-ones vector
+for every `X ≥ 6`; `SR_uniform_nonnegative` and `SR_uniform_strict` extend
+this to all uniform vectors. The full project build succeeds.

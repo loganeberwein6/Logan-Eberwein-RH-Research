@@ -266,3 +266,23 @@ The next repository task is to reproduce the finite Weil-form matrix from the
 paper for small lambda,N, verify self-adjointness and the regularized
 determinant numerically, and isolate exactly which convergence estimate would
 be needed to connect it to Xi.
+
+## Cycle 35: explicit root-error ledger
+
+Against the known ordinates `14.1347251417, 21.0220396388, 25.0108575801,
+30.4248761259`, the high-precision finite-root errors are:
+
+```text
+N=4: +7.9917e-6, +5.3662e-2, +2.52994, ...
+N=6: +4.4917e-8, +1.8102e-5, +5.8721e-4, +3.6294e-1, ...
+```
+
+The first three errors improve strongly from `N=4` to `N=6`, but the fourth
+does not. This is evidence for a low-mode finite fit, not a convergence
+theorem. The even/odd gaps also collapse rapidly, while float64
+derivative/gap ratios reach `3.34e18`, so eigenvalue-by-eigenvalue continuation
+is numerically ill-conditioned.
+
+The required theorem must establish a common completed Weil space, convergence
+of relevant spectral projections or a regularized determinant, and a uniform
+lower-bound statement; entrywise convergence alone is insufficient.

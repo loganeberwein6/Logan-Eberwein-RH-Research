@@ -37,3 +37,25 @@ An upper-triangular or strictly triangular SR residual could preserve the
 finite determinant, but then its determinant contribution is nilpotent and it
 does not supply a self-adjoint positive interaction. A non-triangular
 self-adjoint interaction changes the Euler determinant and loses P1.
+
+## Exact interaction dichotomy
+
+Let `D=diag(p^{-s})` and let `R` be an interaction. If `R` is strictly
+upper triangular in the prime basis, then `D+R` is triangular and
+
+\[
+\det(I-D-R)=\prod_p(1-p^{-s}),
+\]
+
+but `D+R` is not self-adjoint unless `R=0`. If `R=R^*` is a nonzero
+self-adjoint off-diagonal interaction, the determinant changes generically:
+the coefficient of a small scalar interaction `epsilon` is
+
+\[
+\frac{d}{d\epsilon}\det(I-D-\epsilon R)\big|_{\epsilon=0}
+=-\det(I-D)\operatorname{Tr}((I-D)^{-1}R),
+\]
+
+and higher-order terms are nonzero for generic `R`. Thus determinant
+preservation and self-adjoint positivity cannot both be obtained by a generic
+SR residual in this finite BC basis.

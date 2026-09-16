@@ -348,6 +348,21 @@ theorem SR_form_not_positive_semidefinite (X : Nat) (hX : 6 ≤ X) :
   obtain ⟨v, hv⟩ := SR_form_has_negative_direction X hX
   exact (not_lt_of_ge (hpsd v)) hv
 
+/-
+Structural consequence for operator design: the raw SR quadratic values cannot
+be retained on every vector by any positive-semidefinite replacement.  Thus a
+successful completion must either change the form, restrict the domain, or
+prove a nontrivial quotient/transform identity before positivity is claimed.
+-/
+theorem SR_no_psd_realization_preserving_raw_form (X : Nat) (hX : 6 ≤ X)
+    (P : (Fin (X - 2) → ℝ) → ℝ)
+    (hP : ∀ v, 0 ≤ P v)
+    (hEq : ∀ v, P v = SR_quadratic_form X v) : False := by
+  obtain ⟨v, hv⟩ := SR_form_has_negative_direction X hX
+  have hPv : 0 ≤ P v := hP v
+  rw [hEq v] at hPv
+  exact (not_lt_of_ge hPv) hv
+
 theorem SR_global_coercivity_false :
     ¬ (∀ X : Nat, 6 ≤ X → ∀ v : Fin (X - 2) → ℝ,
       0 ≤ SR_quadratic_form X v) := by

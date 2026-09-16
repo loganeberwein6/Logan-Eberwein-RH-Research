@@ -91,8 +91,11 @@ def M_Rees_X6 : ReesSignKernel FlowSupport6 :=
 def M_Rees_X30 : ReesSignKernel SupportIndex30 :=
   M_Rees_X (30 : Rat) SupportIndex30 SupportIndex30.toNat
 
-theorem M_Rees_X6_AGREES_STAGE15_OPEN : True := by
-  trivial
+theorem M_Rees_X6_entry_formula (i j : FlowSupport6) :
+    M_Rees_X6 i j =
+      if i = FlowSupport6.p2 ∧ j = FlowSupport6.p2 then (-1 : ℝ) else 1 := by
+  cases i <;> cases j <;>
+    simp [M_Rees_X6, M_Rees_X, FlowSupport6.toNat, grade] <;> decide
 
 def M_Rees_signature_X52 : SignatureSummary :=
   ⟨1, 0, 0⟩
@@ -948,54 +951,27 @@ def SRdBN_signature_tracks_zero_count : Prop :=
     M_Rees_signature_X6 = ⟨1, 1, 2⟩ ∧
     0 < M_Rees_signature_X6.neg
 
-/-- Formal placeholder for the unresolved dBN/RH equivalence.  The intended
-statement is: Λ_SR = sup {t | the SR flow at time t has positive spectrum} = 0
-iff RH.  The analytic definitions of the infinite flow and RH are not yet in
-the finite Lean development. -/
-def SRdBN_limit_equals_zero_iff_RH : Prop :=
-  ∃ Λ_SR : ℝ, Λ_SR = 0 ∧ SRdBN_signature_tracks_zero_count
-
-structure SRdBNBridgeScaffold where
+structure SRdBNFiniteScaffold where
   interiorProductsAsNearTerms : Prop := SRdBN_interior_products_as_near_terms
   signFlipAsHeatLocalization : Prop := SRdBN_sign_flip_as_heat_localization
   signatureTracksZeroCount : Prop := SRdBN_signature_tracks_zero_count
-  limitArgumentStillOpen : Prop := SRdBN_limit_equals_zero_iff_RH
 
-def SRdBN_conjectural_bridge : SRdBNBridgeScaffold :=
+def SRdBN_finite_scaffold : SRdBNFiniteScaffold :=
   { interiorProductsAsNearTerms := SRdBN_interior_products_as_near_terms
     signFlipAsHeatLocalization := SRdBN_sign_flip_as_heat_localization
-    signatureTracksZeroCount := SRdBN_signature_tracks_zero_count
-    limitArgumentStillOpen := SRdBN_limit_equals_zero_iff_RH }
+    signatureTracksZeroCount := SRdBN_signature_tracks_zero_count }
 
-theorem SRdBN_conjectural_bridge_records_near_terms :
-    SRdBN_conjectural_bridge.interiorProductsAsNearTerms := by
+theorem SRdBN_finite_scaffold_records_near_terms :
+    SRdBN_finite_scaffold.interiorProductsAsNearTerms := by
   exact ⟨interiorProductCount_X6, interiorProductCount_X30⟩
 
-theorem SRdBN_conjectural_bridge_records_heat_localization :
-    SRdBN_conjectural_bridge.signFlipAsHeatLocalization := by
+theorem SRdBN_finite_scaffold_records_heat_localization :
+    SRdBN_finite_scaffold.signFlipAsHeatLocalization := by
   exact SR16_FIXED_POINT_OPEN
 
-theorem SRdBN_conjectural_bridge_records_zero_tracking_claim :
-    SRdBN_conjectural_bridge.signatureTracksZeroCount := by
+theorem SRdBN_finite_scaffold_records_zero_tracking_claim :
+    SRdBN_finite_scaffold.signatureTracksZeroCount := by
   exact flow_produces_negative_eigenvalues
-
-theorem SRdBN_conjectural_bridge_limit_open :
-    SRdBN_conjectural_bridge.limitArgumentStillOpen := by
-  unfold SRdBN_conjectural_bridge SRdBN_limit_equals_zero_iff_RH
-  exact ⟨0, by norm_num, flow_produces_negative_eigenvalues⟩
-
-theorem SRdBN_conjectural_bridge_recorded :
-    SRdBN_conjectural_bridge.interiorProductsAsNearTerms ∧
-    SRdBN_conjectural_bridge.signFlipAsHeatLocalization ∧
-    SRdBN_conjectural_bridge.signatureTracksZeroCount ∧
-    SRdBN_conjectural_bridge.limitArgumentStillOpen := by
-  exact ⟨SRdBN_conjectural_bridge_records_near_terms,
-    SRdBN_conjectural_bridge_records_heat_localization,
-    SRdBN_conjectural_bridge_records_zero_tracking_claim,
-    SRdBN_conjectural_bridge_limit_open⟩
-
-theorem SR_DBN_CONJECTURE : True := by
-  trivial
 
 theorem stage16_synthesis :
     interiorProductCount FlowX52 FlowSupport52 FlowSupport52.list FlowSupport52.toNat = 0 ∧
@@ -1045,17 +1021,15 @@ theorem stage16_synthesis :
 
 theorem stage16_synthesis_enriched :
     Stage16FinitePackageComplete ∧
-    SRdBN_conjectural_bridge.interiorProductsAsNearTerms ∧
-    SRdBN_conjectural_bridge.signFlipAsHeatLocalization ∧
-    SRdBN_conjectural_bridge.signatureTracksZeroCount ∧
-    SRdBN_conjectural_bridge.limitArgumentStillOpen ∧
+    SRdBN_finite_scaffold.interiorProductsAsNearTerms ∧
+    SRdBN_finite_scaffold.signFlipAsHeatLocalization ∧
+    SRdBN_finite_scaffold.signatureTracksZeroCount ∧
     (¬ SR_flow_fixed_point_proxy M_Rees_signature_X52 M_Rees_signature_X6 ∧
       ¬ SR_flow_fixed_point_proxy M_Rees_signature_X6 M_Rees_signature_X30) := by
   exact ⟨stage16_finite_package_complete,
-    SRdBN_conjectural_bridge_records_near_terms,
-    SRdBN_conjectural_bridge_records_heat_localization,
-    SRdBN_conjectural_bridge_records_zero_tracking_claim,
-    SRdBN_conjectural_bridge_limit_open,
+    SRdBN_finite_scaffold_records_near_terms,
+    SRdBN_finite_scaffold_records_heat_localization,
+    SRdBN_finite_scaffold_records_zero_tracking_claim,
     SR16_FIXED_POINT_OPEN⟩
 
 #check SignatureSummary
@@ -1070,7 +1044,6 @@ theorem stage16_synthesis_enriched :
 #check M_Rees_X52
 #check M_Rees_X6
 #check M_Rees_X30
-#check M_Rees_X6_AGREES_STAGE15_OPEN
 #check interiorProductCount
 #check interiorProductCount_X52
 #check interiorProductCount_X6
@@ -1160,14 +1133,6 @@ theorem stage16_synthesis_enriched :
 #check computed_oracle_X6_not_fixed
 #check computed_oracle_has_no_fixed_initial_cutoffs
 #check SR16_FIXED_POINT_OPEN
-#check SRdBNBridgeScaffold
-#check SRdBN_conjectural_bridge
-#check SRdBN_conjectural_bridge_records_near_terms
-#check SRdBN_conjectural_bridge_records_heat_localization
-#check SRdBN_conjectural_bridge_records_zero_tracking_claim
-#check SRdBN_conjectural_bridge_limit_open
-#check SRdBN_conjectural_bridge_recorded
-#check SR_DBN_CONJECTURE
 #check stage16_synthesis
 #check stage16_synthesis_enriched
 

@@ -310,6 +310,31 @@ theorem SR_weil_form_abs_le_square_weight_sum (X : Nat) (beta gamma : ℝ) :
       SR_weil_form_abs_le_power_sum X beta gamma
     _ = _ := SR_power_sum_factorization X beta
 
+theorem Q_X_bound_trivial (X : Nat) (hX : 6 ≤ X)
+    (beta gamma : ℝ) (hb : 0 < beta) (hb1 : beta < 1) :
+    |SR_weil_form_real X beta gamma| ≤
+      (∑ m ∈ (completeSupport X).toFinset,
+        (m : ℝ) ^ (beta - 1 / 2)) ^ 2 := by
+  have hsum :
+      (∑ m ∈ (completeSupport X).toFinset,
+        |(m : ℝ) ^ (beta - 1 / 2)|) =
+      ∑ m ∈ (completeSupport X).toFinset,
+        (m : ℝ) ^ (beta - 1 / 2) := by
+    apply Finset.sum_congr rfl
+    intro m hm
+    have hmpos : 0 < (m : ℝ) := by
+      have hm' : m ∈ completeSupport X := by simpa using hm
+      have hmnat : 0 < m := lt_of_lt_of_le (by decide) (completeSupport_mem_bounds hm').1
+      exact_mod_cast hmnat
+    rw [abs_of_nonneg (Real.rpow_nonneg (le_of_lt hmpos) _)]
+  calc
+    |SR_weil_form_real X beta gamma| ≤
+        (∑ m ∈ (completeSupport X).toFinset,
+          |(m : ℝ) ^ (beta - 1 / 2)|) ^ 2 :=
+      SR_weil_form_abs_le_square_weight_sum X beta gamma
+    _ = (∑ m ∈ (completeSupport X).toFinset,
+          (m : ℝ) ^ (beta - 1 / 2)) ^ 2 := by rw [hsum]
+
 theorem SR_completeSupport_card (X : Nat) :
     (completeSupport X).toFinset.card = X - 2 := by
   simp [completeSupport_length]

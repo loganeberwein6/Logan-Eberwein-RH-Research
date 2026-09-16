@@ -1043,6 +1043,18 @@ theorem SR_S_unsigned_log_decomp (X : Nat) :
   unfold SR_S_unsigned_log
   ring
 
+/- The exact finite positivity condition exposed by the signed split. -/
+theorem SR_HalfWeightedSum_nonneg_of_ext_dominates (X : Nat)
+    (hdom : SR_Sint_log X ≤ SR_Sext_log X) :
+    0 ≤ SR_HalfWeightedSum X := by
+  rw [SR_HalfWeightedSum_eq_ext_sub_int]
+  exact sub_nonneg.mpr hdom
+
+theorem SR_HalfWeightedSum_nonneg_iff_ext_dominates (X : Nat) :
+    0 ≤ SR_HalfWeightedSum X ↔ SR_Sint_log X ≤ SR_Sext_log X := by
+  rw [SR_HalfWeightedSum_eq_ext_sub_int]
+  exact sub_nonneg
+
 /- FAILED ATTEMPT (archived 2026-09-08): row induction requires additional
    normalization of nested subtraction expressions. -/
 /- theorem rees_weighted_row_signed (X m : Nat) (l : List Nat) :
@@ -1087,9 +1099,8 @@ theorem SR_S_unsigned_log_decomp (X : Nat) :
   simp_rw [inner]
   rw [← List.sum_sub_distrib] -/
 
-/- The signed/unsigned split is intentionally left explicit until the
-   definitions are corrected; no false equality is promoted here. -/
-theorem SR25_BRIDGE_SIGN_OBSTRUCTION_OPEN : True := by
-  trivial
+/- The finite signed/unsigned split is proved above.  No placeholder theorem is
+   needed here; the remaining infinite analytic identification belongs to the
+   final RH-level bridge. -/
 
 end SR

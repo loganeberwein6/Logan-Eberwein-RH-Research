@@ -67,3 +67,19 @@ for the specified beta/gamma range. Any proof must identify the leading
 The correct next implementation target is an Abel-summation lemma for a
 finite weighted convolution, with the remainder left explicit rather than
 hidden behind a conjecture.
+
+## Larger-cutoff diagnostic
+
+A blocked-vector computation at `gamma = 21.022` gives `Q_X/X^(3 beta)`
+decreasing toward zero rather than stabilizing to a visibly nonzero constant:
+
+| beta | X=500 | X=1000 | X=2000 | X=5000 |
+|---|---:|---:|---:|---:|
+| .5 | .06291 | .02270 | .01102 | .00052 |
+| .6 | .02981 | .01383 | .00590 | .00014 |
+| .8 | .00755 | .00401 | .00136 | .00002 |
+
+This does not disprove an upper bound `O(X^(3 beta + epsilon))`, but it
+undermines the stronger asymptotic notation `~ C X^(3 beta)` with a nonzero
+constant for this fixed phase. Any future theorem should distinguish an
+upper envelope from a nonzero asymptotic main term.

@@ -44,3 +44,11 @@ and product channels. At beta=0.8, gamma=21.022, the observed total slope is
 `reesTrace` uses the cutoff `2m < X`, while the ratio-channel diagonal uses
 `m*m < X`. They differ: at X=30 the diagonal sign sum is 20 while
 `reesTrace 30 = 2`.
+
+## DEAD-06: proposed pointwise row bound (Stages 34–35)
+
+The claim `|RowSum_m| <= (X/m)^beta / beta` is false. At `X=6,m=5,beta=1/2`,
+the row is `4` while the proposed bound is approximately `2.190890`. At
+`X=100,m=99,beta=0.8`, the row is approximately `302.952931` while the bound
+is approximately `1.260091`. The valid replacement is the absolute-value sum
+bound proved in `SR_Stage35.lean`; cancellation remains open.

@@ -316,9 +316,6 @@ theorem SR20_CONJ_SIGNATURE_BOUND :
     ∀ s ∈ knownSigs, hasBoundedSignature s := by
   exact all_known_bounded
 
-theorem SR20_DENSITY_OPEN : True := by
-  trivial
-
 theorem SR20_SYNTHESIS :
     (∀ s ∈ knownSigs, hasBoundedSignature s) ∧
     knownSigs.length = 195 ∧
@@ -816,10 +813,6 @@ theorem SR21_PRIMORIAL_X210_BALANCED :
     signatureProbeX210.pos = signatureProbeX210.neg := by
   native_decide
 
-theorem SR21_SIGNATURE_BOUND_OPEN :
-    ∀ s ∈ knownSigs, s.pos ≤ s.neg + 1 := by
-  exact SR21_UPPER_BOUND_CERTIFIED_X6_TO_200
-
 theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
     (sigX8.X = 8 ∧ sigX8.pos = 2 ∧ sigX8.neg = 1 ∧
       sigX8.zero = 3 ∧ sigIndex sigX8 % 2 ≠ supportParityIndex sigX8) ∧
@@ -841,7 +834,7 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
     SR21_POSITIVE_BIAS_SEARCH_X6_TO_1000.2.2.2.1,
     SR21_POSITIVE_BIAS_SEARCH_X6_TO_5000.2.2.2.1,
     allOnesEntrySum_positive_general,
-    SR21_SIGNATURE_BOUND_OPEN⟩
+    SR21_UPPER_BOUND_CERTIFIED_X6_TO_200⟩
 
 #check completeSupport
 #check completeSupport_length
@@ -863,7 +856,6 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check transition_formula
 #check transition_formula_verified
 #check SR20_CONJ_SIGNATURE_BOUND
-#check SR20_DENSITY_OPEN
 #check SR20_SYNTHESIS
 #check sigIndex
 #check supportParityIndex
@@ -935,7 +927,6 @@ theorem SR21_SYNTHESIS_CERTIFIED_X6_TO_200 :
 #check allOnesEntrySum_X35_pos
 #check allOnesEntrySum_X210
 #check allOnesEntrySum_X210_pos
-#check SR21_SIGNATURE_BOUND_OPEN
 #check SR21_SYNTHESIS_CERTIFIED_X6_TO_200
 
 end SR

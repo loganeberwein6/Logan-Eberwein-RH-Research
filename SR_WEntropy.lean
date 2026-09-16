@@ -105,7 +105,38 @@ theorem rees_trace_small_table :
   repeat' apply And.intro
   all_goals native_decide
 
-theorem SR26_PERELMAN_CONJECTURE :
+/--
+Formal closure only: the current `W_SR_primorial` definition is identically zero
+for every `X : Nat`, because every pattern branch returns `0`.
+Thus `W_SR_converges` holds for the present implementation, but this observable
+carries no nontrivial analytic information and does not imply RH.
+-/
+theorem W_SR_primorial_eq_zero_current (X : Nat) :
+    W_SR_primorial X = 0 := by
+  unfold W_SR_primorial
+  -- All pattern branches return 0
+  split <;> rfl
+
+/--
+`W_SR_converges` holds for the current (degenerate) `W_SR_primorial` definition.
+This is a formal closure: the primorial observable is identically zero, so the
+ε-N criterion is trivially satisfied. This result carries no analytic content
+about the Riemann Hypothesis.
+-/
+theorem W_SR_converges_current_definition : W_SR_converges := by
+  intro ε hε
+  use 0
+  intro X _
+  simp [W_SR_primorial_eq_zero_current, abs_zero]
+  exact hε
+
+-- OPEN: The bridge from W_SR_converges to any nontrivial analytic conclusion
+-- about RH remains unformalized. W_SR_RH_bridge is defined as
+-- W_SR_converges → True, so this theorem is a tautology: it records only that
+-- a nontrivial bridge would be needed, not that one exists.
+-- The degenerate nature of the current W_SR_primorial (identically zero) means
+-- W_SR_converges holds trivially and carries no analytic content toward RH.
+theorem SR26_PERELMAN_CONJECTURE_RECORD :
     W_SR_RH_bridge → W_SR_converges → True := by
   intro _ _
   trivial

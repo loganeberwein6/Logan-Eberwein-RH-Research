@@ -107,3 +107,25 @@ failure.  No source deletion or overwrite was attempted.
 | Goal | First failed line | Missing input |
 |---|---|---|
 | Validate Stage 30 Conrey exponent | Exact enumeration of `SR_weil_form_real` disagrees with the Stage 29 baseline already at X=6. | Identify which prior implementation or normalization produced the stale Q-table before fitting any asymptotic exponent. |
+
+## 2026-09-10 — Exact trivial bound isolated successfully
+
+The requested absolute-value bound was reconstructed in
+`SR_Stage30_Bound.lean` against the exact product-of-cosines SR definition.
+Direct Lean type-checking succeeds. The proof uses `reesEntry_neg_or_pos`,
+`Real.abs_cos_le_one`, nested `Finset.abs_sum_le_sum_abs`, monotonicity of
+nonnegative multiplication, and `Finset.sum_mul` factorization. The same
+proof shape has been transplanted into `Q_X_bound_trivial`; full Stage 29
+certification remains blocked only by the unrelated legacy errors elsewhere
+in `SR_Stage29.lean` and its import chain.
+
+## 2026-09-10 — Stage 30 import-reduction compatibility map
+
+Removing the umbrella `Mathlib` import is viable only if the project bridge
+remains imported: `SR_WeilForm` directly uses `list_double_sum_eq_fin_double_sum`
+and related bridge declarations from `SR_Bridge`. After restoring that required
+project import, the cold build reaches the source and reports independent draft
+proof failures: the old `Matrix.dotProduct` namespace, invalid `Fin` transport
+lemmas, unfinished symmetry/additivity proofs, and a forward reference to
+`SR_admissible_candidate_strict`. This proves the current obstacle is source
+compatibility, not merely the size of the Mathlib import graph.

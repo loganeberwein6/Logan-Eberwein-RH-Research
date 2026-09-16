@@ -32,3 +32,14 @@ the nontrivial zeta ordinates. The diagonal scalar model also has no SR
 coercivity and no functional-equation symmetry. Adding a non-diagonal SR
 interaction would require a new Hecke-compatible construction; it is not
 present in this model.
+
+## Structural reason the scalar reduction is unavoidable here
+
+On the one-dimensional Eisenstein eigenspace, every Hecke operator acts by its
+scalar eigenvalue. Consequently a finite truncation of that eigenspace is
+diagonal and its determinant is a product of scalar local factors. A genuine
+matrix-valued Hecke model would require choosing a nontrivial automorphic
+representation or a space of cusp forms; that changes the arithmetic object
+and is not specified by the SR construction. Therefore the present candidate
+cannot obtain SR positivity by an internal Hecke interaction without leaving
+the candidate class.

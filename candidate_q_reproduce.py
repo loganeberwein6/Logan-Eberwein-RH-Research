@@ -81,6 +81,35 @@ def perturbed_scaled_spectrum(lam, N):
     return positive * (2.0 * np.pi / (2.0 * np.log(lam)))
 
 
+def shifted_weil_self_adjointness(lam, N):
+    """Check the finite theorem's metric on the ground-state quotient.
+
+    The relevant metric is W - epsilon*I, restricted to xi-perpendicular
+    vectors, rather than the raw Weil matrix W on all of E_N.
+    """
+    W, inds = weil_matrix(lam, N)
+    eigenvalues, vectors = np.linalg.eigh(W)
+    epsilon = eigenvalues[0]
+    xi = vectors[:, 0]
+    delta = np.ones(len(inds))
+    xi = xi / (delta @ xi)
+    D = np.diag(np.asarray(inds, dtype=float))
+    perturbed = D - np.outer(D @ xi, delta)
+    metric = W - epsilon * np.eye(len(inds))
+
+    # An orthonormal basis for the quotient xi-perpendicular space.
+    _, _, vh = np.linalg.svd(xi.reshape(1, -1))
+    quotient = vh[1:].T
+    residual = metric @ perturbed - perturbed.T @ metric
+    quotient_residual = quotient.T @ residual @ quotient
+    return {
+        "epsilon": epsilon,
+        "full_residual_inf": float(np.linalg.norm(residual, ord=np.inf)),
+        "quotient_residual_2": float(np.linalg.norm(quotient_residual, ord=2)),
+        "metric_xi_norm": float(np.linalg.norm(metric @ xi)),
+    }
+
+
 if __name__ == "__main__":
     for lam in [2.0, 3.0, 4.0]:
         for N in [2, 4]:
@@ -94,4 +123,10 @@ if __name__ == "__main__":
                 f"min={eigvals[0]:.9g} "
                 f"max={eigvals[-1]:.9g} "
                 f"even_err={parity:.3e}"
+            )
+            check = shifted_weil_self_adjointness(lam, N)
+            print(
+                f"  shifted quotient residual="
+                f"{check['quotient_residual_2']:.3e} "
+                f"metric_xi={check['metric_xi_norm']:.3e}"
             )

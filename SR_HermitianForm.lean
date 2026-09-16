@@ -50,6 +50,14 @@ theorem H_SR_pos_def_quotient :
   apply Complex.normSq_pos.mpr
   exact hx
 
+/- The positive square is not positive definite on the unreduced carrier:
+the existing nonzero logarithmic-kernel witness has zero energy. -/
+theorem H_SR_nontrivial_kernel_X6 :
+    ∃ x : E10, x ≠ 0 ∧ Complex.re (H_SR x x) = 0 := by
+  refine ⟨PD_radical_witness, PD_radical_witness_ne_zero, ?_⟩
+  rw [H_SR_self_eq_normSq, PD_radical_witness_weight_zero]
+  simp
+
 /-- Naive classical Weil operator on the degree-one complex carrier. -/
 noncomputable def C_Weil : E10 →ₗ[ℂ] E10 where
   toFun x := Complex.I • x
