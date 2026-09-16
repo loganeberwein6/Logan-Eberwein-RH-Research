@@ -37,8 +37,11 @@ def W_SR_converges : Prop :=
   ∀ ε : ℝ, 0 < ε → ∃ X₀ : Nat, ∀ X : Nat, X₀ ≤ X →
     |((W_SR_primorial X : Int) : ℝ)| < ε
 
-def W_SR_RH_bridge : Prop :=
-  W_SR_converges → True
+/-
+The former `W_SR_RH_bridge : Prop := W_SR_converges → True` declaration was
+removed. It encoded no bridge to RH; it merely converted an assumption into
+`True` without stating or proving an analytic conclusion.
+-/
 
 /-! The diagonal trace of the Rees sign matrix, expressed through the
     below-half support count.  This is kept as an arithmetic observable,
@@ -130,15 +133,12 @@ theorem W_SR_converges_current_definition : W_SR_converges := by
   simp [W_SR_primorial_eq_zero_current, abs_zero]
   exact hε
 
--- OPEN: The bridge from W_SR_converges to any nontrivial analytic conclusion
--- about RH remains unformalized. W_SR_RH_bridge is defined as
--- W_SR_converges → True, so this theorem is a tautology: it records only that
--- a nontrivial bridge would be needed, not that one exists.
--- The degenerate nature of the current W_SR_primorial (identically zero) means
--- W_SR_converges holds trivially and carries no analytic content toward RH.
-theorem SR26_PERELMAN_CONJECTURE_RECORD :
-    W_SR_RH_bridge → W_SR_converges → True := by
-  intro _ _
-  trivial
+/-
+The analytic bridge from `W_SR_converges` to any nontrivial conclusion about
+RH remains unformalized. The former record theorem was removed because it
+only proved `True` from assumptions and therefore carried no mathematical
+content. The current `W_SR_primorial` is identically zero, so convergence is
+also a formal property of a degenerate observable rather than evidence for RH.
+-/
 
 end SR

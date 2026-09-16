@@ -136,15 +136,11 @@ theorem not_I_SR_nonpos_on_PD_radical :
   have hnonpos := h PD_radical_witness PD_radical_witness_in_radical
   exact not_le_of_gt I_SR_radical_witness_pos hnonpos
 
-/--
-RH-adjacent target placeholder.
-
-This intentionally proves only `True`; the analytic bridge from a signed
-physical primitive `I_SR` theorem to the zeta-zero consequence is not present
-in the finite Lean base.
+/-
+The former `SR_RH_ADJACENT_CONJECTURE : True` declaration was removed.
+It was only a placeholder for the missing analytic bridge from the finite
+signed observable to a zeta-zero statement and proved no mathematical claim.
 -/
-theorem SR_RH_ADJACENT_CONJECTURE : True := by
-  trivial
 
 theorem stage13_outcome :
     (∀ x : E10, 0 ≤ Complex.re (H_SR x (C_SR x))) ∧
@@ -171,7 +167,6 @@ theorem stage13_outcome :
 #check I_SR_radical_witness_pos
 #check I_SR_sign_wrong_on_radical_witness
 #check not_I_SR_nonpos_on_PD_radical
-#check SR_RH_ADJACENT_CONJECTURE
 #check stage13_outcome
 
 end SR
