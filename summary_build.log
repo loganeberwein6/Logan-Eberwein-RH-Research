@@ -1,0 +1,7 @@
+✖ [2/3] Building RH_Summary (1.3s)
+trace: .> LEAN_PATH=D:\CodexRH\.lake\packages\Cli\.lake\build\lib\lean;D:\CodexRH\.lake\packages\batteries\.lake\build\lib\lean;D:\CodexRH\.lake\packages\Qq\.lake\build\lib\lean;D:\CodexRH\.lake\packages\aesop\.lake\build\lib\lean;D:\CodexRH\.lake\packages\proofwidgets\.lake\build\lib\lean;D:\CodexRH\.lake\packages\importGraph\.lake\build\lib\lean;D:\CodexRH\.lake\packages\LeanSearchClient\.lake\build\lib\lean;D:\CodexRH\.lake\packages\plausible\.lake\build\lib\lean;D:\CodexRH\.lake\packages\mathlib\.lake\build\lib\lean;D:\CodexRH\.lake\build\lib\lean c:\Users\ljoe6\.elan\toolchains\leanprover--lean4---v4.29.1\bin\lean.exe D:\CodexRH\RH_Summary.lean -o D:\CodexRH\.lake\build\lib\lean\RH_Summary.olean -i D:\CodexRH\.lake\build\lib\lean\RH_Summary.ilean -c D:\CodexRH\.lake\build\ir\RH_Summary.c --setup D:\CodexRH\.lake\build\ir\RH_Summary.setup.json --json
+error: RH_Summary.lean:9:0: invalid 'import' command, it must be used in the beginning of the file
+error: Lean exited with code 1
+Some required targets logged failures:
+- RH_Summary
+error: build failed

@@ -8,7 +8,7 @@ package «CodexRH» where
   -- Foundation library for the Selberg-Rees arithmetic Hodge program.
 
 lean_lib SR_Primitives where
-  roots := #[`SR_Primitives]
+  roots := #[`core.SR_Primitives]
 
 lean_lib SR_TransferLemma where
   roots := #[`SR_TransferLemma]
@@ -17,10 +17,10 @@ lean_lib SR_MultiChannel where
   roots := #[`SR_MultiChannel]
 
 lean_lib SR_ThetaKernel where
-  roots := #[`SR_ThetaKernel]
+  roots := #[`spectral.SR_ThetaKernel]
 
 lean_lib SR_ZeroTransfer where
-  roots := #[`SR_ZeroTransfer]
+  roots := #[`spectral.SR_ZeroTransfer]
 
 lean_lib SR_SpectralBridge where
   roots := #[`SR_SpectralBridge]
@@ -38,16 +38,16 @@ lean_lib SR_Multiplication where
   roots := #[`SR_Multiplication]
 
 lean_lib SR_Dagger where
-  roots := #[`SR_Dagger]
+  roots := #[`spectral.SR_Dagger]
 
 lean_lib SR_NoCommutativity where
   roots := #[`SR_NoCommutativity]
 
 lean_lib SR_Rees where
-  roots := #[`SR_Rees]
+  roots := #[`core.SR_Rees]
 
 lean_lib SR_GNS where
-  roots := #[`SR_GNS]
+  roots := #[`spectral.SR_GNS]
 
 lean_lib SR_Underdetermination where
   roots := #[`SR_Underdetermination]
@@ -71,7 +71,7 @@ lean_lib SR_Lefschetz where
   roots := #[`SR_Lefschetz]
 
 lean_lib SR_HermitianForm where
-  roots := #[`SR_HermitianForm]
+  roots := #[`spectral.SR_HermitianForm]
 
 lean_lib SR_ISR where
   roots := #[`SR_ISR]
@@ -83,7 +83,7 @@ lean_lib SR_Signature where
   roots := #[`SR_Signature]
 
 lean_lib SR_Flow where
-  roots := #[`SR_Flow]
+  roots := #[`weil.SR_Flow]
 
 lean_lib SR_Balance where
   roots := #[`SR_Balance]
@@ -110,7 +110,7 @@ lean_lib SR_Mollifier where
   roots := #[`SR_Mollifier]
 
 lean_lib SR_Bridge where
-  roots := #[`SR_Bridge]
+  roots := #[`weil.SR_Bridge]
 
 lean_lib SR_Stage27 where
   roots := #[`SR_Stage27]
@@ -119,10 +119,10 @@ lean_lib SR_Stage28 where
   roots := #[`SR_Stage28]
 
 lean_lib SR_WeilForm where
-  roots := #[`SR_WeilForm]
+  roots := #[`weil.SR_WeilForm]
 
 lean_lib SR_WEntropy where
-  roots := #[`SR_WEntropy]
+  roots := #[`broken.SR_WEntropy]
 
 lean_lib SR_Stage29 where
   roots := #[`SR_Stage29]
@@ -149,13 +149,13 @@ lean_lib SR_Stage36 where
   roots := #[`SR_Stage36]
 
 lean_lib SR_Stage37_Clean where
-  roots := #[`SR_Stage37_Clean]
+  roots := #[`core.SR_Stage37_Clean]
 
 lean_lib SR_Stage38 where
-  roots := #[`SR_Stage38]
+  roots := #[`core.SR_Stage38]
 
 lean_lib RH_Summary where
-  roots := #[`RH_Summary]
+  roots := #[`ledger.RH_Summary]
 
 lean_lib RH_Operator_Criteria where
-  roots := #[`RH_Operator_Criteria]
+  roots := #[`ledger.RH_Operator_Criteria]

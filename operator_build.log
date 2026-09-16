@@ -1,0 +1,7 @@
+✖ [2/3] Building RH_Operator_Criteria (1.2s)
+trace: .> LEAN_PATH=D:\CodexRH\.lake\packages\Cli\.lake\build\lib\lean;D:\CodexRH\.lake\packages\batteries\.lake\build\lib\lean;D:\CodexRH\.lake\packages\Qq\.lake\build\lib\lean;D:\CodexRH\.lake\packages\aesop\.lake\build\lib\lean;D:\CodexRH\.lake\packages\proofwidgets\.lake\build\lib\lean;D:\CodexRH\.lake\packages\importGraph\.lake\build\lib\lean;D:\CodexRH\.lake\packages\LeanSearchClient\.lake\build\lib\lean;D:\CodexRH\.lake\packages\plausible\.lake\build\lib\lean;D:\CodexRH\.lake\packages\mathlib\.lake\build\lib\lean;D:\CodexRH\.lake\build\lib\lean c:\Users\ljoe6\.elan\toolchains\leanprover--lean4---v4.29.1\bin\lean.exe D:\CodexRH\RH_Operator_Criteria.lean -o D:\CodexRH\.lake\build\lib\lean\RH_Operator_Criteria.olean -i D:\CodexRH\.lake\build\lib\lean\RH_Operator_Criteria.ilean -c D:\CodexRH\.lake\build\ir\RH_Operator_Criteria.c --setup D:\CodexRH\.lake\build\ir\RH_Operator_Criteria.setup.json --json
+error: RH_Operator_Criteria.lean:6:0: invalid 'import' command, it must be used in the beginning of the file
+error: Lean exited with code 1
+Some required targets logged failures:
+- RH_Operator_Criteria
+error: build failed
