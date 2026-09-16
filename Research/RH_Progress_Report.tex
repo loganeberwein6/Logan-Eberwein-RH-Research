@@ -609,13 +609,15 @@ The gap between Steps 2 and 3 is the Riemann Hypothesis itself.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{itemize}
-\item \textbf{Main repository:} \texttt{D:\textbackslash{}CodexRH}, branch \texttt{stage31-two-channel}, commit \texttt{ef2586f}
+\item \textbf{Repository:} \url{[https://github.com/loganeberwein6/Logan-Eberwein-RH-Research}](https://github.com/loganeberwein6/Logan-Eberwein-RH-Research)
+\item \textbf{Branch:} \texttt{stage31-two-channel}
 \item \textbf{Lean files:} 54
 \item \textbf{Research documents:} 175 markdown files
-\item \textbf{Build status:} Requires \texttt{ELAN\_HOME=C:\textbackslash{}Users\textbackslash{}ljoe6\textbackslash{}.elan} and Mathlib network access.
-Mathlib URL change requires: \texttt{rm -rf D:\textbackslash{}CodexRH\textbackslash{}.lake\textbackslash{}packages\textbackslash{}mathlib}.
-\item \textbf{No GitHub remote currently configured.}
-\item \textbf{Status:} Working tree is heavily modified; requires cleanup before public submission.
+\item \textbf{Build:} Requires \texttt{elan} and Lean\~4. Set \texttt{ELAN\_HOME} to
+your local elan installation. Mathlib is fetched via \texttt{lake update}.
+If Mathlib checkout fails, delete \texttt{.lake/packages/mathlib} and retry.
+\item \textbf{Verified commits:} \texttt{e0479cb} (formal ledger),
+\texttt{05282ac} (progress report), \texttt{d983fb8} (research files).
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
