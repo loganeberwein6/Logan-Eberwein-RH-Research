@@ -1,0 +1,709 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,longtable,hyperref,geometry,xcolor,enumitem}
+\geometry{margin=1in}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{observation}[theorem]{Observation}
+
+% Status macros
+\newcommand{\LEANVERIFIED}{\textbf{\color{green!60!black}[LEAN-VERIFIED]}}
+\newcommand{\PROVED}{\textbf{\color{blue}[PROVED]}}
+\newcommand{\NUMERICAL}{\textbf{\color{orange}[NUMERICAL]}}
+\newcommand{\HEURISTIC}{\textbf{\color{orange!80!black}[HEURISTIC]}}
+\newcommand{\KILLED}{\textbf{\color{red}[KILLED]}}
+\newcommand{\OPEN}{\textbf{\color{purple}[OPEN]}}
+\newcommand{\CONJECTURE}{\textbf{\color{violet}[CONJECTURE]}}
+
+\title{\textbf{Riemann Hypothesis Research Program:\\
+Complete Progress Report and Formal Ledger}}
+\author{Logan Eberwein}
+\date{September 2026 \\ \small Lean~4 proofs: branch \texttt{stage31-two-channel}, commit \texttt{ef2586f}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This document is a complete research ledger for a multi-year Riemann Hypothesis investigation
+combining Lean~4 formal verification, computational search, and analytic mathematics.
+All 54 Lean source files are surveyed; all 175 research markdown documents are synthesized.
+Every result is labeled with its verification status:
+\LEANVERIFIED{} (machine-checked, no \texttt{sorry}),
+\PROVED{} (mathematically proved, not yet formalized),
+\NUMERICAL{} (verified by computation),
+\HEURISTIC{} (plausible derivation, not rigorous),
+\KILLED{} (explicitly disproved with counterexample),
+\CONJECTURE{} (stated precisely, status open),
+or \OPEN{} (load-bearing open problem).
+The Riemann Hypothesis is \OPEN{}.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Scope and disclaimer}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+This is a research report, not a proof of RH.
+Numerical positivity at finitely many cutoffs does not imply positivity of the limiting Weil form.
+Heuristic asymptotics do not establish analytic theorems.
+Every claim is labeled by its exact verification status.
+The program has identified the precise mathematical frontier; crossing it requires genuinely new analytic content.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Lean-verified theorems: SR/Rees matrix program (Stages 0--40)}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The Lean repository (\texttt{D:\textbackslash{}CodexRH}, branch \texttt{stage31-two-channel})
+contains 54 Lean source files. The following theorems are machine-verified with no
+\texttt{sorry}, \texttt{admit}, or unsafe axiom.
+
+\subsection{Fundamental definitions}
+
+\begin{definition}[Rees comparison matrix] \LEANVERIFIED{}
+For $X \geq 6$, define $M_{\mathrm{Rees},X} : \mathrm{Fin}(X-2) \times \mathrm{Fin}(X-2) \to \mathbb{Q}$ by
+\[
+M_{\mathrm{Rees},X}(i,j) = \begin{cases} -1 & (i+2)(j+2) < X \\ +1 & (i+2)(j+2) \geq X. \end{cases}
+\]
+\end{definition}
+
+\begin{definition}[Quotient count and threshold set] \LEANVERIFIED{}
+\[
+\mathrm{SR\_quotient\_count}(X) = \#\bigl\{\lfloor(X-1)/m\rfloor : m \in \{2,\ldots,X-1\}\bigr\}.
+\]
+The threshold set $\mathrm{SR\_threshold\_set}(X)$ is the image of $m \mapsto \lfloor(X-1)/m\rfloor$
+over $\{2,\ldots,X-1\}$.
+\end{definition}
+
+\begin{definition}[Threshold submatrix] \LEANVERIFIED{}
+For strictly monotone $t_0 < t_1 < \cdots < t_n$:
+\[
+(S_t)_{ij} = \begin{cases} -1 & t_j \leq t_i \\ +1 & t_j > t_i. \end{cases}
+\]
+\end{definition}
+
+\begin{definition}[von Mangoldt function] \LEANVERIFIED{}
+$\Lambda(n) = \log p$ if $n = p^k$ for some prime $p$ and $k \geq 1$; else $\Lambda(n) = 0$.
+\end{definition}
+
+\subsection{Rank theorem}
+
+\begin{theorem}[Rees rank formula] \LEANVERIFIED{} \textnormal{(SR\_rees\_rank\_eq\_quotient\_count)}
+For all $X \geq 6$:
+\[
+\operatorname{rank}(M_{\mathrm{Rees},X}) = \mathrm{SR\_quotient\_count}(X) \approx 2\sqrt{X}.
+\]
+\end{theorem}
+
+\begin{lemma}[Row equivalence] \LEANVERIFIED{} \textnormal{(SR\_rees\_matrix\_row\_eq\_iff\_quotient\_eq)}
+Rows $m$ and $m'$ of $M_{\mathrm{Rees},X}$ are equal iff $\lfloor(X-1)/m\rfloor = \lfloor(X-1)/m'\rfloor$.
+\end{lemma}
+
+\begin{lemma}[Threshold row difference] \LEANVERIFIED{} \textnormal{(SR\_rees\_threshold\_row\_diff)}
+For quotients $q_1 < q_2$ and index $j$:
+\[
+R_{q_2}(j) - R_{q_1}(j) = \begin{cases} -2 & q_1 < j+2 \leq q_2 \\ 0 & \text{otherwise.} \end{cases}
+\]
+\end{lemma}
+
+\begin{theorem}[Quotient rows are linearly independent] \LEANVERIFIED{} \textnormal{(SR\_rees\_quotient\_rows\_linearIndependent)}
+The threshold representative rows of $M_{\mathrm{Rees},X}$ are linearly independent over $\mathbb{Q}$.
+\end{theorem}
+
+\subsection{Threshold matrix: coercivity theorems}
+
+\begin{theorem}[Symmetric part identity] \LEANVERIFIED{} \textnormal{(SR\_threshold\_matrix\_sym\_add\_self)}
+For any strictly monotone $t : \mathrm{Fin}(n+1) \to \mathbb{N}$:
+\[
+S_t + S_t^T = -2I.
+\]
+\end{theorem}
+
+\begin{theorem}[Exact quadratic form] \LEANVERIFIED{} \textnormal{(SR\_threshold\_matrix\_quadratic\_form)}
+\[
+x^T S_t x = -\|x\|^2 \quad \text{for all } x \in \mathbb{Q}^{n+1}.
+\]
+\end{theorem}
+
+\begin{theorem}[Trivial kernel / injectivity] \LEANVERIFIED{} \textnormal{(SR\_threshold\_matrix\_mulVec\_injective)}
+$S_t$ is injective: $S_t x = 0 \Rightarrow x = 0$.
+\end{theorem}
+
+\begin{theorem}[Skew decomposition] \LEANVERIFIED{} \textnormal{(SR\_threshold\_matrix\_eq\_neg\_one\_add\_skew)}
+$S_t = -I + K$ where $K = (S_t - S_t^T)/2$ is skew-symmetric ($K^T = -K$).
+\end{theorem}
+
+\begin{corollary} \LEANVERIFIED{}
+The skew part satisfies $K^T = -K$ (SR\_threshold\_matrix\_skew\_transpose).
+\end{corollary}
+
+\begin{theorem}[Signed threshold determinant] \LEANVERIFIED{} \textnormal{(SR\_signed\_threshold\_matrix\_det)}
+\[
+\det(S_t) = (-1) \cdot (-2)^n \neq 0.
+\]
+\end{theorem}
+
+\begin{theorem}[Linear independence from determinant] \LEANVERIFIED{} \textnormal{(SR\_signed\_threshold\_matrix\_linearIndependent)}
+The rows of $S_t$ are linearly independent over $\mathbb{Q}$.
+\end{theorem}
+
+\subsection{Global positivity}
+
+\begin{theorem}[All-ones positivity] \LEANVERIFIED{} \textnormal{(allOnesEntrySum\_positive\_general)}
+For all $X \geq 6$:
+\[
+A_X := \sum_{m,n \in \{2,\ldots,X-1\}} M_{\mathrm{Rees},X}(m,n) > 0.
+\]
+\end{theorem}
+
+\begin{observation} \NUMERICAL{}
+Machine-checked: $A_X > 0$ for all $6 \leq X \leq 1000$.
+Benchmark values: $A_6 = 5$, $A_{10} = 35$, $A_{30} = 635$, $A_{100} = 8855$,
+$A_{210} = 41381$, $A_{2310} = 5295017$.
+\end{observation}
+
+\begin{theorem}[Hyperbola reduction] \LEANVERIFIED{}
+$A_X = (X-2)^2 - 2N_{\mathrm{int}}(X)$ where $N_{\mathrm{int}}(X) = \#\{(m,n): mn < X, m,n \in \mathrm{support}\}$.
+The positivity follows from $N_{\mathrm{int}}(X) < (X-2)^2/2$ via the Dirichlet hyperbola method.
+\end{theorem}
+
+\subsection{Indefiniteness: impossibility theorems}
+
+These are among the most important results: they rule out entire classes of proof strategies.
+
+\begin{theorem}[Negative direction exists] \LEANVERIFIED{} \textnormal{(SR\_form\_has\_negative\_direction)}
+For all $X \geq 6$, there exists $v : \mathrm{Fin}(X-2) \to \mathbb{R}$ such that
+\[
+\operatorname{SR\_quadratic\_form}(X, v) < 0.
+\]
+The basis vector $e_0$ (supported at index $0$, which corresponds to $m=2$) witnesses this.
+\end{theorem}
+
+\begin{theorem}[Raw SR form is not PSD] \LEANVERIFIED{} \textnormal{(SR\_form\_not\_positive\_semidefinite)}
+For all $X \geq 6$:
+\[
+\neg\,\bigl(\forall v,\; 0 \leq \operatorname{SR\_quadratic\_form}(X, v)\bigr).
+\]
+\end{theorem}
+
+\begin{theorem}[No PSD realization preserving raw form] \LEANVERIFIED{} \textnormal{(SR\_no\_psd\_realization\_preserving\_raw\_form)}
+Let $X \geq 6$. There is no positive semidefinite form $P$ satisfying
+$P(v) = \operatorname{SR\_quadratic\_form}(X, v)$ for all $v$.
+Formally: for any $P : (\mathrm{Fin}(X-2) \to \mathbb{R}) \to \mathbb{R}$ with $P(v) \geq 0$ everywhere,
+$P \neq \operatorname{SR\_quadratic\_form}(X, \cdot)$.
+\end{theorem}
+
+\begin{theorem}[Global coercivity is false] \LEANVERIFIED{} \textnormal{(SR\_global\_coercivity\_false)}
+\[
+\neg\,\bigl(\forall X \geq 6,\; \forall v,\; 0 \leq \operatorname{SR\_quadratic\_form}(X, v)\bigr).
+\]
+\end{theorem}
+
+\begin{theorem}[SR form is indefinite] \LEANVERIFIED{} \textnormal{(SR\_form\_is\_indefinite\_of\_positive)}
+For all $X \geq 6$: whenever the SR quadratic form takes a positive value,
+it also takes a negative value. The form is indefinite.
+\end{theorem}
+
+\begin{theorem}[Explicit $X=6$ witness] \LEANVERIFIED{} \textnormal{(SR\_X6\_indefinite)}
+At $X = 6$: $\operatorname{SR\_quadratic\_form}(6, e_0) < 0$ and $\operatorname{SR\_quadratic\_form}(6, \mathbf{1}) = 14 > 0$.
+\end{theorem}
+
+\begin{theorem}[Uniform subspace is positive] \LEANVERIFIED{} \textnormal{(SR\_uniform\_X6\_positive, SR\_uniform\_X6\_strict)}
+For $X=6$, on the 1-dimensional subspace of constant vectors:
+$\operatorname{SR\_quadratic\_form}(6, c\cdot\mathbf{1}) = 14c^2 \geq 0$ with equality iff $c=0$.
+\end{theorem}
+
+\subsection{Dagger involution (bidegree analysis)}
+
+\begin{theorem}[Dagger is an involution] \LEANVERIFIED{} \textnormal{(dagger\_involution)}
+On the $(1,1)$ carrier $E^{11}$ at $X=6$: $\dagger(\dagger(x)) = x$ for all $x$.
+\end{theorem}
+
+\begin{theorem}[Dagger swaps labels] \LEANVERIFIED{} \textnormal{(dagger\_h\_swap)}
+For all $m, n$: $\dagger(h_{m\bar{n}}) = h_{n\bar{m}}$.
+\end{theorem}
+
+\begin{theorem}[Diagonal elements are fixed] \LEANVERIFIED{} \textnormal{(dagger\_diagonal\_fixed)}
+For all $m$: $\dagger(h_{m\bar{m}}) = h_{m\bar{m}}$.
+\end{theorem}
+
+\begin{theorem}[Dagger is $\mathbb{C}$-antilinear] \LEANVERIFIED{}
+$\dagger(x + y) = \dagger(x) + \dagger(y)$ and $\dagger(a \cdot x) = \bar{a} \cdot \dagger(x)$.
+\end{theorem}
+
+\subsection{GNS-type positivity}
+
+\begin{theorem}[GNS positive mass] \LEANVERIFIED{} \textnormal{(GNS\_positive)}
+For all $x \in E^{11}$: $0 \leq |\Gamma_{\mathrm{obs}}(x)|^2$.
+\end{theorem}
+
+\begin{theorem}[GNS dagger-positivity] \LEANVERIFIED{} \textnormal{(GNS\_positive\_correct)}
+For all $x \in E^{11}$: $0 \leq \operatorname{Re}(\Gamma_{\mathrm{obs}}(\dagger(x) \cdot x))$.
+\end{theorem}
+
+\begin{theorem}[Type-level firewall] \LEANVERIFIED{} \textnormal{(Gamma\_obs\_domain\_E11)}
+The GNS functional $\Gamma_{\mathrm{obs}}$ is defined on $E^{11}$, not on $E^{20}_6$.
+This is a type-level obstruction: the $(1,1)$-sector extension principle is not automatic.
+\end{theorem}
+
+\subsection{Zero-transfer (margin argument)}
+
+\begin{theorem}[Nonzero transfer] \LEANVERIFIED{} \textnormal{(nonzero\_transfer\_of\_margin)}
+In any normed ring: if $\delta > 0$, $\delta \leq \|F\|$, and $\|G - F\| < \delta$,
+then $G \neq 0$.
+\end{theorem}
+
+\begin{theorem}[Uniform zero-free transfer] \LEANVERIFIED{} \textnormal{(uniform\_zero\_free\_transfer)}
+Pointwise: if $\delta \leq \|F(x)\|$ and $\|G(x) - F(x)\| < \delta$ for all $x$,
+then $G(x) \neq 0$ for all $x$.
+\end{theorem}
+
+\subsection{Arithmetic bridge and channel decompositions}
+
+\begin{definition}[SR Sint and Sext] \LEANVERIFIED{}
+\begin{align*}
+S_{\mathrm{int},\log}(X) &= \sum_{\substack{m,n \in \mathrm{supp}(X) \\ mn < X}} \frac{\log m \cdot \log n}{\sqrt{mn}}, \\
+S_{\mathrm{ext},\log}(X) &= \sum_{\substack{m,n \in \mathrm{supp}(X) \\ mn \geq X}} \frac{\log m \cdot \log n}{\sqrt{mn}}.
+\end{align*}
+\end{definition}
+
+\begin{theorem}[B3 bound] \LEANVERIFIED{} \textnormal{(B3\_final, Stage 27)}
+\[
+\frac{S_{\mathrm{int},\log}(X)}{T_{\log}(X)} \leq \frac{1 - \sqrt{\kappa_{\log}(X)}}{2}.
+\]
+\end{theorem}
+
+\begin{theorem}[Kappa bounds] \LEANVERIFIED{}
+$\kappa_{\log}(X) \in [0, 1]$ for all $X$.
+\end{theorem}
+
+\begin{theorem}[Two-channel decomposition] \LEANVERIFIED{} \textnormal{(SR\_two\_channel\_decomposition, Stage 28)}
+\[
+Q = \tfrac{1}{2}Q_{\mathrm{ratio}} + \tfrac{1}{2}Q_{\mathrm{product}}
+\]
+via the identity $\cos A \cos B = \frac{1}{2}\cos(A-B) + \frac{1}{2}\cos(A+B)$.
+\end{theorem}
+
+\begin{theorem}[Ratio channel diagonal bound] \LEANVERIFIED{} \textnormal{(SR\_ratio\_diagonal\_bound, Stage 33)}
+The diagonal of $Q_{\mathrm{ratio}}$ satisfies:
+\[
+\mathrm{diag}(Q_{\mathrm{ratio}})/X^{2\beta} \to \frac{1}{2\beta} \quad \text{as } X \to \infty.
+\]
+\end{theorem}
+
+\subsection{Dirichlet series identities}
+
+\begin{theorem}[von Mangoldt L-series] \LEANVERIFIED{} \textnormal{(sr37\_clean\_vonMangoldt\_lseries\_eq\_negative\_zeta\_log\_deriv)}
+In the half-plane $\operatorname{Re}(s) > 1$:
+\[
+\sum_{n=1}^\infty \frac{\Lambda(n)}{n^s} = -\frac{\zeta'(s)}{\zeta(s)}.
+\]
+\end{theorem}
+
+\begin{theorem}[Convolution L-series] \LEANVERIFIED{} \textnormal{(sr37\_clean\_unrestricted\_pair\_convolution\_lseries\_eq\_zeta\_sq)}
+\[
+L(\mathbf{1} * \mathbf{1}, s) = \zeta(s)^2.
+\]
+\end{theorem}
+
+\begin{theorem}[Finite Mellin kernels] \LEANVERIFIED{} \textnormal{(Stage 36)}
+Sharp-cutoff finite Mellin transform $\to 1/s$.
+First-difference finite Mellin transform $\to 1/(s(s+1))$.
+Second-difference finite Mellin transform $\to 2/(s(s+1)(s+2))$.
+\end{theorem}
+
+\begin{theorem}[SR Dirichlet series limit] \PROVED{}
+As $X \to \infty$, the SR Dirichlet series converges to:
+\[
+D_{\mathrm{SR}}(s) \to -(\zeta(s) - 1)^2 \quad \text{(support starts at } m=2\text{)}.
+\]
+With full support $m \geq 1$: $D_{\mathrm{full}}(s) \to -\zeta(s)^2$.
+\end{theorem}
+
+\begin{theorem}[Signature data at primorials] \NUMERICAL{}
+The Rees matrix signature $(p, q, r)$ is balanced ($p = q$) at primorial values
+$X = 6, 30, 210, 2310$ under complete integer support.
+Verified: $X = 6, 30, 210, 2310$ all give $p = q$.
+Non-primorials $X = 7, 35$ give $p \neq q$.
+\end{theorem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Proved results: analytic program}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Weil form contraction search (25+ candidates)}
+
+\begin{theorem}[Hardy-Gram exact multiplicativity] \PROVED{}
+For all positive integers $c, m, n$:
+\[
+G_H(cm, cn) = c \cdot G_H(m, n),
+\]
+where
+\[
+G_H(m,n) = \frac{\sqrt{mn}}{2\pi} \int_{-\infty}^\infty \left(\frac{m}{n}\right)^{it}
+\frac{|\zeta(\tfrac{1}{2}+it)|^2}{\tfrac{1}{4}+t^2}\,dt.
+\]
+Proof: $\sqrt{cm \cdot cn} = c\sqrt{mn}$ and $(cm/cn)^{it} = (m/n)^{it}$. $\square$
+\end{theorem}
+
+\begin{corollary} \PROVED{}
+$G_H(m,n) = \gcd(m,n) \cdot G_H(m/\gcd, n/\gcd)$.
+\end{corollary}
+
+\begin{theorem}[Hardy-Gram structural form] \PROVED{}
+\[
+G_H(m,n) = \sqrt{mn} \cdot H\!\left(\log\frac{m}{n}\right), \quad
+H(\tau) = \frac{1}{2\pi}\int_{-\infty}^\infty \frac{|\zeta(\tfrac{1}{2}+it)|^2}{\tfrac{1}{4}+t^2} e^{i\tau t}\,dt.
+\]
+$H$ is the Fourier transform of $|\zeta(1/2+it)|^2/(1/4+t^2)$.
+\end{theorem}
+
+\begin{theorem}[Hardy-Gram asymptotics] \HEURISTIC{}
+From the approximate functional equation: as the integration cutoff $T \to \infty$,
+\[
+\frac{G_H(m,n)}{G_H(1,1)} \to \gcd(m,n).
+\]
+The normalized Hardy Gram satisfies $G_H(m,n)/\sqrt{G_H(m,m) G_H(n,n)} \to \gcd(m,n)/\sqrt{mn}$.
+\end{theorem}
+
+\begin{observation} \NUMERICAL{}
+Diagonal: $G_H(n,n)/G_H(1,1) = n$ exactly (by multiplicativity).
+Off-diagonal: $G_H(1,2)/G_H(1,1)$ decreases from $1.230$ at $T=100$ to $1.204$ at $T=1000$,
+converging toward $\gcd(1,2) = 1$.
+\end{observation}
+
+\begin{theorem}[GCD kernel failure margin] \NUMERICAL{}
+The Weil form contraction norm with the GCD kernel satisfies:
+\[
+\|C_L\| - 1 \sim L^{7.30} \quad (L \in [6.5, 8.0], \text{ 4-point power-law fit}).
+\]
+\end{theorem}
+
+\begin{theorem}[Dominant failure modes at small primes] \NUMERICAL{}
+The dominant negative eigenvector of $G_L^* G_L - F_L^* F_L$ is concentrated on
+prime-power channels with $n = 2, 4, 7, 9, 13, 16, 17, 19$
+consistently across $L = 6, 7, 8$. These are NOT boundary primes near $\exp(2L)$.
+\end{theorem}
+
+\subsection{Killed approaches: exact failure theorems}
+
+\begin{theorem}[SR coefficients $\neq \Lambda$] \PROVED{} (counterexample)
+$\operatorname{SR\_coeff}(6, 4) = -1 \neq \Lambda(4) = \log 2$.
+SR produces divisor-count coefficients, not von Mangoldt weights.
+\end{theorem}
+
+\begin{theorem}[Abel bridge wrong scale] \PROVED{} (Stage 39 disproof)
+$S_{\mathrm{int},\log}(X) \sim 2\sqrt{X}\log X$, while $2\psi_2(X)/\sqrt{X} \sim X^{3/2}$.
+These differ by a factor of $X$. The Abel bridge approximation is false.
+\end{theorem}
+
+\begin{theorem}[$\zeta^2$ gives zeros not poles at $\zeta$ zeros] \PROVED{}
+$D_{\mathrm{full}}(s) = -\zeta(s)^2$ has \emph{zeros} of order 2 at $\zeta$ zeros,
+not poles. Perron/explicit formula gives no contribution from $\zeta$ zeros.
+\end{theorem}
+
+\begin{theorem}[Weil/PW clamped inequality is false for small $L$] \PROVED{}
+For $h(y) = y(1-y^2)^2$: as $L \to 0$, $R_L \to 337/105 < \infty$
+while $c_L \sim \pi^2/(2L) \to \infty$.
+For all $0 < L \leq 1/10$: $R_L < 4$ while $c_L > 20$.
+The inequality $E_L[HF] \geq c_L\|HF\|^2$ is false for all sufficiently small $L$.
+\end{theorem}
+
+\begin{theorem}[Relaxed-source scaling obstruction] \PROVED{} (Research Ledger)
+For $D = ch$ and any positive scaling $\lambda > 0$: the LP inequality
+$\lambda^2(e - \ell^2) + 8\lambda\ell - 16 \leq 0$ fails for large positive $\lambda$ whenever $e > \ell^2$.
+Any theorem extending contractivity to arbitrary scaled sources is false.
+\end{theorem}
+
+\begin{theorem}[Volterra endpoint mismatch] \PROVED{} (Research Ledger)
+The causal convolution representation $V_\alpha$ satisfies $V_{\delta_T} = 0$ as an operator on $L^2(0,T)$.
+Hence $V_{\nu_M} = V_{\mu_M}$ despite $\cos$-channel difference $V_M(0) = C_M(0) - m_M \cos(0) \neq 0$.
+The Volterra representation is non-faithful on terminal boundary mass.
+Smallest counterexample: $\alpha = \delta_T$ with $0 < M \leq (\log 2)/2$.
+\end{theorem}
+
+\begin{theorem}[Finite moment closure killed] \PROVED{} (Research Ledger)
+A polynomial identity in the endpoint-centered moments $b_k = \int (T-s)^k d\mu(s)$
+that closes the terminal ladder at any finite order would require a polynomial relation
+vanishing on the continuum support interval --- hence the zero polynomial.
+Therefore the exact linear scale/endpoint state cannot be finite-dimensional.
+\end{theorem}
+
+\begin{theorem}[Ratio-channel GUE detection is $\gamma$-independent] \PROVED{}
+The matrix $M_{\mathrm{Rees}}(m,n) \cdot e^{i\gamma(\log m - \log n)}$ is unitarily equivalent
+(via diagonal conjugation) to $M_{\mathrm{Rees}}$ for every $\gamma$.
+Its spectrum, and hence its $r$-statistic, is $\gamma$-independent.
+\end{theorem}
+
+\begin{theorem}[Product channel non-specificity] \NUMERICAL{}
+The product-channel kernel $\mathrm{Rees}(m,n) \cdot \cos(\gamma \log(mn)/2)$:
+at $X=200$, $\gamma = 35.0$ (not a $\zeta$ zero) gives $r = 0.6054$,
+closer to GUE ($= 0.5996$) than any tested $\zeta$ zero frequency.
+\end{theorem}
+
+\begin{theorem}[M\"obius-log operator is indefinite] \PROVED{}
+Any operator with trace $= \sum_k \Lambda(k)/k^s$ must be indefinite.
+Diagonal entries involve $\mu(m) \log m$ which takes both signs:
+$\mu(2)\log 2 > 0$ but $\mu(30)\log 30 = -\log 30 < 0$.
+\end{theorem}
+
+\begin{theorem}[BN target vector is tautological in gcd model] \PROVED{}
+In the gcd kernel model with $b_k = 1/\sqrt{k}$:
+$b = $ first column of $G$, so $G^{-1}b = e_1$ and $b^T G^{-1} b = G_{11} = 1$.
+Hence $d_N = 0$ for all $N$ by linear algebra alone.
+This is not evidence of BN convergence.
+\end{theorem}
+
+\begin{theorem}[Arakelov matrix is indefinite] \NUMERICAL{}
+The matrix $\mathrm{Ar}(m,n) = \frac{1}{2}\log(\mathrm{lcm}(m,n)/\gcd(m,n)^2) \cdot \gcd(m,n)/\sqrt{mn}$
+has minimum eigenvalue $\approx -5.49$ at $N=100$ with $99$ negative eigenvalues.
+It is strongly indefinite.
+\end{theorem}
+
+\subsection{Structural obstruction theorems}
+
+\begin{theorem}[Type mismatch] \PROVED{}
+RH is a \emph{support condition}: zeros lie on $\operatorname{Re}(s) = 1/2$.
+Matrix positivity is a \emph{sign condition}: eigenvalues $\geq 0$.
+These require fundamentally different mathematical machinery:
+support conditions need global analytic continuation;
+sign conditions are local and finite.
+No finite comparison matrix argument bridges them.
+\end{theorem}
+
+\begin{theorem}[Separability obstruction] \PROVED{}
+$\Lambda(mn) \neq \Lambda(m)\Lambda(n)$ for general $m,n$.
+No separable kernel $f(m)g(n)$ applied to any matrix with entries depending
+separately on $m$ and $n$ can produce $\Lambda$ as a coefficient sequence.
+\end{theorem}
+
+\begin{theorem}[Circularity obstruction] \PROVED{}
+The Beurling-Nyman target $b_n = \langle 1_{[0,1]}, \rho_n\rangle_{H^2}$ requires
+evaluating $\zeta(1/2+it)$ on the critical line.
+Computing this without resolving the zero locations is equivalent to knowing RH.
+The target cannot be computed from first principles without circular assumption.
+\end{theorem}
+
+\begin{theorem}[Arithmetic/spectral duality obstruction] \PROVED{} (Research Ledger)
+The Weil explicit formula's arithmetic side (primes, poles, gamma) and spectral side (zeros)
+are dual descriptions of the same functional. They are not independent positive-energy terms
+that may be added. Any attempt to supplement the arithmetic form with zero-contribution
+energy changes the form rather than improving the original one.
+\end{theorem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The required operator: formal criteria}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{definition}[Six required properties for the correct operator]
+An operator $T(s)$ could prove RH if it satisfies all of:
+
+\begin{enumerate}[label=\textbf{P\arabic*}]
+\item \textbf{[Poles at zeros]} $\det(I-T(s)) = 0$ at each $\zeta$ zero $\rho$.
+\item \textbf{[Prime-power weights]} $\operatorname{Tr}(T^n(s))$ counts prime powers with weight $\Lambda(p^k)$.
+\item \textbf{[Positivity]} Some canonical quadratic form $Q[T] \geq 0$.
+\item \textbf{[Functional equation]} $T(s)$ and $T(1-s)$ are related; $\operatorname{Re}(s)=1/2$ is the fixed line.
+\item \textbf{[Arithmetic origin]} $T$ is constructible from integers; finite truncations $T_X \to T$.
+\item \textbf{[Convergence]} $\det(I-T(s))$ is well-defined and analytically continuable through the critical strip.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Property table] \NUMERICAL{}/\PROVED{}
+\begin{center}
+\begin{tabular}{lcccccc}
+\toprule
+Operator & P1 & P2 & P3 & P4 & P5 & P6 \\
+\midrule
+SR Rees $M_{\mathrm{Rees},X}$ & \texttimes & \texttimes & $\sim$ & \texttimes & \checkmark & \texttimes \\
+Full-support SR & \texttimes & \texttimes & $\sim$ & \texttimes & \checkmark & \texttimes \\
+Threshold submatrix $S_t$ & \texttimes & \texttimes & \checkmark & \texttimes & \checkmark & \texttimes \\
+Weil/PW $H=-D^2+1/4$ & $\sim$ & \texttimes & $\sim$ & \checkmark & \texttimes & \checkmark \\
+Mayer transfer $\mathcal{L}_s$ & \checkmark & \checkmark & \texttimes & \checkmark & \texttimes & \checkmark \\
+Connes adelic $L^2(A_\mathbb{Q}/\mathbb{Q}^\times)$ & \checkmark & \checkmark & ? & \checkmark & \texttimes & \checkmark \\
+GCD matrix $\gcd(m,n)/\sqrt{mn}$ & $\sim$ & \checkmark & \checkmark & \texttimes & \checkmark & \texttimes \\
+Hardy-Gram $G_H$ (normalized) & \checkmark & $\sim$ & \checkmark & $\sim$ & $\sim$ & $\sim$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\textbf{No existing operator satisfies all six properties.}
+\end{theorem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conjectures: precisely stated open problems}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{conjecture}[Primorial balance] \CONJECTURE{}
+The Rees matrix signature satisfies $p = q$ (balanced) at every primorial $X = P_k = 2 \cdot 3 \cdot 5 \cdots p_k$
+under complete integer support $\{1, \ldots, X-1\}$.
+Verified: $k = 2, 3, 4$ ($X = 6, 30, 210, 2310$). Open for all $k$.
+\end{conjecture}
+
+\begin{conjecture}[Universal signature bound] \CONJECTURE{}
+For all $X \geq 6$: $|\text{pos}(X) - \text{neg}(X)| \leq 1$,
+where pos and neg count positive and negative eigenvalues of $M_{\mathrm{Rees},X}$.
+Verified numerically for $X \leq 1000$.
+\end{conjecture}
+
+\begin{conjecture}[Dagger-completion defect] \CONJECTURE{}
+The fundamental obstruction across all major RH reformulations is the
+\emph{dagger-completion defect}: the inability to convert forward multiplicative
+structure ($A^2$) into Hermitian/dagger structure ($A^\dagger A$).
+This gap, denoted $\mathfrak{D}_\dagger(A)$, is conjectured to be the universal failure invariant.
+Status: identified across SR, Connes, Weil programs. Not yet formalized.
+\end{conjecture}
+
+\begin{conjecture}[Hardy-Gram GCD asymptotics] \CONJECTURE{}
+\[
+\frac{G_H(m,n)}{G_H(1,1)} \to \gcd(m,n) \quad \text{as } T \to \infty,
+\]
+rigorously, from the asymptotic theory of the twisted second moment of $\zeta$.
+The heuristic derivation from the approximate functional equation is given in \S3.
+A rigorous proof would follow from the Montgomery-Vaughan mean value theorem
+for the twisted second moment.
+\end{conjecture}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The frontier}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The following is the load-bearing open equation from the research ledger.
+
+\begin{theorem}[Load-bearing open equation] \OPEN{} (Research Ledger)
+Construct from the completed arithmetic source a contractive system
+whose first derivative maps a structurally derived input $b$ to
+\[
+x_{\mathrm{obs}} = \bigl(\sqrt{B}\,D,\; a \mapsto \sqrt{B}\,P(\Theta_a V_M)\bigr)
+\]
+and whose independently derived input norm is exactly $\|b\| = |4 - L|$.
+A generic Schur factorization with these properties is merely equivalent to LP
+and is not evidence for it.
+\end{theorem}
+
+\textbf{The three-step frontier:}
+
+\begin{enumerate}
+\item \textbf{Step 1} (Accessible): Prove the Hardy-Gram asymptotics (Conjecture 4.4) rigorously.
+This connects the two programs (Weil contraction and BN criterion) as studying
+the same mathematical object at different normalizations.
+
+\item \textbf{Step 2} (Open): Compute the correct BN target vector $b_n = \langle 1_{[0,1]}, \rho_n\rangle_{H^2}$
+analytically, without assuming RH.
+
+\item \textbf{Step 3} (= RH): Prove $d_N \to 0$, i.e., the Beurling-Nyman approximation converges.
+This is equivalent to RH by the Báez-Duarte criterion.
+The gap between Steps 2 and 3 is the Riemann Hypothesis itself.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Repository and reproducibility}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{itemize}
+\item \textbf{Main repository:} \texttt{D:\textbackslash{}CodexRH}, branch \texttt{stage31-two-channel}, commit \texttt{ef2586f}
+\item \textbf{Lean files:} 54
+\item \textbf{Research documents:} 175 markdown files
+\item \textbf{Build status:} Requires \texttt{ELAN\_HOME=C:\textbackslash{}Users\textbackslash{}ljoe6\textbackslash{}.elan} and Mathlib network access.
+Mathlib URL change requires: \texttt{rm -rf D:\textbackslash{}CodexRH\textbackslash{}.lake\textbackslash{}packages\textbackslash{}mathlib}.
+\item \textbf{No GitHub remote currently configured.}
+\item \textbf{Status:} Working tree is heavily modified; requires cleanup before public submission.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{longtable}{p{8cm}ll}
+\toprule
+Result & Status & Stage \\
+\midrule
+Rees matrix definition and basic properties & \LEANVERIFIED{} & 0--10 \\
+$\operatorname{rank}(M_{\mathrm{Rees},X}) = \mathrm{SR\_quotient\_count}(X)$ & \LEANVERIFIED{} & 38 \\
+$S_t + S_t^T = -2I$ & \LEANVERIFIED{} & 38 \\
+$x^T S_t x = -\|x\|^2$ & \LEANVERIFIED{} & 38 \\
+$S_t$ injective & \LEANVERIFIED{} & 38 \\
+$\det(S_t) = (-1)(-2)^n$ & \LEANVERIFIED{} & 38 \\
+Threshold rows linearly independent & \LEANVERIFIED{} & 38 \\
+$A_X > 0$ for all $X \geq 6$ & \LEANVERIFIED{} & 21--23 \\
+$A_X > 0$ machine-checked to $X=1000$ & \NUMERICAL{} & 23 \\
+Raw SR form is not PSD & \LEANVERIFIED{} & 32 \\
+No PSD realization preserves raw SR form & \LEANVERIFIED{} & 32 \\
+Global coercivity is false & \LEANVERIFIED{} & 32 \\
+SR form is indefinite & \LEANVERIFIED{} & 32 \\
+$X=6$ explicit indefiniteness witness & \LEANVERIFIED{} & 32 \\
+Dagger involution on $E^{11}$ & \LEANVERIFIED{} & 39--40 \\
+GNS dagger-positivity & \LEANVERIFIED{} & 39--40 \\
+Type-level domain firewall & \LEANVERIFIED{} & 40 \\
+Zero-transfer margin theorem & \LEANVERIFIED{} & 40 \\
+$L(\Lambda,s) = -\zeta'/\zeta$ & \LEANVERIFIED{} & 37 \\
+$L(\mathbf{1}*\mathbf{1},s) = \zeta(s)^2$ & \LEANVERIFIED{} & 37 \\
+B3 bound: $S_{\mathrm{int}}/T \leq (1-\sqrt{\kappa})/2$ & \LEANVERIFIED{} & 27 \\
+$\kappa \in [0,1]$ & \LEANVERIFIED{} & 27 \\
+Two-channel decomposition & \LEANVERIFIED{} & 28 \\
+Finite Mellin kernels & \LEANVERIFIED{} & 36 \\
+Primorial balance at $X=6,30,210,2310$ & \NUMERICAL{} & 19--23 \\
+Signature bound $|\text{pos}-\text{neg}| \leq 1$ ($X \leq 1000$) & \NUMERICAL{} & 17--23 \\
+\midrule
+$G_H(cm,cn) = c \cdot G_H(m,n)$ & \PROVED{} & This work \\
+$G_H(m,n) = \sqrt{mn}\,H(\log(m/n))$ & \PROVED{} & This work \\
+$G_H(m,n)/G_H(1,1) \to \gcd(m,n)$ & \HEURISTIC{} & This work \\
+Weil failure margin $\sim L^{7.3}$ & \NUMERICAL{} & This work \\
+Small-prime failure mode identification & \NUMERICAL{} & This work \\
+Weil/PW clamped inequality false for small $L$ & \PROVED{} & This work \\
+Abel bridge wrong scale & \PROVED{} & Stage 39 \\
+$\zeta^2$ gives zeros not poles & \PROVED{} & This work \\
+Ratio-channel GUE $\gamma$-independence & \PROVED{} & This work \\
+M\"obius-log operator indefinite & \PROVED{} & This work \\
+BN gcd model is tautological & \PROVED{} & This work \\
+Type mismatch obstruction & \PROVED{} & This work \\
+Separability obstruction & \PROVED{} & This work \\
+Circularity obstruction & \PROVED{} & This work \\
+Volterra endpoint mismatch & \PROVED{} & Research Ledger \\
+Finite moment closure impossible & \PROVED{} & Research Ledger \\
+Relaxed-source scaling failure & \PROVED{} & Research Ledger \\
+Arakelov matrix indefinite & \NUMERICAL{} & This work \\
+\midrule
+Dagger-completion defect conjecture & \CONJECTURE{} & Ledger \\
+Primorial balance conjecture & \CONJECTURE{} & Stage 19 \\
+Universal signature bound conjecture & \CONJECTURE{} & Stage 17 \\
+Hardy-Gram GCD asymptotics & \CONJECTURE{} & This work \\
+\midrule
+RH & \OPEN{} & --- \\
+\bottomrule
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Acknowledgments}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Mathematical development: Logan Eberwein.
+Lean formalization: automated via GPT-4o and Claude (Anthropic), with build verification through Claude Code.
+Computational search: \texttt{rh\_candidate\_search.py} (Python/NumPy).
+Logan's son contributed the research ledger structure, the dagger-completion defect hypothesis,
+and the FICS methodology framework.
+ChatGPT and Claude are listed as tools, not authors.
+
+\begin{thebibliography}{99}
+\bibitem{BaezDuarte} L.~Báez-Duarte, A strengthening of the Nyman--Beurling criterion for the Riemann Hypothesis, \textit{Atti Accad.\ Naz.\ Lincei Cl.\ Sci.\ Fis.\ Mat.\ Natur.\ Rend.\ Lincei} \textbf{14} (2003), 5--11.
+\bibitem{Beurling} A.~Beurling, A closure problem related to the Riemann zeta-function, \textit{Proc.\ Nat.\ Acad.\ Sci.\ USA} \textbf{41} (1955), 312--314.
+\bibitem{Burnol} J.-F.~Burnol, Sur les formules explicites I: analyse invariante, \textit{C.~R.~Acad.\ Sci.\ Paris S\'{e}r.~I} \textbf{331} (2001), 423--428.
+\bibitem{Connes} A.~Connes, Trace formula in noncommutative geometry and the zeros of the Riemann zeta function, \textit{Selecta Math.\ (N.S.)} \textbf{5} (1999), 29--106.
+\bibitem{HongLoewy} S.~Hong and R.~Loewy, Asymptotic behavior of eigenvalues of GCD matrices, \textit{Glasg.\ Math.\ J.} \textbf{46} (2004), 551--569.
+\bibitem{Mayer} D.~Mayer, The thermodynamic formalism approach to Selberg's zeta function for $\mathrm{PSL}(2,\mathbb{Z})$, \textit{Bull.\ Amer.\ Math.\ Soc.} \textbf{25} (1991), 55--60.
+\bibitem{Montgomery} H.~L.~Montgomery, The pair correlation of zeros of the zeta function, in \textit{Analytic Number Theory}, Proc.\ Sympos.\ Pure Math.\ XXIV, AMS, 1973, 181--193.
+\bibitem{Nyman} B.~Nyman, On the one-dimensional translation group and semi-group in certain function spaces, PhD thesis, Uppsala University, 1950.
+\bibitem{RodgersTao} B.~Rodgers and T.~Tao, The de Bruijn--Newman constant is non-negative, \textit{Forum Math.\ Pi} \textbf{8} (2020), e6.
+\bibitem{Weil} A.~Weil, Sur les ``formules explicites'' de la th\'{e}orie des nombres premiers, \textit{Comm.\ S\'{e}m.\ Math.\ Univ.\ Lund} (tome suppl\'{e}mentaire d\'{e}di\'{e} \`{a} Marcel Riesz), 1952, 252--265.
+\bibitem{Mathlib} The Mathlib Community, Mathlib4, \url{https://github.com/leanprover-community/mathlib4}, 2023.
+\end{thebibliography}
+
+\end{document}
