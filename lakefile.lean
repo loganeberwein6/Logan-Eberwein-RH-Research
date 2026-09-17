@@ -8,22 +8,22 @@ package «CodexRH» where
   -- Foundation library for the Selberg-Rees arithmetic Hodge program.
 
 lean_lib SR_Stage38 where
-  roots := #[`core.SR_Stage38]
+  roots := #[`lean.core.SR_Stage38]
 
 lean_lib SR_WeilForm where
-  roots := #[`weil.SR_WeilForm]
+  roots := #[`lean.weil.SR_WeilForm]
 
 lean_lib SR_Dagger where
-  roots := #[`spectral.SR_Dagger]
+  roots := #[`lean.spectral.SR_Dagger]
 
 lean_lib SR_GNS where
-  roots := #[`spectral.SR_GNS]
+  roots := #[`lean.spectral.SR_GNS]
 
 lean_lib SR_ZeroTransfer where
-  roots := #[`spectral.SR_ZeroTransfer]
+  roots := #[`lean.spectral.SR_ZeroTransfer]
 
 lean_lib RH_Summary where
-  roots := #[`ledger.RH_Summary]
+  roots := #[`lean.ledger.RH_Summary]
 
 lean_lib RH_Operator_Criteria where
-  roots := #[`ledger.RH_Operator_Criteria]
+  roots := #[`lean.ledger.RH_Operator_Criteria]
