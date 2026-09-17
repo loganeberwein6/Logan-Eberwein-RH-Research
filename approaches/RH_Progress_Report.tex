@@ -1,6 +1,6 @@
 \documentclass[11pt]{article}
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
+
+
 \usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{booktabs,longtable,hyperref,geometry,xcolor,enumitem}
 \geometry{margin=1in}
@@ -454,7 +454,7 @@ closer to GUE ($= 0.5996$) than any tested $\zeta$ zero frequency.
 \begin{theorem}[M\"obius-log operator is indefinite] \PROVED{}
 Any operator with trace $= \sum_k \Lambda(k)/k^s$ must be indefinite.
 Diagonal entries involve $\mu(m) \log m$ which takes both signs:
-$\mu(2)\log 2 > 0$ but $\mu(30)\log 30 = -\log 30 < 0$.
+$\mu(2)\log 2 = -\log 2 < 0$ but $\mu(30)\log 30 = -\log 30 < 0$.
 \end{theorem}
 
 \begin{theorem}[BN target vector is tautological in gcd model] \PROVED{}
@@ -478,7 +478,10 @@ Matrix positivity is a \emph{sign condition}: eigenvalues $\geq 0$.
 These require fundamentally different mathematical machinery:
 support conditions need global analytic continuation;
 sign conditions are local and finite.
-No finite comparison matrix argument bridges them.
+The claim is narrow: this specific SR comparison matrix has no currently proved
+mechanism converting its finite sign information into the required analytic support statement.
+Note that Li's criterion is a positivity condition equivalent to RH, and the Redheffer matrix
+determinant equals the Mertens function---so finite matrices can encode RH-equivalent information.
 \end{theorem}
 
 \begin{theorem}[Separability obstruction] \PROVED{}
@@ -592,9 +595,10 @@ and is not evidence for it.
 \textbf{The three-step frontier:}
 
 \begin{enumerate}
-\item \textbf{Step 1} (Accessible): Prove the Hardy-Gram asymptotics (Conjecture 4.4) rigorously.
-This connects the two programs (Weil contraction and BN criterion) as studying
-the same mathematical object at different normalizations.
+\item \textbf{Step 1} (Requires audit first): Certify or kill the Hardy-Gram asymptotics (Conjecture 4.4).
+The conjecture $G_H(m,n)/G_H(1,1) \to \gcd(m,n)$ is not yet supported by convergent numerics:
+the ratio $G_H(1,2)/G_H(1,1) \approx 1.204$ at $T=1000$ remains far from the conjectured limit of $1$.
+Resolve before treating this as a connection between the Weil contraction and BN programs.
 
 \item \textbf{Step 2} (Open): Compute the correct BN target vector $b_n = \langle 1_{[0,1]}, \rho_n\rangle_{H^2}$
 analytically, without assuming RH.
