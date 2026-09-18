@@ -1,9 +1,11 @@
-import SR_Stage31
+import lean.core.SR_Stage31
 import Mathlib.LinearAlgebra.Matrix.Rank
 import Mathlib.LinearAlgebra.Matrix.Block
 import Mathlib.Data.Finset.Sort
 
 namespace SR
+
+open scoped BigOperators
 
 theorem SR_finset_orderEmbOfFin_strictMono (s : Finset Nat) :
     StrictMono (s.orderEmbOfFin (rfl : s.card = s.card)) := by
@@ -947,25 +949,65 @@ theorem SR_rees_rank_eq_quotient_count
 The definition is independent of the actual Rees matrix so that the
 full-support numerical question is represented exactly in Lean. -/
 def SR_full_support_all_ones_sum (X : Nat) : Int :=
-  ∑ m in List.range (X - 1),
-    ∑ n in List.range (X - 1),
-      if (m + 1) * (n + 1) < X then (-1 : Int) else 1
+  ((List.range (X - 1)).map (fun m =>
+    ((List.range (X - 1)).map (fun n =>
+      if (m + 1) * (n + 1) < X then (-1 : Int) else 1)).sum)).sum
 
 def SR_full_support_bad_pair_count (X : Nat) : Int :=
-  ∑ m in List.range (X - 1),
-    ∑ n in List.range (X - 1),
-      if (m + 1) * (n + 1) < X then (1 : Int) else 0
+  ((List.range (X - 1)).map (fun m =>
+    ((List.range (X - 1)).map (fun n =>
+      if (m + 1) * (n + 1) < X then (1 : Int) else 0)).sum)).sum
 
-theorem SR_full_support_sum_eq_square_sub_bad_pairs (X : Nat) :
+theorem SR_full_support_sum_eq_square_sub_bad_pairs (X : Nat) (hX : 1 ≤ X) :
     SR_full_support_all_ones_sum X =
       ((X - 1) * (X - 1) : Int) -
         2 * SR_full_support_bad_pair_count X := by
+  classical
   simp only [SR_full_support_all_ones_sum, SR_full_support_bad_pair_count]
-  simp_rw [show ∀ p : Prop, (if p then (-1 : Int) else 1) =
-    1 - 2 * (if p then (1 : Int) else 0) by
-      intro p
-      by_cases hp : p <;> simp [hp]]
-  simp [List.sum_sub_distrib, List.sum_add_distrib]
+  have hif : ∀ (m n : Nat),
+      (if (m + 1) * (n + 1) < X then (-1 : Int) else 1) =
+        1 - 2 * (if (m + 1) * (n + 1) < X then (1 : Int) else 0) := by
+    intro m n
+    by_cases hp : (m + 1) * (n + 1) < X
+    · simp [hp]
+    · simp [hp]
+  simp_rw [hif]
+  have sum_affine (l : List Nat) (b : Nat → Int) :
+      (l.map (fun n => 1 - 2 * b n)).sum =
+        (l.length : Int) - 2 * (l.map b).sum := by
+    induction l with
+    | nil => simp
+    | cons a l ih =>
+        simp only [List.map_cons, List.sum_cons, List.length_cons]
+        rw [ih]
+        norm_num
+        ring
+  have hinner (m : Nat) :
+      ((List.range (X - 1)).map
+        (fun n => 1 - 2 * (if (m + 1) * (n + 1) < X then (1 : Int) else 0))).sum =
+        ((List.range (X - 1)).length : Int) -
+          2 * ((List.range (X - 1)).map
+            (fun n => if (m + 1) * (n + 1) < X then (1 : Int) else 0)).sum := by
+    exact sum_affine (List.range (X - 1)) (fun n =>
+      if (m + 1) * (n + 1) < X then (1 : Int) else 0)
+  simp_rw [hinner]
+  have outer_affine (l : List Nat) (c : Int) (b : Nat → Int) :
+      (l.map (fun m => c - 2 * b m)).sum =
+        (l.length : Int) * c - 2 * (l.map b).sum := by
+    induction l with
+    | nil => simp
+    | cons a l ih =>
+        simp only [List.map_cons, List.sum_cons, List.length_cons]
+        rw [ih]
+        rw [Nat.cast_add, Nat.cast_one]
+        ring
+  have houter := outer_affine (List.range (X - 1))
+    ((List.range (X - 1)).length : Int)
+    (fun m => ((List.range (X - 1)).map
+      (fun n => if (m + 1) * (n + 1) < X then (1 : Int) else 0)).sum)
+  rw [houter]
+  simp only [List.length_range]
+  rw [Nat.cast_sub hX]
   ring
 
 theorem SR_full_support_all_ones_sum_X6 :

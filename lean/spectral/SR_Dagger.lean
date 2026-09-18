@@ -1,4 +1,4 @@
-import SR_Carrier
+import lean.spectral.SR_Carrier
 
 namespace SR
 

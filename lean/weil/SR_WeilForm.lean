@@ -2,9 +2,9 @@
    reference, but the current Mathlib API no longer typechecks several of the
 old finite-index and matrix proofs. Stage 29 redeclares the needed SR form
 definitions after importing this module. -/
-import SR_Bridge
-import SR_Primitives
-import SR_SignatureBound
+import lean.weil.SR_Bridge
+import lean.core.SR_Primitives
+import lean.weil.SR_SignatureBound
 import Mathlib.Analysis.InnerProductSpace.Basic
 import Mathlib.Topology.Algebra.Module.Basic
 import Mathlib.Data.Real.Basic

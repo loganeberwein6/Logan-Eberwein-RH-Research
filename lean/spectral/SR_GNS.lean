@@ -1,4 +1,4 @@
-import SR_Dagger
+import lean.spectral.SR_Dagger
 
 namespace SR
 

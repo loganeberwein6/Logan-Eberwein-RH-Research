@@ -1,7 +1,7 @@
-import SR_WeilForm
-import SR_Dagger
-import SR_GNS
-import SR_ZeroTransfer
+import lean.weil.SR_WeilForm
+import lean.spectral.SR_Dagger
+import lean.spectral.SR_GNS
+import lean.spectral.SR_ZeroTransfer
 
 /-!
 

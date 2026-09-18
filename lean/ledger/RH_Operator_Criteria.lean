@@ -1,5 +1,5 @@
-import SR_WeilForm
-import SR_ZeroTransfer
+import lean.weil.SR_WeilForm
+import lean.spectral.SR_ZeroTransfer
 
 /-!
 
