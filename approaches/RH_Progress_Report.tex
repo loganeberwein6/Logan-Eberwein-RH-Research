@@ -23,21 +23,22 @@
 \newcommand{\KILLED}{\textbf{\color{red}[KILLED]}}
 \newcommand{\OPEN}{\textbf{\color{purple}[OPEN]}}
 \newcommand{\CONJECTURE}{\textbf{\color{violet}[CONJECTURE]}}
+\newcommand{\LEANARCHIVE}{\textbf{\color{gray}[LEAN-ARCHIVE]}}
 
 \title{\textbf{Riemann Hypothesis Research Program:\\
 Complete Progress Report and Formal Ledger}}
-\author{Logan Eberwein}
-\date{September 2026 \\ \small Lean~4 proofs: branch \texttt{stage31-two-channel}, }
+\author{Logan Eberwein\\ \small Independent Researcher \\ \small \texttt{loganeberwein@icloud.com} \quad ORCID: \href{https://orcid.org/0009-0004-5650-9313}{0009-0004-5650-9313}}
+\date{September 2026; revised October 2026 \\ \small Lean~4 sources: \url{https://github.com/loganeberwein6/Logan-Eberwein-RH-Research}, branch \texttt{stage31-two-channel}}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-This document is a complete research ledger for a multi-year Riemann Hypothesis investigation
+This document is a complete research ledger for a one-year Riemann Hypothesis investigation, begun in the author's freshman year of high school,
 combining Lean~4 formal verification, computational search, and analytic mathematics.
-All 7 Lean source files (verified) are surveyed; all 190 research markdown documents are synthesized.
+All 16 Lean modules of the repository are surveyed; all 190 research markdown documents are synthesized.
 Every result is labeled with its verification status:
-\LEANVERIFIED{} (machine-checked, no \texttt{sorry}),
+\LEANVERIFIED{} (proved in a Lean module declared in the repository build file, no \texttt{sorry}), \LEANARCHIVE{} (formalized in a development stage whose Lean source is not in the public repository),
 \PROVED{} (mathematically proved, not yet formalized),
 \NUMERICAL{} (verified by computation),
 \HEURISTIC{} (plausible derivation, not rigorous),
@@ -61,12 +62,10 @@ Every claim is labeled by its exact verification status.
 The program has identified the precise mathematical frontier; crossing it requires genuinely new analytic content.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Lean-verified theorems: SR/Rees matrix program (Stages 0--40)}
+\section{Lean-formalized theorems: SR/Rees matrix program (Stages 0--40)}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The Lean repository (\texttt{D:\textbackslash{}CodexRH}, branch \texttt{stage31-two-channel})
-contains 7 Lean source files (verified). The following theorems are machine-verified with no
-\texttt{sorry}, \texttt{admit}, or unsafe axiom.
+The public repository (branch \texttt{stage31-two-channel}) contains 16 Lean modules, all declared in its build file (\texttt{lakefile.lean}; the build was last recorded as verified in commit \texttt{444a9be}). No Lean file in the repository contains \texttt{sorry}, \texttt{admit}, or an added axiom. Statements proved in these modules are labeled \LEANVERIFIED{}. Statements that were formalized during development but whose Lean source is not in the public repository are labeled \LEANARCHIVE{}; the September version of this report labeled them \LEANVERIFIED{} (see the revision note at the end).
 
 \subsection{Fundamental definitions}
 
@@ -172,7 +171,7 @@ Benchmark values: $A_6 = 5$, $A_{10} = 35$, $A_{30} = 635$, $A_{100} = 8855$,
 $A_{210} = 41381$, $A_{2310} = 5295017$.
 \end{observation}
 
-\begin{theorem}[Hyperbola reduction] \LEANVERIFIED{}
+\begin{theorem}[Hyperbola reduction] \LEANARCHIVE{}
 $A_X = (X-2)^2 - 2N_{\mathrm{int}}(X)$ where $N_{\mathrm{int}}(X) = \#\{(m,n): mn < X, m,n \in \mathrm{support}\}$.
 The positivity follows from $N_{\mathrm{int}}(X) < (X-2)^2/2$ via the Dirichlet hyperbola method.
 \end{theorem}
@@ -196,12 +195,13 @@ For all $X \geq 6$:
 \]
 \end{theorem}
 
-\begin{theorem}[No PSD realization preserving raw form] \LEANVERIFIED{} \textnormal{(SR\_no\_psd\_realization\_preserving\_raw\_form)}
+\begin{observation}[No PSD realization preserving raw form] \LEANVERIFIED{} \textnormal{(SR\_no\_psd\_realization\_preserving\_raw\_form)}
 Let $X \geq 6$. There is no positive semidefinite form $P$ satisfying
 $P(v) = \operatorname{SR\_quadratic\_form}(X, v)$ for all $v$.
 Formally: for any $P : (\mathrm{Fin}(X-2) \to \mathbb{R}) \to \mathbb{R}$ with $P(v) \geq 0$ everywhere,
 $P \neq \operatorname{SR\_quadratic\_form}(X, \cdot)$.
-\end{theorem}
+This statement is true but tautological: no everywhere-nonnegative function can equal a function that takes negative values. It does not exclude compressions, restrictions, or other transformations of the form, and is therefore recorded as an observation rather than a theorem.
+\end{observation}
 
 \begin{theorem}[Global coercivity is false] \LEANVERIFIED{} \textnormal{(SR\_global\_coercivity\_false)}
 \[
@@ -241,18 +241,19 @@ For all $m$: $\dagger(h_{m\bar{m}}) = h_{m\bar{m}}$.
 $\dagger(x + y) = \dagger(x) + \dagger(y)$ and $\dagger(a \cdot x) = \bar{a} \cdot \dagger(x)$.
 \end{theorem}
 
-\subsection{GNS-type positivity}
+\subsection{Coordinate norm positivity (formerly ``GNS-type positivity'')}
 
-\begin{theorem}[GNS positive mass] \LEANVERIFIED{} \textnormal{(GNS\_positive)}
+\begin{remark} The Lean names retain the prefix \texttt{GNS}, but these statements reduce to $|x_{22}|^2 \geq 0$; they are coordinate norm positivity lemmas, not a GNS reconstruction. \end{remark}
+\begin{theorem}[Coordinate norm positivity] \LEANVERIFIED{} \textnormal{(GNS\_positive)}
 For all $x \in E^{11}$: $0 \leq |\Gamma_{\mathrm{obs}}(x)|^2$.
 \end{theorem}
 
-\begin{theorem}[GNS dagger-positivity] \LEANVERIFIED{} \textnormal{(GNS\_positive\_correct)}
+\begin{theorem}[Dagger coordinate positivity] \LEANVERIFIED{} \textnormal{(GNS\_positive\_correct)}
 For all $x \in E^{11}$: $0 \leq \operatorname{Re}(\Gamma_{\mathrm{obs}}(\dagger(x) \cdot x))$.
 \end{theorem}
 
 \begin{theorem}[Type-level firewall] \LEANVERIFIED{} \textnormal{(Gamma\_obs\_domain\_E11)}
-The GNS functional $\Gamma_{\mathrm{obs}}$ is defined on $E^{11}$, not on $E^{20}_6$.
+The coordinate functional $\Gamma_{\mathrm{obs}}$ is defined on $E^{11}$, not on $E^{20}_6$.
 This is a type-level obstruction: the $(1,1)$-sector extension principle is not automatic.
 \end{theorem}
 
@@ -294,7 +295,7 @@ Q = \tfrac{1}{2}Q_{\mathrm{ratio}} + \tfrac{1}{2}Q_{\mathrm{product}}
 via the identity $\cos A \cos B = \frac{1}{2}\cos(A-B) + \frac{1}{2}\cos(A+B)$.
 \end{theorem}
 
-\begin{theorem}[Ratio channel diagonal bound] \LEANVERIFIED{} \textnormal{(SR\_ratio\_diagonal\_bound, Stage 33)}
+\begin{theorem}[Ratio channel diagonal bound] \LEANARCHIVE{} \textnormal{(SR\_ratio\_diagonal\_bound, Stage 33)}
 The diagonal of $Q_{\mathrm{ratio}}$ satisfies:
 \[
 \mathrm{diag}(Q_{\mathrm{ratio}})/X^{2\beta} \to \frac{1}{2\beta} \quad \text{as } X \to \infty.
@@ -303,20 +304,21 @@ The diagonal of $Q_{\mathrm{ratio}}$ satisfies:
 
 \subsection{Dirichlet series identities}
 
-\begin{theorem}[von Mangoldt L-series] \LEANVERIFIED{} \textnormal{(sr37\_clean\_vonMangoldt\_lseries\_eq\_negative\_zeta\_log\_deriv)}
+\begin{theorem}[von Mangoldt L-series] \LEANARCHIVE{} \textnormal{(sr37\_clean\_vonMangoldt\_lseries\_eq\_negative\_zeta\_log\_deriv)}
 In the half-plane $\operatorname{Re}(s) > 1$:
 \[
 \sum_{n=1}^\infty \frac{\Lambda(n)}{n^s} = -\frac{\zeta'(s)}{\zeta(s)}.
 \]
+This identity is a one-line application of Mathlib's \texttt{ArithmeticFunction.LSeries\_vonMangoldt\_eq\_deriv\_riemannZeta\_div}; it is not an original contribution of this program.
 \end{theorem}
 
-\begin{theorem}[Convolution L-series] \LEANVERIFIED{} \textnormal{(sr37\_clean\_unrestricted\_pair\_convolution\_lseries\_eq\_zeta\_sq)}
+\begin{theorem}[Convolution L-series] \LEANARCHIVE{} \textnormal{(sr37\_clean\_unrestricted\_pair\_convolution\_lseries\_eq\_zeta\_sq)}
 \[
 L(\mathbf{1} * \mathbf{1}, s) = \zeta(s)^2.
 \]
 \end{theorem}
 
-\begin{theorem}[Finite Mellin kernels] \LEANVERIFIED{} \textnormal{(Stage 36)}
+\begin{theorem}[Finite Mellin kernels] \LEANARCHIVE{} \textnormal{(Stage 36)}
 Sharp-cutoff finite Mellin transform $\to 1/s$.
 First-difference finite Mellin transform $\to 1/(s(s+1))$.
 Second-difference finite Mellin transform $\to 2/(s(s+1)(s+2))$.
@@ -378,8 +380,8 @@ The normalized Hardy Gram satisfies $G_H(m,n)/\sqrt{G_H(m,m) G_H(n,n)} \to \gcd(
 
 \begin{observation} \NUMERICAL{}
 Diagonal: $G_H(n,n)/G_H(1,1) = n$ exactly (by multiplicativity).
-Off-diagonal: $G_H(1,2)/G_H(1,1)$ decreases from $1.230$ at $T=100$ to $1.204$ at $T=1000$,
-converging toward $\gcd(1,2) = 1$.
+Off-diagonal: $G_H(1,2)/G_H(1,1)$ decreases from $1.230$ at $T=100$ to $1.204$ at $T=1000$;
+these values do not establish convergence to $\gcd(1,2) = 1$.
 \end{observation}
 
 \begin{theorem}[GCD kernel failure margin] \NUMERICAL{}
@@ -619,7 +621,7 @@ The gap between Steps 2 and 3 is the Riemann Hypothesis itself.
 \begin{itemize}
 \item \textbf{Repository:} \url{https://github.com/loganeberwein6/Logan-Eberwein-RH-Research}
 \item \textbf{Branch:} \texttt{stage31-two-channel}
-\item \textbf{Lean files:} 7 (verified, no \texttt{sorry})
+\item \textbf{Lean files:} 16 modules, all declared in \texttt{lakefile.lean}; no \texttt{sorry}, \texttt{admit} or added axiom in any file.
 \item \textbf{Documented approaches:} 190 markdown files in \texttt{approaches/}
 \item \textbf{Build:} Set \texttt{ELAN\_HOME} to your elan installation path, then \texttt{lake update} and \texttt{lake build}.
 \item \textbf{Zenodo DOI:} \texttt{10.5281/zenodo.22783121}
@@ -648,15 +650,15 @@ Global coercivity is false & \LEANVERIFIED{} & 32 \\
 SR form is indefinite & \LEANVERIFIED{} & 32 \\
 $X=6$ explicit indefiniteness witness & \LEANVERIFIED{} & 32 \\
 Dagger involution on $E^{11}$ & \LEANVERIFIED{} & 39--40 \\
-GNS dagger-positivity & \LEANVERIFIED{} & 39--40 \\
+Dagger coordinate positivity & \LEANVERIFIED{} & 39--40 \\
 Type-level domain firewall & \LEANVERIFIED{} & 40 \\
 Zero-transfer margin theorem & \LEANVERIFIED{} & 40 \\
-$L(\Lambda,s) = -\zeta'/\zeta$ & \LEANVERIFIED{} & 37 \\
-$L(\mathbf{1}*\mathbf{1},s) = \zeta(s)^2$ & \LEANVERIFIED{} & 37 \\
+$L(\Lambda,s) = -\zeta'/\zeta$ & \LEANARCHIVE{} & 37 \\
+$L(\mathbf{1}*\mathbf{1},s) = \zeta(s)^2$ & \LEANARCHIVE{} & 37 \\
 B3 bound: $S_{\mathrm{int}}/T \leq (1-\sqrt{\kappa})/2$ & \LEANVERIFIED{} & 27 \\
 $\kappa \in [0,1]$ & \LEANVERIFIED{} & 27 \\
 Two-channel decomposition & \LEANVERIFIED{} & 28 \\
-Finite Mellin kernels & \LEANVERIFIED{} & 36 \\
+Finite Mellin kernels & \LEANARCHIVE{} & 36 \\
 Primorial balance at $X=6,30,210,2310$ & \NUMERICAL{} & 19--23 \\
 Signature bound $|\text{pos}-\text{neg}| \leq 1$ ($X \leq 1000$) & \NUMERICAL{} & 17--23 \\
 \midrule
@@ -689,20 +691,33 @@ RH & \OPEN{} & --- \\
 \end{longtable}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Acknowledgments}
+\section*{Authorship and AI tools}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Mathematical development: Logan Eberwein.
-Lean formalization: automated via GPT-4o and Claude (Anthropic), with build verification through Claude Code.
-Computational search: \texttt{rh\_candidate\_search.py} (Python/NumPy).
-Logan's son contributed the research ledger structure, the dagger-completion defect hypothesis,
-and the FICS methodology framework.
-ChatGPT and Claude are listed as tools, not authors.
+I set the research directions of this program, including the research-ledger structure, the dagger-completion defect hypothesis and the FICS methodology framework. Lean formalization was carried out with AI tools (GPT-4o, Claude, and Claude Code for build verification), and the computational search used \texttt{rh\_candidate\_search.py} (Python/NumPy). ChatGPT and Claude are listed as tools, not authors; I am responsible for the content.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Revision note (October 2026)}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+This revision corrects the September 2026 version posted on Academia.edu.
+\begin{enumerate}[leftmargin=*]
+\item The program is a one-year investigation, not a multi-year one.
+\item The Lean status of every statement now matches the repository. Statements whose Lean source is not in the public repository (the von Mangoldt and convolution L-series identities, the finite Mellin kernels, the ratio-channel diagonal bound and the hyperbola reduction) are now labeled \LEANARCHIVE{}; the previous version labeled them \LEANVERIFIED{}. The previous version also described the repository as containing 7 Lean files (it contains 16 modules, all declared in the build file) and gave two different commit hashes (\texttt{ef2586f} on the title page, \texttt{9bbaeb4} in the repository section).
+\item The Möbius example is corrected: $\mu(2) = -1$, so $\mu(2)\log 2 < 0$ (the previous version stated the opposite sign).
+\item The ``no PSD realization'' statement is tautological and is now an observation.
+\item The ``GNS'' positivity statements are coordinate norm positivity lemmas and are renamed accordingly (the Lean identifiers are unchanged).
+\item The von Mangoldt L-series identity is credited to Mathlib.
+\item The Hardy--Gram numerics are no longer described as converging; the type-mismatch and circularity obstructions are stated in their narrow form.
+\item The module \texttt{SR\_Mollifier} still contains four placeholder declarations of type \texttt{True} that name open conjectures (\texttt{SR24\_LOG\_WEIGHTED\_X6\_OPEN}, \texttt{SR24\_HALF\_WEIGHTED\_X6\_OPEN}, \texttt{SR24\_LOG\_WEIGHTED\_POSITIVITY\_CONJECTURE}, \texttt{SR24\_HALF\_WEIGHTED\_POSITIVITY\_CONJECTURE}); they prove nothing and are not counted as results.
+\item The acknowledgments are rewritten.
+\item The year of Burnol's note is corrected to 2000.
+\end{enumerate}
 
 \begin{thebibliography}{99}
 \bibitem{BaezDuarte} L.~Báez-Duarte, A strengthening of the Nyman--Beurling criterion for the Riemann Hypothesis, \textit{Atti Accad.\ Naz.\ Lincei Cl.\ Sci.\ Fis.\ Mat.\ Natur.\ Rend.\ Lincei} \textbf{14} (2003), 5--11.
 \bibitem{Beurling} A.~Beurling, A closure problem related to the Riemann zeta-function, \textit{Proc.\ Nat.\ Acad.\ Sci.\ USA} \textbf{41} (1955), 312--314.
-\bibitem{Burnol} J.-F.~Burnol, Sur les formules explicites I: analyse invariante, \textit{C.~R.~Acad.\ Sci.\ Paris S\'{e}r.~I} \textbf{331} (2001), 423--428.
+\bibitem{Burnol} J.-F.~Burnol, Sur les formules explicites I: analyse invariante, \textit{C.~R.~Acad.\ Sci.\ Paris S\'{e}r.~I} \textbf{331} (2000), 423--428.
 \bibitem{Connes} A.~Connes, Trace formula in noncommutative geometry and the zeros of the Riemann zeta function, \textit{Selecta Math.\ (N.S.)} \textbf{5} (1999), 29--106.
 \bibitem{HongLoewy} S.~Hong and R.~Loewy, Asymptotic behavior of eigenvalues of GCD matrices, \textit{Glasg.\ Math.\ J.} \textbf{46} (2004), 551--569.
 \bibitem{Mayer} D.~Mayer, The thermodynamic formalism approach to Selberg's zeta function for $\mathrm{PSL}(2,\mathbb{Z})$, \textit{Bull.\ Amer.\ Math.\ Soc.} \textbf{25} (1991), 55--60.

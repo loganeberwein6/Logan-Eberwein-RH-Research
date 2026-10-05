@@ -43,3 +43,12 @@ See the paper for full analysis. Key patterns:
 - Compilation as optimization target
 - Library result laundering
 - Finite-to-analytic slippage with no proved bridge
+
+## October 2026 revision
+
+6. The September report described the program as multi-year; it is a one-year program.
+7. The September report said the repository contains 7 Lean files. It contains 16 modules, all declared in `lakefile.lean`.
+8. Six statements had no Lean source in this repository but were labeled LEAN-VERIFIED: the von Mangoldt and convolution L-series identities, the finite Mellin kernels, the ratio-channel diagonal bound and the hyperbola reduction. They are now labeled LEAN-ARCHIVE.
+9. The September report gave two different commit hashes (`ef2586f` and `9bbaeb4`). The revised report cites the repository and branch; the release tag `academia-v1` marks the version it describes.
+10. Four placeholder declarations of type `True` in `lean/weil/SR_Mollifier.lean` (SR24_LOG_WEIGHTED_X6_OPEN, SR24_HALF_WEIGHTED_X6_OPEN, SR24_LOG_WEIGHTED_POSITIVITY_CONJECTURE, SR24_HALF_WEIGHTED_POSITIVITY_CONJECTURE) were replaced by comments; they proved nothing.
+11. The acknowledgments section was rewritten as "Authorship and AI tools"; Burnol's note is dated 2000.

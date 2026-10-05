@@ -59,11 +59,9 @@ noncomputable def SR_HalfWeightedSum (X : Nat) : ℝ :=
 noncomputable def SR_kappa (X : Nat) : ℝ :=
   (SR_HalfWeightedSum X) ^ 2 / (SR_S2 X * SR_S3 X)
 
-theorem SR24_LOG_WEIGHTED_X6_OPEN : True := by
-  trivial
+/- Open problem (placeholder removed; it proved only `True`): SR24_LOG_WEIGHTED_X6_OPEN. -/
 
-theorem SR24_HALF_WEIGHTED_X6_OPEN : True := by
-  trivial
+/- Open problem (placeholder removed; it proved only `True`): SR24_HALF_WEIGHTED_X6_OPEN. -/
 
 def srProportionCerts : List SRProportionCert :=
   [ { X := 6
@@ -107,11 +105,9 @@ theorem SR24_KAPPA_POSITIVE_CERT :
   native_decide
 
 /- The analytic positivity theorem for all cutoffs is not promoted here. -/
-theorem SR24_LOG_WEIGHTED_POSITIVITY_CONJECTURE : True := by
-  trivial
+/- Open problem (placeholder removed; it proved only `True`): SR24_LOG_WEIGHTED_POSITIVITY_CONJECTURE. -/
 
-theorem SR24_HALF_WEIGHTED_POSITIVITY_CONJECTURE : True := by
-  trivial
+/- Open problem (placeholder removed; it proved only `True`): SR24_HALF_WEIGHTED_POSITIVITY_CONJECTURE. -/
 
 /-! Conditional combination layer.  The independence premise is deliberately
    explicit: it is analytic input, not a consequence of the finite SR matrix
