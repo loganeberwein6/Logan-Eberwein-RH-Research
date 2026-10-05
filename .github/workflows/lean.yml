@@ -1,0 +1,14 @@
+name: Lean build
+on:
+  push:
+    branches: [stage31-two-channel]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+      - name: Check for sorry, admit, axiom
+        run: |
+          if grep -rnE '\bsorry\b|\badmit\b|^axiom ' lean/; then exit 1; fi
