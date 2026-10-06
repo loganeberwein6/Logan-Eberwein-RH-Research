@@ -9,6 +9,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: leanprover/lean-action@v1
+        with:
+          build: false
+      - name: Build all 16 libraries explicitly
+        run: lake build SR_Primitives SR_Mollifier SR_Bridge SR_SignatureBound SR_Carrier SR_Stage30_Bound SR_Stage30 SR_WEntropy SR_Stage31 SR_Stage38 SR_WeilForm SR_Dagger SR_GNS SR_ZeroTransfer RH_Summary RH_Operator_Criteria
+      - name: List compiled project modules
+        run: |
+          find .lake/build/lib -name "*.olean" | sort
+          echo "count: $(find .lake/build/lib -name '*.olean' | wc -l)"
       - name: Check for sorry, admit, axiom
         run: |
           if grep -rnE '\bsorry\b|\badmit\b|^axiom ' lean/; then exit 1; fi
