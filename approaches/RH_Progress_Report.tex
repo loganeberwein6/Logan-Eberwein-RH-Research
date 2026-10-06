@@ -30,6 +30,13 @@ Complete Progress Report and Formal Ledger}}
 \author{Logan Eberwein\\ \small Independent Researcher \\ \small \texttt{loganeberwein@icloud.com} \quad ORCID: \href{https://orcid.org/0009-0004-5650-9313}{0009-0004-5650-9313}}
 \date{September 2026; revised October 2026 \\ \small Lean~4 sources: \url{https://github.com/loganeberwein6/Logan-Eberwein-RH-Research}, branch \texttt{stage31-two-channel}}
 
+
+% --- line-breaking for long identifiers, file names and URLs
+\usepackage{xurl}
+\setlength{\emergencystretch}{4em}
+\makeatletter
+\DeclareRobustCommand{\_}{\ifmmode\text{\textunderscore}\else\textunderscore\allowbreak\fi}
+\makeatother
 \begin{document}
 \maketitle
 
@@ -694,22 +701,21 @@ RH & \OPEN{} & --- \\
 \section*{Authorship and AI tools}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-I set the research directions of this program, including the research-ledger structure, the dagger-completion defect hypothesis and the FICS methodology framework. Lean formalization was carried out with AI tools (GPT-4o, Claude, and Claude Code for build verification), and the computational search used \texttt{rh\_candidate\_search.py} (Python/NumPy). ChatGPT and Claude are listed as tools, not authors; I am responsible for the content.
+I set the research directions of this program, including the research-ledger structure, the dagger-completion defect hypothesis and the FICS methodology framework. Lean formalization was carried out with AI tools (GPT-4o, Claude, and Claude Code for build verification), and the computational search used \texttt{rh\_candidate\_search.py} (Python/NumPy). ChatGPT and Claude are listed as tools, not authors.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Revision note (October 2026)}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-This revision corrects the September 2026 version posted on Academia.edu.
+This revision corrects the September 2026 version.
 \begin{enumerate}[leftmargin=*]
-\item The program is a one-year investigation, not a multi-year one.
 \item The Lean status of every statement now matches the repository. Statements whose Lean source is not in the public repository (the von Mangoldt and convolution L-series identities, the finite Mellin kernels, the ratio-channel diagonal bound and the hyperbola reduction) are now labeled \LEANARCHIVE{}; the previous version labeled them \LEANVERIFIED{}. The previous version also described the repository as containing 7 Lean files (it contains 16 modules, all declared in the build file) and gave two different commit hashes (\texttt{ef2586f} on the title page, \texttt{9bbaeb4} in the repository section).
 \item The Möbius example is corrected: $\mu(2) = -1$, so $\mu(2)\log 2 < 0$ (the previous version stated the opposite sign).
 \item The ``no PSD realization'' statement is tautological and is now an observation.
 \item The ``GNS'' positivity statements are coordinate norm positivity lemmas and are renamed accordingly (the Lean identifiers are unchanged).
 \item The von Mangoldt L-series identity is credited to Mathlib.
 \item The Hardy--Gram numerics are no longer described as converging; the type-mismatch and circularity obstructions are stated in their narrow form.
-\item The module \texttt{SR\_Mollifier} still contains four placeholder declarations of type \texttt{True} that name open conjectures (\texttt{SR24\_LOG\_WEIGHTED\_X6\_OPEN}, \texttt{SR24\_HALF\_WEIGHTED\_X6\_OPEN}, \texttt{SR24\_LOG\_WEIGHTED\_POSITIVITY\_CONJECTURE}, \texttt{SR24\_HALF\_WEIGHTED\_POSITIVITY\_CONJECTURE}); they prove nothing and are not counted as results.
+\item The module \texttt{SR\_Mollifier} contained four placeholder declarations of type \texttt{True} that name open conjectures (\texttt{SR24\_LOG\_WEIGHTED\_X6\_OPEN}, \texttt{SR24\_HALF\_WEIGHTED\_X6\_OPEN}, \texttt{SR24\_LOG\_WEIGHTED\_POSITIVITY\_CONJECTURE}, \texttt{SR24\_HALF\_WEIGHTED\_POSITIVITY\_CONJECTURE}); they proved nothing, were never counted as results, and have been replaced by comments.
 \item The acknowledgments are rewritten.
 \item The year of Burnol's note is corrected to 2000.
 \end{enumerate}
